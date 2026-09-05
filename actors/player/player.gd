@@ -3,8 +3,9 @@ extends Actor
 
 
 const SPEED = 5.0
+const STOP_SPEED = 16.0
 const JUMP_VELOCITY = 4.5
-const MOUSE_SENSITIVITY = 0.003
+const MOUSE_SENSITIVITY = 0.001
 const PITCH_LIMIT = deg_to_rad(80.0)
 
 @onready var camera: Camera3D = $Camera
@@ -42,7 +43,11 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+		stop_moving(delta)
 
 	move_and_slide()
+
+
+func stop_moving(delta: float) -> void:
+	velocity.x = move_toward(velocity.x, 0, STOP_SPEED * delta)
+	velocity.z = move_toward(velocity.z, 0, STOP_SPEED * delta)
