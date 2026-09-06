@@ -23,6 +23,11 @@ extends Camera3D
 @export var enable_weapon_kick := true
 @export var weapon_decay := 0.5
 
+@export_group("Screen shake")
+@export var enable_screen_shake := true
+@export var min_screen_shake := 0.05
+@export var max_screen_shake := 0.5
+
 var _fall_value := 0.0
 var _fall_timer := 0.0
 
@@ -32,6 +37,8 @@ var _damage_timer := 0.0
 
 var _weapon_kick_angles := Vector3.ZERO
 
+var _screen_shake_tween: Tween
+
 
 func _process(delta: float) -> void:
 	_calcuate_view_offset(delta)
@@ -39,7 +46,7 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("test"):
-		add_weapon_kick(2.0, 2.0, 2.0)
+		add_screen_shake(2.0, 5.0)
 
 
 func add_fall_kick(fall_strength: float) -> void:
@@ -62,6 +69,14 @@ func add_damage_kick(pitch: float, roll: float, source: Vector3) -> void:
 	_damage_pitch = deg_to_rad(pitch) * forward_dot
 	_damage_roll = deg_to_rad(roll) * right_dot
 	_damage_timer = damage_time
+
+
+func add_screen_shake(amount: float, seconds: float) -> void:
+	if _screen_shake_tween:
+		_screen_shake_tween.kill()
+
+	_screen_shake_tween = create_tween()
+	_screen_shake_tween.tween_method(_update_screen_shake.bind(amount), 0.0, 1.1, seconds).set_ease(Tween.EASE_OUT)
 
 
 func _calcuate_view_offset(delta: float) -> void:
@@ -105,3 +120,10 @@ func _calcuate_view_offset(delta: float) -> void:
 
 	position = offset
 	rotation = angles
+
+
+func _update_screen_shake(alpha: float, amount: float) -> void:
+	amount = remap(amount, 0.0, 1.1, min_screen_shake, max_screen_shake)
+	var current_shake_amount = amount * (1.0 - alpha)
+	h_offset = randf_range(-current_shake_amount, current_shake_amount)
+	v_offset = randf_range(-current_shake_amount, current_shake_amount)
