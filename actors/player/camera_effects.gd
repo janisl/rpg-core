@@ -15,8 +15,16 @@ extends Camera3D
 @export var enable_fall_kick := true
 @export var fall_time := 0.3
 
+@export_group("Damage kick")
+@export var enable_damage_kick := true
+@export var damage_time := 0.3
+
 var _fall_value := 0.0
 var _fall_timer := 0.0
+
+var _damage_pitch := 0.0
+var _damage_roll := 0.0
+var _damage_timer := 0.0
 
 
 func _process(delta: float) -> void:
@@ -25,7 +33,23 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("test"):
-		add_fall_kick(2.0)
+		add_damage_kick(2.0, 2.0, Vector3.ZERO)
+
+
+func add_fall_kick(fall_strength: float) -> void:
+	_fall_value = deg_to_rad(fall_strength)
+	_fall_timer = fall_time
+
+
+func add_damage_kick(pitch: float, roll: float, source: Vector3) -> void:
+	var forward := global_transform.basis.z
+	var right := global_transform.basis.x
+	var direction = global_position.direction_to(source)
+	var forward_dot = direction.dot(forward)
+	var right_dot = direction.dot(right)
+	_damage_pitch = deg_to_rad(pitch) * forward_dot
+	_damage_roll = deg_to_rad(roll) * right_dot
+	_damage_timer = damage_time
 
 
 func _calcuate_view_offset(delta: float) -> void:
@@ -33,6 +57,7 @@ func _calcuate_view_offset(delta: float) -> void:
 		return
 
 	_fall_timer -= delta
+	_damage_timer -= delta
 
 	var velocity := player.velocity
 
@@ -57,10 +82,10 @@ func _calcuate_view_offset(delta: float) -> void:
 		angles.x -= fall_kick_amount
 		offset.y -= fall_kick_amount
 
+	if enable_damage_kick:
+		var damage_ratio = max(0.0, _damage_timer / damage_time)
+		angles.x -= damage_ratio * _damage_pitch
+		angles.z -= damage_ratio * _damage_roll
+
 	position = offset
 	rotation = angles
-
-
-func add_fall_kick(fall_strength: float) -> void:
-	_fall_value = deg_to_rad(fall_strength)
-	_fall_timer = fall_time
