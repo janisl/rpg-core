@@ -18,9 +18,9 @@ const STOP_SPEED = 16.0
 @export var crouch_speed: float = -5.0
 @export var jump_velocity: float = 5.0
 
-var speed: float = 0
-var sprint_modifier: float = 0
-var crouch_modifier: float = 0
+var _speed: float = 0
+var _sprint_modifier: float = 0
+var _crouch_modifier: float = 0
 var input_dir := Vector2.ZERO
 
 
@@ -29,14 +29,14 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	var speed_modifier = sprint_modifier + crouch_modifier
-	speed = default_speed + speed_modifier
+	var speed_modifier = _sprint_modifier + _crouch_modifier
+	_speed = default_speed + speed_modifier
 
 	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var current_velocity = Vector2(velocity.x, velocity.z)
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
-		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration)
+		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * _speed, acceleration)
 	else:
 		current_velocity = current_velocity.move_toward(Vector2.ZERO, deceleration)
 
@@ -51,21 +51,21 @@ func update_rotation(value: Vector3) -> void:
 
 
 func walk() -> void:
-	sprint_modifier = 0
+	_sprint_modifier = 0
 
 
 func sprint() -> void:
-	sprint_modifier = sprint_speed
+	_sprint_modifier = sprint_speed
 
 
 func stand() -> void:
-	crouch_modifier = 0
+	_crouch_modifier = 0
 	standing_collision.disabled = false
 	crouching_collision.disabled = true
 
 
 func crouch() -> void:
-	crouch_modifier = crouch_speed
+	_crouch_modifier = crouch_speed
 	standing_collision.disabled = true
 	crouching_collision.disabled = false
 

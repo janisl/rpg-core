@@ -3,47 +3,47 @@ class_name ReticleControl
 extends Control
 
 @export_group("Crosshair settings")
-@export var radius: float = 30.0 : set = set_crosshair_radius
-@export var thickness: float = 1.0 : set = set_crosshair_thickness
-@export var color: Color = Color.WHITE : set = set_crosshair_color
-@export var gap_angle: float = 45.0 : set = set_crosshair_gap_angle
-@export var segments: int = 32 : set = set_crosshair_segments
+@export var radius: float = 30.0 : set = _set_crosshair_radius
+@export var thickness: float = 1.0 : set = _set_crosshair_thickness
+@export var color: Color = Color.WHITE : set = _set_crosshair_color
+@export var gap_angle: float = 45.0 : set = _set_crosshair_gap_angle
+@export var segments: int = 32 : set = _set_crosshair_segments
 
 
 func _draw() -> void:
-	draw_circle_crosshair()
+	_draw_circle_crosshair()
 
 
-func update_crosshair() -> void:
+func _update_crosshair() -> void:
 	queue_redraw()
 
 
-func set_crosshair_radius(value: float) -> void:
+func _set_crosshair_radius(value: float) -> void:
 	radius = value
-	update_crosshair()
+	_update_crosshair()
 
 
-func set_crosshair_thickness(value: float) -> void:
+func _set_crosshair_thickness(value: float) -> void:
 	thickness = value
-	update_crosshair()
+	_update_crosshair()
 
 
-func set_crosshair_color(value: Color) -> void:
+func _set_crosshair_color(value: Color) -> void:
 	color = value
-	update_crosshair()
+	_update_crosshair()
 
 
-func set_crosshair_gap_angle(value: float) -> void:
+func _set_crosshair_gap_angle(value: float) -> void:
 	gap_angle = value
-	update_crosshair()
+	_update_crosshair()
 
 
-func set_crosshair_segments(value: int) -> void:
+func _set_crosshair_segments(value: int) -> void:
 	segments = value
-	update_crosshair()
+	_update_crosshair()
 
 
-func draw_circle_crosshair() -> void:
+func _draw_circle_crosshair() -> void:
 	if not segments:
 		return
 

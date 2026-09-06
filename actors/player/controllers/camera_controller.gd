@@ -13,7 +13,7 @@ const DEFAULT_HEIGHT: float = 0.7
 @export var crouch_offset: float = -0.1
 @export var crouch_speed: float = 3.0
 
-var current_rotation : Vector3
+var _rotation : Vector3
 
 
 func _ready() -> void:
@@ -25,7 +25,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var input: Vector2
 		input.x = -event.relative.x * mouse_sensitivity
 		input.y = -event.relative.y * mouse_sensitivity
-		update_camera_rotation(input)
+		_update_camera_rotation(input)
 	elif event.is_action_pressed("pause"):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -33,19 +33,19 @@ func _unhandled_input(event: InputEvent) -> void:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
-func update_camera_rotation(input: Vector2) -> void:
-	current_rotation.x += input.y
-	current_rotation.y += input.x
-	current_rotation.x = clampf(current_rotation.x, deg_to_rad(tilt_lower_limit), deg_to_rad(tilt_upper_limit))
+func update_camera_height(delta: float, direction: int) -> void:
+	if position.y >= crouch_offset - 0.0001 and position.y <= DEFAULT_HEIGHT + 0.0001:
+		position.y = clampf(position.y + (crouch_speed * direction) * delta, crouch_offset, DEFAULT_HEIGHT)
 
-	var player_rotation = Vector3(0, current_rotation.y, 0)
-	var camera_rortation = Vector3(current_rotation.x, 0, 0)
+
+func _update_camera_rotation(input: Vector2) -> void:
+	_rotation.x += input.y
+	_rotation.y += input.x
+	_rotation.x = clampf(_rotation.x, deg_to_rad(tilt_lower_limit), deg_to_rad(tilt_upper_limit))
+
+	var player_rotation = Vector3(0, _rotation.y, 0)
+	var camera_rortation = Vector3(_rotation.x, 0, 0)
 
 	player.update_rotation(player_rotation)
 	transform.basis = Basis.from_euler(camera_rortation)
 	rotation.z = 0
-
-
-func update_camera_height(delta: float, direction: int) -> void:
-	if position.y >= crouch_offset - 0.0001 and position.y <= DEFAULT_HEIGHT + 0.0001:
-		position.y = clampf(position.y + (crouch_speed * direction) * delta, crouch_offset, DEFAULT_HEIGHT)
