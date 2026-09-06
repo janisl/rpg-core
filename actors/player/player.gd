@@ -9,6 +9,7 @@ const STOP_SPEED = 16.0
 @export var standing_collision: CollisionShape3D
 @export var crouching_collision: CollisionShape3D
 @export var crouch_check: ShapeCast3D
+@export var interaction_ray_cast: InteractionRayCast
 @export_group("Movement settings")
 @export var acceleration: float = 0.2
 @export var deceleration: float = 0.5
