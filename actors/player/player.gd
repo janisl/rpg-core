@@ -46,6 +46,10 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
+func update_rotation(value: Vector3) -> void:
+	global_transform.basis = Basis.from_euler(value)
+
+
 func walk() -> void:
 	sprint_modifier = 0
 
