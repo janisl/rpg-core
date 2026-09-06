@@ -5,23 +5,27 @@ const STOP_SPEED = 16.0
 
 @export_group("References")
 @export var camera_controller: CameraController
+@export var camera_effects: CameraEffects
 @export var state_chart: StateChart
 @export var standing_collision: CollisionShape3D
 @export var crouching_collision: CollisionShape3D
 @export var crouch_check: ShapeCast3D
 @export var interaction_ray_cast: InteractionRayCast
 @export_group("Movement settings")
-@export var acceleration: float = 0.2
-@export var deceleration: float = 0.5
-@export var default_speed: float = 7.0
-@export var sprint_speed: float = 3.0
-@export var crouch_speed: float = -5.0
-@export var jump_velocity: float = 5.0
+@export var acceleration := 0.2
+@export var deceleration := 0.5
+@export var default_speed := 7.0
+@export var sprint_speed := 3.0
+@export var crouch_speed := -5.0
+@export var jump_velocity := 5.0
+@export_group("Effect settings")
+@export var fall_velocity_threshold := -5.0
 
-var _speed: float = 0
-var _sprint_modifier: float = 0
-var _crouch_modifier: float = 0
+var _speed := 0.0
+var _sprint_modifier := 0.0
+var _crouch_modifier := 0.0
 var input_dir := Vector2.ZERO
+var current_fall_velocity := 0.0
 
 
 func _physics_process(delta: float) -> void:
@@ -72,3 +76,12 @@ func crouch() -> void:
 
 func jump() -> void:
 	velocity.y += jump_velocity
+
+
+func check_fall_speed() -> bool:
+	if current_fall_velocity < fall_velocity_threshold:
+		current_fall_velocity = 0.0
+		return true
+	else:
+		current_fall_velocity = 0.0
+		return false

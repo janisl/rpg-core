@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="3_6p1w3"]
 [ext_resource type="Script" uid="uid://cpbru7gt1lbmj" path="res://actors/player/controllers/camera_controller.gd" id="3_12xki"]
 [ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="4_15y17"]
+[ext_resource type="Script" uid="uid://dbeuckaub3kor" path="res://actors/player/camera_effects.gd" id="4_dqf5y"]
 [ext_resource type="Script" uid="uid://dra7tey8c0bv2" path="res://actors/player/components/interaction_ray_cast.gd" id="4_qrxv1"]
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="5_15y17"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="6_bop6h"]
@@ -31,9 +32,10 @@ height = 1.0
 radius = 0.3
 height = 0.8
 
-[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast")]
+[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast")]
 script = ExtResource("1_nvxhs")
 camera_controller = NodePath("CameraController")
+camera_effects = NodePath("CameraController/Camera")
 state_chart = NodePath("StateChart")
 standing_collision = NodePath("StandingCollision")
 crouching_collision = NodePath("CrouchingCollision")
@@ -62,7 +64,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 script = ExtResource("3_12xki")
 player = NodePath("..")
 
-[node name="Camera" type="Camera3D" parent="CameraController" unique_id=1332938429]
+[node name="Camera" type="Camera3D" parent="CameraController" unique_id=1332938429 node_paths=PackedStringArray("player")]
+script = ExtResource("4_dqf5y")
+player = NodePath("../..")
 
 [node name="InteractionRayCast" type="RayCast3D" parent="CameraController/Camera" unique_id=206725175]
 target_position = Vector3(0, 0, -3)
