@@ -22,7 +22,7 @@ albedo_color = Color(0.59373486, 0.0022269136, 0.82313913, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_rghg7"]
 material = SubResource("StandardMaterial3D_uf2qc")
-size = Vector3(2, 0.2, 10)
+size = Vector3(2, 0.1, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_53i70"]
 albedo_color = Color(0.6367001, 0.00025268644, 0.6228823, 1)
@@ -55,7 +55,7 @@ size = Vector3(100, 1, 100)
 size = Vector3(100, 2, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rghg7"]
-size = Vector3(2, 0.2, 10)
+size = Vector3(2, 0.1, 10)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1fnc8"]
 size = Vector3(2, 0.1, 0.1)
@@ -96,7 +96,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -50,
 mesh = SubResource("QuadMesh_nfdnw")
 
 [node name="Bridge" type="MeshInstance3D" parent="Meshes" unique_id=2125553784]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 20)
 mesh = SubResource("BoxMesh_rghg7")
 
 [node name="Step" type="MeshInstance3D" parent="Meshes" unique_id=365634674]
@@ -189,7 +189,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -50.
 shape = SubResource("BoxShape3D_rdqwp")
 
 [node name="Bridge" type="CollisionShape3D" parent="NavigationRegion/StaticBody3D" unique_id=211687803]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 20)
 shape = SubResource("BoxShape3D_rghg7")
 
 [node name="Step" type="CollisionShape3D" parent="NavigationRegion/StaticBody3D" unique_id=103433281]
@@ -258,6 +258,7 @@ shape = SubResource("BoxShape3D_m6vwk")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=850189060]
 transform = Transform3D(1, 0, 0, 0, 0.17364822, 0.9848077, 0, -0.9848077, 0.17364822, 0, 0, 0)
+shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2018932275]
 environment = SubResource("Environment_bsiym")
