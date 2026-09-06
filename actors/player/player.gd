@@ -12,10 +12,13 @@ const JUMP_VELOCITY = 4.5
 @export_range(-90, -60) var tilt_lower_limit: int = -90
 @export_range(60, 90) var tilt_upper_limit: int = 90
 @export_group("Movement settings")
-@export var acceleration_speed: float = 8.0
-@export var deceleration_speed: float = 12.0
+@export var acceleration: float = 0.2
+@export var deceleration: float = 0.5
+@export var default_speed: float = 7.0
+@export var sprint_speed: float = 3.0
 
-var speed: float = 5.0
+var speed: float = 0
+var sprint_modifier: float = 0
 var input_dir := Vector2.ZERO
 
 
@@ -44,11 +47,12 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
+	var speed_modifier = sprint_modifier
+	speed = default_speed + speed_modifier
+
 	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var current_velocity = Vector2(velocity.x, velocity.z)
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	var acceleration = acceleration_speed * delta
-	var deceleration = deceleration_speed * delta
 	if direction:
 		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration)
 	else:
@@ -58,3 +62,11 @@ func _physics_process(delta: float) -> void:
 	velocity.z = current_velocity.y
 
 	move_and_slide()
+
+
+func walk() -> void:
+	sprint_modifier = 0
+
+
+func sprint() -> void:
+	sprint_modifier = sprint_speed
