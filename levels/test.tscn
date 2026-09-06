@@ -42,7 +42,7 @@ size = Vector3(1.2, 1.2, 2)
 [sub_resource type="BoxMesh" id="BoxMesh_53i70"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_uf2qc"]
-size = Vector3(1, 0.1, 1)
+size = Vector3(4, 0.1, 1)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_bsiym"]
 vertices = PackedVector3Array(-49.250004, 0.5, 15.25, -1.5000038, 0.5, 15.5, -1.5000038, 0.5, 14.25, -2.0000038, 0.5, -49.25, -49.250004, 0.5, -49.25, -0.5000038, 0.75, 14, -0.5000038, 1.5, 24.5, 0.7499962, 1.5, 24.5, 0.7499962, 0.75, 14, -0.5000038, 1.5, 15.3125, 0.7499962, 1.5, 15.3125, 2.2499962, 0.5, -49.25, 1.7499962, 0.5, 14.25, 1.7499962, 0.5, 15.5, 49.499996, 0.5, 15.25, 49.499996, 0.5, -49.25, 0.24999619, 0.5, 49.5, 0.24999619, 0.5, 26.25, -1.5000038, 0.5, 26, -49.250004, 0.5, 49.5, 1.7499962, 0.5, 26, 49.499996, 0.5, 49.5)
@@ -66,7 +66,7 @@ size = Vector3(2, 0.2, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_uf2qc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m6vwk"]
-size = Vector3(1, 0.1, 1)
+size = Vector3(4, 0.1, 1)
 
 [sub_resource type="Environment" id="Environment_bsiym"]
 background_mode = 1
@@ -149,6 +149,10 @@ mesh = SubResource("PrismMesh_rdqwp")
 
 [node name="Platform" type="MeshInstance3D" parent="Meshes" unique_id=1823675504]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.3, 0)
+mesh = SubResource("BoxMesh_53i70")
+
+[node name="Platform4" type="MeshInstance3D" parent="Meshes" unique_id=643228524]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.47, 0)
 mesh = SubResource("BoxMesh_53i70")
 
 [node name="Platform2" type="MeshInstance3D" parent="Meshes" unique_id=1270709582]
@@ -242,6 +246,10 @@ shape = SubResource("BoxShape3D_53i70")
 
 [node name="Platform" type="CollisionShape3D" parent="NavigationRegion/StaticBody3D" unique_id=1759546209]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -0.3, 0)
+shape = SubResource("BoxShape3D_uf2qc")
+
+[node name="Platform4" type="CollisionShape3D" parent="NavigationRegion/StaticBody3D" unique_id=207412963]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.47, 0)
 shape = SubResource("BoxShape3D_uf2qc")
 
 [node name="Platform2" type="CollisionShape3D" parent="NavigationRegion/StaticBody3D" unique_id=1576056181]

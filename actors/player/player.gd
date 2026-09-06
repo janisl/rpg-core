@@ -11,6 +11,7 @@ const STOP_SPEED = 16.0
 @export var crouching_collision: CollisionShape3D
 @export var crouch_check: ShapeCast3D
 @export var interaction_ray_cast: InteractionRayCast
+@export var step_handler: StepHandler
 @export_group("Movement settings")
 @export var acceleration := 0.2
 @export var deceleration := 0.5
@@ -24,11 +25,14 @@ const STOP_SPEED = 16.0
 var _speed := 0.0
 var _sprint_modifier := 0.0
 var _crouch_modifier := 0.0
-var input_dir := Vector2.ZERO
+var _input_dir := Vector2.ZERO
 var current_fall_velocity := 0.0
+var previous_velocity := Vector3.ZERO
 
 
 func _physics_process(delta: float) -> void:
+	previous_velocity = velocity
+
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -36,9 +40,9 @@ func _physics_process(delta: float) -> void:
 	var speed_modifier = _sprint_modifier + _crouch_modifier
 	_speed = default_speed + speed_modifier
 
-	input_dir = Input.get_vector("left", "right", "forward", "backward")
+	_input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var current_velocity = Vector2(velocity.x, velocity.z)
-	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction := (transform.basis * Vector3(_input_dir.x, 0, _input_dir.y)).normalized()
 	if direction:
 		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * _speed, acceleration)
 	else:
@@ -48,6 +52,9 @@ func _physics_process(delta: float) -> void:
 	velocity.z = current_velocity.y
 
 	move_and_slide()
+
+	if is_on_floor():
+		step_handler.handle_step_climbing()
 
 
 func update_rotation(value: Vector3) -> void:
@@ -85,3 +92,7 @@ func check_fall_speed() -> bool:
 	else:
 		current_fall_velocity = 0.0
 		return false
+
+
+func get_input_direction() -> Vector2:
+	return _input_dir

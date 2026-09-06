@@ -12,11 +12,20 @@ const DEFAULT_HEIGHT: float = 0.7
 @export_group("Crouch vertical movement")
 @export var crouch_offset: float = -0.1
 @export var crouch_speed: float = 3.0
+@export_group("Step smoothing")
+@export var step_speed: float = 8.0
 
 var _rotation : Vector3
 
+var _target_height : float
+var _step_smoothing := false
+
+var offset_height : float
+
 
 func _ready() -> void:
+	_rotation = player.rotation
+	offset_height = DEFAULT_HEIGHT
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
@@ -33,10 +42,24 @@ func _unhandled_input(event: InputEvent) -> void:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
-func update_camera_height(delta: float, direction: int) -> void:
-	if position.y >= crouch_offset - 0.0001 and position.y <= DEFAULT_HEIGHT + 0.0001:
-		position.y = clampf(position.y + (crouch_speed * direction) * delta, crouch_offset, DEFAULT_HEIGHT)
+func _process(delta: float) -> void:
+	if _step_smoothing:
+		_target_height = lerp(_target_height, 0.0, step_speed * delta)
+		if abs(_target_height) < 0.01:
+			_target_height = 0.0
+			_step_smoothing = false
 
+	position.y = offset_height + _target_height
+
+
+func update_camera_height(delta: float, direction: int) -> void:
+	if offset_height >= crouch_offset - 0.0001 and offset_height <= DEFAULT_HEIGHT + 0.0001:
+		offset_height = clampf(offset_height + (crouch_speed * direction) * delta, crouch_offset, DEFAULT_HEIGHT)
+
+
+func smooth_step(height_change: float) -> void:
+	_target_height -= height_change
+	_step_smoothing = true
 
 func _update_camera_rotation(input: Vector2) -> void:
 	_rotation.x += input.y
