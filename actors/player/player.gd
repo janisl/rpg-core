@@ -4,6 +4,9 @@ extends Actor
 const STOP_SPEED = 16.0
 const JUMP_VELOCITY = 4.5
 
+@export_group("References")
+@export var camera_controller: Node3D
+@export var state_chart: StateChart
 @export_group("Mouse capture settings")
 @export var mouse_sensitivity := 0.001
 @export_range(-90, -60) var tilt_lower_limit: int = -90
@@ -12,9 +15,8 @@ const JUMP_VELOCITY = 4.5
 @export var acceleration_speed: float = 8.0
 @export var deceleration_speed: float = 12.0
 
-@onready var camera_controller: Node3D = $CameraController
-
 var speed: float = 5.0
+var input_dir := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -42,7 +44,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
-	var input_dir := Input.get_vector("left", "right", "forward", "backward")
+	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var current_velocity = Vector2(velocity.x, velocity.z)
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	var acceleration = acceleration_speed * delta
