@@ -1,14 +1,16 @@
 class_name Player
 extends Actor
 
-
 const SPEED = 5.0
 const STOP_SPEED = 16.0
 const JUMP_VELOCITY = 4.5
-const MOUSE_SENSITIVITY = 0.001
-const PITCH_LIMIT = deg_to_rad(80.0)
 
-@onready var camera: Camera3D = $Camera
+@export_group("Mouse capture settings")
+@export var mouse_sensitivity := 0.001
+@export_range(-90, -60) var tilt_lower_limit: int = -90
+@export_range(60, 90) var tilt_upper_limit: int = 90
+
+@onready var camera_controller: Node3D = $CameraController
 
 
 func _ready() -> void:
@@ -16,9 +18,10 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
-		camera.rotation.x = clampf(camera.rotation.x - event.relative.y * MOUSE_SENSITIVITY, -PITCH_LIMIT, PITCH_LIMIT)
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		rotate_y(-event.relative.x * mouse_sensitivity)
+		camera_controller.rotation.x = camera_controller.rotation.x - event.relative.y * mouse_sensitivity
+		camera_controller.rotation.x = clampf(camera_controller.rotation.x, deg_to_rad(tilt_lower_limit), deg_to_rad(tilt_upper_limit))
 	elif event.is_action_pressed("pause"):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
