@@ -1,11 +1,16 @@
 [gd_scene format=3 uid="uid://dy38uor1h3xvd"]
 
+[ext_resource type="Script" uid="uid://evqkcb6vtw01" path="res://systems/game_manager.gd" id="1_cwqfn"]
 [ext_resource type="PackedScene" uid="uid://d1m2ngmuqlqgn" path="res://levels/test.tscn" id="1_mvsfx"]
 [ext_resource type="PackedScene" uid="uid://6ygkwtxr8bbo" path="res://ui/user_interface.tscn" id="2_u5mqa"]
 
 [node name="MainScene" type="Node" unique_id=384832263]
 
 [node name="Managers" type="Node" parent="." unique_id=257754043]
+
+[node name="GameManager" type="Node" parent="Managers" unique_id=1914292372]
+script = ExtResource("1_cwqfn")
+metadata/_custom_type_script = "uid://evqkcb6vtw01"
 
 [node name="CurrentLevel" type="Node3D" parent="." unique_id=892070186]
 
