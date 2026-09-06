@@ -28,6 +28,14 @@ extends Camera3D
 @export var min_screen_shake := 0.05
 @export var max_screen_shake := 0.5
 
+@export_group("Headbob")
+@export var enable_headbob := true
+@export_range(0.0, 0.1, 0.001) var bob_pitch := 0.05
+@export_range(0.0, 0.1, 0.001) var bob_roll := 0.025
+@export_range(0.0, 0.04, 0.001) var bob_up := 0.005
+@export_range(3.0, 8.0, 0.1) var bob_frequency := 6.0
+
+
 var _fall_value := 0.0
 var _fall_timer := 0.0
 
@@ -38,6 +46,8 @@ var _damage_timer := 0.0
 var _weapon_kick_angles := Vector3.ZERO
 
 var _screen_shake_tween: Tween
+
+var _step_timer := 0.0
 
 
 func _process(delta: float) -> void:
@@ -88,6 +98,14 @@ func _calcuate_view_offset(delta: float) -> void:
 
 	var velocity := player.velocity
 
+	var speed = Vector2(velocity.x, velocity.z).length()
+	if speed > 0.1 and player.is_on_floor():
+		_step_timer += delta * (speed / bob_frequency)
+		_step_timer = fmod(_step_timer, 1.0)
+	else:
+		_step_timer = 0.0
+	var bob_sin = sin(_step_timer * 2.0 * PI) * 0.5
+
 	var angles := Vector3.ZERO
 	var offset := Vector3.ZERO
 
@@ -117,6 +135,16 @@ func _calcuate_view_offset(delta: float) -> void:
 	if enable_weapon_kick:
 		_weapon_kick_angles = _weapon_kick_angles.move_toward(Vector3.ZERO, weapon_decay * delta)
 		angles += _weapon_kick_angles
+
+	if enable_headbob:
+		var pitch_delta = bob_sin * deg_to_rad(bob_pitch) * speed
+		angles.x -= pitch_delta
+
+		var roll_delta = bob_sin * deg_to_rad(bob_roll) * speed
+		angles.z -= roll_delta
+
+		var bob_height = bob_sin * speed * bob_up
+		offset.y += bob_height
 
 	position = offset
 	rotation = angles
