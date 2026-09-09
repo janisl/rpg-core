@@ -4,7 +4,7 @@ extends Node
 const FEET_ADJUSTED_HEIGHT := 0.05
 const MIN_STEP_HEIGHT := 0.03
 const MIN_MOVEMENT_LENGTH := 0.1
-const MIN_DOT_VALUE := 0.2
+const MIN_DOT_VALUE := 0.5
 
 @export_group("References")
 @export var player: Player
@@ -62,7 +62,6 @@ func _check_collision_surface(collision: KinematicCollision3D) -> bool:
 
 func _get_player_feet_position() -> Vector3:
 	var feet_pos := player.global_position
-	feet_pos.y -= player.standing_collision.shape.height / 2.0
 	feet_pos.y += FEET_ADJUSTED_HEIGHT
 	return feet_pos
 

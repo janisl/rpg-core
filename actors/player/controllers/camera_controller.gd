@@ -1,7 +1,7 @@
 class_name CameraController
 extends Node3D
 
-const DEFAULT_HEIGHT: float = 0.7
+const DEFAULT_HEIGHT: float = 1.6
 
 @export_group("References")
 @export var player: Player
@@ -10,7 +10,7 @@ const DEFAULT_HEIGHT: float = 0.7
 @export_range(-90, -60) var tilt_lower_limit: int = -90
 @export_range(60, 90) var tilt_upper_limit: int = 90
 @export_group("Crouch vertical movement")
-@export var crouch_offset: float = -0.1
+@export var crouch_offset: float = 0.8
 @export var crouch_speed: float = 3.0
 @export_group("Step smoothing")
 @export var step_speed: float = 8.0
