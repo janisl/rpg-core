@@ -89,7 +89,7 @@ func _measure_step_height(collision: KinematicCollision3D) -> float:
 
 func is_valid_step_direction(collision: KinematicCollision3D) -> bool:
 	var collision_normal := collision.get_normal()
-	var input_dir := player.get_input_direction()
+	var input_dir := player.input_dir
 	var movement_direction := player.transform.basis * Vector3(input_dir.x, 0, input_dir.y)
 	if movement_direction.length() > MIN_MOVEMENT_LENGTH:
 		movement_direction = movement_direction.normalized()
