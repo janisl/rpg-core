@@ -30,6 +30,10 @@ var current_fall_velocity := 0.0
 var previous_velocity := Vector3.ZERO
 
 
+func _process(_delta: float) -> void:
+	state_chart.set_expression_property("Looking at: ", interaction_ray_cast.current_object)
+
+
 func _physics_process(delta: float) -> void:
 	previous_velocity = velocity
 

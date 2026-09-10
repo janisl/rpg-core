@@ -1,8 +1,7 @@
-class_name PlayerStateAirborne
-extends PlayerState
+extends PlayerStateBehaviour
 
 
-func _on_airborne_state_physics_processing(_delta: float) -> void:
+func _on_state_physics_processing(delta: float) -> void:
 	if player.is_on_floor():
 		if player.check_fall_speed():
 			player.camera_effects.add_fall_kick(2.0)
