@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://ca0wevg1lb4rx"]
+
+[ext_resource type="Script" uid="uid://dc6smac6cl60l" path="res://utils/swimmable_areas/swimmable_area.gd" id="1_cwqxf"]
+[ext_resource type="Shader" uid="uid://b4uvogluyyexx" path="res://shaders/fog_fade.gdshader" id="2_yg22s"]
+[ext_resource type="Script" uid="uid://cl0gaolcr3j87" path="res://utils/swimmable_areas/fog_volume_fade.gd" id="3_yol2g"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1bimf"]
+resource_local_to_scene = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mdx3j"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_1bimf")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xl6ub"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_1bimf")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gdho2"]
+resource_local_to_scene = true
+transparency = 1
+cull_mode = 2
+depth_draw_mode = 1
+albedo_color = Color(0.30980393, 0.5411765, 0.8666667, 0.3882353)
+roughness = 0.0
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_mdx3j")
+refraction_enabled = true
+refraction_texture = SubResource("NoiseTexture2D_xl6ub")
+uv1_scale = Vector3(0.04, 0.04, 0.04)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_om5f8"]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wrt5a"]
+resource_local_to_scene = true
+shader = ExtResource("2_yg22s")
+shader_parameter/density = 1.0
+shader_parameter/albedo = Color(0, 0.043137256, 0.15686275, 1)
+shader_parameter/emission = Color(0, 0.043137256, 0.15686275, 1)
+shader_parameter/height_falloff = 0.0
+shader_parameter/edge_fade = 0.1
+shader_parameter/fade_plane = Vector4(0, 1, 0, -999)
+
+[node name="SwimmableArea" type="CSGBox3D" unique_id=788056043]
+process_priority = 999
+material = SubResource("StandardMaterial3D_gdho2")
+script = ExtResource("1_cwqxf")
+
+[node name="DetectionArea" type="Area3D" parent="." unique_id=1055804056 groups=["swimmable"]]
+unique_name_in_owner = true
+
+[node name="DetectionShape" type="CollisionShape3D" parent="DetectionArea" unique_id=641333289]
+unique_name_in_owner = true
+shape = SubResource("BoxShape3D_om5f8")
+
+[node name="FogVolume" type="FogVolume" parent="." unique_id=653953252]
+unique_name_in_owner = true
+size = Vector3(1, 1, 1)
+material = SubResource("ShaderMaterial_wrt5a")
+script = ExtResource("3_yol2g")
