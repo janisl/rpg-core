@@ -1,8 +1,10 @@
 extends PlayerStateBehaviour
 
+signal crouching()
+
 
 func _on_state_entered() -> void:
-	player.crouch()
+	crouching.emit()
 
 
 func _on_state_processing(_delta: float) -> void:

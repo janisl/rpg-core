@@ -19,6 +19,8 @@
 [ext_resource type="Script" uid="uid://cmvf60l7hjjac" path="res://actors/player/behaviours/airborne.gd" id="16_lj3dd"]
 [ext_resource type="Script" uid="uid://yehmjqtwat3c" path="res://actors/player/behaviours/standing.gd" id="18_icg72"]
 [ext_resource type="Script" uid="uid://d1osbbja3ekev" path="res://actors/player/behaviours/crouching.gd" id="19_icg72"]
+[ext_resource type="Script" uid="uid://dek1hlgqh6p45" path="res://actors/player/components/player_ground_movement_handler.gd" id="20_otn2r"]
+[ext_resource type="Script" uid="uid://dte1dx7wmo5ca" path="res://actors/player/components/player_airborne_movement_handler.gd" id="21_ctwkf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -226,8 +228,30 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="Components" type="Node" parent="." unique_id=1802761061]
 
+[node name="GroundMovement" type="Node" parent="Components" unique_id=1310383441 node_paths=PackedStringArray("player")]
+script = ExtResource("20_otn2r")
+player = NodePath("../..")
+metadata/_custom_type_script = "uid://dek1hlgqh6p45"
+
+[node name="AirborneMovement" type="Node" parent="Components" unique_id=1373446966 node_paths=PackedStringArray("player")]
+script = ExtResource("21_ctwkf")
+player = NodePath("../..")
+metadata/_custom_type_script = "uid://dte1dx7wmo5ca"
+
 [node name="StairsAheadRayCast" type="RayCast3D" parent="." unique_id=2077641786]
 target_position = Vector3(0, -0.55, 0)
 
 [node name="StairsBelowRayCast" type="RayCast3D" parent="." unique_id=611059247]
 target_position = Vector3(0, -0.75, 0)
+
+[connection signal="handle_ground_physics" from="StateChart/Root/Movement/Grounded/Behaviour" to="Components/GroundMovement" method="_on_handle_ground_physics"]
+[connection signal="landed" from="StateChart/Root/Movement/Grounded/Behaviour" to="Components/GroundMovement" method="_on_landed"]
+[connection signal="walking" from="StateChart/Root/Movement/Grounded/Moving/Walking/Behaviour" to="Components/GroundMovement" method="_on_walking"]
+[connection signal="walking" from="StateChart/Root/Movement/Grounded/Moving/Walking/Behaviour" to="Components/AirborneMovement" method="_on_walking"]
+[connection signal="sprinting" from="StateChart/Root/Movement/Grounded/Moving/Sprinting/Bhaviour" to="Components/GroundMovement" method="_on_sprinting"]
+[connection signal="sprinting" from="StateChart/Root/Movement/Grounded/Moving/Sprinting/Bhaviour" to="Components/AirborneMovement" method="_on_sprinting"]
+[connection signal="handle_airborne_physics" from="StateChart/Root/Movement/Airborne/Behaviour" to="Components/AirborneMovement" method="_on_handle_airborne_physics"]
+[connection signal="standing" from="StateChart/Root/Posture/Standing/Behaviour" to="Components/GroundMovement" method="_on_standing"]
+[connection signal="standing" from="StateChart/Root/Posture/Standing/Behaviour" to="Components/AirborneMovement" method="_on_standing"]
+[connection signal="crouching" from="StateChart/Root/Posture/Crouching/Behaviour" to="Components/GroundMovement" method="_on_crouching"]
+[connection signal="crouching" from="StateChart/Root/Posture/Crouching/Behaviour" to="Components/AirborneMovement" method="_on_crouching"]

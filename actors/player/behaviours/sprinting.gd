@@ -1,8 +1,10 @@
 extends PlayerStateBehaviour
 
+signal sprinting()
+
 
 func _on_state_entered() -> void:
-	player.sprint()
+	sprinting.emit()
 
 
 func _on_state_processing(delta: float) -> void:
