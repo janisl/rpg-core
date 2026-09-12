@@ -11,11 +11,6 @@ extends CSGBox3D
 @onready var detection_shape: CollisionShape3D = %DetectionShape
 
 
-func _ready():
-	if not Engine.is_editor_hint():
-		GlobalManager.camera_underwater_effect_changed.connect(_on_camera_underwater_effect_changed)
-
-
 func _process(delta):
 	if not detection_shape or not fog_volume:
 		return
@@ -32,10 +27,3 @@ func _process(delta):
 	fog_volume.material.set_shader_parameter("emission", fog_color)
 	fog_volume.size = size
 	fog_volume.fade_distance = fog_fade_dist
-
-
-func _on_camera_underwater_effect_changed() -> void:
-	if GlobalManager.camera_underwater_effect:
-		fog_volume.material.set_shader_parameter("edge_fade", 0.1)
-	else:
-		fog_volume.material.set_shader_parameter("edge_fade", 1.1)
