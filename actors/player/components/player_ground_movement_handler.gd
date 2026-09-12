@@ -1,13 +1,23 @@
 class_name PlayerGroundMovementHandler
 extends Node
 
+const MIN_STEP_HEIGHT := 0.03
+
 @export_group("References")
 @export var player: Player
 
-const MIN_STEP_HEIGHT := 0.03
+@export_group("Movement settings")
+@export var acceleration := 0.2
+@export var deceleration := 0.5
+@export var default_speed := 7.0
+@export var sprint_speed := 3.0
+@export var crouch_speed := -5.0
 
 @export_group("Step settings")
 @export var step_height := 0.5
+
+var _sprint_modifier := 0.0
+var _crouch_modifier := 0.0
 
 var _snapped_to_stairs_last_frame := false
 var _was_on_floor_last_frame := false
@@ -18,34 +28,32 @@ func _on_landed() -> void:
 
 
 func _on_walking() -> void:
-	player.walk()
+	_sprint_modifier = 0
 
 
 func _on_sprinting() -> void:
-	player.sprint()
+	_sprint_modifier = sprint_speed
 
 
 func _on_standing() -> void:
-	player.stand()
+	_crouch_modifier = 0
 
 
 func _on_crouching() -> void:
-	player.crouch()
+	_crouch_modifier = crouch_speed
 
 
 func _on_handle_ground_physics(delta: float) -> void:
-	player.previous_velocity = player.velocity
-
-	var speed_modifier = player._sprint_modifier + player._crouch_modifier
-	player._speed = player.default_speed + speed_modifier
+	var speed_modifier = _sprint_modifier + _crouch_modifier
+	var speed = default_speed + speed_modifier
 
 	player.input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var current_velocity = Vector2(player.velocity.x, player.velocity.z)
 	var direction := (player.transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
 	if direction:
-		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * player._speed, player.acceleration)
+		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration)
 	else:
-		current_velocity = current_velocity.move_toward(Vector2.ZERO, player.deceleration)
+		current_velocity = current_velocity.move_toward(Vector2.ZERO, deceleration)
 
 	player.velocity.x = current_velocity.x
 	player.velocity.z = current_velocity.y

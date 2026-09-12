@@ -4,40 +4,52 @@ extends Node
 @export_group("References")
 @export var player: Player
 
+@export_group("Movement settings")
+@export var acceleration := 0.2
+@export var deceleration := 0.5
+@export var default_speed := 7.0
+@export var sprint_speed := 3.0
+@export var crouch_speed := -5.0
+
+@export_group("Effect settings")
+@export var fall_velocity_threshold := -5.0
+
+var _sprint_modifier := 0.0
+var _crouch_modifier := 0.0
+var _current_fall_velocity := 0.0
+
 
 func _on_walking() -> void:
-	pass # Replace with function body.
+	_sprint_modifier = 0
 
 
 func _on_sprinting() -> void:
-	pass # Replace with function body.
+	_sprint_modifier = sprint_speed
 
 
 func _on_standing() -> void:
-	pass # Replace with function body.
+	_crouch_modifier = 0
 
 
 func _on_crouching() -> void:
-	pass # Replace with function body.
+	_crouch_modifier = crouch_speed
 
 
 func _on_handle_airborne_physics(delta: float) -> void:
-	player.current_fall_velocity = player.velocity.y
-
-	player.previous_velocity = player.velocity
+	_current_fall_velocity = player.velocity.y
 
 	player.velocity += player.get_gravity() * delta
 
-	var speed_modifier = player._sprint_modifier + player._crouch_modifier
-	player._speed = player.default_speed + speed_modifier
+	var speed_modifier = _sprint_modifier + _crouch_modifier
+	var speed = default_speed + speed_modifier
 
 	player.input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var current_velocity = Vector2(player.velocity.x, player.velocity.z)
 	var direction := (player.transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
 	if direction:
-		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * player._speed, player.acceleration * 0.1)
+		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration * 0.1)
 	else:
-		current_velocity = current_velocity.move_toward(Vector2.ZERO, player.deceleration * 0.1)
+		current_velocity = current_velocity.move_toward(Vector2.ZERO, deceleration * 0.1)
 
 	player.velocity.x = current_velocity.x
 	player.velocity.z = current_velocity.y
@@ -45,8 +57,17 @@ func _on_handle_airborne_physics(delta: float) -> void:
 	player.move_and_slide()
 
 	if player.is_on_floor():
-		if player.check_fall_speed():
+		if _check_fall_speed():
 			player.camera_effects.add_fall_kick(2.0)
 
 		player.state_chart.send_event("onGrounded")
 		return
+
+
+func _check_fall_speed() -> bool:
+	if _current_fall_velocity < fall_velocity_threshold:
+		_current_fall_velocity = 0.0
+		return true
+	else:
+		_current_fall_velocity = 0.0
+		return false
