@@ -19,7 +19,6 @@
 [ext_resource type="Script" uid="uid://cmvf60l7hjjac" path="res://actors/player/behaviours/airborne.gd" id="16_lj3dd"]
 [ext_resource type="Script" uid="uid://yehmjqtwat3c" path="res://actors/player/behaviours/standing.gd" id="18_icg72"]
 [ext_resource type="Script" uid="uid://d1osbbja3ekev" path="res://actors/player/behaviours/crouching.gd" id="19_icg72"]
-[ext_resource type="Script" uid="uid://tqdmcj8kviv1" path="res://actors/player/components/step_handler.gd" id="20_otn2r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -32,7 +31,7 @@ height = 1.0
 [sub_resource type="SphereShape3D" id="SphereShape3D_rghg7"]
 radius = 0.3
 
-[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "step_handler")]
+[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast")]
 script = ExtResource("1_nvxhs")
 camera_controller = NodePath("CameraController")
 camera_effects = NodePath("CameraController/Camera")
@@ -41,7 +40,6 @@ standing_collision = NodePath("StandingCollision")
 crouching_collision = NodePath("CrouchingCollision")
 crouch_check = NodePath("CrouchCheck")
 interaction_ray_cast = NodePath("CameraController/Camera/InteractionRayCast")
-step_handler = NodePath("Components/StepHandler")
 
 [node name="StateChartDebugger" parent="." unique_id=1438023907 instance=ExtResource("2_388e2")]
 offset_right = -1522.0
@@ -228,7 +226,8 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="Components" type="Node" parent="." unique_id=1802761061]
 
-[node name="StepHandler" type="Node" parent="Components" unique_id=315237216 node_paths=PackedStringArray("player")]
-script = ExtResource("20_otn2r")
-player = NodePath("../..")
-metadata/_custom_type_script = "uid://tqdmcj8kviv1"
+[node name="StairsAheadRayCast" type="RayCast3D" parent="." unique_id=2077641786]
+target_position = Vector3(0, -0.55, 0)
+
+[node name="StairsBelowRayCast" type="RayCast3D" parent="." unique_id=611059247]
+target_position = Vector3(0, -0.75, 0)

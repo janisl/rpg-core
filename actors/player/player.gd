@@ -11,7 +11,6 @@ const STOP_SPEED = 16.0
 @export var crouching_collision: CollisionShape3D
 @export var crouch_check: ShapeCast3D
 @export var interaction_ray_cast: InteractionRayCast
-@export var step_handler: StepHandler
 @export_group("Movement settings")
 @export var acceleration := 0.2
 @export var deceleration := 0.5
@@ -28,6 +27,9 @@ var _crouch_modifier := 0.0
 var input_dir := Vector2.ZERO
 var current_fall_velocity := 0.0
 var previous_velocity := Vector3.ZERO
+
+@onready var stairs_ahead_ray_cast: RayCast3D = $StairsAheadRayCast
+@onready var stairs_below_ray_cast: RayCast3D = $StairsBelowRayCast
 
 
 func _process(_delta: float) -> void:
