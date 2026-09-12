@@ -35,6 +35,9 @@ height = 1.0
 [sub_resource type="SphereShape3D" id="SphereShape3D_rghg7"]
 radius = 0.3
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_bsiym"]
+radius = 0.05
+
 [node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast")]
 script = ExtResource("1_nvxhs")
 camera_controller = NodePath("CameraController")
@@ -78,6 +81,11 @@ player = NodePath("../..")
 [node name="InteractionRayCast" type="RayCast3D" parent="CameraController/Camera" unique_id=206725175]
 target_position = Vector3(0, 0, -3)
 script = ExtResource("4_qrxv1")
+
+[node name="CameraArea" type="Area3D" parent="CameraController/Camera" unique_id=126417438]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CameraController/Camera/CameraArea" unique_id=1310995675]
+shape = SubResource("SphereShape3D_bsiym")
 
 [node name="StateChart" type="Node" parent="." unique_id=136452644]
 script = ExtResource("2_lsqbn")
@@ -288,6 +296,8 @@ target_position = Vector3(0, -0.55, 0)
 [node name="StairsBelowRayCast" type="RayCast3D" parent="." unique_id=611059247]
 target_position = Vector3(0, -0.75, 0)
 
+[connection signal="area_entered" from="CameraController/Camera/CameraArea" to="CameraController/Camera" method="_on_camera_area_entered"]
+[connection signal="area_exited" from="CameraController/Camera/CameraArea" to="CameraController/Camera" method="_on_camera_area_exited"]
 [connection signal="handle_ground_physics" from="StateChart/Root/Movement/Grounded/Behaviour" to="Components/GroundMovement" method="_on_handle_ground_physics"]
 [connection signal="landed" from="StateChart/Root/Movement/Grounded/Behaviour" to="Components/GroundMovement" method="_on_landed"]
 [connection signal="walking" from="StateChart/Root/Movement/Grounded/Moving/Walking/Behaviour" to="Components/GroundMovement" method="_on_walking"]

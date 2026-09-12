@@ -49,6 +49,8 @@ var _screen_shake_tween: Tween
 
 var _step_timer := 0.0
 
+var _swimmable_areas: Array[Area3D]
+
 
 func _process(delta: float) -> void:
 	_calcuate_view_offset(delta)
@@ -155,3 +157,15 @@ func _update_screen_shake(alpha: float, amount: float) -> void:
 	var current_shake_amount = amount * (1.0 - alpha)
 	h_offset = randf_range(-current_shake_amount, current_shake_amount)
 	v_offset = randf_range(-current_shake_amount, current_shake_amount)
+
+
+func _on_camera_area_entered(area: Area3D) -> void:
+	if area.is_in_group("swimmable"):
+		_swimmable_areas.append(area)
+		GlobalManager.camera_underwater_effect = true
+
+
+func _on_camera_area_exited(area: Area3D) -> void:
+	if area.is_in_group("swimmable"):
+		_swimmable_areas.erase(area)
+		GlobalManager.camera_underwater_effect = _swimmable_areas.size() > 0
