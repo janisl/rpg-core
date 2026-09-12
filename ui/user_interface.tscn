@@ -1,8 +1,29 @@
 [gd_scene format=3 uid="uid://6ygkwtxr8bbo"]
 
 [ext_resource type="Script" uid="uid://blwu7xyl5slu4" path="res://ui/reticle_control.gd" id="1_mm06q"]
+[ext_resource type="Script" uid="uid://btgmq5uw4sufl" path="res://ui/user_interface.gd" id="1_r3gyj"]
+[ext_resource type="Shader" uid="uid://bd7wk8i5mqe5g" path="res://shaders/camera_water_overlay.gdshader" id="1_ue2kl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r3gyj"]
+shader = ExtResource("1_ue2kl")
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_5skvp"]
 
 [node name="UserInterface" type="CanvasLayer" unique_id=82762904]
+script = ExtResource("1_r3gyj")
+
+[node name="WaterRippleOverlay" type="TextureRect" parent="." unique_id=486378596]
+visible = false
+z_index = -10
+z_as_relative = false
+material = SubResource("ShaderMaterial_r3gyj")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("PlaceholderTexture2D_5skvp")
 
 [node name="Reticle" type="CenterContainer" parent="." unique_id=1683982803]
 anchors_preset = 15
