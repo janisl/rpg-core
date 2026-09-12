@@ -18,9 +18,11 @@
 [ext_resource type="Script" uid="uid://161s6scpeppr" path="res://actors/player/behaviours/jumping.gd" id="16_icg72"]
 [ext_resource type="Script" uid="uid://cmvf60l7hjjac" path="res://actors/player/behaviours/airborne.gd" id="16_lj3dd"]
 [ext_resource type="Script" uid="uid://yehmjqtwat3c" path="res://actors/player/behaviours/standing.gd" id="18_icg72"]
+[ext_resource type="Script" uid="uid://mde6cjgl03m2" path="res://actors/player/behaviours/swimming.gd" id="18_lj3dd"]
 [ext_resource type="Script" uid="uid://d1osbbja3ekev" path="res://actors/player/behaviours/crouching.gd" id="19_icg72"]
 [ext_resource type="Script" uid="uid://dek1hlgqh6p45" path="res://actors/player/components/player_ground_movement_handler.gd" id="20_otn2r"]
 [ext_resource type="Script" uid="uid://dte1dx7wmo5ca" path="res://actors/player/components/player_airborne_movement_handler.gd" id="21_ctwkf"]
+[ext_resource type="Script" uid="uid://v3eyncouit2i" path="res://actors/player/components/player_swimming_movement_handler.gd" id="23_lj3dd"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -162,6 +164,13 @@ event = &"onAirborne"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
+[node name="OnSwimming" type="Node" parent="StateChart/Root/Movement/Grounded" unique_id=486219953]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Swimming")
+event = &"onSwimming"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
 [node name="Airborne" type="Node" parent="StateChart/Root/Movement" unique_id=1506748701]
 script = ExtResource("4_15y17")
 initial_state = NodePath("Jumping")
@@ -184,6 +193,10 @@ event = &"onFalling"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
+[node name="Falling" type="Node" parent="StateChart/Root/Movement/Airborne" unique_id=1750954686]
+script = ExtResource("5_15y17")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
 [node name="OnGrounded" type="Node" parent="StateChart/Root/Movement/Airborne" unique_id=343270837]
 script = ExtResource("6_bop6h")
 to = NodePath("../../Grounded")
@@ -191,9 +204,33 @@ event = &"onGrounded"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
-[node name="Falling" type="Node" parent="StateChart/Root/Movement/Airborne" unique_id=1750954686]
+[node name="OnSwimming" type="Node" parent="StateChart/Root/Movement/Airborne" unique_id=436831261]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Swimming")
+event = &"onSwimming"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Swimming" type="Node" parent="StateChart/Root/Movement" unique_id=636335846]
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="Behaviour" type="Node" parent="StateChart/Root/Movement/Swimming" unique_id=583834774]
+script = ExtResource("18_lj3dd")
+
+[node name="OnGrounded" type="Node" parent="StateChart/Root/Movement/Swimming" unique_id=1244747953]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Grounded")
+event = &"onGrounded"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="OnAirborne" type="Node" parent="StateChart/Root/Movement/Swimming" unique_id=555626166]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Airborne")
+event = &"onAirborne"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="Posture" type="Node" parent="StateChart/Root" unique_id=1727521365]
 script = ExtResource("4_15y17")
@@ -240,6 +277,11 @@ script = ExtResource("21_ctwkf")
 player = NodePath("../..")
 metadata/_custom_type_script = "uid://dte1dx7wmo5ca"
 
+[node name="SwimmingMovement" type="Node" parent="Components" unique_id=697587771 node_paths=PackedStringArray("player")]
+script = ExtResource("23_lj3dd")
+player = NodePath("../..")
+metadata/_custom_type_script = "uid://v3eyncouit2i"
+
 [node name="StairsAheadRayCast" type="RayCast3D" parent="." unique_id=2077641786]
 target_position = Vector3(0, -0.55, 0)
 
@@ -253,6 +295,7 @@ target_position = Vector3(0, -0.75, 0)
 [connection signal="sprinting" from="StateChart/Root/Movement/Grounded/Moving/Sprinting/Bhaviour" to="Components/GroundMovement" method="_on_sprinting"]
 [connection signal="sprinting" from="StateChart/Root/Movement/Grounded/Moving/Sprinting/Bhaviour" to="Components/AirborneMovement" method="_on_sprinting"]
 [connection signal="handle_airborne_physics" from="StateChart/Root/Movement/Airborne/Behaviour" to="Components/AirborneMovement" method="_on_handle_airborne_physics"]
+[connection signal="handle_swimming_physics" from="StateChart/Root/Movement/Swimming/Behaviour" to="Components/SwimmingMovement" method="_on_handle_swimming_physics"]
 [connection signal="standing" from="StateChart/Root/Posture/Standing/Behaviour" to="." method="_on_standing"]
 [connection signal="standing" from="StateChart/Root/Posture/Standing/Behaviour" to="Components/GroundMovement" method="_on_standing"]
 [connection signal="standing" from="StateChart/Root/Posture/Standing/Behaviour" to="Components/AirborneMovement" method="_on_standing"]

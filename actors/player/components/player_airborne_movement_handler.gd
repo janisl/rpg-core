@@ -56,7 +56,9 @@ func _on_handle_airborne_physics(delta: float) -> void:
 
 	player.move_and_slide()
 
-	if player.is_on_floor():
+	if player.is_in_swimmable_area():
+		player.state_chart.send_event("onSwimming")
+	elif player.is_on_floor():
 		if _check_fall_speed():
 			player.camera_effects.add_fall_kick(2.0)
 
