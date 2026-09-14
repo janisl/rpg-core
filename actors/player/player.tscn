@@ -83,6 +83,8 @@ target_position = Vector3(0, 0, -3)
 script = ExtResource("4_qrxv1")
 
 [node name="CameraArea" type="Area3D" parent="CameraController/Camera" unique_id=126417438]
+collision_layer = 0
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CameraController/Camera/CameraArea" unique_id=1310995675]
 shape = SubResource("SphereShape3D_bsiym")

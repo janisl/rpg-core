@@ -32,6 +32,7 @@ func _on_handle_swimming_physics(delta: float) -> void:
 	new_velocity = new_velocity.lerp(Vector3.ZERO, damped_factor * delta)
 
 	player.velocity = new_velocity
+	player.push_away_rigid_bodies()
 	player.move_and_slide()
 
 	if not player.is_in_swimmable_area():

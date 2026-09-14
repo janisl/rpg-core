@@ -105,22 +105,22 @@ background_color = Color(7.70092e-07, 0.68970317, 0.8517272, 1)
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_ny0t1"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lkjt4"]
 resource_local_to_scene = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ny0t1"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_lkjt4")
+seamless = true
+as_normal_map = true
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_r4e4k"]
 resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_ny0t1")
+noise = SubResource("FastNoiseLite_lkjt4")
 seamless = true
 as_normal_map = true
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_pnvjf"]
-resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_ny0t1")
-seamless = true
-as_normal_map = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6g8e2"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pnvjf"]
 resource_local_to_scene = true
 transparency = 1
 cull_mode = 2
@@ -128,12 +128,20 @@ depth_draw_mode = 1
 albedo_color = Color(0.30980393, 0.5411765, 0.8666667, 0.3882353)
 roughness = 0.0
 normal_enabled = true
-normal_texture = SubResource("NoiseTexture2D_r4e4k")
+normal_texture = SubResource("NoiseTexture2D_ny0t1")
 refraction_enabled = true
-refraction_texture = SubResource("NoiseTexture2D_pnvjf")
+refraction_texture = SubResource("NoiseTexture2D_r4e4k")
 uv1_scale = Vector3(0.04, 0.04, 0.04)
 uv1_triplanar = true
 uv1_world_triplanar = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bsiym"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.05188883, 0.5375777, 0.6576247, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
 
 [node name="Test" type="Node3D" unique_id=867766289]
 
@@ -395,4 +403,13 @@ environment = SubResource("Environment_bsiym")
 [node name="SwimmableArea" parent="." unique_id=788056043 instance=ExtResource("2_lkjt4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2.4, -5)
 size = Vector3(10, 5, 10)
-material = SubResource("StandardMaterial3D_6g8e2")
+material = SubResource("StandardMaterial3D_pnvjf")
+
+[node name="Ball" type="RigidBody3D" parent="." unique_id=589787673]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball" unique_id=1167890926]
+shape = SubResource("SphereShape3D_bsiym")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball" unique_id=1991482352]
+mesh = SubResource("SphereMesh_bsiym")

@@ -54,6 +54,7 @@ func _on_handle_airborne_physics(delta: float) -> void:
 	player.velocity.x = current_velocity.x
 	player.velocity.z = current_velocity.y
 
+	player.push_away_rigid_bodies()
 	player.move_and_slide()
 
 	if player.is_in_swimmable_area():

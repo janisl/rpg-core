@@ -59,6 +59,7 @@ func _on_handle_ground_physics(delta: float) -> void:
 	player.velocity.z = current_velocity.y
 
 	if not _snap_up_stairs_check(delta):
+		player.push_away_rigid_bodies()
 		player.move_and_slide()
 		_snap_down_to_stairs_check()
 
