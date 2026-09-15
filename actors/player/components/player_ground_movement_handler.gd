@@ -70,7 +70,9 @@ func _on_handle_ground_physics(delta: float) -> void:
 		player.state_chart.send_event("onAirborne")
 		return
 
-	if player.is_in_swimmable_area():
+	if player.is_in_ladder_area():
+		player.state_chart.send_event("onClimbingLadder")
+	elif player.is_in_swimmable_area():
 		player.state_chart.send_event("onSwimming")
 	elif not player.is_on_floor() and not _snapped_to_stairs_last_frame:
 		player.state_chart.send_event("onAirborne")

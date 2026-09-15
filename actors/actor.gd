@@ -12,6 +12,10 @@ func is_in_swimmable_area() -> bool:
 	return not get_tree().get_nodes_in_group("swimmable").all(func(area): return !area.overlaps_body(self))
 
 
+func is_in_ladder_area() -> bool:
+	return not get_tree().get_nodes_in_group("ladder").all(func(area): return !area.overlaps_body(self))
+
+
 func push_away_rigid_bodies() -> void:
 	for i in get_slide_collision_count():
 		var c := get_slide_collision(i)
