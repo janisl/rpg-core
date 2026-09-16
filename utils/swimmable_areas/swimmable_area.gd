@@ -9,7 +9,15 @@ extends CSGBox3D
 
 @onready var fog_volume: FogVolume = %FogVolume
 @onready var detection_shape: CollisionShape3D = %DetectionShape
+@onready var detection_area: Area3D = %DetectionArea
 
+
+func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
+
+	detection_area.body_entered.connect(_on_body_entered)
+	detection_area.body_exited.connect(_on_body_exited)
 
 func _process(delta):
 	if not detection_shape or not fog_volume:
@@ -27,3 +35,13 @@ func _process(delta):
 	fog_volume.material.set_shader_parameter("emission", fog_color)
 	fog_volume.size = size
 	fog_volume.fade_distance = fog_fade_dist
+
+
+func _on_body_entered(body: Node3D) -> void:
+	if body is Actor:
+		body.on_swimmable_area_entered(detection_area)
+
+
+func _on_body_exited(body: Node3D) -> void:
+	if body is Actor:
+		body.on_swimmable_area_exited(detection_area)

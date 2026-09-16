@@ -11,14 +11,13 @@ extends Node
 var _cur_ladder_climbing: Area3D = null
 
 
-func _on_handle_ladder_physics(delta: float) -> void:
+func _on_handle_ladder_physics(_delta: float) -> void:
 	var was_climbing_ladder := _cur_ladder_climbing and _cur_ladder_climbing.overlaps_body(player)
 	if not was_climbing_ladder:
 		_cur_ladder_climbing = null
-		for ladder in get_tree().get_nodes_in_group("ladder"):
-			if ladder.overlaps_body(player):
-				_cur_ladder_climbing = ladder
-				break
+		if player.touching_ladder_areas.size():
+			_cur_ladder_climbing = player.touching_ladder_areas[0]
+
 	if not _handle_ladder_movement(was_climbing_ladder):
 		_cur_ladder_climbing = null
 		if player.is_in_swimmable_area():

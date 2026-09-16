@@ -3,17 +3,36 @@ extends CharacterBody3D
 
 const APPROX_MASS = 80.0
 
+var _touching_swimmable_areas: Array[Area3D]
+var touching_ladder_areas: Array[Area3D]
+
 
 func _ready() -> void:
 	pass
 
 
+func on_swimmable_area_entered(area: Area3D) -> void:
+	_touching_swimmable_areas.append(area)
+
+
+func on_swimmable_area_exited(area: Area3D) -> void:
+	_touching_swimmable_areas.erase(area)
+
+
 func is_in_swimmable_area() -> bool:
-	return not get_tree().get_nodes_in_group("swimmable").all(func(area): return !area.overlaps_body(self))
+	return _touching_swimmable_areas.size() > 0
+
+
+func on_ladder_area_entered(area: Area3D) -> void:
+	touching_ladder_areas.append(area)
+
+
+func on_ladder_area_exited(area: Area3D) -> void:
+	touching_ladder_areas.erase(area)
 
 
 func is_in_ladder_area() -> bool:
-	return not get_tree().get_nodes_in_group("ladder").all(func(area): return !area.overlaps_body(self))
+	return touching_ladder_areas.size() > 0
 
 
 func push_away_rigid_bodies() -> void:
