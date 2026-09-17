@@ -18,6 +18,8 @@ radius = 0.02
 height = 0.3
 
 [node name="TestProjectile" type="Area3D" unique_id=1960725913]
+collision_layer = 0
+monitorable = false
 script = ExtResource("1_2gq1u")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1170934724]
