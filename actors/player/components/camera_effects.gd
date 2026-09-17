@@ -56,11 +56,6 @@ func _process(delta: float) -> void:
 	_calcuate_view_offset(delta)
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("test"):
-		add_screen_shake(2.0, 5.0)
-
-
 func add_fall_kick(fall_strength: float) -> void:
 	_fall_value = deg_to_rad(fall_strength)
 	_fall_timer = fall_time

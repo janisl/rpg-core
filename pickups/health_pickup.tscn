@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://djilda64tb5p8"]
+
+[ext_resource type="PackedScene" uid="uid://dx4ast6x47nj8" path="res://pickups/base_pickup.tscn" id="1_e688c"]
+[ext_resource type="Script" uid="uid://06sbj32pf3be" path="res://pickups/health_pickup.gd" id="2_w0ydi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(4.428029e-06, 0.89628124, 0.6302685, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+radius = 0.04
+height = 0.3
+
+[node name="HealthPickup" unique_id=1575555821 instance=ExtResource("1_e688c")]
+script = ExtResource("2_w0ydi")
+ammount = 20
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1" unique_id=1942318944]
+transform = Transform3D(1, 0, 0, 0, 0.7690977, -0.63913125, 0, 0.63913125, 0.7690977, 0, 0.171338, 0)
+mesh = SubResource("CapsuleMesh_bsiym")

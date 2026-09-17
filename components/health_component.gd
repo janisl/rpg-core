@@ -40,6 +40,8 @@ func heal(amount: float) -> void:
 	var actual_heal = max(0.0, amount)
 	current_health = min(max_health, current_health + actual_heal)
 
+	print(get_parent().name, " healed ", actual_heal, " health. Health: ", current_health, "/", max_health)
+
 	health_changed.emit(current_health, max_health)
 
 

@@ -23,6 +23,11 @@ func _process(_delta: float) -> void:
 	state_chart.set_expression_property("Looking at: ", interaction_ray_cast.current_object)
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("test"):
+		$HealthComponent.take_damage(10.0)
+
+
 func update_rotation(value: Vector3) -> void:
 	global_transform.basis = Basis.from_euler(value)
 
