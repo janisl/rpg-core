@@ -7,6 +7,7 @@
 [resource]
 script = ExtResource("2_jpsys")
 weapon_name = "Laser"
+max_ammo = 100
 is_automatic = true
 accuracy = 90
 is_hit_scan = false
