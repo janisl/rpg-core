@@ -12,26 +12,24 @@ extends Node
 
 var current_weapon_model: Node3D
 var current_ammo: int
+var can_fire_next := true
+var fire_rate_timer := 0.0
 
 
 func _ready() -> void:
 	if current_weapon:
-		spawn_weapon_model()
+		_spawn_weapon_model()
 		current_ammo = current_weapon.max_amo
 
 
-func spawn_weapon_model() -> void:
-	if current_weapon_model:
-		current_weapon_model.queue_free()
-
-	if current_weapon.weapon_scene:
-		current_weapon_model = current_weapon.weapon_scene.instantiate()
-		weapon_model_parent.add_child(current_weapon_model)
-		current_weapon_model.position = current_weapon.weapon_position
-
+func _process(delta: float) -> void:
+	if fire_rate_timer > 0.0:
+		fire_rate_timer -= delta
+		if fire_rate_timer <= 0:
+			can_fire_next = true
 
 func can_fire() -> bool:
-	return current_ammo > 0
+	return current_ammo > 0 and can_fire_next
 
 
 func fire_weapon() -> void:
@@ -40,10 +38,24 @@ func fire_weapon() -> void:
 
 	current_ammo -= 1
 	print("Fired! Ammo: ", current_ammo)
+
+	can_fire_next = false
+	fire_rate_timer = 1.0 / current_weapon.fire_rate
+
 	if current_weapon.is_hit_scan:
 		_perform_hit_scan()
 	else:
 		_spawn_projectile()
+
+
+func _spawn_weapon_model() -> void:
+	if current_weapon_model:
+		current_weapon_model.queue_free()
+
+	if current_weapon.weapon_scene:
+		current_weapon_model = current_weapon.weapon_scene.instantiate()
+		weapon_model_parent.add_child(current_weapon_model)
+		current_weapon_model.position = current_weapon.weapon_position
 
 
 func _perform_hit_scan() -> void:
@@ -54,18 +66,31 @@ func _perform_hit_scan() -> void:
 	var space_state := camera.get_world_3d().direct_space_state
 	var from := camera.global_position
 	var forward := -camera.global_transform.basis.z
-	var to := from + forward * current_weapon.range
 
-	var query := PhysicsRayQueryParameters3D.create(from, to)
-	query.collision_mask = hit_scan_collision_mask
-	var result := space_state.intersect_ray(query)
+	var accuracy_spread := (100.0 - current_weapon.accuracy) / 1000.0
 
-	if not result:
-		print("No hit!")
-		return
+	for i in current_weapon.pellet_count:
+		var accuracy_x := randf_range(-accuracy_spread, accuracy_spread)
+		var accuracy_y := randf_range(-accuracy_spread, accuracy_spread)
+		var direction := forward + Vector3(accuracy_x, accuracy_y, 0) * camera.global_transform.basis
 
-	print("Hit: ", result.collider.name, " at ", result.position)
-	_spawn_impact_marker(result.position)
+		if current_weapon.pellet_count > 1:
+			var spread_x := randf_range(-current_weapon.spread_angle, current_weapon.spread_angle)
+			var spread_y := randf_range(-current_weapon.spread_angle, current_weapon.spread_angle)
+			direction += Vector3(spread_x, spread_y, 0) * camera.global_transform.basis
+
+		var to := from + direction * current_weapon.range
+
+		var query := PhysicsRayQueryParameters3D.create(from, to)
+		query.collision_mask = hit_scan_collision_mask
+		var result := space_state.intersect_ray(query)
+
+		if not result:
+			print("No hit!")
+			return
+
+		print("Hit: ", result.collider.name, " at ", result.position)
+		_spawn_impact_marker(result.position)
 
 
 func _spawn_impact_marker(position: Vector3) -> void:
@@ -99,7 +124,13 @@ func _spawn_projectile() -> void:
 	projectile.global_position = camera.global_position
 
 	var forward := -camera.global_transform.basis.z
-	var velocity := forward * current_weapon.projectile_speed
 
-	projectile.look_at(camera.global_position + forward, Vector3.UP)
+	var accuracy_spread := (100.0 - current_weapon.accuracy) / 1000.0
+	var accuracy_x := randf_range(-accuracy_spread, accuracy_spread)
+	var accuracy_y := randf_range(-accuracy_spread, accuracy_spread)
+	var direction := forward + Vector3(accuracy_x, accuracy_y, 0) * camera.global_transform.basis
+
+	var velocity := direction * current_weapon.projectile_speed
+
+	projectile.look_at(camera.global_position + direction, Vector3.UP)
 	projectile.setup(player, velocity, current_weapon.damage)
