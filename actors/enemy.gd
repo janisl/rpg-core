@@ -1,0 +1,13 @@
+class_name Enemy
+extends Actor
+
+@export var enemy_groups: Array[String] = []
+
+
+func _ready() -> void:
+	for group in enemy_groups:
+		add_to_group(group)
+
+
+func on_triggered() -> void:
+	pass
