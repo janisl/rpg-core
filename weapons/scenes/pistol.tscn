@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://567vdvii3fg6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vgx7n"]
+albedo_color = Color(0.26536053, 0.26536053, 0.2653605, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_vgx7n")
+size = Vector3(0.055, 0.05, 0.3)
+
+[node name="Pistol" type="Node3D" unique_id=1327495288]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=96319735]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.118, -0.09, -0.195)
+mesh = SubResource("BoxMesh_bsiym")
