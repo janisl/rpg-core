@@ -40,6 +40,11 @@ func _on_body_entered(body: Node3D) -> void:
 		return
 
 	_spawn_impact_marker(global_position)
+
+	var health_component := body.get_node_or_null("HealthComponent") as HealthComponent
+	if health_component:
+		health_component.take_damage(damage, self)
+
 	queue_free()
 
 

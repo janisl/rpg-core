@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dmm1368oglfp0"]
 
 [ext_resource type="Script" uid="uid://bsns0k0r51aap" path="res://actors/player/player.gd" id="1_nvxhs"]
+[ext_resource type="Script" uid="uid://dr4uco4q7gkkg" path="res://components/health_component.gd" id="2_1c637"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_388e2"]
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="2_lsqbn"]
 [ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="3_6p1w3"]
@@ -57,6 +58,10 @@ interaction_ray_cast = NodePath("CameraController/Camera/InteractionRayCast")
 stairs_ahead_ray_cast = NodePath("StairsAheadRayCast")
 stairs_below_ray_cast = NodePath("StairsBelowRayCast")
 weapon_controller = NodePath("Components/WeaponController")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1018563726]
+script = ExtResource("2_1c637")
+metadata/_custom_type_script = "uid://dr4uco4q7gkkg"
 
 [node name="Components" type="Node" parent="." unique_id=1802761061]
 

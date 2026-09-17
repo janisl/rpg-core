@@ -91,11 +91,10 @@ func _perform_hit_scan() -> void:
 		var result := space_state.intersect_ray(query)
 
 		if not result:
-			print("No hit!")
 			return
 
-		print("Hit: ", result.collider.name, " at ", result.position)
 		_spawn_impact_marker(result.position)
+		_apply_damage_to_target(result.collider)
 
 
 func _spawn_impact_marker(position: Vector3) -> void:
@@ -139,3 +138,10 @@ func _spawn_projectile() -> void:
 
 	projectile.look_at(camera.global_position + direction, Vector3.UP)
 	projectile.setup(player, velocity, current_weapon.damage)
+
+
+func _apply_damage_to_target(tagret: Node3D) -> void:
+	var health_component := tagret.get_node_or_null("HealthComponent") as HealthComponent
+
+	if health_component:
+		health_component.take_damage(current_weapon.damage, player)
