@@ -7,8 +7,8 @@ const DEFAULT_HEIGHT: float = 1.6
 @export var player: Player
 @export_group("Camera settings")
 @export var mouse_sensitivity := 0.001
-@export_range(-90, -60) var tilt_lower_limit: int = -90
-@export_range(60, 90) var tilt_upper_limit: int = 90
+@export_range(-90, -60, 0.1, "radians_as_degrees") var tilt_lower_limit := -PI / 2
+@export_range(60, 90, 0.1, "radians_as_degrees") var tilt_upper_limit := PI / 2
 @export_group("Crouch vertical movement")
 @export var crouch_offset: float = 0.8
 @export var crouch_speed: float = 3.0
@@ -64,7 +64,7 @@ func smooth_step(height_change: float) -> void:
 func _update_camera_rotation(input: Vector2) -> void:
 	_rotation.x += input.y
 	_rotation.y += input.x
-	_rotation.x = clampf(_rotation.x, deg_to_rad(tilt_lower_limit), deg_to_rad(tilt_upper_limit))
+	_rotation.x = clampf(_rotation.x, tilt_lower_limit, tilt_upper_limit)
 
 	var player_rotation = Vector3(0, _rotation.y, 0)
 	var camera_rortation = Vector3(_rotation.x, 0, 0)
