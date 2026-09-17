@@ -9,7 +9,9 @@
 [ext_resource type="Script" uid="uid://dbeuckaub3kor" path="res://actors/player/components/camera_effects.gd" id="4_dqf5y"]
 [ext_resource type="Script" uid="uid://dra7tey8c0bv2" path="res://actors/player/components/interaction_ray_cast.gd" id="4_qrxv1"]
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="5_15y17"]
+[ext_resource type="Script" uid="uid://bssifbouhjhmf" path="res://actors/player/components/weapon_controller.gd" id="6_2vokq"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="6_bop6h"]
+[ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://weapons/resources/pistol.tres" id="7_tpopl"]
 [ext_resource type="Script" uid="uid://dyr55krt5kuoq" path="res://actors/player/behaviours/grounded.gd" id="9_icg72"]
 [ext_resource type="Script" uid="uid://b2ayqipj6b7xe" path="res://actors/player/behaviours/idle.gd" id="11_lj3dd"]
 [ext_resource type="Script" uid="uid://b47bduygfbkju" path="res://actors/player/behaviours/walking.gd" id="13_lj3dd"]
@@ -25,6 +27,9 @@
 [ext_resource type="Script" uid="uid://dte1dx7wmo5ca" path="res://actors/player/components/player_airborne_movement_handler.gd" id="21_ctwkf"]
 [ext_resource type="Script" uid="uid://v3eyncouit2i" path="res://actors/player/components/player_swimming_movement_handler.gd" id="23_lj3dd"]
 [ext_resource type="Script" uid="uid://cqmmur7bbutym" path="res://actors/player/components/player_ladder_movement_handler.gd" id="25_yeioo"]
+[ext_resource type="Script" uid="uid://chbjxogxroaj6" path="res://weapons/behaviours/idle.gd" id="28_1c637"]
+[ext_resource type="Script" uid="uid://d0fh2iien0o0f" path="res://weapons/behaviours/firing.gd" id="29_4ihbh"]
+[ext_resource type="Script" uid="uid://caiu4rbdmbosx" path="res://weapons/behaviours/empty.gd" id="30_4jc6f"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -40,7 +45,8 @@ radius = 0.3
 [sub_resource type="SphereShape3D" id="SphereShape3D_bsiym"]
 radius = 0.05
 
-[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast")]
+[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "weapon_controller")]
+collision_layer = 769
 script = ExtResource("1_nvxhs")
 camera_controller = NodePath("CameraController")
 camera_effects = NodePath("CameraController/Camera")
@@ -51,11 +57,41 @@ crouch_check = NodePath("CrouchCheck")
 interaction_ray_cast = NodePath("CameraController/Camera/InteractionRayCast")
 stairs_ahead_ray_cast = NodePath("StairsAheadRayCast")
 stairs_below_ray_cast = NodePath("StairsBelowRayCast")
+weapon_controller = NodePath("Components/WeaponController")
+
+[node name="Components" type="Node" parent="." unique_id=1802761061]
+
+[node name="GroundMovement" type="Node" parent="Components" unique_id=1310383441 node_paths=PackedStringArray("player")]
+script = ExtResource("20_otn2r")
+player = NodePath("../..")
+metadata/_custom_type_script = "uid://dek1hlgqh6p45"
+
+[node name="AirborneMovement" type="Node" parent="Components" unique_id=1373446966 node_paths=PackedStringArray("player")]
+script = ExtResource("21_ctwkf")
+player = NodePath("../..")
+metadata/_custom_type_script = "uid://dte1dx7wmo5ca"
+
+[node name="SwimmingMovement" type="Node" parent="Components" unique_id=697587771 node_paths=PackedStringArray("player")]
+script = ExtResource("23_lj3dd")
+player = NodePath("../..")
+metadata/_custom_type_script = "uid://v3eyncouit2i"
+
+[node name="LadderMovement" type="Node" parent="Components" unique_id=1652125605 node_paths=PackedStringArray("player")]
+script = ExtResource("25_yeioo")
+player = NodePath("../..")
+metadata/_custom_type_script = "uid://cqmmur7bbutym"
+
+[node name="WeaponController" type="Node" parent="Components" unique_id=327890797 node_paths=PackedStringArray("weapon_model_parent", "weapon_state_chart")]
+script = ExtResource("6_2vokq")
+weapon_model_parent = NodePath("../../CameraController/Camera")
+weapon_state_chart = NodePath("../../WeaponStateChart")
+current_weapon = ExtResource("7_tpopl")
+metadata/_custom_type_script = "uid://bssifbouhjhmf"
 
 [node name="StateChartDebugger" parent="." unique_id=1438023907 instance=ExtResource("2_388e2")]
 offset_right = -1522.0
 offset_bottom = -556.0
-initial_node_to_watch = NodePath("../StateChart")
+initial_node_to_watch = NodePath("../WeaponStateChart")
 
 [node name="StandingCollision" type="CollisionShape3D" parent="." unique_id=1807291205]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -270,33 +306,56 @@ event = &"onStanding"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
-[node name="Components" type="Node" parent="." unique_id=1802761061]
-
-[node name="GroundMovement" type="Node" parent="Components" unique_id=1310383441 node_paths=PackedStringArray("player")]
-script = ExtResource("20_otn2r")
-player = NodePath("../..")
-metadata/_custom_type_script = "uid://dek1hlgqh6p45"
-
-[node name="AirborneMovement" type="Node" parent="Components" unique_id=1373446966 node_paths=PackedStringArray("player")]
-script = ExtResource("21_ctwkf")
-player = NodePath("../..")
-metadata/_custom_type_script = "uid://dte1dx7wmo5ca"
-
-[node name="SwimmingMovement" type="Node" parent="Components" unique_id=697587771 node_paths=PackedStringArray("player")]
-script = ExtResource("23_lj3dd")
-player = NodePath("../..")
-metadata/_custom_type_script = "uid://v3eyncouit2i"
-
-[node name="LadderMovement" type="Node" parent="Components" unique_id=1652125605 node_paths=PackedStringArray("player")]
-script = ExtResource("25_yeioo")
-player = NodePath("../..")
-metadata/_custom_type_script = "uid://cqmmur7bbutym"
-
 [node name="StairsAheadRayCast" type="RayCast3D" parent="." unique_id=2077641786]
 target_position = Vector3(0, -0.55, 0)
 
 [node name="StairsBelowRayCast" type="RayCast3D" parent="." unique_id=611059247]
 target_position = Vector3(0, -0.75, 0)
+
+[node name="WeaponStateChart" type="Node" parent="." unique_id=1422502624]
+script = ExtResource("2_lsqbn")
+metadata/_custom_type_script = "uid://couw105c3bde4"
+
+[node name="Root" type="Node" parent="WeaponStateChart" unique_id=355358102]
+script = ExtResource("4_15y17")
+initial_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://jk2jm1g6q853"
+
+[node name="Idle" type="Node" parent="WeaponStateChart/Root" unique_id=889722616]
+script = ExtResource("5_15y17")
+
+[node name="Behaviour" type="Node" parent="WeaponStateChart/Root/Idle" unique_id=346712151]
+script = ExtResource("28_1c637")
+
+[node name="Firing" type="Node" parent="WeaponStateChart/Root" unique_id=536824102]
+script = ExtResource("5_15y17")
+
+[node name="Behaviour" type="Node" parent="WeaponStateChart/Root/Firing" unique_id=1973293334]
+script = ExtResource("29_4ihbh")
+
+[node name="Empty" type="Node" parent="WeaponStateChart/Root" unique_id=1421908556]
+script = ExtResource("5_15y17")
+
+[node name="Behaviour" type="Node" parent="WeaponStateChart/Root/Empty" unique_id=734354096]
+script = ExtResource("30_4jc6f")
+
+[node name="OnIdle" type="Node" parent="WeaponStateChart/Root" unique_id=1200686958]
+script = ExtResource("6_bop6h")
+to = NodePath("../Idle")
+event = &"onIdle"
+delay_in_seconds = "0.0"
+
+[node name="OnFiring" type="Node" parent="WeaponStateChart/Root" unique_id=2104936050]
+script = ExtResource("6_bop6h")
+to = NodePath("../Firing")
+event = &"onFiring"
+delay_in_seconds = "0.0"
+
+[node name="OnEmpty" type="Node" parent="WeaponStateChart/Root" unique_id=1962156358]
+script = ExtResource("6_bop6h")
+to = NodePath("../Empty")
+event = &"onEmpty"
+delay_in_seconds = "0.0"
 
 [connection signal="area_entered" from="CameraController/Camera/CameraArea" to="CameraController/Camera" method="_on_camera_area_entered"]
 [connection signal="area_exited" from="CameraController/Camera/CameraArea" to="CameraController/Camera" method="_on_camera_area_exited"]

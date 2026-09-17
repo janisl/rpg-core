@@ -11,6 +11,7 @@ extends Actor
 @export var interaction_ray_cast: InteractionRayCast
 @export var stairs_ahead_ray_cast: RayCast3D
 @export var stairs_below_ray_cast: RayCast3D
+@export var weapon_controller: WeaponController
 
 @export_group("Movement settings")
 @export var jump_velocity := 5.0
