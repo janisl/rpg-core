@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://cpwn0d2y47285"]
+
+[ext_resource type="Script" uid="uid://0br6jvksrc2m" path="res://weapons/weapon_data.gd" id="1_tde8o"]
+[ext_resource type="Resource" uid="uid://vy6ngoc84hnn" path="res://weapons/resources/shotgun.tres" id="2_w81y6"]
+
+[resource]
+script = ExtResource("1_tde8o")
+weapon = ExtResource("2_w81y6")
+unlocked = true
+ammo = 12
+metadata/_custom_type_script = "uid://0br6jvksrc2m"
