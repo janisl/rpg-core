@@ -23,7 +23,7 @@ func _physics_process(delta: float) -> void:
 	var end_pos := global_position + velocity * delta
 
 	var query := PhysicsRayQueryParameters3D.create(start_pos, end_pos)
-	query.collision_mask = 1
+	query.collision_mask = collision_mask
 	query.exclude.append(source.get_rid())
 	var result = space_state.intersect_ray(query)
 
