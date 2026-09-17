@@ -45,7 +45,7 @@ radius = 0.3
 radius = 0.05
 
 [node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "weapon_controller") groups=["player"]]
-collision_layer = 769
+collision_layer = 771
 script = ExtResource("1_nvxhs")
 camera_controller = NodePath("CameraController")
 camera_effects = NodePath("CameraController/Camera")

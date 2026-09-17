@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c1c7ohtpkhsxw"]
+
+[ext_resource type="PackedScene" uid="uid://dx4ast6x47nj8" path="res://pickups/base_pickup.tscn" id="1_gr1x7"]
+[ext_resource type="Script" uid="uid://m0k3m5xnjf1r" path="res://pickups/ammo_pickup.gd" id="2_3rfrh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6g8e2"]
+albedo_color = Color(0.9294969, 0, 0.34051174, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bsiym"]
+material = SubResource("StandardMaterial3D_6g8e2")
+top_radius = 0.1
+bottom_radius = 0.2
+height = 0.3
+
+[node name="AmmoPickup" unique_id=1575555821 instance=ExtResource("1_gr1x7")]
+script = ExtResource("2_3rfrh")
+weapon_slot = 1
+ammount = 10
+
+[node name="Mesh" type="MeshInstance3D" parent="." index="1" unique_id=682754755]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("CylinderMesh_bsiym")

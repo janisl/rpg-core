@@ -40,6 +40,12 @@ func switch_to_slot(index: int) -> void:
 		player.weapon_controller.switch_weapon(weapon_data)
 
 
+func switch_to_weapon(weapon: Weapon) -> void:
+	for slot in range(1, 10):
+		if weapons.has(slot) and weapons[slot].weapon == weapon:
+			switch_to_slot(slot)
+
+
 func use_ammo(slot: int, amount: int = 1) -> void:
 	if slot in weapons:
 		weapons[slot].ammo = max(0, weapons[slot].ammo - amount)
@@ -47,3 +53,18 @@ func use_ammo(slot: int, amount: int = 1) -> void:
 
 func get_current_ammo() -> int:
 	return weapons[current_slot].ammo
+
+
+func get_weapon_data(weapon: Weapon) -> WeaponData:
+	for slot in range(1, 10):
+		if weapons.has(slot) and weapons[slot].weapon == weapon:
+			return weapons[slot]
+	return null
+
+
+func unlock_weapon(weapon: Weapon) -> void:
+	for slot in range(1, 10):
+		if weapons.has(slot) and weapons[slot].weapon == weapon:
+			weapons[slot].unlocked = true
+			weapons[slot].ammo = weapon.max_ammo
+			return

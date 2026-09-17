@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://df1jkmuafyjog"]
+
+[ext_resource type="PackedScene" uid="uid://dx4ast6x47nj8" path="res://pickups/base_pickup.tscn" id="1_kjngm"]
+[ext_resource type="Script" uid="uid://csd7gtnkead7x" path="res://pickups/weapon_pickup.gd" id="2_ap43w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u45fp"]
+albedo_color = Color(0, 0.42812783, 0.52928436, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_u45fp")
+size = Vector3(0.5, 0.2, 0.2)
+
+[node name="WeaponPickup" unique_id=1575555821 instance=ExtResource("1_kjngm")]
+script = ExtResource("2_ap43w")
+weapon_resource = null
+
+[node name="Mesh" type="MeshInstance3D" parent="." index="1" unique_id=1666838167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("BoxMesh_bsiym")
