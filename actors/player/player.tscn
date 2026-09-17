@@ -81,8 +81,10 @@ script = ExtResource("25_yeioo")
 player = NodePath("../..")
 metadata/_custom_type_script = "uid://cqmmur7bbutym"
 
-[node name="WeaponController" type="Node" parent="Components" unique_id=327890797 node_paths=PackedStringArray("weapon_model_parent", "weapon_state_chart")]
+[node name="WeaponController" type="Node" parent="Components" unique_id=327890797 node_paths=PackedStringArray("player", "camera", "weapon_model_parent", "weapon_state_chart")]
 script = ExtResource("6_2vokq")
+player = NodePath("../..")
+camera = NodePath("../../CameraController/Camera")
 weapon_model_parent = NodePath("../../CameraController/Camera")
 weapon_state_chart = NodePath("../../WeaponStateChart")
 current_weapon = ExtResource("7_tpopl")
