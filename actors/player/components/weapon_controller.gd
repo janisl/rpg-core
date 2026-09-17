@@ -7,19 +7,12 @@ extends Node
 @export var weapon_model_parent: Node3D
 @export var weapon_state_chart: StateChart
 @export_group("Weapon controller params")
-@export var current_weapon: Weapon
 @export_flags_3d_physics var hit_scan_collision_mask: int = 1
 
+var current_weapon: Weapon
 var current_weapon_model: Node3D
-var current_ammo: int
 var can_fire_next := true
 var fire_rate_timer := 0.0
-
-
-func _ready() -> void:
-	if current_weapon:
-		_spawn_weapon_model()
-		current_ammo = current_weapon.max_amo
 
 
 func _process(delta: float) -> void:
@@ -28,16 +21,28 @@ func _process(delta: float) -> void:
 		if fire_rate_timer <= 0:
 			can_fire_next = true
 
+
+func switch_weapon(data: WeaponData) -> void:
+	current_weapon = data.weapon
+	_spawn_weapon_model()
+	weapon_state_chart.send_event("onIdle")
+	print(current_weapon.weapon_name)
+
+
+func has_ammo() -> bool:
+	return Managers.weapon_manager.get_current_ammo() > 0
+
+
 func can_fire() -> bool:
-	return current_ammo > 0 and can_fire_next
+	return has_ammo() and can_fire_next
 
 
 func fire_weapon() -> void:
 	if not can_fire():
 		return
 
-	current_ammo -= 1
-	print("Fired! Ammo: ", current_ammo)
+	Managers.weapon_manager.use_ammo(Managers.weapon_manager.current_slot)
+	print("Fired! Ammo: ", Managers.weapon_manager.get_current_ammo())
 
 	can_fire_next = false
 	fire_rate_timer = 1.0 / current_weapon.fire_rate

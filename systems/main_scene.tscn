@@ -2,7 +2,13 @@
 
 [ext_resource type="Script" uid="uid://evqkcb6vtw01" path="res://systems/game_manager.gd" id="1_cwqfn"]
 [ext_resource type="PackedScene" uid="uid://d1m2ngmuqlqgn" path="res://levels/test.tscn" id="1_mvsfx"]
+[ext_resource type="Script" uid="uid://bwon6hfw00tle" path="res://systems/weapon_manager.gd" id="2_0k5wg"]
 [ext_resource type="PackedScene" uid="uid://6ygkwtxr8bbo" path="res://ui/user_interface.tscn" id="2_u5mqa"]
+[ext_resource type="Script" uid="uid://0br6jvksrc2m" path="res://weapons/weapon_data.gd" id="3_t7ptt"]
+[ext_resource type="Resource" uid="uid://dn5sgvryjp8dp" path="res://weapons/resources/pistol_data.tres" id="4_w7y08"]
+[ext_resource type="Resource" uid="uid://cpwn0d2y47285" path="res://weapons/resources/shotgun_data.tres" id="5_geecy"]
+[ext_resource type="Resource" uid="uid://dk73scibua7db" path="res://weapons/resources/laser_data.tres" id="6_fg0bx"]
+[ext_resource type="PackedScene" uid="uid://dmm1368oglfp0" path="res://actors/player/player.tscn" id="8_27o4d"]
 
 [node name="MainScene" type="Node" unique_id=384832263]
 
@@ -12,8 +18,20 @@
 script = ExtResource("1_cwqfn")
 metadata/_custom_type_script = "uid://evqkcb6vtw01"
 
+[node name="WeaponManager" type="Node" parent="Managers" unique_id=810250244 node_paths=PackedStringArray("player") groups=["weapon_manager"]]
+script = ExtResource("2_0k5wg")
+weapons = Dictionary[int, ExtResource("3_t7ptt")]({
+1: ExtResource("4_w7y08"),
+2: ExtResource("5_geecy"),
+3: ExtResource("6_fg0bx")
+})
+player = NodePath("../../CurrentLevel/Player")
+metadata/_custom_type_script = "uid://bwon6hfw00tle"
+
 [node name="CurrentLevel" type="Node3D" parent="." unique_id=892070186]
 
 [node name="Test" parent="CurrentLevel" unique_id=867766289 instance=ExtResource("1_mvsfx")]
+
+[node name="Player" parent="CurrentLevel" unique_id=86196454 instance=ExtResource("8_27o4d")]
 
 [node name="UserInterface" parent="." unique_id=82762904 instance=ExtResource("2_u5mqa")]

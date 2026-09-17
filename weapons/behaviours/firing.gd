@@ -12,7 +12,7 @@ func _on_state_physics_processing(_delta: float) -> void:
 	if not weapon_controller:
 		return
 
-	if weapon_controller.current_ammo <= 0:
+	if not weapon_controller.has_ammo():
 		weapon_controller.weapon_state_chart.send_event("onEmpty")
 		return
 

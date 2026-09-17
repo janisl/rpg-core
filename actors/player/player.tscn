@@ -11,7 +11,6 @@
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="5_15y17"]
 [ext_resource type="Script" uid="uid://bssifbouhjhmf" path="res://actors/player/components/weapon_controller.gd" id="6_2vokq"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="6_bop6h"]
-[ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://weapons/resources/pistol.tres" id="7_tpopl"]
 [ext_resource type="Script" uid="uid://dyr55krt5kuoq" path="res://actors/player/behaviours/grounded.gd" id="9_icg72"]
 [ext_resource type="Script" uid="uid://b2ayqipj6b7xe" path="res://actors/player/behaviours/idle.gd" id="11_lj3dd"]
 [ext_resource type="Script" uid="uid://b47bduygfbkju" path="res://actors/player/behaviours/walking.gd" id="13_lj3dd"]
@@ -45,7 +44,7 @@ radius = 0.3
 [sub_resource type="SphereShape3D" id="SphereShape3D_bsiym"]
 radius = 0.05
 
-[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "weapon_controller")]
+[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "weapon_controller") groups=["player"]]
 collision_layer = 769
 script = ExtResource("1_nvxhs")
 camera_controller = NodePath("CameraController")
@@ -87,7 +86,6 @@ player = NodePath("../..")
 camera = NodePath("../../CameraController/Camera")
 weapon_model_parent = NodePath("../../CameraController/Camera")
 weapon_state_chart = NodePath("../../WeaponStateChart")
-current_weapon = ExtResource("7_tpopl")
 metadata/_custom_type_script = "uid://bssifbouhjhmf"
 
 [node name="StateChartDebugger" parent="." unique_id=1438023907 instance=ExtResource("2_388e2")]

@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://k8m0m32cwhsd"]
 
-[ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://weapons/projectiles/test_projectile.tscn" id="1_8hv22"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://weapons/weapon.gd" id="1_lf8lp"]
 [ext_resource type="PackedScene" uid="uid://567vdvii3fg6" path="res://weapons/scenes/pistol.tscn" id="2_cm5tq"]
 
@@ -8,8 +7,5 @@
 script = ExtResource("1_lf8lp")
 weapon_name = "Pistol"
 is_automatic = true
-projectile_speed = 20.0
 weapon_scene = ExtResource("2_cm5tq")
-projectile_scene = ExtResource("1_8hv22")
-spread_angle = 0.1
 metadata/_custom_type_script = "uid://bjvp63efii4fn"

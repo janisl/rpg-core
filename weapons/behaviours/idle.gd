@@ -8,5 +8,5 @@ func _on_state_processing(delta: float) -> void:
 	if Input.is_action_just_pressed("primary_fire") and weapon_controller.can_fire():
 		weapon_controller.weapon_state_chart.send_event("onFiring")
 
-	if weapon_controller.current_ammo <= 0:
+	if not weapon_controller.has_ammo():
 		weapon_controller.weapon_state_chart.send_event("onEmpty")
