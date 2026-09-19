@@ -10,4 +10,5 @@ max_ammo = 80
 is_automatic = true
 weapon_scene = ExtResource("2_cm5tq")
 weapon_position = Vector3(0.14105655, -0.06323153, -0.18142417)
+vertical_lag_amount = 0.002
 metadata/_custom_type_script = "uid://bjvp63efii4fn"

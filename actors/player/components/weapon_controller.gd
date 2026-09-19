@@ -44,6 +44,14 @@ extends Node
 @export var recoil_model_max := 0.15
 @export_range(0, 90, 0.1, "radians_as_degrees") var recoil_pitch_max := 0.4
 
+@export_group("Vertical lag")
+@export var vertical_lag_enabled := true
+@export var vertical_lag_stiffness := 80.0
+@export var vertical_lag_damping := 12.0
+@export var vertical_lag_dead_zome := 0.05
+@export var vertical_lag_max := 0.03
+@export var vertical_lag_vel_max := 10.0
+
 var current_weapon: Weapon
 var current_weapon_model: Node3D
 var animation_player: AnimationPlayer
@@ -73,6 +81,11 @@ var _recoil_z := 0.0
 var _recoil_z_vel := 0.0
 var _recoil_pitch := 0.0
 var _recoil_pitch_vel := 0.0
+
+var _vertical_lag_y := 0.0
+var _vertical_lag_y_vel := 0.0
+var _prev_camera_y := 0.0
+var _vertical_lag_seeded := false
 
 
 func _process(delta: float) -> void:
@@ -226,10 +239,11 @@ func _apply_offsets(delta: float) -> void:
 	var look_offset := _update_look_sway(delta)
 	var bob_offset := _update_bob(delta)
 	var recoil_offset := _update_recoil(delta)
+	var vlag_offset := _update_vertical_lag(delta)
 
 	var strafe_tilt = _update_strafe_tilt(delta)
 
-	current_weapon_model.position = base_weapon_position + idle_offset + look_offset + bob_offset + recoil_offset
+	current_weapon_model.position = base_weapon_position + idle_offset + look_offset + bob_offset + recoil_offset + vlag_offset
 	current_weapon_model.rotation = Vector3(_recoil_pitch, 0.0, strafe_tilt)
 
 
@@ -395,3 +409,36 @@ func _update_recoil(delta: float) -> Vector3:
 	_recoil_pitch_vel = result_pitch.y
 
 	return Vector3(0.0, 0.0, _recoil_z)
+
+
+func _update_vertical_lag(delta: float) -> Vector3:
+	if not vertical_lag_enabled or not player or not current_weapon_model:
+		return Vector3.ZERO
+
+	var cam_y := player.camera_controller.global_position.y
+
+	if not _vertical_lag_seeded:
+		_prev_camera_y = cam_y
+		_vertical_lag_seeded = true
+		return Vector3.ZERO
+
+	var cam_vel_y := (cam_y - _prev_camera_y) / delta
+	_prev_camera_y = cam_y
+
+	cam_vel_y = clampf(cam_vel_y, -vertical_lag_vel_max, vertical_lag_vel_max)
+	if abs(cam_vel_y) < vertical_lag_dead_zome:
+		cam_vel_y = 0.0
+
+	var target_y := -cam_vel_y * current_weapon.vertical_lag_amount
+	var result = SpringUtil.apply(
+			_vertical_lag_y,
+			_vertical_lag_y_vel,
+			target_y,
+			vertical_lag_stiffness,
+			vertical_lag_damping,
+			delta
+	)
+	_vertical_lag_y = clampf(result.x, -vertical_lag_max, vertical_lag_max)
+	_vertical_lag_y_vel = result.y
+
+	return Vector3(0.0, _vertical_lag_y, 0.0)
