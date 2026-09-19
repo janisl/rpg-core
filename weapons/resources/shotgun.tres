@@ -15,4 +15,5 @@ weapon_scene = ExtResource("2_vy2tt")
 pellet_count = 8
 spread_angle = 0.1
 weapon_position = Vector3(0.15307574, -0.1009149, -0.18142417)
+recoil_cam_pitch = 0.08726646259971647
 metadata/_custom_type_script = "uid://bjvp63efii4fn"

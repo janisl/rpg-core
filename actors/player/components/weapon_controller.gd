@@ -20,7 +20,7 @@ extends Node
 @export_group("Look lag")
 @export var look_lag_enabled := true
 @export var look_lag_dividor := 20.0
-@export_range(0, 90, 0.1, "radians_as_degrees") var look_lag_rot_max := 30.0 * PI / 180.0
+@export_range(0, 90, 0.1, "radians_as_degrees") var look_lag_rot_max := deg_to_rad(30.0)
 @export var look_lag_pos_scale := 0.1
 
 @export_group("Strafe tilt")
@@ -36,6 +36,13 @@ extends Node
 @export var bob_max_speed := 10.0
 @export var bob_stiffness := 60.0
 @export var bob_damping := 10.0
+
+@export_group("Recoil")
+@export var recoil_enabled := true
+@export var recoil_stiffness := 200.0
+@export var recoil_damping := 11.0
+@export var recoil_model_max := 0.15
+@export_range(0, 90, 0.1, "radians_as_degrees") var recoil_pitch_max := 0.4
 
 var current_weapon: Weapon
 var current_weapon_model: Node3D
@@ -61,6 +68,11 @@ var _bob_x := 0.0
 var _bob_y := 0.0
 var _bob_x_vel := 0.0
 var _bob_y_vel := 0.0
+
+var _recoil_z := 0.0
+var _recoil_z_vel := 0.0
+var _recoil_pitch := 0.0
+var _recoil_pitch_vel := 0.0
 
 
 func _process(delta: float) -> void:
@@ -98,6 +110,13 @@ func fire_weapon() -> void:
 	can_fire_next = false
 	fire_rate_timer = 1.0 / current_weapon.fire_rate
 
+	camera.add_recoil(
+		current_weapon.recoil_cam_pitch,
+		current_weapon.recoil_cam_yaw,
+		current_weapon.recoil_cam_roll)
+	if recoil_enabled:
+		_add_model_recoil()
+
 	if current_weapon.is_hit_scan:
 		_perform_hit_scan()
 	else:
@@ -119,6 +138,10 @@ func _spawn_weapon_model() -> void:
 	_bob_y = 0
 	_bob_x_vel = 0
 	_bob_y_vel = 0
+	_recoil_z = 0.0
+	_recoil_z_vel = 0.0
+	_recoil_pitch = 0.0
+	_recoil_pitch_vel = 0.0
 
 
 func _perform_hit_scan() -> void:
@@ -140,7 +163,7 @@ func _perform_hit_scan() -> void:
 			var spread_y := randf_range(-current_weapon.spread_angle, current_weapon.spread_angle)
 			direction += Vector3(spread_x, spread_y, 0) * camera.global_transform.basis
 
-		var to := from + direction * current_weapon.range
+		var to := from + direction * current_weapon.hit_scan_range
 
 		var query := PhysicsRayQueryParameters3D.create(from, to)
 		query.collision_mask = hit_scan_collision_mask
@@ -202,11 +225,12 @@ func _apply_offsets(delta: float) -> void:
 	var idle_offset := _update_idle_sway(delta)
 	var look_offset := _update_look_sway(delta)
 	var bob_offset := _update_bob(delta)
+	var recoil_offset := _update_recoil(delta)
 
 	var strafe_tilt = _update_strafe_tilt(delta)
 
-	current_weapon_model.position = base_weapon_position + idle_offset + look_offset + bob_offset
-	current_weapon_model.rotation = Vector3(0.0, 0.0, strafe_tilt)
+	current_weapon_model.position = base_weapon_position + idle_offset + look_offset + bob_offset + recoil_offset
+	current_weapon_model.rotation = Vector3(_recoil_pitch, 0.0, strafe_tilt)
 
 
 func _update_idle_sway(delta: float) -> Vector3:
@@ -336,3 +360,38 @@ func _update_bob(delta: float) -> Vector3:
 	_bob_y_vel = result_y.y
 
 	return Vector3(_bob_x, _bob_y, 0.0)
+
+
+func _add_model_recoil() -> void:
+	_recoil_z += current_weapon.recoil_model_kickback
+	_recoil_pitch += current_weapon.recoil_model_rise
+
+
+func _update_recoil(delta: float) -> Vector3:
+	if not recoil_enabled:
+		_recoil_pitch = 0.0
+		return Vector3.ZERO
+
+	var result_z = SpringUtil.apply(
+			_recoil_z,
+			_recoil_z_vel,
+			0.0,
+			recoil_stiffness,
+			recoil_damping,
+			delta
+	)
+	_recoil_z = clampf(result_z.x, -recoil_model_max, recoil_model_max)
+	_recoil_z_vel = result_z.y
+
+	var result_pitch = SpringUtil.apply(
+			_recoil_pitch,
+			_recoil_pitch_vel,
+			0.0,
+			recoil_stiffness,
+			recoil_damping,
+			delta
+	)
+	_recoil_pitch = clampf(result_pitch.x, -recoil_pitch_max, recoil_pitch_max)
+	_recoil_pitch_vel = result_pitch.y
+
+	return Vector3(0.0, 0.0, _recoil_z)

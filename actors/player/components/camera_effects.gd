@@ -19,9 +19,11 @@ extends Camera3D
 @export var enable_damage_kick := true
 @export var damage_time := 0.3
 
-@export_group("Weapon kick")
-@export var enable_weapon_kick := true
-@export var weapon_decay := 0.5
+@export_group("Recoil")
+@export var enable_recoil := true
+@export var recoil_stiffness := 80.0
+@export var recoil_damping := 10.0
+@export_range(0, 90, 0.1, "radians_as_degrees") var recoil_max := deg_to_rad(50.0)
 
 @export_group("Screen shake")
 @export var enable_screen_shake := true
@@ -43,7 +45,8 @@ var _damage_pitch := 0.0
 var _damage_roll := 0.0
 var _damage_timer := 0.0
 
-var _weapon_kick_angles := Vector3.ZERO
+var _recoil_angles := Vector3.ZERO
+var _recoil_velocity := Vector3.ZERO
 
 var _screen_shake_tween: Tween
 
@@ -61,10 +64,10 @@ func add_fall_kick(fall_strength: float) -> void:
 	_fall_timer = fall_time
 
 
-func add_weapon_kick(pitch: float, yaw: float, roll: float) -> void:
-	_weapon_kick_angles.x += deg_to_rad(pitch)
-	_weapon_kick_angles.y += deg_to_rad(randf_range(-yaw, yaw))
-	_weapon_kick_angles.z += deg_to_rad(randf_range(-roll, roll))
+func add_recoil(pitch: float, yaw: float, roll: float) -> void:
+	_recoil_angles.x += pitch
+	_recoil_angles.y += randf_range(-yaw, yaw)
+	_recoil_angles.z += randf_range(-roll, roll)
 
 
 func add_damage_kick(pitch: float, roll: float, source: Vector3) -> void:
@@ -129,9 +132,20 @@ func _calcuate_view_offset(delta: float) -> void:
 		angles.x -= damage_ratio * _damage_pitch
 		angles.z -= damage_ratio * _damage_roll
 
-	if enable_weapon_kick:
-		_weapon_kick_angles = _weapon_kick_angles.move_toward(Vector3.ZERO, weapon_decay * delta)
-		angles += _weapon_kick_angles
+	if enable_recoil:
+		var d = min(delta, 0.05)
+		for axis in 3:
+			var result = SpringUtil.apply(
+					_recoil_angles[axis],
+					_recoil_velocity[axis],
+					0.0,
+					recoil_stiffness,
+					recoil_damping,
+					d)
+			_recoil_angles[axis] = clampf(result.x, -recoil_max, recoil_max)
+			_recoil_velocity[axis] = result.y
+
+		angles += _recoil_angles
 
 	if enable_headbob:
 		var pitch_delta = bob_sin * deg_to_rad(bob_pitch) * speed
