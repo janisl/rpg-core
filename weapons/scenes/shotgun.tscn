@@ -1,14 +1,16 @@
-[gd_scene format=3 uid="uid://567vdvii3fg6"]
+[gd_scene format=3 uid="uid://br2mplv6cjpjb"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vgx7n"]
-albedo_color = Color(0.26536053, 0.26536053, 0.2653605, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wutjk"]
+albedo_color = Color(0.3791798, 0.3791798, 0.37917978, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
-material = SubResource("StandardMaterial3D_vgx7n")
-size = Vector3(0.02, 0.05, 0.2)
+[sub_resource type="CylinderMesh" id="CylinderMesh_58473"]
+material = SubResource("StandardMaterial3D_wutjk")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rghg7"]
-albedo_color = Color(0.3118496, 0.31184962, 0.3118496, 1)
+albedo_color = Color(0.47794926, 0.24290296, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_rdqwp"]
 material = SubResource("StandardMaterial3D_rghg7")
@@ -27,16 +29,16 @@ height = 0.3
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14105655, -0.06323153, -0.18142417)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15307574, -0.1009149, -0.18142417)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=96319735]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028, -0.052133262)
-mesh = SubResource("BoxMesh_bsiym")
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.028, -0.24706843)
+mesh = SubResource("CylinderMesh_58473")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Meshes" unique_id=1199806293]
-transform = Transform3D(1, 0, 0, 0, 0.9697883, 0.24394794, 0, -0.24394794, 0.9697883, 0, -0.03, 0.045)
+transform = Transform3D(1, 0, 0, 0, 0.5037843, 0.86382955, 0, -0.86382955, 0.5037843, 0, -0.020931177, 0.10458866)
 mesh = SubResource("BoxMesh_rdqwp")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Meshes" unique_id=34653514]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.047, 0.162)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.008923039, 0.1864188)
 mesh = SubResource("CylinderMesh_bsiym")

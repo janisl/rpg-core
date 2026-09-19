@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://weapons/projectiles/test_projectile.tscn" id="1_shorh"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://weapons/weapon.gd" id="2_jpsys"]
-[ext_resource type="PackedScene" uid="uid://567vdvii3fg6" path="res://weapons/scenes/pistol.tscn" id="3_88554"]
+[ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://weapons/scenes/laser.tscn" id="3_shorh"]
 
 [resource]
 script = ExtResource("2_jpsys")
@@ -11,6 +11,6 @@ max_ammo = 100
 is_automatic = true
 accuracy = 90
 is_hit_scan = false
-weapon_scene = ExtResource("3_88554")
+weapon_scene = ExtResource("3_shorh")
 projectile_scene = ExtResource("1_shorh")
 metadata/_custom_type_script = "uid://bjvp63efii4fn"
