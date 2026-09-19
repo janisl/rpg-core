@@ -9,4 +9,5 @@ weapon_name = "Pistol"
 max_ammo = 80
 is_automatic = true
 weapon_scene = ExtResource("2_cm5tq")
+weapon_position = Vector3(0.14105655, -0.06323153, -0.18142417)
 metadata/_custom_type_script = "uid://bjvp63efii4fn"

@@ -17,11 +17,18 @@ extends Node
 @export var idle_sway_stiffness := 40.0
 @export var idle_sway_damping := 10.0
 
-@export_group("Look sway")
+@export_group("Look lag")
 @export var look_lag_enabled := true
 @export var look_lag_dividor := 20.0
-@export var look_lag_rot_max := 30.0
+@export_range(0, 90, 0.1, "radians_as_degrees") var look_lag_rot_max := 30.0 * PI / 180.0
 @export var look_lag_pos_scale := 0.1
+
+@export_group("Strafe tilt")
+@export var strafe_tilt_enabled := true
+@export var strafe_tilt_scale := 0.3
+@export_range(0, 90, 0.1, "radians_as_degrees") var strafe_tilt_max := 0.08
+@export var strafe_tilt_stiffness := 80.0
+@export var strafe_tilt_damping := 10.0
 
 var current_weapon: Weapon
 var current_weapon_model: Node3D
@@ -39,6 +46,9 @@ var _idle_y_vel := 0.0
 
 var _prev_camera_rotation := Vector3.ZERO
 var _cam_rot_rate := Vector3.ZERO
+
+var _strafe_tilt := 0.0
+var _strafe_tilt_vel := 0.0
 
 
 func _process(delta: float) -> void:
@@ -176,14 +186,13 @@ func _apply_offsets(delta: float) -> void:
 	var idle_offset := _update_idle_sway(delta)
 	var look_offset := _update_look_sway(delta)
 
-	current_weapon_model.position = base_weapon_position + idle_offset + look_offset
+	var strafe_tilt = _update_strafe_tilt(delta)
 
+	current_weapon_model.position = base_weapon_position + idle_offset + look_offset
+	current_weapon_model.rotation = Vector3(0.0, 0.0, strafe_tilt)
 
 func _update_idle_sway(delta: float) -> Vector3:
-	if not idle_sway_enabled:
-		return Vector3.ZERO
-
-	if not current_weapon_model:
+	if not idle_sway_enabled or not current_weapon_model:
 		return Vector3.ZERO
 
 	idle_time += delta
@@ -223,10 +232,7 @@ func _update_idle_sway(delta: float) -> Vector3:
 
 
 func _update_look_sway(delta: float) -> Vector3:
-	if not look_lag_enabled:
-		return Vector3.ZERO
-
-	if not camera:
+	if not look_lag_enabled or not camera:
 		return Vector3.ZERO
 
 	var cam_rot := camera.global_rotation
@@ -237,16 +243,15 @@ func _update_look_sway(delta: float) -> Vector3:
 			0.0)
 	_prev_camera_rotation = cam_rot
 
-	var max_rad := deg_to_rad(look_lag_rot_max)
-	rot_delta.x = clampf(rot_delta.x, -max_rad, max_rad)
-	rot_delta.y = clampf(rot_delta.y, -max_rad, max_rad)
+	rot_delta.x = clampf(rot_delta.x, -look_lag_rot_max, look_lag_rot_max)
+	rot_delta.y = clampf(rot_delta.y, -look_lag_rot_max, look_lag_rot_max)
 	rot_delta.z = 0.0
 
 	var interp_speed := (1.0 / delta) / look_lag_dividor
 	_cam_rot_rate = _cam_rot_rate.lerp(rot_delta, clamp(interp_speed * delta, 0.0, 1.0))
 
-	var norm_pitch := _cam_rot_rate.x / max_rad if max_rad > 0.0 else 0.0
-	var norm_yaw := _cam_rot_rate.y / max_rad if max_rad > 0.0 else 0.0
+	var norm_pitch := _cam_rot_rate.x / look_lag_rot_max if look_lag_rot_max > 0.0 else 0.0
+	var norm_yaw := _cam_rot_rate.y / look_lag_rot_max if look_lag_rot_max > 0.0 else 0.0
 	var look_pos := Vector3(
 			norm_yaw * look_lag_pos_scale,
 			norm_pitch * -look_lag_pos_scale,
@@ -254,3 +259,34 @@ func _update_look_sway(delta: float) -> Vector3:
 	)
 
 	return look_pos
+
+
+func _update_strafe_tilt(delta: float) -> float:
+	if not strafe_tilt_enabled or not player or not camera:
+		return 0.0
+
+	var local_velocity := camera.global_transform.basis.inverse() * player.velocity
+
+	var xz := Vector2(local_velocity.x, local_velocity.z)
+	var xz_speed := xz.length()
+
+	var lateral_fraction: float = abs(xz.x) / xz_speed if xz_speed > 0.1 else 0.0
+
+	var tilt_target = clamp(
+			-local_velocity.x * lateral_fraction * strafe_tilt_scale,
+			-strafe_tilt_max,
+			strafe_tilt_max
+	)
+
+	var result = SpringUtil.apply(
+			_strafe_tilt,
+			_strafe_tilt_vel,
+			tilt_target,
+			strafe_tilt_stiffness,
+			strafe_tilt_damping,
+			delta
+	)
+	_strafe_tilt = result.x
+	_strafe_tilt_vel = result.y
+
+	return _strafe_tilt

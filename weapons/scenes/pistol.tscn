@@ -69,7 +69,6 @@ _data = {
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14105655, -0.06323153, -0.18142417)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=96319735]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028, -0.052133262)
