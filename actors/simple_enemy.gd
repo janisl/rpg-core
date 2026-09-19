@@ -41,6 +41,10 @@ func on_triggered() -> void:
 	state_chart.send_event("onChase")
 
 
+func on_trigger(_player: Player) -> void:
+	state_chart.send_event("onChase")
+
+
 func _on_velocity_computed(safe_velocity: Vector3) -> void:
 	var target_velocity = Vector3(safe_velocity.x, velocity.y, safe_velocity.z)
 	var accel = acceleration if not safe_velocity.is_zero_approx() else deceleration

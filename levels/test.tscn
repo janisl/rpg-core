@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cj1cbhi5vwsb5" path="res://props/destructible_box.tscn" id="6_6g8e2"]
 [ext_resource type="PackedScene" uid="uid://djilda64tb5p8" path="res://pickups/health_pickup.tscn" id="7_u45fp"]
 [ext_resource type="PackedScene" uid="uid://dtaji4kxnotrq" path="res://actors/simple_enemy.tscn" id="8_2grjb"]
+[ext_resource type="Script" uid="uid://dkyw6ncoxwu4k" path="res://utils/triggers/trigger_volume.gd" id="9_qhvcx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rghg7"]
 albedo_color = Color(0, 0.38844073, 0.07338921, 1)
@@ -111,22 +112,22 @@ background_color = Color(7.70092e-07, 0.68970317, 0.8517272, 1)
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_2grjb"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qhvcx"]
 resource_local_to_scene = true
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qhvcx"]
-resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_2grjb")
-seamless = true
-as_normal_map = true
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kqvnf"]
 resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_2grjb")
+noise = SubResource("FastNoiseLite_qhvcx")
 seamless = true
 as_normal_map = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eudka"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_eudka"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_qhvcx")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qtvpr"]
 resource_local_to_scene = true
 transparency = 1
 cull_mode = 2
@@ -134,9 +135,9 @@ depth_draw_mode = 1
 albedo_color = Color(0.30980393, 0.5411765, 0.8666667, 0.3882353)
 roughness = 0.0
 normal_enabled = true
-normal_texture = SubResource("NoiseTexture2D_qhvcx")
+normal_texture = SubResource("NoiseTexture2D_kqvnf")
 refraction_enabled = true
-refraction_texture = SubResource("NoiseTexture2D_kqvnf")
+refraction_texture = SubResource("NoiseTexture2D_eudka")
 uv1_scale = Vector3(0.04, 0.04, 0.04)
 uv1_triplanar = true
 uv1_world_triplanar = true
@@ -158,6 +159,8 @@ albedo_color = Color(0.05188883, 0.5375777, 0.6576247, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_bsiym"]
 material = SubResource("StandardMaterial3D_rdqwp")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g5r3q"]
 
 [node name="Test" type="Node3D" unique_id=867766289]
 
@@ -417,7 +420,7 @@ environment = SubResource("Environment_bsiym")
 [node name="SwimmableArea" parent="." unique_id=788056043 instance=ExtResource("2_lkjt4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2.4, -5)
 size = Vector3(10, 5, 10)
-material = SubResource("StandardMaterial3D_eudka")
+material = SubResource("StandardMaterial3D_qtvpr")
 
 [node name="Ladder" type="Node3D" parent="." unique_id=1971942035]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4.5, 2.5, -1)
@@ -500,3 +503,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.060729, 2.3841858e-07, -3.5
 
 [node name="DestructibleBox2" parent="Decorations" unique_id=1727946077 instance=ExtResource("6_6g8e2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5308132, 2.3841858e-07, -3.556786)
+
+[node name="TriggerVolume" type="Area3D" parent="." unique_id=355576465]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6120062, -3.497616)
+script = ExtResource("9_qhvcx")
+metadata/_custom_type_script = "uid://dkyw6ncoxwu4k"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerVolume" unique_id=1153436555]
+shape = SubResource("BoxShape3D_g5r3q")
+
+[connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]
+[connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy4" method="on_trigger"]

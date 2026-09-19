@@ -33,7 +33,7 @@ enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg")
 
 [global_group]
 
-player=""
+player="Current player"
 
 [input]
 
