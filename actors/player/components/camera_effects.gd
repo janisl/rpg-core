@@ -47,7 +47,7 @@ var _weapon_kick_angles := Vector3.ZERO
 
 var _screen_shake_tween: Tween
 
-var _step_timer := 0.0
+var step_timer := 0.0
 
 var _swimmable_areas: Array[Area3D]
 
@@ -97,11 +97,11 @@ func _calcuate_view_offset(delta: float) -> void:
 
 	var speed = Vector2(velocity.x, velocity.z).length()
 	if speed > 0.1 and player.is_on_floor():
-		_step_timer += delta * (speed / bob_frequency)
-		_step_timer = fmod(_step_timer, 1.0)
+		step_timer += delta * (speed / bob_frequency)
+		step_timer = fmod(step_timer, 1.0)
 	else:
-		_step_timer = 0.0
-	var bob_sin = sin(_step_timer * 2.0 * PI) * 0.5
+		step_timer = 0.0
+	var bob_sin = sin(step_timer * 2.0 * PI) * 0.5
 
 	var angles := Vector3.ZERO
 	var offset := Vector3.ZERO

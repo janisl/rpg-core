@@ -3,7 +3,7 @@ extends Node
 
 @export_group("References")
 @export var player: Player
-@export var camera: Camera3D
+@export var camera: CameraEffects
 @export var weapon_model_parent: Node3D
 @export var weapon_state_chart: StateChart
 
@@ -30,6 +30,13 @@ extends Node
 @export var strafe_tilt_stiffness := 80.0
 @export var strafe_tilt_damping := 10.0
 
+@export_group("Weapon bob")
+@export var bob_enabled := true
+@export var bob_amplitude := Vector2(0.02, 0.012)
+@export var bob_max_speed := 10.0
+@export var bob_stiffness := 60.0
+@export var bob_damping := 10.0
+
 var current_weapon: Weapon
 var current_weapon_model: Node3D
 var animation_player: AnimationPlayer
@@ -49,6 +56,11 @@ var _cam_rot_rate := Vector3.ZERO
 
 var _strafe_tilt := 0.0
 var _strafe_tilt_vel := 0.0
+
+var _bob_x := 0.0
+var _bob_y := 0.0
+var _bob_x_vel := 0.0
+var _bob_y_vel := 0.0
 
 
 func _process(delta: float) -> void:
@@ -103,6 +115,10 @@ func _spawn_weapon_model() -> void:
 	current_weapon_model.position = current_weapon.weapon_position
 	base_weapon_position = current_weapon.weapon_position
 	animation_player = current_weapon_model.get_node("AnimationPlayer")
+	_bob_x = 0
+	_bob_y = 0
+	_bob_x_vel = 0
+	_bob_y_vel = 0
 
 
 func _perform_hit_scan() -> void:
@@ -185,11 +201,13 @@ func _apply_damage_to_target(target: Node3D) -> void:
 func _apply_offsets(delta: float) -> void:
 	var idle_offset := _update_idle_sway(delta)
 	var look_offset := _update_look_sway(delta)
+	var bob_offset := _update_bob(delta)
 
 	var strafe_tilt = _update_strafe_tilt(delta)
 
-	current_weapon_model.position = base_weapon_position + idle_offset + look_offset
+	current_weapon_model.position = base_weapon_position + idle_offset + look_offset + bob_offset
 	current_weapon_model.rotation = Vector3(0.0, 0.0, strafe_tilt)
+
 
 func _update_idle_sway(delta: float) -> Vector3:
 	if not idle_sway_enabled or not current_weapon_model:
@@ -248,7 +266,7 @@ func _update_look_sway(delta: float) -> Vector3:
 	rot_delta.z = 0.0
 
 	var interp_speed := (1.0 / delta) / look_lag_dividor
-	_cam_rot_rate = _cam_rot_rate.lerp(rot_delta, clamp(interp_speed * delta, 0.0, 1.0))
+	_cam_rot_rate = _cam_rot_rate.lerp(rot_delta, clampf(interp_speed * delta, 0.0, 1.0))
 
 	var norm_pitch := _cam_rot_rate.x / look_lag_rot_max if look_lag_rot_max > 0.0 else 0.0
 	var norm_yaw := _cam_rot_rate.y / look_lag_rot_max if look_lag_rot_max > 0.0 else 0.0
@@ -272,7 +290,7 @@ func _update_strafe_tilt(delta: float) -> float:
 
 	var lateral_fraction: float = abs(xz.x) / xz_speed if xz_speed > 0.1 else 0.0
 
-	var tilt_target = clamp(
+	var tilt_target = clampf(
 			-local_velocity.x * lateral_fraction * strafe_tilt_scale,
 			-strafe_tilt_max,
 			strafe_tilt_max
@@ -290,3 +308,31 @@ func _update_strafe_tilt(delta: float) -> float:
 	_strafe_tilt_vel = result.y
 
 	return _strafe_tilt
+
+
+func _update_bob(delta: float) -> Vector3:
+	if not bob_enabled or not current_weapon_model or not camera or not player:
+		return Vector3.ZERO
+
+	var phase := camera.step_timer
+	var speed := Vector2(player.velocity.x, player.velocity.z).length()
+
+	var target_x := 0.0
+	var target_y := 0.0
+
+	if speed >= 0.1:
+		var speed_factor := clampf(speed / bob_max_speed, 0.0, 1.0)
+		var angle := phase * TAU
+
+		target_x = sin(angle) * bob_amplitude.x * speed_factor
+		target_y = sin(angle * 2.0) * bob_amplitude.y * speed_factor
+
+	var result_x := SpringUtil.apply(_bob_x, _bob_x_vel, target_x, bob_stiffness, bob_damping, delta)
+	_bob_x = result_x.x
+	_bob_x_vel = result_x.y
+
+	var result_y := SpringUtil.apply(_bob_y, _bob_y_vel, target_y, bob_stiffness, bob_damping, delta)
+	_bob_y = result_y.x
+	_bob_y_vel = result_y.y
+
+	return Vector3(_bob_x, _bob_y, 0.0)
