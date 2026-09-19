@@ -4,6 +4,8 @@ extends Enemy
 @export var follow_speed := 3.0
 @export var acceleration := 4.0
 @export var deceleration := 5.0
+@export var melee_range := 1.0
+@export var melee_damage := 10.0
 
 @onready var nav_agent: NavigationAgent3D = $NavAgent
 @onready var state_chart: StateChart = $StateChart
@@ -32,7 +34,7 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 
 	move_and_slide()
-	update_blends()
+	_update_blends()
 
 
 func on_triggered() -> void:
@@ -59,12 +61,17 @@ func _on_chase_state_physics_processing(delta: float) -> void:
 
 	nav_agent.target_position = target.global_position
 
+	var distance = global_position.distance_to(target.global_position)
+	if distance <= melee_range:
+		state_chart.send_event("onMelee")
+		return
+
 	if nav_agent.is_navigation_finished():
 		nav_agent.velocity = Vector3.ZERO
 		return
 
 	var next_pos := nav_agent.get_next_path_position()
-	var direction := (next_pos - global_position).normalized()
+	var direction := global_position.direction_to(next_pos)
 
 	nav_agent.velocity = direction * follow_speed
 	if not nav_agent.avoidance_enabled:
@@ -80,7 +87,45 @@ func _on_detection_area_body_entered(body: Node3D) -> void:
 		on_triggered()
 
 
-func update_blends() -> void:
+func _update_blends() -> void:
 	var move_amount = velocity.length()
 	move_amount = remap(move_amount, 0.0, follow_speed, 0.0, 1.0)
 	animation_tree["parameters/Chase/IdleChaseBlend/blend_position"] = move_amount
+
+
+func _attack() -> void:
+	velocity = Vector3.ZERO
+	nav_agent.velocity = Vector3.ZERO
+
+	if target:
+		var direction = global_position.direction_to(target.global_position)
+		var target_rotation = atan2(direction.x, direction.z)
+		rotation.y = target_rotation
+		_apply_damage_to_target()
+
+	if anim_tree_state.get_current_node() != "Melee":
+		anim_tree_state.travel("Melee")
+	else:
+		anim_tree_state.start("Melee")
+
+	await animation_tree.animation_finished
+
+	if target:
+		var distance = global_position.distance_to(target.global_position)
+		if distance <= melee_range:
+			_attack()
+		else:
+			state_chart.send_event("onChase")
+	else:
+		state_chart.send_event("onIdle")
+
+
+func _on_melee_state_entered() -> void:
+	_attack()
+
+
+func _apply_damage_to_target() -> void:
+	var health_component := target.get_node_or_null("HealthComponent") as HealthComponent
+
+	if health_component:
+		health_component.take_damage(melee_damage, self)
