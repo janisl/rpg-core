@@ -15,4 +15,5 @@ weapon_position = Vector3(0.14105655, -0.06323153, -0.18142417)
 is_hit_scan = false
 projectile_scene = ExtResource("1_shorh")
 vertical_lag_amount = 0.002
+muzzle_light_color = Color(1, 0.50995165, 0.67012393, 1)
 metadata/_custom_type_script = "uid://bjvp63efii4fn"

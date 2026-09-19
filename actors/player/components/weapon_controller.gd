@@ -55,6 +55,8 @@ extends Node
 var current_weapon: Weapon
 var current_weapon_model: Node3D
 var animation_player: AnimationPlayer
+var _muzzle_flash: MuzzleFlash
+
 var can_fire_next := true
 var fire_rate_timer := 0.0
 
@@ -130,6 +132,12 @@ func fire_weapon() -> void:
 	if recoil_enabled:
 		_add_model_recoil()
 
+	if _muzzle_flash:
+		_muzzle_flash.flash(
+				current_weapon.muzzle_light_color,
+				current_weapon.muzzle_light_energy,
+				current_weapon.muzzle_light_duration)
+
 	if current_weapon.is_hit_scan:
 		_perform_hit_scan()
 	else:
@@ -147,10 +155,17 @@ func _spawn_weapon_model() -> void:
 	current_weapon_model.position = current_weapon.weapon_position
 	base_weapon_position = current_weapon.weapon_position
 	animation_player = current_weapon_model.get_node("AnimationPlayer")
+
+	var found := current_weapon_model.find_children("*", "MuzzleFlash", true, false)
+	_muzzle_flash = found[0] if not found.is_empty() else null
+	if _muzzle_flash:
+		_muzzle_flash.configure(current_weapon)
+
 	_bob_x = 0
 	_bob_y = 0
 	_bob_x_vel = 0
 	_bob_y_vel = 0
+
 	_recoil_z = 0.0
 	_recoil_z_vel = 0.0
 	_recoil_pitch = 0.0

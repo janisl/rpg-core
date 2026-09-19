@@ -1,5 +1,9 @@
 [gd_scene format=3 uid="uid://567vdvii3fg6"]
 
+[ext_resource type="Script" uid="uid://cq26ne1ptp811" path="res://weapons/muzzle_flash/muzzle_flash.gd" id="1_iwwi5"]
+[ext_resource type="Material" uid="uid://bvraypbw2als4" path="res://weapons/muzzle_flash/muzzle_flash_particle_process_material.tres" id="2_or41q"]
+[ext_resource type="QuadMesh" uid="uid://pgxrbqp1fck1" path="res://weapons/muzzle_flash/muzzle_flash_particle_mesh.tres" id="3_or41q"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vgx7n"]
 albedo_color = Color(0.26536053, 0.26536053, 0.2653605, 1)
 
@@ -84,3 +88,22 @@ mesh = SubResource("CylinderMesh_bsiym")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2117961768]
 libraries/ = SubResource("AnimationLibrary_or41q")
+
+[node name="MuzzleFlash" type="Node3D" parent="." unique_id=175280317 node_paths=PackedStringArray("particles", "light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.036589243, -0.15508378)
+script = ExtResource("1_iwwi5")
+particles = NodePath("Particles")
+light = NodePath("Light")
+metadata/_custom_type_script = "uid://cq26ne1ptp811"
+
+[node name="Particles" type="GPUParticles3D" parent="MuzzleFlash" unique_id=350077096]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+emitting = false
+amount = 12
+lifetime = 0.05
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("2_or41q")
+draw_pass_1 = ExtResource("3_or41q")
+
+[node name="Light" type="OmniLight3D" parent="MuzzleFlash" unique_id=1909005269]

@@ -33,3 +33,12 @@ extends Resource
 
 @export_group("Vertical lag")
 @export var vertical_lag_amount := 0.0
+
+@export_group("Muzzle flash")
+@export var muzzle_flash_enabled := true
+@export var muzzle_process_material: ParticleProcessMaterial
+@export var muzzle_flash_mesh: Mesh
+@export var muzzle_light_color := Color(1.0, 0.8, 0.4)
+@export var muzzle_light_energy := 10.0
+@export var muzzle_light_duration := 0.05
+@export var muzzle_flash_scale := 0.2
