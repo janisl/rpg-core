@@ -6,6 +6,7 @@ extends Enemy
 @onready var nav_agent: NavigationAgent3D = $NavAgent
 @onready var state_chart: StateChart = $StateChart
 @onready var health_component: HealthComponent = $HealthComponent
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var target: Node3D
 
@@ -17,6 +18,9 @@ func _ready() -> void:
 
 	health_component.died.connect(_on_died)
 	nav_agent.velocity_computed.connect(_on_velocity_computed)
+
+	animation_player.play("idle")
+	animation_player.seek(randf_range(0.0, animation_player.current_animation.length()))
 
 
 func _physics_process(delta: float) -> void:
@@ -47,12 +51,17 @@ func _on_chase_state_physics_processing(delta: float) -> void:
 
 	if nav_agent.is_navigation_finished():
 		nav_agent.velocity = Vector3.ZERO
+		if animation_player.current_animation != "idle":
+			animation_player.play("idle")
 		return
 
 	var next_pos := nav_agent.get_next_path_position()
 	var direction := (next_pos - global_position).normalized()
 
 	nav_agent.velocity = direction * follow_speed
+
+	if animation_player.current_animation != "run":
+		animation_player.play("run")
 
 	if not direction.is_zero_approx():
 		var target_rotation := atan2(direction.x, direction.z)
