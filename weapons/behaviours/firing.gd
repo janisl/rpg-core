@@ -22,4 +22,5 @@ func _on_state_physics_processing(_delta: float) -> void:
 				weapon_controller.fire_weapon()
 			return
 
-	weapon_controller.weapon_state_chart.send_event("onIdle")
+	if not weapon_controller.animation_player.is_playing():
+		weapon_controller.weapon_state_chart.send_event("onIdle")

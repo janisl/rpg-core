@@ -25,6 +25,108 @@ top_radius = 0.03
 bottom_radius = 0.03
 height = 0.3
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k02qh"]
+albedo_color = Color(0, 0.83089256, 0.5035127, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_rdqwp"]
+material = SubResource("StandardMaterial3D_k02qh")
+inner_radius = 0.01
+outer_radius = 0.06
+rings = 8
+ring_segments = 16
+
+[sub_resource type="Animation" id="Animation_w1e1l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Meshes/MeshInstance3D4:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.5707964, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Meshes/MeshInstance3D4:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.029912367, -0.019753918)]
+}
+
+[sub_resource type="Animation" id="Animation_k02qh"]
+resource_name = "fire"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Meshes/MeshInstance3D4:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.5707964, 0, 0), Vector3(1.5707964, 6.2831855, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Meshes/MeshInstance3D4:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.029912367, -0.019753918), Vector3(0, 0.029912367, -0.11192846), Vector3(0, 0.029912367, -0.019753918)]
+}
+
+[sub_resource type="Animation" id="Animation_iyp64"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Meshes/MeshInstance3D4:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.5707964, 0, 0), Vector3(1.5707964, 6.2831855, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Meshes/MeshInstance3D4:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.029912367, -0.019753918)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w1e1l"]
+_data = {
+&"RESET": SubResource("Animation_w1e1l"),
+&"fire": SubResource("Animation_k02qh"),
+&"idle": SubResource("Animation_iyp64")
+}
+
 [node name="Pistol" type="Node3D" unique_id=1327495288]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
@@ -42,3 +144,11 @@ mesh = SubResource("BoxMesh_rdqwp")
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Meshes" unique_id=34653514]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.047, 0.162)
 mesh = SubResource("CylinderMesh_bsiym")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Meshes" unique_id=23347811]
+transform = Transform3D(0.9999998, 0, 0, 0, -4.371139e-08, -0.9999998, 0, 1, -4.371138e-08, 0, 0.029912367, -0.019753918)
+rotation_order = 0
+mesh = SubResource("TorusMesh_rdqwp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1174501066]
+libraries/ = SubResource("AnimationLibrary_w1e1l")

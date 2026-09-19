@@ -25,6 +25,7 @@ extends Node
 
 var current_weapon: Weapon
 var current_weapon_model: Node3D
+var animation_player: AnimationPlayer
 var can_fire_next := true
 var fire_rate_timer := 0.0
 
@@ -69,6 +70,7 @@ func fire_weapon() -> void:
 		return
 
 	Managers.weapon_manager.use_ammo(Managers.weapon_manager.current_slot)
+	animation_player.play("fire")
 	print("Fired! Ammo: ", Managers.weapon_manager.get_current_ammo())
 
 	can_fire_next = false
@@ -90,6 +92,7 @@ func _spawn_weapon_model() -> void:
 	weapon_model_parent.add_child(current_weapon_model)
 	current_weapon_model.position = current_weapon.weapon_position
 	base_weapon_position = current_weapon.weapon_position
+	animation_player = current_weapon_model.get_node("AnimationPlayer")
 
 
 func _perform_hit_scan() -> void:

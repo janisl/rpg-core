@@ -25,6 +25,67 @@ top_radius = 0.03
 bottom_radius = 0.03
 height = 0.3
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_58473"]
+transparency = 1
+albedo_color = Color(1, 0.3623752, 0.27951252, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bsiym"]
+material = SubResource("StandardMaterial3D_58473")
+radius = 0.05
+height = 0.1
+
+[sub_resource type="Animation" id="Animation_nrx6e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Meshes/MeshInstance3D4:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.3623752, 0.27951252, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_58473"]
+resource_name = "fire"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Meshes/MeshInstance3D4:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 0.36078432, 0.2784314, 0), Color(1, 0.3623752, 0.27951252, 1), Color(1, 0.36078432, 0.2784314, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wutjk"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Meshes/MeshInstance3D4:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0.36078432, 0.2784314, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nrx6e"]
+_data = {
+&"RESET": SubResource("Animation_nrx6e"),
+&"fire": SubResource("Animation_58473"),
+&"idle": SubResource("Animation_wutjk")
+}
+
 [node name="Pistol" type="Node3D" unique_id=1327495288]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
@@ -42,3 +103,10 @@ mesh = SubResource("BoxMesh_rdqwp")
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Meshes" unique_id=34653514]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.008923039, 0.1864188)
 mesh = SubResource("CylinderMesh_bsiym")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Meshes" unique_id=1827255992]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.022499241, -0.59209335)
+mesh = SubResource("SphereMesh_bsiym")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=963382603]
+libraries/ = SubResource("AnimationLibrary_nrx6e")
