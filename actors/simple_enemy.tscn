@@ -679,6 +679,60 @@ _data = {
 &"walk": SubResource("Animation_evrkw")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4s1oe"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a0x3i"]
+animation = &"run"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_ngyoi"]
+min_space = 0.0
+blend_point_0/node = SubResource("AnimationNodeAnimation_4s1oe")
+blend_point_0/pos = 0.0
+blend_point_0/name = &"idle"
+blend_point_1/node = SubResource("AnimationNodeAnimation_a0x3i")
+blend_point_1/pos = 1.0
+blend_point_1/name = &"run"
+
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_evrkw"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_4s1oe"]
+graph_offset = Vector2(-589.3333, 16.666666)
+nodes/IdleChaseBlend/node = SubResource("AnimationNodeBlendSpace1D_ngyoi")
+nodes/IdleChaseBlend/position = Vector2(-346.66666, 146.66667)
+nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_evrkw")
+nodes/TimeSeek/position = Vector2(-40, 146.66667)
+node_connections = [&"output", 0, &"TimeSeek", &"TimeSeek", 0, &"IdleChaseBlend"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4a0lb"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_a0x3i"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ngyoi"]
+graph_offset = Vector2(-508.48605, 24.20756)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_4a0lb")
+nodes/Animation/position = Vector2(-320, 120)
+nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_a0x3i")
+nodes/TimeSeek/position = Vector2(-80, 93.333336)
+node_connections = [&"output", 0, &"TimeSeek", &"TimeSeek", 0, &"Animation"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_evrkw"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gvg5y"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0qgqr"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_bsiym"]
+states/Chase/node = SubResource("AnimationNodeBlendTree_4s1oe")
+states/Chase/position = Vector2(647.3333, 123.259254)
+states/End/position = Vector2(1286.6666, 100.88889)
+states/Idle/node = SubResource("AnimationNodeBlendTree_ngyoi")
+states/Idle/position = Vector2(404.66666, 124.888885)
+states/Start/position = Vector2(193.33333, 126)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_evrkw"), "Idle", "Chase", SubResource("AnimationNodeStateMachineTransition_gvg5y"), "Chase", "Idle", SubResource("AnimationNodeStateMachineTransition_0qgqr")]
+
 [node name="SimpleEnemy" type="CharacterBody3D" unique_id=1330723701]
 script = ExtResource("1_4s1oe")
 
@@ -757,6 +811,13 @@ debug_color = Color(0, 0.6, 0.69803923, 0.38039216)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=196694139]
 libraries/ = SubResource("AnimationLibrary_a0x3i")
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=2041500962]
+tree_root = SubResource("AnimationNodeStateMachine_bsiym")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Chase/IdleChaseBlend/blend_position = 1.002499
+parameters/Chase/TimeSeek/seek_request = -1.0
+parameters/Idle/TimeSeek/seek_request = -1.0
 
 [connection signal="state_physics_processing" from="StateChart/Root/Chase" to="." method="_on_chase_state_physics_processing"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
