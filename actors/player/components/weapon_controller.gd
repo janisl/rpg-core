@@ -11,10 +11,17 @@ extends Node
 @export_flags_3d_physics var hit_scan_collision_mask: int = 1
 
 @export_group("Idle sway")
+@export var idle_sway_enabled := true
 @export var idle_sway_frequency := 0.8
 @export var idle_sway_amplitude := Vector2(0.003, 0.002)
 @export var idle_sway_stiffness := 40.0
 @export var idle_sway_damping := 10.0
+
+@export_group("Look sway")
+@export var look_lag_enabled := true
+@export var look_lag_dividor := 20.0
+@export var look_lag_rot_max := 30.0
+@export var look_lag_pos_scale := 0.1
 
 var current_weapon: Weapon
 var current_weapon_model: Node3D
@@ -29,6 +36,9 @@ var _idle_y := 0.0
 var _idle_x_vel := 0.0
 var _idle_y_vel := 0.0
 
+var _prev_camera_rotation := Vector3.ZERO
+var _cam_rot_rate := Vector3.ZERO
+
 
 func _process(delta: float) -> void:
 	if fire_rate_timer > 0.0:
@@ -36,7 +46,7 @@ func _process(delta: float) -> void:
 		if fire_rate_timer <= 0:
 			can_fire_next = true
 
-	_update_idle_sway(delta)
+	_apply_offsets(delta)
 
 
 func switch_weapon(data: WeaponData) -> void:
@@ -159,9 +169,19 @@ func _apply_damage_to_target(target: Node3D) -> void:
 		health_component.take_damage(current_weapon.damage, player)
 
 
-func _update_idle_sway(delta: float) -> void:
+func _apply_offsets(delta: float) -> void:
+	var idle_offset := _update_idle_sway(delta)
+	var look_offset := _update_look_sway(delta)
+
+	current_weapon_model.position = base_weapon_position + idle_offset + look_offset
+
+
+func _update_idle_sway(delta: float) -> Vector3:
+	if not idle_sway_enabled:
+		return Vector3.ZERO
+
 	if not current_weapon_model:
-		return
+		return Vector3.ZERO
 
 	idle_time += delta
 
@@ -174,26 +194,60 @@ func _update_idle_sway(delta: float) -> void:
 		target_y = sin(idle_time * idle_sway_frequency * 0.618) * idle_sway_amplitude.y
 
 	var result_x := SpringUtil.apply(
-		_idle_x,
-		_idle_x_vel,
-		target_x,
-		idle_sway_stiffness,
-		idle_sway_damping,
-		delta
+			_idle_x,
+			_idle_x_vel,
+			target_x,
+			idle_sway_stiffness,
+			idle_sway_damping,
+			delta
 	)
 	_idle_x = result_x.x
 	_idle_x_vel = result_x.y
 
 	var result_y := SpringUtil.apply(
-		_idle_y,
-		_idle_y_vel,
-		target_y,
-		idle_sway_stiffness,
-		idle_sway_damping,
-		delta
+			_idle_y,
+			_idle_y_vel,
+			target_y,
+			idle_sway_stiffness,
+			idle_sway_damping,
+			delta
 	)
 	_idle_y = result_y.x
 	_idle_y_vel = result_y.y
 
 	var idle_offset := Vector3(_idle_x, _idle_y, 0.0)
-	current_weapon_model.position = base_weapon_position + idle_offset
+	return idle_offset
+
+
+func _update_look_sway(delta: float) -> Vector3:
+	if not look_lag_enabled:
+		return Vector3.ZERO
+
+	if not camera:
+		return Vector3.ZERO
+
+	var cam_rot := camera.global_rotation
+
+	var rot_delta := Vector3(
+			angle_difference(_prev_camera_rotation.x, cam_rot.x),
+			angle_difference(_prev_camera_rotation.y, cam_rot.y),
+			0.0)
+	_prev_camera_rotation = cam_rot
+
+	var max_rad := deg_to_rad(look_lag_rot_max)
+	rot_delta.x = clampf(rot_delta.x, -max_rad, max_rad)
+	rot_delta.y = clampf(rot_delta.y, -max_rad, max_rad)
+	rot_delta.z = 0.0
+
+	var interp_speed := (1.0 / delta) / look_lag_dividor
+	_cam_rot_rate = _cam_rot_rate.lerp(rot_delta, clamp(interp_speed * delta, 0.0, 1.0))
+
+	var norm_pitch := _cam_rot_rate.x / max_rad if max_rad > 0.0 else 0.0
+	var norm_yaw := _cam_rot_rate.y / max_rad if max_rad > 0.0 else 0.0
+	var look_pos := Vector3(
+			norm_yaw * look_lag_pos_scale,
+			norm_pitch * -look_lag_pos_scale,
+			0.0
+	)
+
+	return look_pos
