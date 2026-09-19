@@ -64,9 +64,7 @@ func _spawn_weapon_model() -> void:
 
 
 func _perform_hit_scan() -> void:
-	if not camera:
-		print("No camera assigned")
-		return
+	assert(camera, "No camera assigned")
 
 	var space_state := camera.get_world_3d().direct_space_state
 	var from := camera.global_position
@@ -114,13 +112,8 @@ func _spawn_impact_marker(position: Vector3) -> void:
 
 
 func _spawn_projectile() -> void:
-	if not current_weapon.projectile_scene:
-		print("No projectile addigned")
-		return
-
-	if not camera:
-		print("No camera assigned")
-		return
+	assert(current_weapon.projectile_scene, "No projectile addigned")
+	assert(camera, "No camera assigned")
 
 	var projectile := current_weapon.projectile_scene.instantiate() as Projectile
 	get_tree().current_scene.add_child(projectile)
@@ -140,8 +133,8 @@ func _spawn_projectile() -> void:
 	projectile.setup(player, velocity, current_weapon.damage)
 
 
-func _apply_damage_to_target(tagret: Node3D) -> void:
-	var health_component := tagret.get_node_or_null("HealthComponent") as HealthComponent
+func _apply_damage_to_target(target: Node3D) -> void:
+	var health_component := target.get_node_or_null("HealthComponent") as HealthComponent
 
 	if health_component:
 		health_component.take_damage(current_weapon.damage, player)
