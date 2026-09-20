@@ -45,6 +45,22 @@ radius = 0.3
 [sub_resource type="SphereShape3D" id="SphereShape3D_bsiym"]
 radius = 0.05
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rghg7"]
+albedo_color = Color(0, 0.48827332, 0.533709, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rghg7")
+radius = 0.3
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.635855, 0.5497453, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+radius = 0.2
+height = 0.3
+
 [node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "weapon_controller") groups=["player"]]
 collision_layer = 771
 script = ExtResource("1_nvxhs")
@@ -58,6 +74,7 @@ interaction_ray_cast = NodePath("CameraController/Camera/InteractionRayCast")
 stairs_ahead_ray_cast = NodePath("StairsAheadRayCast")
 stairs_below_ray_cast = NodePath("StairsBelowRayCast")
 weapon_controller = NodePath("Components/WeaponController")
+mesh_layer = 4
 
 [node name="HealthComponent" type="Node" parent="." unique_id=1018563726]
 script = ExtResource("2_1c637")
@@ -91,6 +108,7 @@ player = NodePath("../..")
 camera = NodePath("../../CameraController/Camera")
 weapon_model_parent = NodePath("../../CameraController/Camera")
 weapon_state_chart = NodePath("../../WeaponStateChart")
+weapon_mesh_layer = 2
 metadata/_custom_type_script = "uid://bssifbouhjhmf"
 
 [node name="StateChartDebugger" parent="." unique_id=1438023907 instance=ExtResource("2_388e2")]
@@ -118,6 +136,7 @@ script = ExtResource("3_12xki")
 player = NodePath("..")
 
 [node name="Camera" type="Camera3D" parent="CameraController" unique_id=1332938429 node_paths=PackedStringArray("player")]
+cull_mask = 1048571
 script = ExtResource("4_dqf5y")
 player = NodePath("../..")
 
@@ -361,6 +380,16 @@ script = ExtResource("6_bop6h")
 to = NodePath("../Empty")
 event = &"onEmpty"
 delay_in_seconds = "0.0"
+
+[node name="Meshes" type="Node3D" parent="." unique_id=1055887092]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=1747957768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_bsiym")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Meshes" unique_id=1841804133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5139996, -0.2758979)
+mesh = SubResource("SphereMesh_bsiym")
 
 [connection signal="area_entered" from="CameraController/Camera/CameraArea" to="CameraController/Camera" method="_on_camera_area_entered"]
 [connection signal="area_exited" from="CameraController/Camera/CameraArea" to="CameraController/Camera" method="_on_camera_area_exited"]

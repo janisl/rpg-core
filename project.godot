@@ -115,6 +115,9 @@ secondary_fire={
 
 [layer_names]
 
+3d_render/layer_1="World"
+3d_render/layer_2="First person"
+3d_render/layer_3="Third person"
 3d_physics/layer_1="World"
 3d_physics/layer_2="Pickups"
 3d_physics/layer_9="Swimmable"

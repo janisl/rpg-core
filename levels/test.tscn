@@ -518,6 +518,7 @@ shape = SubResource("BoxShape3D_g5r3q")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0.51)
 size = Vector2(1, 2)
 pixels_per_unit = 1000
+cull_mask = 1048573
 cull_far = 1000.0
 
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]

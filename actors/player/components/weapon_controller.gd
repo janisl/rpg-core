@@ -9,6 +9,7 @@ extends Node
 
 @export_group("Weapon controller params")
 @export_flags_3d_physics var hit_scan_collision_mask: int = 1
+@export_flags_3d_render var weapon_mesh_layer := 1
 
 @export_group("Idle sway")
 @export var idle_sway_enabled := true
@@ -160,6 +161,10 @@ func _spawn_weapon_model() -> void:
 	_muzzle_flash = found[0] if not found.is_empty() else null
 	if _muzzle_flash:
 		_muzzle_flash.configure(current_weapon)
+
+	var meshes := current_weapon_model.find_children("*", "MeshInstance3D", true, false)
+	for m in meshes:
+		m.layers = weapon_mesh_layer
 
 	_bob_x = 0
 	_bob_y = 0

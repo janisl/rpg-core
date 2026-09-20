@@ -16,7 +16,16 @@ extends Actor
 @export_group("Movement settings")
 @export var jump_velocity := 5.0
 
+@export_group("Render settings")
+@export_flags_3d_render var mesh_layer := 1
+
 var input_dir := Vector2.ZERO
+
+
+func _ready() -> void:
+	var meshes := find_children("*", "MeshInstance3D", true, false)
+	for m in meshes:
+		m.layers = mesh_layer
 
 
 func _process(_delta: float) -> void:
