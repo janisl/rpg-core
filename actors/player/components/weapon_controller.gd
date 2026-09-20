@@ -208,6 +208,9 @@ func _perform_hit_scan() -> void:
 		_spawn_impact_marker(result.position)
 		_apply_damage_to_target(result.collider)
 
+		if result.collider is RigidBody3D:
+			result.collider.apply_impulse(-result.normal * 5.0 / result.collider.mass, result.position - result.collider.global_position)
+
 
 func _spawn_impact_marker(position: Vector3) -> void:
 	var marker := MeshInstance3D.new()
