@@ -466,7 +466,7 @@ func _update_vertical_lag(delta: float) -> Vector3:
 
 
 func _apply_clip_and_fov_shader_to_view_model(node3d : Node3D, fov_or_negative_for_unchanged = -1.0) -> void:
-	var all_mesh_instances = node3d.find_children("*", "MeshInstance3D")
+	var all_mesh_instances := node3d.find_children("*", "MeshInstance3D")
 	if node3d is MeshInstance3D:
 		all_mesh_instances.push_back(node3d)
 
