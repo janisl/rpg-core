@@ -46,3 +46,12 @@ func push_away_rigid_bodies() -> void:
 			push_dir.y = 0
 			var push_force = mass_ratio * 5.0
 			c.get_collider().apply_impulse(push_dir * diff * push_force, c.get_position() - c.get_collider().global_position)
+
+
+func get_look_at_angle(target_position: Vector3) -> float:
+	var direction = global_position.direction_to(target_position)
+	direction.y = 0.0
+	if direction.is_zero_approx():
+		return rotation.y
+
+	return Vector3.FORWARD.angle_to(direction)

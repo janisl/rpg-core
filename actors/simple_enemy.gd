@@ -81,9 +81,8 @@ func _on_chase_state_physics_processing(delta: float) -> void:
 	if not nav_agent.avoidance_enabled:
 		_on_velocity_computed(nav_agent.velocity)
 
-	if not direction.is_zero_approx():
-		var target_rotation := atan2(direction.x, direction.z)
-		rotation.y = lerp_angle(rotation.y, target_rotation, 5.0 * delta)
+	var target_rotation := get_look_at_angle(next_pos)
+	rotation.y = lerp_angle(rotation.y, target_rotation, 5.0 * delta)
 
 
 func _on_detection_area_body_entered(body: Node3D) -> void:
@@ -102,8 +101,7 @@ func _attack() -> void:
 	nav_agent.velocity = Vector3.ZERO
 
 	if target:
-		var direction = global_position.direction_to(target.global_position)
-		var target_rotation = atan2(direction.x, direction.z)
+		var target_rotation = get_look_at_angle(target.global_position)
 		rotation.y = target_rotation
 		_apply_damage_to_target()
 
@@ -129,7 +127,7 @@ func _on_melee_state_entered() -> void:
 
 
 func _apply_damage_to_target() -> void:
-	var health_component := target.get_node_or_null("HealthComponent") as HealthComponent
+	var target_health_component := target.get_node_or_null("HealthComponent") as HealthComponent
 
-	if health_component:
-		health_component.take_damage(melee_damage, self)
+	if target_health_component:
+		target_health_component.take_damage(melee_damage, self)
