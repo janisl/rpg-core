@@ -13,7 +13,6 @@ extends Node
 
 
 func _on_handle_swimming_physics(delta: float) -> void:
-	player.input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var direction := (player.camera_effects.global_transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
 
 	var new_velocity = player.velocity

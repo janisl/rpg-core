@@ -43,7 +43,6 @@ func _on_handle_airborne_physics(delta: float) -> void:
 	var speed_modifier = _sprint_modifier + _crouch_modifier
 	var speed = default_speed + speed_modifier
 
-	player.input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var current_velocity = Vector2(player.velocity.x, player.velocity.z)
 	var direction := (player.transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
 	if direction:
