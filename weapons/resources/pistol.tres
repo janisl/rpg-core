@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_lf8lp")
-weapon_name = "Pistol"
+display_name = "Pistol"
 max_ammo = 80
 is_automatic = true
 weapon_scene = ExtResource("2_cm5tq")

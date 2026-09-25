@@ -1,7 +1,5 @@
 class_name Weapon
-extends Resource
-
-@export var weapon_name := "Weapon"
+extends Item
 
 @export_group("General")
 @export var damage := 25.0

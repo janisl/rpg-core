@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_skc1b")
-weapon_name = "Shotgun"
+display_name = "Shotgun"
 damage = 8.0
 max_ammo = 40
 fire_rate = 1.0
