@@ -4,9 +4,16 @@
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://weapons/weapon.gd" id="2_jpsys"]
 [ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://weapons/scenes/laser.tscn" id="3_shorh"]
 
+[sub_resource type="Gradient" id="Gradient_shorh"]
+offsets = PackedFloat32Array(0.32830188, 0.41886792, 0.60754716, 0.71320754)
+colors = PackedColorArray(0.9411765, 0, 0.22745098, 0, 0.93966824, 0, 0.22599727, 1, 0.93966824, 0, 0.22599727, 1, 0.9411765, 0, 0.22745098, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wsopd"]
+gradient = SubResource("Gradient_shorh")
+fill_to = Vector2(1, 1)
+
 [resource]
 script = ExtResource("2_jpsys")
-display_name = "Laser"
 max_ammo = 100
 is_automatic = true
 accuracy = 90
@@ -16,4 +23,7 @@ is_hit_scan = false
 projectile_scene = ExtResource("1_shorh")
 vertical_lag_amount = 0.002
 muzzle_light_color = Color(1, 0.50995165, 0.67012393, 1)
+display_name = "Laser"
+description = "Laser"
+icon = SubResource("GradientTexture2D_wsopd")
 metadata/_custom_type_script = "uid://bjvp63efii4fn"

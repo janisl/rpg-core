@@ -3,9 +3,16 @@
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://weapons/weapon.gd" id="1_skc1b"]
 [ext_resource type="PackedScene" uid="uid://br2mplv6cjpjb" path="res://weapons/scenes/shotgun.tscn" id="2_vy2tt"]
 
+[sub_resource type="Gradient" id="Gradient_vy2tt"]
+offsets = PackedFloat32Array(0.33584905, 0.41886792, 0.6415094, 0.7358491)
+colors = PackedColorArray(0.3372549, 0.1764706, 0, 0, 0.3354771, 0.17666844, 1.2032687e-07, 1, 0.3354771, 0.17666844, 1.2032687e-07, 1, 0.3372549, 0.1764706, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8hv22"]
+gradient = SubResource("Gradient_vy2tt")
+fill_to = Vector2(1, 1)
+
 [resource]
 script = ExtResource("1_skc1b")
-display_name = "Shotgun"
 damage = 8.0
 max_ammo = 40
 fire_rate = 1.0
@@ -17,4 +24,7 @@ pellet_count = 8
 spread_angle = 0.1
 recoil_cam_pitch = 0.08726646259971647
 vertical_lag_amount = 0.001
+display_name = "Shotgun"
+description = "Shotgun"
+icon = SubResource("GradientTexture2D_8hv22")
 metadata/_custom_type_script = "uid://bjvp63efii4fn"
