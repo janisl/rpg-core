@@ -18,4 +18,4 @@ func _apply_pickup(_player: Player) -> void:
 
 	var ammo_to_add: int = min(ammount, weapon_data.weapon.max_ammo - weapon_data.ammo)
 	weapon_data.ammo += ammo_to_add
-	print("Picked up: ", ammo_to_add, " ammo for ", weapon_data.weapon.weapon_name)
+	print("Picked up: ", ammo_to_add, " ammo for ", weapon_data.weapon.display_name)

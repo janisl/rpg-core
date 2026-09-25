@@ -104,7 +104,7 @@ func switch_weapon(data: WeaponData) -> void:
 	current_weapon = data.weapon
 	_spawn_weapon_model()
 	weapon_state_chart.send_event("onIdle")
-	print(current_weapon.weapon_name)
+	print(current_weapon.display_name)
 
 
 func has_ammo() -> bool:

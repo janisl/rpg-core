@@ -14,8 +14,8 @@ func _apply_pickup(_player: Player) -> void:
 
 	if weapon_data.unlocked:
 		weapon_data.ammo = weapon_resource.max_ammo
-		print("Ammo refilled: ", weapon_resource.weapon_name)
+		print("Ammo refilled: ", weapon_resource.display_name)
 	else:
 		Managers.weapon_manager.unlock_weapon(weapon_resource)
 		Managers.weapon_manager.switch_to_weapon(weapon_resource)
-		print("Unlocked: ", weapon_resource.weapon_name)
+		print("Unlocked: ", weapon_resource.display_name)
