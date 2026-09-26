@@ -1,0 +1,45 @@
+Player
+- death state
+- stats, leveling
+- equipment
+- footsteps
+- weapon overhaul
+
+UI
+- player HUD
+- pause menu
+- inventory ui
+- title screen
+- quest UI
+- quest notifications
+
+Inventory
+- usable items
+- drag and drop
+
+Enemies
+- wandering
+- patroling
+- item drops
+
+NPCs
+- wandering
+- following a path
+- dialog system
+- branching dialogs
+- shops
+- cutscenes
+
+Environment
+- hit boxes
+- throwable objects
+- explosions
+
+Maps
+- player spawner
+- scene manager
+- load & save
+
+Systems
+- music manager
+- quest system
