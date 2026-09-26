@@ -11,6 +11,8 @@ colors = PackedColorArray(0.9411765, 0, 0.22745098, 0, 0.93966824, 0, 0.22599727
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_wsopd"]
 gradient = SubResource("Gradient_shorh")
+width = 128
+height = 128
 fill_to = Vector2(1, 1)
 
 [resource]
