@@ -2,6 +2,7 @@ class_name Inventory
 extends Node
 
 signal changed
+signal slot_changed(index: int)
 
 @export var slots: Array[ItemStack]
 
@@ -29,6 +30,7 @@ func add_stack(stack: ItemStack) -> int:
 		var added_amount := mini(space, remaining)
 		slots[i].amount += added_amount
 		remaining -= added_amount
+		slot_changed.emit(i)
 
 	for i in slots.size():
 		if remaining == 0:
@@ -42,9 +44,55 @@ func add_stack(stack: ItemStack) -> int:
 		var added_amount := mini(space, remaining)
 		slots[i] = ItemStack.new(stack.item, added_amount, stack.metadata)
 		remaining -= added_amount
+		slot_changed.emit(i)
 
 	changed.emit()
 	return remaining
+
+
+func remove_item(item: Item, amount := 1, exact: bool = true) -> bool:
+	if not item or amount <= 0:
+		return true
+
+	if exact:
+		var available := get_available_amount(item)
+		if available < amount:
+			return false
+
+	var remaining := amount
+
+	for i in slots.size():
+		if remaining == 0:
+			break
+		if _is_empty(i):
+			continue
+		var stack = slots[i]
+		if stack.item != item:
+			continue
+
+		var removed_amount := mini(stack.amount, remaining)
+		stack.amount -= removed_amount
+		remaining -= removed_amount
+		if not stack.is_valid:
+			slots[i] = null
+		slot_changed.emit(i)
+
+	changed.emit()
+	return remaining == 0
+
+
+func get_available_amount(item) -> int:
+	var available := 0
+	for i in slots.size():
+		if _is_empty(i):
+			continue
+		var stack = slots[i]
+		if stack.item != item:
+			continue
+
+		available += stack.amount
+
+	return available
 
 
 func find_by_type(item: Item) -> ItemStack:

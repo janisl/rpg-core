@@ -45,14 +45,11 @@ func switch_to_weapon(weapon: Weapon) -> void:
 
 
 func use_ammo(type: Item, amount: int = 1) -> void:
-	var item_stack := player.inventory.find_by_type(type)
-	if item_stack:
-		item_stack.amount = max(0, item_stack.amount - amount)
+	player.inventory.remove_item(type, amount)
 
 
 func get_current_ammo(type: Item) -> int:
-	var item_stack := player.inventory.find_by_type(type)
-	return item_stack.amount if item_stack else 0
+	return player.inventory.get_available_amount(type)
 
 
 func unlock_weapon(weapon: Weapon) -> void:
