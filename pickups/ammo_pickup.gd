@@ -15,4 +15,3 @@ func _can_pickup(player: Player) -> bool:
 
 func _apply_pickup(player: Player) -> void:
 	var not_added = player.inventory.add_item(ammo_type, ammount)
-	print("Picked up: ", ammount - not_added, " of ", ammo_type.display_name)

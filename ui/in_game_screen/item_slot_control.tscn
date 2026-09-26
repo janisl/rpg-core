@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b01wyvqydf1sn" path="res://ui/in_game_screen/item_slot_control.gd" id="1_ij2ti"]
 
 [node name="ColorRect" type="ColorRect" unique_id=1931404340]
-custom_minimum_size = Vector2(130, 130)
+custom_minimum_size = Vector2(128, 128)
 color = Color(0.14044744, 0.14044747, 0.14044738, 1)
 script = ExtResource("1_ij2ti")
 

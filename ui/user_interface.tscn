@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://blwu7xyl5slu4" path="res://ui/reticle_control.gd" id="1_mm06q"]
 [ext_resource type="Script" uid="uid://btgmq5uw4sufl" path="res://ui/user_interface.gd" id="1_r3gyj"]
 [ext_resource type="Shader" uid="uid://bd7wk8i5mqe5g" path="res://shaders/camera_water_overlay.gdshader" id="1_ue2kl"]
+[ext_resource type="PackedScene" uid="uid://qobbrsn8t2k4" path="res://ui/player_hud/player_hud.tscn" id="3_j1g8x"]
 [ext_resource type="PackedScene" uid="uid://li5ryexfavom" path="res://ui/in_game_screen/in_game_screen.tscn" id="4_5skvp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r3gyj"]
@@ -25,6 +26,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 texture = SubResource("PlaceholderTexture2D_5skvp")
+
+[node name="PlayerHud" parent="." unique_id=155558568 instance=ExtResource("3_j1g8x")]
 
 [node name="Reticle" type="CenterContainer" parent="." unique_id=1683982803]
 anchors_preset = 15

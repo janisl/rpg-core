@@ -1,6 +1,7 @@
 class_name WeaponManager
 extends Node
 
+signal current_slot_changed
 
 @export var player: Player
 
@@ -35,6 +36,7 @@ func initialize_starting_weapon() -> void:
 func switch_to_slot(index: int) -> void:
 	var item_stack := player.inventory.slots[index]
 	current_slot = index
+	current_slot_changed.emit()
 	player.weapon_controller.switch_weapon(item_stack)
 
 

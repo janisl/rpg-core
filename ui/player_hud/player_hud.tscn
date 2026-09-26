@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://qobbrsn8t2k4"]
+
+[ext_resource type="Script" uid="uid://cw70ccc707pon" path="res://ui/player_hud/player_hud.gd" id="1_vyppb"]
+
+[node name="PlayerHud" type="Control" unique_id=155558568]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vyppb")
+
+[node name="HotbarBackground" type="ColorRect" parent="." unique_id=1907861593]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -586.0
+offset_top = -132.0
+offset_right = 586.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.36408392, 0.36408395, 0.36408392, 1)
+
+[node name="SelectionIndicator" type="ColorRect" parent="HotbarBackground" unique_id=1824666071]
+layout_mode = 0
+offset_right = 132.0
+offset_bottom = 132.0
+
+[node name="HotbarContainer" type="HBoxContainer" parent="HotbarBackground" unique_id=494122346]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 42.0
+offset_bottom = 42.0
+theme_override_constants/separation = 2
+
+[node name="HealthLabel" type="Label" parent="." unique_id=1132553087]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 960.0
+offset_right = 165.0
+offset_bottom = 1048.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 64
+text = "100"
+horizontal_alignment = 2
+
+[node name="AmmoLabel" type="Label" parent="." unique_id=966090477]
+layout_mode = 0
+offset_left = 1757.0
+offset_top = 960.0
+offset_right = 1880.0
+offset_bottom = 1048.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 64
+text = "100"
+horizontal_alignment = 2

@@ -120,7 +120,6 @@ func fire_weapon() -> void:
 
 	Managers.weapon_manager.use_ammo(current_weapon.ammo_type)
 	animation_player.play("fire")
-	print("Fired! Ammo: ", Managers.weapon_manager.get_current_ammo(current_weapon.ammo_type))
 
 	can_fire_next = false
 	fire_rate_timer = 1.0 / current_weapon.fire_rate

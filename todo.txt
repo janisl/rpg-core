@@ -6,9 +6,7 @@ Player
 - weapon overhaul
 
 UI
-- player HUD
 - pause menu
-- inventory ui
 - title screen
 - quest UI
 - quest notifications

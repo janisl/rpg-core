@@ -4,7 +4,7 @@ var weapon_manager: WeaponManager
 
 
 func _ready() -> void:
-	find_managers.call_deferred()
+	find_managers()
 
 
 func find_managers() -> void:

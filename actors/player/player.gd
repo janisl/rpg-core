@@ -14,6 +14,7 @@ extends Actor
 @export var weapon_controller: WeaponController
 @export var animation_tree: AnimationTree
 @export var inventory: Inventory
+@export var health_component: HealthComponent
 
 @export_group("Movement settings")
 @export var jump_velocity := 5.0
