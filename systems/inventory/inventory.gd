@@ -47,6 +47,13 @@ func add_stack(stack: ItemStack) -> int:
 	return remaining
 
 
+func find_by_type(item: Item) -> ItemStack:
+	for slot in slots:
+		if slot and slot.is_valid and slot.item == item:
+			return slot
+	return null
+
+
 func _is_empty(index: int) -> bool:
 	return slots[index] == null or not slots[index].is_valid
 

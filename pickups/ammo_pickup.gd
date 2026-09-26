@@ -5,17 +5,17 @@ extends BasePickup
 @export var ammount := 10
 
 
-func _can_pickup(_player: Player) -> bool:
-	if weapon_slot not in Managers.weapon_manager.weapons:
+func _can_pickup(player: Player) -> bool:
+	var item_slot := player.inventory.slots[weapon_slot - 1]
+	if not item_slot:
 		return false
 
-	var weapon_data := Managers.weapon_manager.weapons[weapon_slot]
-	return weapon_data.unlocked and weapon_data.ammo < weapon_data.weapon.max_ammo
+	return item_slot.metadata.ammo < item_slot.item.max_ammo
 
 
-func _apply_pickup(_player: Player) -> void:
-	var weapon_data = Managers.weapon_manager.weapons[weapon_slot]
+func _apply_pickup(player: Player) -> void:
+	var item_slot := player.inventory.slots[weapon_slot - 1]
 
-	var ammo_to_add: int = min(ammount, weapon_data.weapon.max_ammo - weapon_data.ammo)
-	weapon_data.ammo += ammo_to_add
-	print("Picked up: ", ammo_to_add, " ammo for ", weapon_data.weapon.display_name)
+	var ammo_to_add: int = min(ammount, item_slot.item.max_ammo - item_slot.metadata.ammo)
+	item_slot.metadata.ammo += ammo_to_add
+	print("Picked up: ", ammo_to_add, " ammo for ", item_slot.item.display_name)

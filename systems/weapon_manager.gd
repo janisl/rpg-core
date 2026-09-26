@@ -2,7 +2,6 @@ class_name WeaponManager
 extends Node
 
 
-@export var weapons: Dictionary[int, WeaponData] = {}
 @export var player: Player
 
 var current_slot := 1
@@ -21,50 +20,40 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	for i in range(1,10):
-		if event.is_action_pressed("weapon_" + str(i)):
+	for i in range(0, 9):
+		if event.is_action_pressed("weapon_" + str(i + 1)):
 			switch_to_slot(i)
 
 
 func initialize_starting_weapon() -> void:
-	for slot in range(1, 10):
-		if weapons.has(slot) and weapons[slot].unlocked:
+	for slot in range(0, 9):
+		if player.inventory.slots[slot] and player.inventory.slots[slot].item is Weapon:
 			switch_to_slot(slot)
 			return
 
 
 func switch_to_slot(index: int) -> void:
-	var weapon_data := weapons.get(index) as WeaponData
-	if weapon_data and weapon_data.unlocked:
-		current_slot = index
-		player.weapon_controller.switch_weapon(weapon_data)
+	var item_stack := player.inventory.slots[index]
+	current_slot = index
+	player.weapon_controller.switch_weapon(item_stack)
 
 
 func switch_to_weapon(weapon: Weapon) -> void:
-	for slot in range(1, 10):
-		if weapons.has(slot) and weapons[slot].weapon == weapon:
+	for slot in range(0, 9):
+		if player.inventory.slots[slot] and player.inventory.slots[slot].item == weapon:
 			switch_to_slot(slot)
 
 
 func use_ammo(slot: int, amount: int = 1) -> void:
-	if slot in weapons:
-		weapons[slot].ammo = max(0, weapons[slot].ammo - amount)
+	var item_stack := player.inventory.slots[slot]
+	if item_stack:
+		item_stack.metadata.ammo = max(0, item_stack.metadata.ammo - amount)
 
 
 func get_current_ammo() -> int:
-	return weapons[current_slot].ammo
-
-
-func get_weapon_data(weapon: Weapon) -> WeaponData:
-	for slot in range(1, 10):
-		if weapons.has(slot) and weapons[slot].weapon == weapon:
-			return weapons[slot]
-	return null
+	var item_stack := player.inventory.slots[current_slot]
+	return item_stack.metadata.ammo
 
 
 func unlock_weapon(weapon: Weapon) -> void:
-	for slot in range(1, 10):
-		if weapons.has(slot) and weapons[slot].weapon == weapon:
-			weapons[slot].unlocked = true
-			weapons[slot].ammo = weapon.max_ammo
-			return
+	player.inventory.add_item(weapon, 1, { ammo = weapon.max_ammo })

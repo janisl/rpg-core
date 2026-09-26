@@ -37,6 +37,9 @@
 [sub_resource type="Resource" id="Resource_4jc6f"]
 script = ExtResource("32_4jc6f")
 item = ExtResource("10_v3s8r")
+metadata = Dictionary[String, Variant]({
+"ammo": 100
+})
 metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]

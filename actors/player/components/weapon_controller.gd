@@ -100,11 +100,10 @@ func _process(delta: float) -> void:
 	_apply_offsets(delta)
 
 
-func switch_weapon(data: WeaponData) -> void:
-	current_weapon = data.weapon
+func switch_weapon(item_stack: ItemStack) -> void:
+	current_weapon = item_stack.item as Weapon if item_stack else null
 	_spawn_weapon_model()
 	weapon_state_chart.send_event("onIdle")
-	print(current_weapon.display_name)
 
 
 func has_ammo() -> bool:
@@ -148,6 +147,9 @@ func fire_weapon() -> void:
 func _spawn_weapon_model() -> void:
 	if current_weapon_model:
 		current_weapon_model.queue_free()
+
+	if not current_weapon:
+		return
 
 	assert(current_weapon.weapon_scene, "Weapon has no scene")
 
@@ -256,6 +258,9 @@ func _apply_damage_to_target(target: Node3D) -> void:
 
 
 func _apply_offsets(delta: float) -> void:
+	if not current_weapon:
+		return
+
 	var idle_offset := _update_idle_sway(delta)
 	var look_offset := _update_look_sway(delta)
 	var bob_offset := _update_bob(delta)
