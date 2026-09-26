@@ -44,16 +44,17 @@ func switch_to_weapon(weapon: Weapon) -> void:
 			switch_to_slot(slot)
 
 
-func use_ammo(slot: int, amount: int = 1) -> void:
-	var item_stack := player.inventory.slots[slot]
+func use_ammo(type: Item, amount: int = 1) -> void:
+	var item_stack := player.inventory.find_by_type(type)
 	if item_stack:
-		item_stack.metadata.ammo = max(0, item_stack.metadata.ammo - amount)
+		item_stack.amount = max(0, item_stack.amount - amount)
 
 
-func get_current_ammo() -> int:
-	var item_stack := player.inventory.slots[current_slot]
-	return item_stack.metadata.ammo
+func get_current_ammo(type: Item) -> int:
+	var item_stack := player.inventory.find_by_type(type)
+	return item_stack.amount if item_stack else 0
 
 
 func unlock_weapon(weapon: Weapon) -> void:
-	player.inventory.add_item(weapon, 1, { ammo = weapon.max_ammo })
+	player.inventory.add_item(weapon)
+	player.inventory.add_item(weapon.ammo_type, weapon.max_ammo)

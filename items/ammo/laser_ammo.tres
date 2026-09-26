@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://c8ff3twc0mra8"]
+
+[ext_resource type="Script" uid="uid://bkignq3aylb0o" path="res://systems/inventory/item.gd" id="1_4gx8s"]
+
+[sub_resource type="Gradient" id="Gradient_xy5oi"]
+offsets = PackedFloat32Array(0, 0.3018868, 0.38490567)
+colors = PackedColorArray(0.8303531, 0.07833142, 0.6315214, 1, 0.8303531, 0.07833142, 0.6315214, 1, 0.83137256, 0.078431375, 0.6313726, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dxcik"]
+gradient = SubResource("Gradient_xy5oi")
+
+[resource]
+script = ExtResource("1_4gx8s")
+display_name = "Laser ammo"
+description = "Laser ammo"
+icon = SubResource("GradientTexture2D_dxcik")
+max_stack = 250
+metadata/_custom_type_script = "uid://bkignq3aylb0o"

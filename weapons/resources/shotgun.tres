@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://vy6ngoc84hnn"]
 
-[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://weapons/weapon.gd" id="1_skc1b"]
+[ext_resource type="Resource" uid="uid://bvm2idvb450ig" path="res://items/ammo/shotgun_ammo.tres" id="1_wsopd"]
+[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon.gd" id="2_qayca"]
 [ext_resource type="PackedScene" uid="uid://br2mplv6cjpjb" path="res://weapons/scenes/shotgun.tscn" id="2_vy2tt"]
 
 [sub_resource type="Gradient" id="Gradient_vy2tt"]
@@ -12,11 +13,12 @@ gradient = SubResource("Gradient_vy2tt")
 fill_to = Vector2(1, 1)
 
 [resource]
-script = ExtResource("1_skc1b")
+script = ExtResource("2_qayca")
 damage = 8.0
 max_ammo = 40
 fire_rate = 1.0
 accuracy = 80
+ammo_type = ExtResource("1_wsopd")
 weapon_scene = ExtResource("2_vy2tt")
 weapon_position = Vector3(0.15307574, -0.1009149, -0.18142417)
 hit_scan_range = 35.0

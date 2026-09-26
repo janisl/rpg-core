@@ -5,15 +5,16 @@ extends BasePickup
 
 
 func _can_pickup(player: Player) -> bool:
-	var item_slot := player.inventory.find_by_type(weapon_resource)
-	return not item_slot or item_slot.metadata.ammo < weapon_resource.max_ammo
+	var weapon_slot := player.inventory.find_by_type(weapon_resource)
+	var ammo_slot := player.inventory.find_by_type(weapon_resource.ammo_type)
+	return not weapon_slot or not ammo_slot or ammo_slot.amount < weapon_resource.max_ammo
 
 
 func _apply_pickup(player: Player) -> void:
-	var item_slot := player.inventory.find_by_type(weapon_resource)
+	var weapon_slot := player.inventory.find_by_type(weapon_resource)
 
-	if item_slot:
-		item_slot.metadata.ammo = weapon_resource.max_ammo
+	if weapon_slot:
+		player.inventory.add_item(weapon_resource.ammo_type, weapon_resource.max_ammo)
 		print("Ammo refilled: ", weapon_resource.display_name)
 	else:
 		Managers.weapon_manager.unlock_weapon(weapon_resource)

@@ -1,21 +1,18 @@
 class_name AmmoPickup
 extends BasePickup
 
-@export var weapon_slot := 1
+@export var ammo_type: Item
 @export var ammount := 10
 
 
 func _can_pickup(player: Player) -> bool:
-	var item_slot := player.inventory.slots[weapon_slot - 1]
+	var item_slot := player.inventory.find_by_type(ammo_type)
 	if not item_slot:
-		return false
+		return true
 
-	return item_slot.metadata.ammo < item_slot.item.max_ammo
+	return item_slot.amount < ammo_type.max_stack
 
 
 func _apply_pickup(player: Player) -> void:
-	var item_slot := player.inventory.slots[weapon_slot - 1]
-
-	var ammo_to_add: int = min(ammount, item_slot.item.max_ammo - item_slot.metadata.ammo)
-	item_slot.metadata.ammo += ammo_to_add
-	print("Picked up: ", ammo_to_add, " ammo for ", item_slot.item.display_name)
+	var not_added = player.inventory.add_item(ammo_type, ammount)
+	print("Picked up: ", ammount - not_added, " of ", ammo_type.display_name)

@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://dyr55krt5kuoq" path="res://actors/player/behaviours/grounded.gd" id="9_icg72"]
 [ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://weapons/resources/pistol.tres" id="10_v3s8r"]
 [ext_resource type="Script" uid="uid://b2ayqipj6b7xe" path="res://actors/player/behaviours/idle.gd" id="11_lj3dd"]
+[ext_resource type="Resource" uid="uid://8wv77e0i7ndt" path="res://items/ammo/pistol_ammo.tres" id="11_ne5l8"]
 [ext_resource type="Script" uid="uid://b47bduygfbkju" path="res://actors/player/behaviours/walking.gd" id="13_lj3dd"]
 [ext_resource type="Script" uid="uid://be8wg0j4hyqs1" path="res://actors/player/behaviours/moving.gd" id="13_nsxbo"]
 [ext_resource type="Script" uid="uid://0dy74s7lq4er" path="res://actors/player/behaviours/sprinting.gd" id="14_lj3dd"]
@@ -40,6 +41,12 @@ item = ExtResource("10_v3s8r")
 metadata = Dictionary[String, Variant]({
 "ammo": 100
 })
+metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
+
+[sub_resource type="Resource" id="Resource_drwxn"]
+script = ExtResource("32_4jc6f")
+item = ExtResource("11_ne5l8")
+amount = 50
 metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
@@ -1411,7 +1418,7 @@ metadata/_custom_type_script = "uid://bssifbouhjhmf"
 
 [node name="Inventory" type="Node" parent="." unique_id=1686695142]
 script = ExtResource("31_4ihbh")
-slots = Array[ExtResource("32_4jc6f")]([SubResource("Resource_4jc6f"), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
+slots = Array[ExtResource("32_4jc6f")]([SubResource("Resource_4jc6f"), null, null, null, null, null, null, null, null, SubResource("Resource_drwxn"), null, null, null, null, null, null, null, null])
 metadata/_custom_type_script = "uid://bk8ufns0cjpgj"
 
 [node name="StateChartDebugger" parent="." unique_id=1438023907 instance=ExtResource("2_388e2")]

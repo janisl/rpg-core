@@ -1,7 +1,8 @@
 [gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://4fhry8pq51ej"]
 
+[ext_resource type="Resource" uid="uid://c8ff3twc0mra8" path="res://items/ammo/laser_ammo.tres" id="1_jpsys"]
 [ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://weapons/projectiles/test_projectile.tscn" id="1_shorh"]
-[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://weapons/weapon.gd" id="2_jpsys"]
+[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon.gd" id="3_88554"]
 [ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://weapons/scenes/laser.tscn" id="3_shorh"]
 
 [sub_resource type="Gradient" id="Gradient_shorh"]
@@ -13,10 +14,11 @@ gradient = SubResource("Gradient_shorh")
 fill_to = Vector2(1, 1)
 
 [resource]
-script = ExtResource("2_jpsys")
+script = ExtResource("3_88554")
 max_ammo = 100
 is_automatic = true
 accuracy = 90
+ammo_type = ExtResource("1_jpsys")
 weapon_scene = ExtResource("3_shorh")
 weapon_position = Vector3(0.14105655, -0.06323153, -0.18142417)
 is_hit_scan = false

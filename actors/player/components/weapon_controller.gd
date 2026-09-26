@@ -107,7 +107,7 @@ func switch_weapon(item_stack: ItemStack) -> void:
 
 
 func has_ammo() -> bool:
-	return Managers.weapon_manager.get_current_ammo() > 0
+	return Managers.weapon_manager.get_current_ammo(current_weapon.ammo_type) > 0
 
 
 func can_fire() -> bool:
@@ -118,9 +118,9 @@ func fire_weapon() -> void:
 	if not can_fire():
 		return
 
-	Managers.weapon_manager.use_ammo(Managers.weapon_manager.current_slot)
+	Managers.weapon_manager.use_ammo(current_weapon.ammo_type)
 	animation_player.play("fire")
-	print("Fired! Ammo: ", Managers.weapon_manager.get_current_ammo())
+	print("Fired! Ammo: ", Managers.weapon_manager.get_current_ammo(current_weapon.ammo_type))
 
 	can_fire_next = false
 	fire_rate_timer = 1.0 / current_weapon.fire_rate
