@@ -13,6 +13,7 @@ extends Actor
 @export var stairs_below_ray_cast: RayCast3D
 @export var weapon_controller: WeaponController
 @export var animation_tree: AnimationTree
+@export var inventory: Inventory
 
 @export_group("Movement settings")
 @export var jump_velocity := 5.0

@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://bssifbouhjhmf" path="res://actors/player/components/weapon_controller.gd" id="6_2vokq"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="6_bop6h"]
 [ext_resource type="Script" uid="uid://dyr55krt5kuoq" path="res://actors/player/behaviours/grounded.gd" id="9_icg72"]
+[ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://weapons/resources/pistol.tres" id="10_v3s8r"]
 [ext_resource type="Script" uid="uid://b2ayqipj6b7xe" path="res://actors/player/behaviours/idle.gd" id="11_lj3dd"]
 [ext_resource type="Script" uid="uid://b47bduygfbkju" path="res://actors/player/behaviours/walking.gd" id="13_lj3dd"]
 [ext_resource type="Script" uid="uid://be8wg0j4hyqs1" path="res://actors/player/behaviours/moving.gd" id="13_nsxbo"]
@@ -30,6 +31,13 @@
 [ext_resource type="Script" uid="uid://chbjxogxroaj6" path="res://weapons/behaviours/idle.gd" id="28_1c637"]
 [ext_resource type="Script" uid="uid://d0fh2iien0o0f" path="res://weapons/behaviours/firing.gd" id="29_4ihbh"]
 [ext_resource type="Script" uid="uid://caiu4rbdmbosx" path="res://weapons/behaviours/empty.gd" id="30_4jc6f"]
+[ext_resource type="Script" uid="uid://bk8ufns0cjpgj" path="res://systems/inventory/inventory.gd" id="31_4ihbh"]
+[ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="32_4jc6f"]
+
+[sub_resource type="Resource" id="Resource_4jc6f"]
+script = ExtResource("32_4jc6f")
+item = ExtResource("10_v3s8r")
+metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -1346,7 +1354,7 @@ states/Standing/node = SubResource("AnimationNodeBlendSpace1D_qnicj")
 states/Standing/position = Vector2(447.33334, 72.66667)
 transitions = ["Start", "Standing", SubResource("AnimationNodeStateMachineTransition_m1hv5"), "Standing", "Crouching", SubResource("AnimationNodeStateMachineTransition_rswtf"), "Crouching", "Standing", SubResource("AnimationNodeStateMachineTransition_wn017"), "Standing", "Death", SubResource("AnimationNodeStateMachineTransition_mnwg7"), "Crouching", "Death", SubResource("AnimationNodeStateMachineTransition_2cxsc")]
 
-[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "weapon_controller", "animation_tree") groups=["player"]]
+[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "weapon_controller", "animation_tree", "inventory") groups=["player"]]
 collision_layer = 771
 script = ExtResource("1_nvxhs")
 camera_controller = NodePath("CameraController")
@@ -1360,6 +1368,7 @@ stairs_ahead_ray_cast = NodePath("StairsAheadRayCast")
 stairs_below_ray_cast = NodePath("StairsBelowRayCast")
 weapon_controller = NodePath("Components/WeaponController")
 animation_tree = NodePath("AnimationTree")
+inventory = NodePath("Inventory")
 mesh_layer = 4
 
 [node name="HealthComponent" type="Node" parent="." unique_id=1018563726]
@@ -1396,6 +1405,11 @@ weapon_model_parent = NodePath("../../CameraController/Camera")
 weapon_state_chart = NodePath("../../WeaponStateChart")
 weapon_mesh_layer = 2
 metadata/_custom_type_script = "uid://bssifbouhjhmf"
+
+[node name="Inventory" type="Node" parent="." unique_id=1686695142]
+script = ExtResource("31_4ihbh")
+slots = Array[ExtResource("32_4jc6f")]([SubResource("Resource_4jc6f"), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
+metadata/_custom_type_script = "uid://bk8ufns0cjpgj"
 
 [node name="StateChartDebugger" parent="." unique_id=1438023907 instance=ExtResource("2_388e2")]
 offset_right = -1522.0
