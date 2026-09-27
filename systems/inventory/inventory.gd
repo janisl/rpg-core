@@ -7,7 +7,7 @@ signal slot_changed(index: int)
 @export var slots: Array[ItemStack]
 
 
-func add_item(item: Item, amount := 1, metadata: Dictionary[String, Variant] = {}) -> int:
+func add_item(item: ItemData, amount := 1, metadata: Dictionary[String, Variant] = {}) -> int:
 	if not item or amount <= 0:
 		return amount
 	return add_stack(ItemStack.new(item, amount, metadata))
@@ -50,7 +50,7 @@ func add_stack(stack: ItemStack) -> int:
 	return remaining
 
 
-func remove_item(item: Item, amount := 1, exact: bool = true) -> bool:
+func remove_item(item: ItemData, amount := 1, exact: bool = true) -> bool:
 	if not item or amount <= 0:
 		return true
 
@@ -95,7 +95,7 @@ func get_available_amount(item) -> int:
 	return available
 
 
-func find_by_type(item: Item) -> ItemStack:
+func find_by_type(item: ItemData) -> ItemStack:
 	for slot in slots:
 		if slot and slot.is_valid and slot.item == item:
 			return slot
@@ -115,5 +115,5 @@ func _can_accept(_index: int, _stack: ItemStack) -> bool:
 	return true
 
 
-func _get_space(_index: int, item: Item) -> int:
+func _get_space(_index: int, item: ItemData) -> int:
 	return item.max_stack

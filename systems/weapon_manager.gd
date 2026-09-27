@@ -46,11 +46,11 @@ func switch_to_weapon(weapon: Weapon) -> void:
 			switch_to_slot(slot)
 
 
-func use_ammo(type: Item, amount: int = 1) -> void:
+func use_ammo(type: ItemData, amount: int = 1) -> void:
 	player.inventory.remove_item(type, amount)
 
 
-func get_current_ammo(type: Item) -> int:
+func get_current_ammo(type: ItemData) -> int:
 	return player.inventory.get_available_amount(type)
 
 

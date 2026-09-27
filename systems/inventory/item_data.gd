@@ -1,4 +1,4 @@
-class_name Item
+class_name ItemData
 extends Resource
 
 @export_group("Item")

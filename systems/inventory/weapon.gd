@@ -1,5 +1,5 @@
 class_name Weapon
-extends Item
+extends ItemData
 
 @export_group("General")
 @export var damage := 25.0
@@ -7,7 +7,7 @@ extends Item
 @export var fire_rate := 2.0
 @export var is_automatic := false
 @export_range(0, 100) var accuracy := 100
-@export var ammo_type: Item
+@export var ammo_type: ItemData
 
 @export_group("Visuals")
 @export var weapon_scene: PackedScene
