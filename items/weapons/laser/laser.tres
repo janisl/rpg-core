@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://4fhry8pq51ej"]
 
-[ext_resource type="Resource" uid="uid://c8ff3twc0mra8" path="res://items/ammo/laser_ammo.tres" id="1_jpsys"]
-[ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://items/weapons/laser/test_projectile.tscn" id="1_shorh"]
-[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon.gd" id="3_88554"]
-[ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://items/weapons/laser/laser.tscn" id="3_shorh"]
+[ext_resource type="Resource" uid="uid://c8ff3twc0mra8" path="res://items/ammo/laser_ammo.tres" id="1_bjold"]
+[ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://items/weapons/laser/test_projectile.tscn" id="2_l8b5j"]
+[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon.gd" id="3_da8ks"]
+[ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://items/weapons/laser/laser.tscn" id="4_wch0n"]
 
 [sub_resource type="Gradient" id="Gradient_shorh"]
 offsets = PackedFloat32Array(0.32830188, 0.41886792, 0.60754716, 0.71320754)
@@ -16,15 +16,15 @@ height = 128
 fill_to = Vector2(1, 1)
 
 [resource]
-script = ExtResource("3_88554")
+script = ExtResource("3_da8ks")
 max_ammo = 100
 is_automatic = true
 accuracy = 90
-ammo_type = ExtResource("1_jpsys")
-weapon_scene = ExtResource("3_shorh")
+ammo_type = ExtResource("1_bjold")
+weapon_scene = ExtResource("4_wch0n")
 weapon_position = Vector3(0.14105655, -0.06323153, -0.18142417)
 is_hit_scan = false
-projectile_scene = ExtResource("1_shorh")
+projectile_scene = ExtResource("2_l8b5j")
 vertical_lag_amount = 0.002
 muzzle_light_color = Color(1, 0.50995165, 0.67012393, 1)
 display_name = "Laser"

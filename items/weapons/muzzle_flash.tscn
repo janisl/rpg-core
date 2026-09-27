@@ -4,10 +4,8 @@
 [ext_resource type="Material" uid="uid://bvraypbw2als4" path="res://items/weapons/muzzle_flash_particle_process_material.tres" id="2_nooxy"]
 [ext_resource type="QuadMesh" uid="uid://pgxrbqp1fck1" path="res://items/weapons/muzzle_flash_particle_mesh.tres" id="3_juxps"]
 
-[node name="MuzzleFlash" type="Node3D" unique_id=546064966 node_paths=PackedStringArray("particles", "light")]
+[node name="MuzzleFlash" type="Node3D" unique_id=546064966]
 script = ExtResource("1_seugt")
-particles = NodePath("Particles")
-light = NodePath("Light")
 metadata/_custom_type_script = "uid://cq26ne1ptp811"
 
 [node name="Particles" type="GPUParticles3D" parent="." unique_id=1421751275]

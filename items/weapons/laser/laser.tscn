@@ -155,3 +155,4 @@ libraries/ = SubResource("AnimationLibrary_w1e1l")
 
 [node name="MuzzleFlash" parent="." unique_id=546064966 instance=ExtResource("1_xm4o1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.036549665, -0.20460208)
+light_color = Color(1, 0.50995165, 0.67012393, 1)

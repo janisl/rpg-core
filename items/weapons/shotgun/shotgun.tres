@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://vy6ngoc84hnn"]
 
-[ext_resource type="Resource" uid="uid://bvm2idvb450ig" path="res://items/ammo/shotgun_ammo.tres" id="1_wsopd"]
-[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon.gd" id="2_qayca"]
-[ext_resource type="PackedScene" uid="uid://br2mplv6cjpjb" path="res://items/weapons/shotgun/shotgun.tscn" id="2_vy2tt"]
+[ext_resource type="Resource" uid="uid://bvm2idvb450ig" path="res://items/ammo/shotgun_ammo.tres" id="1_d26d0"]
+[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon.gd" id="2_yn8j3"]
+[ext_resource type="PackedScene" uid="uid://br2mplv6cjpjb" path="res://items/weapons/shotgun/shotgun.tscn" id="3_ptbh3"]
 
 [sub_resource type="Gradient" id="Gradient_vy2tt"]
 offsets = PackedFloat32Array(0.33584905, 0.41886792, 0.6415094, 0.7358491)
@@ -15,13 +15,13 @@ height = 128
 fill_to = Vector2(1, 1)
 
 [resource]
-script = ExtResource("2_qayca")
+script = ExtResource("2_yn8j3")
 damage = 8.0
 max_ammo = 40
 fire_rate = 1.0
 accuracy = 80
-ammo_type = ExtResource("1_wsopd")
-weapon_scene = ExtResource("2_vy2tt")
+ammo_type = ExtResource("1_d26d0")
+weapon_scene = ExtResource("3_ptbh3")
 weapon_position = Vector3(0.15307574, -0.1009149, -0.18142417)
 hit_scan_range = 35.0
 pellet_count = 8

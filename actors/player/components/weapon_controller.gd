@@ -132,10 +132,7 @@ func fire_weapon() -> void:
 		_add_model_recoil()
 
 	if _muzzle_flash:
-		_muzzle_flash.flash(
-				current_weapon.muzzle_light_color,
-				current_weapon.muzzle_light_energy,
-				current_weapon.muzzle_light_duration)
+		_muzzle_flash.flash()
 
 	if current_weapon.is_hit_scan:
 		_perform_hit_scan()
@@ -160,8 +157,6 @@ func _spawn_weapon_model() -> void:
 
 	var found := current_weapon_model.find_children("*", "MuzzleFlash", true, false)
 	_muzzle_flash = found[0] if not found.is_empty() else null
-	if _muzzle_flash:
-		_muzzle_flash.configure(current_weapon)
 
 	_apply_clip_and_fov_shader_to_view_model(current_weapon_model)
 
