@@ -53,7 +53,7 @@ extends Node
 @export var vertical_lag_max := 0.03
 @export var vertical_lag_vel_max := 10.0
 
-var current_weapon: WeaponData
+var current_weapon_data: WeaponData
 var current_weapon_model: Node3D
 var animation_player: AnimationPlayer
 var _muzzle_flash: MuzzleFlash
@@ -101,13 +101,13 @@ func _process(delta: float) -> void:
 
 
 func switch_weapon(item_stack: ItemStack) -> void:
-	current_weapon = item_stack.item as WeaponData if item_stack else null
+	current_weapon_data = item_stack.item as WeaponData if item_stack else null
 	_spawn_weapon_model()
 	weapon_state_chart.send_event("onIdle")
 
 
 func has_ammo() -> bool:
-	return Managers.weapon_manager.get_current_ammo(current_weapon.ammo_type) > 0
+	return Managers.weapon_manager.get_current_ammo(current_weapon_data.ammo_type) > 0
 
 
 func can_fire() -> bool:
@@ -118,23 +118,23 @@ func fire_weapon() -> void:
 	if not can_fire():
 		return
 
-	Managers.weapon_manager.use_ammo(current_weapon.ammo_type)
+	Managers.weapon_manager.use_ammo(current_weapon_data.ammo_type)
 	animation_player.play("fire")
 
 	can_fire_next = false
-	fire_rate_timer = 1.0 / current_weapon.fire_rate
+	fire_rate_timer = 1.0 / current_weapon_data.fire_rate
 
 	camera.add_recoil(
-		current_weapon.recoil_cam_pitch,
-		current_weapon.recoil_cam_yaw,
-		current_weapon.recoil_cam_roll)
+		current_weapon_data.recoil_cam_pitch,
+		current_weapon_data.recoil_cam_yaw,
+		current_weapon_data.recoil_cam_roll)
 	if recoil_enabled:
 		_add_model_recoil()
 
 	if _muzzle_flash:
 		_muzzle_flash.flash()
 
-	if current_weapon.is_hit_scan:
+	if current_weapon_data.is_hit_scan:
 		_perform_hit_scan()
 	else:
 		_spawn_projectile()
@@ -143,16 +143,17 @@ func fire_weapon() -> void:
 func _spawn_weapon_model() -> void:
 	if current_weapon_model:
 		current_weapon_model.queue_free()
+		current_weapon_model = null
 
-	if not current_weapon:
+	if not current_weapon_data:
 		return
 
-	assert(current_weapon.weapon_scene, "Weapon has no scene")
+	assert(current_weapon_data.weapon_scene, "Weapon has no scene")
 
-	current_weapon_model = current_weapon.weapon_scene.instantiate()
+	current_weapon_model = current_weapon_data.weapon_scene.instantiate()
 	weapon_model_parent.add_child(current_weapon_model)
-	current_weapon_model.position = current_weapon.weapon_position
-	base_weapon_position = current_weapon.weapon_position
+	current_weapon_model.position = current_weapon_data.weapon_position
+	base_weapon_position = current_weapon_data.weapon_position
 	animation_player = current_weapon_model.get_node("AnimationPlayer")
 
 	var found := current_weapon_model.find_children("*", "MuzzleFlash", true, false)
@@ -178,19 +179,19 @@ func _perform_hit_scan() -> void:
 	var from := camera.global_position
 	var forward := -camera.global_transform.basis.z
 
-	var accuracy_spread := (100.0 - current_weapon.accuracy) / 1000.0
+	var accuracy_spread := (100.0 - current_weapon_data.accuracy) / 1000.0
 
-	for i in current_weapon.pellet_count:
+	for i in current_weapon_data.pellet_count:
 		var accuracy_x := randf_range(-accuracy_spread, accuracy_spread)
 		var accuracy_y := randf_range(-accuracy_spread, accuracy_spread)
 		var direction := forward + Vector3(accuracy_x, accuracy_y, 0) * camera.global_transform.basis
 
-		if current_weapon.pellet_count > 1:
-			var spread_x := randf_range(-current_weapon.spread_angle, current_weapon.spread_angle)
-			var spread_y := randf_range(-current_weapon.spread_angle, current_weapon.spread_angle)
+		if current_weapon_data.pellet_count > 1:
+			var spread_x := randf_range(-current_weapon_data.spread_angle, current_weapon_data.spread_angle)
+			var spread_y := randf_range(-current_weapon_data.spread_angle, current_weapon_data.spread_angle)
 			direction += Vector3(spread_x, spread_y, 0) * camera.global_transform.basis
 
-		var to := from + direction * current_weapon.hit_scan_range
+		var to := from + direction * current_weapon_data.hit_scan_range
 
 		var query := PhysicsRayQueryParameters3D.create(from, to)
 		query.collision_mask = hit_scan_collision_mask
@@ -223,36 +224,36 @@ func _spawn_impact_marker(position: Vector3) -> void:
 
 
 func _spawn_projectile() -> void:
-	assert(current_weapon.projectile_scene, "No projectile addigned")
+	assert(current_weapon_data.projectile_scene, "No projectile addigned")
 	assert(camera, "No camera assigned")
 
-	var projectile := current_weapon.projectile_scene.instantiate() as Projectile
+	var projectile := current_weapon_data.projectile_scene.instantiate() as Projectile
 	get_tree().current_scene.add_child(projectile)
 
 	projectile.global_position = camera.global_position
 
 	var forward := -camera.global_transform.basis.z
 
-	var accuracy_spread := (100.0 - current_weapon.accuracy) / 1000.0
+	var accuracy_spread := (100.0 - current_weapon_data.accuracy) / 1000.0
 	var accuracy_x := randf_range(-accuracy_spread, accuracy_spread)
 	var accuracy_y := randf_range(-accuracy_spread, accuracy_spread)
 	var direction := forward + Vector3(accuracy_x, accuracy_y, 0) * camera.global_transform.basis
 
-	var velocity := direction * current_weapon.projectile_speed
+	var velocity := direction * current_weapon_data.projectile_speed
 
 	projectile.look_at(camera.global_position + direction, Vector3.UP)
-	projectile.setup(player, velocity, current_weapon.damage)
+	projectile.setup(player, velocity, current_weapon_data.damage)
 
 
 func _apply_damage_to_target(target: Node3D) -> void:
 	var health_component := target.get_node_or_null("HealthComponent") as HealthComponent
 
 	if health_component:
-		health_component.take_damage(current_weapon.damage, player)
+		health_component.take_damage(current_weapon_data.damage, player)
 
 
 func _apply_offsets(delta: float) -> void:
-	if not current_weapon:
+	if not current_weapon_data:
 		return
 
 	var idle_offset := _update_idle_sway(delta)
@@ -397,8 +398,8 @@ func _update_bob(delta: float) -> Vector3:
 
 
 func _add_model_recoil() -> void:
-	_recoil_z += current_weapon.recoil_model_kickback
-	_recoil_pitch += current_weapon.recoil_model_rise
+	_recoil_z += current_weapon_data.recoil_model_kickback
+	_recoil_pitch += current_weapon_data.recoil_model_rise
 
 
 func _update_recoil(delta: float) -> Vector3:
@@ -449,7 +450,7 @@ func _update_vertical_lag(delta: float) -> Vector3:
 	if abs(cam_vel_y) < vertical_lag_dead_zome:
 		cam_vel_y = 0.0
 
-	var target_y := -cam_vel_y * current_weapon.vertical_lag_amount
+	var target_y := -cam_vel_y * current_weapon_data.vertical_lag_amount
 	var result = SpringUtil.apply(
 			_vertical_lag_y,
 			_vertical_lag_y_vel,
