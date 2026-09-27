@@ -7,7 +7,7 @@ extends BasePickup
 func _can_pickup(player: Player) -> bool:
 	var weapon_slot := player.inventory.find_by_type(weapon_resource)
 	var ammo_slot := player.inventory.find_by_type(weapon_resource.ammo_type)
-	return not weapon_slot or not ammo_slot or ammo_slot.amount < weapon_resource.max_ammo
+	return not weapon_slot or not ammo_slot or ammo_slot.amount < weapon_resource.ammo_type.max_stack
 
 
 func _apply_pickup(player: Player) -> void:
