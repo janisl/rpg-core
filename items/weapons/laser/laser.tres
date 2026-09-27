@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://4fhry8pq51ej"]
 
 [ext_resource type="Resource" uid="uid://c8ff3twc0mra8" path="res://items/ammo/laser_ammo.tres" id="1_jpsys"]
-[ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://weapons/projectiles/test_projectile.tscn" id="1_shorh"]
+[ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://items/weapons/laser/test_projectile.tscn" id="1_shorh"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon.gd" id="3_88554"]
-[ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://weapons/scenes/laser.tscn" id="3_shorh"]
+[ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://items/weapons/laser/laser.tscn" id="3_shorh"]
 
 [sub_resource type="Gradient" id="Gradient_shorh"]
 offsets = PackedFloat32Array(0.32830188, 0.41886792, 0.60754716, 0.71320754)

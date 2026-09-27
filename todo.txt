@@ -1,4 +1,5 @@
 Player
+- world interactions
 - death state
 - stats, leveling
 - equipment
@@ -32,6 +33,7 @@ Environment
 - hit boxes
 - throwable objects
 - explosions
+- drowning
 
 Maps
 - player spawner
