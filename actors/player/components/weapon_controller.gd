@@ -55,6 +55,7 @@ extends Node
 
 var current_weapon_data: WeaponData
 var current_weapon_model: Node3D
+var current_weapon: Weapon
 var animation_player: AnimationPlayer
 var _muzzle_flash: MuzzleFlash
 
@@ -144,6 +145,7 @@ func _spawn_weapon_model() -> void:
 	if current_weapon_model:
 		current_weapon_model.queue_free()
 		current_weapon_model = null
+		current_weapon = null
 
 	if not current_weapon_data:
 		return
@@ -151,6 +153,7 @@ func _spawn_weapon_model() -> void:
 	assert(current_weapon_data.weapon_scene, "Weapon has no scene")
 
 	current_weapon_model = current_weapon_data.weapon_scene.instantiate()
+	current_weapon = current_weapon as Weapon
 	weapon_model_parent.add_child(current_weapon_model)
 	current_weapon_model.position = current_weapon_data.weapon_position
 	base_weapon_position = current_weapon_data.weapon_position
