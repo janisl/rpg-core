@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://k8m0m32cwhsd"]
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://k8m0m32cwhsd"]
 
 [ext_resource type="Resource" uid="uid://8wv77e0i7ndt" path="res://items/ammo/pistol_ammo.tres" id="1_cxtko"]
-[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon_data.gd" id="2_ka7mt"]
+[ext_resource type="PackedScene" uid="uid://bmjbw3h5btlsw" path="res://items/weapons/weapon.tscn" id="2_ka7mt"]
 [ext_resource type="PackedScene" uid="uid://567vdvii3fg6" path="res://items/weapons/pistol/pistol.tscn" id="3_spaxh"]
+[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon_data.gd" id="3_wtgxi"]
 
 [sub_resource type="Gradient" id="Gradient_cm5tq"]
 offsets = PackedFloat32Array(0.31320754, 0.4264151, 0.5962264, 0.7169811)
@@ -15,7 +16,7 @@ height = 128
 fill_to = Vector2(1, 1)
 
 [resource]
-script = ExtResource("2_ka7mt")
+script = ExtResource("3_wtgxi")
 max_ammo = 80
 is_automatic = true
 ammo_type = ExtResource("1_cxtko")
@@ -25,4 +26,5 @@ vertical_lag_amount = 0.002
 display_name = "Pistol"
 description = "Pistol"
 icon = SubResource("GradientTexture2D_8hv22")
+item_scene = ExtResource("2_ka7mt")
 metadata/_custom_type_script = "uid://bjvp63efii4fn"

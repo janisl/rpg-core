@@ -153,11 +153,13 @@ func _spawn_weapon_model() -> void:
 	assert(current_weapon_data.weapon_scene, "Weapon has no scene")
 
 	current_weapon_model = current_weapon_data.weapon_scene.instantiate()
-	current_weapon = current_weapon as Weapon
 	weapon_model_parent.add_child(current_weapon_model)
 	current_weapon_model.position = current_weapon_data.weapon_position
 	base_weapon_position = current_weapon_data.weapon_position
 	animation_player = current_weapon_model.get_node("AnimationPlayer")
+
+	current_weapon = current_weapon_data.item_scene.instantiate() as Weapon
+	add_child(current_weapon)
 
 	var found := current_weapon_model.find_children("*", "MuzzleFlash", true, false)
 	_muzzle_flash = found[0] if not found.is_empty() else null

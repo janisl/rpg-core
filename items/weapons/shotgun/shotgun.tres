@@ -2,6 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://bvm2idvb450ig" path="res://items/ammo/shotgun_ammo.tres" id="1_d26d0"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon_data.gd" id="2_d26d0"]
+[ext_resource type="PackedScene" uid="uid://bmjbw3h5btlsw" path="res://items/weapons/weapon.tscn" id="2_yn8j3"]
 [ext_resource type="PackedScene" uid="uid://br2mplv6cjpjb" path="res://items/weapons/shotgun/shotgun.tscn" id="3_ptbh3"]
 
 [sub_resource type="Gradient" id="Gradient_vy2tt"]
@@ -31,4 +32,5 @@ vertical_lag_amount = 0.001
 display_name = "Shotgun"
 description = "Shotgun"
 icon = SubResource("GradientTexture2D_8hv22")
+item_scene = ExtResource("2_yn8j3")
 metadata/_custom_type_script = "uid://bjvp63efii4fn"
