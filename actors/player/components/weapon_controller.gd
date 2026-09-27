@@ -53,7 +53,7 @@ extends Node
 @export var vertical_lag_max := 0.03
 @export var vertical_lag_vel_max := 10.0
 
-var current_weapon: Weapon
+var current_weapon: WeaponData
 var current_weapon_model: Node3D
 var animation_player: AnimationPlayer
 var _muzzle_flash: MuzzleFlash
@@ -101,7 +101,7 @@ func _process(delta: float) -> void:
 
 
 func switch_weapon(item_stack: ItemStack) -> void:
-	current_weapon = item_stack.item as Weapon if item_stack else null
+	current_weapon = item_stack.item as WeaponData if item_stack else null
 	_spawn_weapon_model()
 	weapon_state_chart.send_event("onIdle")
 

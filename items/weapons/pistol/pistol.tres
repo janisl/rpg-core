@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://k8m0m32cwhsd"]
 
 [ext_resource type="Resource" uid="uid://8wv77e0i7ndt" path="res://items/ammo/pistol_ammo.tres" id="1_cxtko"]
-[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon.gd" id="2_ka7mt"]
+[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon_data.gd" id="2_ka7mt"]
 [ext_resource type="PackedScene" uid="uid://567vdvii3fg6" path="res://items/weapons/pistol/pistol.tscn" id="3_spaxh"]
 
 [sub_resource type="Gradient" id="Gradient_cm5tq"]

@@ -40,7 +40,7 @@ func _on_inventory_changed() -> void:
 
 func _update_ammo_label() -> void:
 	var weapon := _player.inventory.slots[Managers.weapon_manager.current_slot]
-	if not weapon or weapon.item is not Weapon:
+	if not weapon or weapon.item is not WeaponData:
 		ammo_label.visible = false
 		return
 

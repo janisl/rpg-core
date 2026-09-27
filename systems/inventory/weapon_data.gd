@@ -1,4 +1,4 @@
-class_name Weapon
+class_name WeaponData
 extends ItemData
 
 @export_group("General")

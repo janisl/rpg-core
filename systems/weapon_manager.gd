@@ -28,7 +28,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func initialize_starting_weapon() -> void:
 	for slot in range(0, 9):
-		if player.inventory.slots[slot] and player.inventory.slots[slot].item is Weapon:
+		if player.inventory.slots[slot] and player.inventory.slots[slot].item is WeaponData:
 			switch_to_slot(slot)
 			return
 
@@ -40,7 +40,7 @@ func switch_to_slot(index: int) -> void:
 	player.weapon_controller.switch_weapon(item_stack)
 
 
-func switch_to_weapon(weapon: Weapon) -> void:
+func switch_to_weapon(weapon: WeaponData) -> void:
 	for slot in range(0, 9):
 		if player.inventory.slots[slot] and player.inventory.slots[slot].item == weapon:
 			switch_to_slot(slot)
@@ -54,6 +54,6 @@ func get_current_ammo(type: ItemData) -> int:
 	return player.inventory.get_available_amount(type)
 
 
-func unlock_weapon(weapon: Weapon) -> void:
+func unlock_weapon(weapon: WeaponData) -> void:
 	player.inventory.add_item(weapon)
 	player.inventory.add_item(weapon.ammo_type, weapon.max_ammo)

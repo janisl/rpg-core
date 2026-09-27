@@ -2,7 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://c8ff3twc0mra8" path="res://items/ammo/laser_ammo.tres" id="1_bjold"]
 [ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://items/weapons/laser/test_projectile.tscn" id="2_l8b5j"]
-[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon.gd" id="3_da8ks"]
+[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon_data.gd" id="3_da8ks"]
 [ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://items/weapons/laser/laser.tscn" id="4_wch0n"]
 
 [sub_resource type="Gradient" id="Gradient_shorh"]

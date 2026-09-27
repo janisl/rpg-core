@@ -1,7 +1,7 @@
 class_name WeaponPickup
 extends BasePickup
 
-@export var weapon_resource: Weapon
+@export var weapon_resource: WeaponData
 
 
 func _can_pickup(player: Player) -> bool:
