@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://d0mr7wt6h2cry"]
-
-[ext_resource type="PackedScene" uid="uid://bmjbw3h5btlsw" path="res://items/weapons/weapon.tscn" id="1_xm4o1"]
-[ext_resource type="Script" uid="uid://b3cm6g62i8cfr" path="res://items/weapons/projectile_weapon.gd" id="2_0153n"]
-
-[node name="Laser" unique_id=2003787361 instance=ExtResource("1_xm4o1")]
-script = ExtResource("2_0153n")

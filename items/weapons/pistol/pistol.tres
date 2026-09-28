@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://k8m0m32cwhsd"]
 
 [ext_resource type="Resource" uid="uid://8wv77e0i7ndt" path="res://items/ammo/pistol_ammo.tres" id="1_cxtko"]
-[ext_resource type="PackedScene" uid="uid://cahx30fgunnk7" path="res://items/weapons/pistol/pistol.tscn" id="3_spaxh"]
+[ext_resource type="PackedScene" uid="uid://cojhl7nthk3w1" path="res://items/weapons/hit_scan_weapon.tscn" id="2_ka7mt"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon_data.gd" id="3_wtgxi"]
 [ext_resource type="PackedScene" uid="uid://567vdvii3fg6" path="res://items/weapons/pistol/pistol_view.tscn" id="4_ka7mt"]
 
@@ -26,5 +26,5 @@ vertical_lag_amount = 0.002
 display_name = "Pistol"
 description = "Pistol"
 icon = SubResource("GradientTexture2D_8hv22")
-item_scene = ExtResource("3_spaxh")
+item_scene = ExtResource("2_ka7mt")
 metadata/_custom_type_script = "uid://bjvp63efii4fn"

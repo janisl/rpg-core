@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cojhl7nthk3w1"]
+
+[ext_resource type="PackedScene" uid="uid://bmjbw3h5btlsw" path="res://items/weapons/weapon.tscn" id="1_sqb1c"]
+[ext_resource type="Script" uid="uid://btg1edrircng7" path="res://items/weapons/hit_scan_weapon.gd" id="2_5sdol"]
+
+[node name="HitScanWeapon" unique_id=2003787361 instance=ExtResource("1_sqb1c")]
+script = ExtResource("2_5sdol")
+hit_scan_collision_mask = 1
