@@ -7,9 +7,7 @@ func _perform_attack() -> void:
 
 
 func _perform_hit_scan() -> void:
-	assert(camera, "No camera assigned")
-
-	var space_state := camera.get_world_3d().direct_space_state
+	var space_state := item_owner.get_world_3d().direct_space_state
 	var from := camera.global_position
 	var forward := -camera.global_transform.basis.z
 
@@ -45,7 +43,7 @@ func _apply_damage_to_target(target: Node3D) -> void:
 	var health_component := target.get_node_or_null("HealthComponent") as HealthComponent
 
 	if health_component:
-		health_component.take_damage(current_weapon_data.damage, player)
+		health_component.take_damage(current_weapon_data.damage, item_owner)
 
 
 func _spawn_impact_marker(position: Vector3) -> void:

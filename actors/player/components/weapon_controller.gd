@@ -134,7 +134,7 @@ func _spawn_weapon_model() -> void:
 	current_weapon = current_weapon_data.item_scene.instantiate() as Weapon
 	add_child(current_weapon)
 	current_weapon.current_weapon_data = current_weapon_data
-	current_weapon.player = player
+	current_weapon.item_owner = player
 	current_weapon.camera = camera
 	current_weapon.hit_scan_collision_mask = hit_scan_collision_mask
 	current_weapon.weapon_manager = Managers.weapon_manager

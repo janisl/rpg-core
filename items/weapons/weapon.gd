@@ -5,7 +5,6 @@ signal weapon_idle
 signal weapon_fired
 
 var current_weapon_data: WeaponData
-var player: Player
 var camera: CameraEffects
 var hit_scan_collision_mask: int
 var weapon_manager: WeaponManager
