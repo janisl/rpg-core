@@ -2,16 +2,16 @@ extends WeaponStateBehaviour
 
 
 func _on_state_entered() -> void:
-	if weapon_controller.animation_player:
-		weapon_controller.animation_player.play("idle")
+	if weapon.animation_player:
+		weapon.animation_player.play("idle")
 
 
 func _on_state_processing(delta: float) -> void:
-	if not weapon_controller or not weapon_controller.current_weapon_data:
+	if not weapon.current_weapon_data:
 		return
 
-	if Input.is_action_just_pressed("primary_fire") and weapon_controller.current_weapon.can_fire():
-		weapon_controller.weapon_state_chart.send_event("onFiring")
+	if Input.is_action_just_pressed("primary_fire") and weapon.can_fire():
+		weapon.state_chart.send_event("onFiring")
 
-	if not weapon_controller.current_weapon.has_ammo():
-		weapon_controller.weapon_state_chart.send_event("onEmpty")
+	if not weapon.has_ammo():
+		weapon.state_chart.send_event("onEmpty")

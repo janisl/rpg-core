@@ -13,6 +13,8 @@ var animation_player: AnimationPlayer
 var can_fire_next := true
 var fire_rate_timer := 0.0
 
+@onready var state_chart: StateChart = $StateChart
+
 
 func _process(delta: float) -> void:
 	if fire_rate_timer > 0.0:

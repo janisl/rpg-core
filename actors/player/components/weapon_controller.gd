@@ -5,7 +5,6 @@ extends Node
 @export var player: Player
 @export var camera: CameraEffects
 @export var weapon_model_parent: Node3D
-@export var weapon_state_chart: StateChart
 
 @export_group("Weapon controller params")
 @export_flags_3d_physics var hit_scan_collision_mask: int = 1
@@ -96,13 +95,14 @@ func _process(delta: float) -> void:
 func switch_weapon(item_stack: ItemStack) -> void:
 	current_weapon_data = item_stack.item as WeaponData if item_stack else null
 	_spawn_weapon_model()
-	weapon_state_chart.send_event("onIdle")
 
 
 func _spawn_weapon_model() -> void:
 	if current_weapon_model:
 		current_weapon_model.queue_free()
 		current_weapon_model = null
+	if current_weapon:
+		current_weapon.queue_free()
 		current_weapon = null
 
 	if not current_weapon_data:

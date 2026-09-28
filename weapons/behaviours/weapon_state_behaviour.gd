@@ -1,10 +1,10 @@
 class_name WeaponStateBehaviour
 extends StateBehaviour
 
-var weapon_controller: WeaponController
+var weapon: Weapon
 
 
 func _ready() -> void:
-	super()
+	weapon = _find_owner() as Weapon
 
-	weapon_controller = (_find_owner() as Player).weapon_controller
+	super()
