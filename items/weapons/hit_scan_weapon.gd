@@ -1,6 +1,8 @@
 class_name HitScanWeapon
 extends Weapon
 
+@export_flags_3d_physics var hit_scan_collision_mask: int = 1
+
 
 func _perform_attack() -> void:
 	_perform_hit_scan()

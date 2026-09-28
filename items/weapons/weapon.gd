@@ -6,7 +6,6 @@ signal weapon_fired
 
 var current_weapon_data: WeaponData
 var camera: CameraEffects
-var hit_scan_collision_mask: int
 var weapon_manager: WeaponManager
 
 var fire_rate_timer := 0.0

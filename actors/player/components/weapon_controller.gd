@@ -7,7 +7,6 @@ extends Node
 @export var weapon_model_parent: Node3D
 
 @export_group("Weapon controller params")
-@export_flags_3d_physics var hit_scan_collision_mask: int = 1
 @export_flags_3d_render var weapon_mesh_layer := 1
 
 @export_group("Idle sway")
@@ -136,7 +135,6 @@ func _spawn_weapon_model() -> void:
 	current_weapon.current_weapon_data = current_weapon_data
 	current_weapon.item_owner = player
 	current_weapon.camera = camera
-	current_weapon.hit_scan_collision_mask = hit_scan_collision_mask
 	current_weapon.weapon_manager = Managers.weapon_manager
 
 	current_weapon.weapon_idle.connect(_on_weapon_idle)
