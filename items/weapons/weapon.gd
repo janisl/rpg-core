@@ -4,8 +4,6 @@ extends Item
 signal weapon_idle
 signal weapon_fired
 
-var camera: CameraEffects
-
 var weapon_data: WeaponData
 
 var fire_rate_timer := 0.0
@@ -39,11 +37,6 @@ func fire_weapon() -> void:
 	weapon_fired.emit()
 
 	fire_rate_timer = 1.0 / weapon_data.fire_rate
-
-	camera.add_recoil(
-		weapon_data.recoil_cam_pitch,
-		weapon_data.recoil_cam_yaw,
-		weapon_data.recoil_cam_roll)
 
 	_perform_attack()
 
@@ -91,16 +84,8 @@ func _on_empty_state_entered() -> void:
 	print("Weapon empty!")
 
 
-func _get_from_position() -> Vector3:
-	return camera.global_position
-
-
-func _get_forward_direction() -> Vector3:
-	return -camera.global_transform.basis.z
-
-
 func _get_spread_delta(spread: float) -> Vector3:
 	var spread_x := randf_range(-spread, spread)
 	var spread_y := randf_range(-spread, spread)
-	var basis := Basis.looking_at(_get_forward_direction())
+	var basis := Basis.looking_at(forward_direction)
 	return Vector3(spread_x, spread_y, 0) * basis

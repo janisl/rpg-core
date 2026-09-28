@@ -90,6 +90,8 @@ var _vertical_lag_seeded := false
 
 func _process(delta: float) -> void:
 	_apply_offsets(delta)
+	if current_weapon:
+		current_weapon.update(camera.global_position, -camera.global_transform.basis.z)
 
 
 func switch_weapon(item_stack: ItemStack) -> void:
@@ -115,7 +117,6 @@ func _spawn_weapon_model() -> void:
 	current_weapon = current_weapon_data.item_scene.instantiate() as Weapon
 	add_child(current_weapon)
 	current_weapon.initialize(player, player.inventory, current_item_stack)
-	current_weapon.camera = camera
 
 	current_weapon.weapon_idle.connect(_on_weapon_idle)
 	current_weapon.weapon_fired.connect(_on_weapon_fired)
@@ -155,6 +156,11 @@ func _on_weapon_fired() -> void:
 
 	if recoil_enabled:
 		_add_model_recoil()
+
+	camera.add_recoil(
+		current_weapon_data.recoil_cam_pitch,
+		current_weapon_data.recoil_cam_yaw,
+		current_weapon_data.recoil_cam_roll)
 
 
 func _apply_offsets(delta: float) -> void:

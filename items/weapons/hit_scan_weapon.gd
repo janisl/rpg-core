@@ -10,20 +10,18 @@ func _perform_attack() -> void:
 
 func _perform_hit_scan() -> void:
 	var space_state := item_owner.get_world_3d().direct_space_state
-	var from := _get_from_position()
-	var forward := _get_forward_direction()
 
 	var accuracy_spread := (100.0 - weapon_data.accuracy) / 1000.0
 
 	for i in weapon_data.pellet_count:
-		var direction := forward + _get_spread_delta(accuracy_spread)
+		var direction := forward_direction + _get_spread_delta(accuracy_spread)
 
 		if weapon_data.pellet_count > 1:
 			direction += _get_spread_delta(weapon_data.spread_angle)
 
-		var to := from + direction * weapon_data.hit_scan_range
+		var to := from_position + direction * weapon_data.hit_scan_range
 
-		var query := PhysicsRayQueryParameters3D.create(from, to)
+		var query := PhysicsRayQueryParameters3D.create(from_position, to)
 		query.collision_mask = hit_scan_collision_mask
 		var result := space_state.intersect_ray(query)
 
