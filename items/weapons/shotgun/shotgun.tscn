@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://mmscyns7wmgr"]
+
+[ext_resource type="PackedScene" uid="uid://bmjbw3h5btlsw" path="res://items/weapons/weapon.tscn" id="1_k707q"]
+[ext_resource type="Script" uid="uid://btg1edrircng7" path="res://items/weapons/hit_scan_weapon.gd" id="2_33j0q"]
+
+[node name="Shotgun" unique_id=2003787361 instance=ExtResource("1_k707q")]
+script = ExtResource("2_33j0q")

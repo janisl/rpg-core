@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://4fhry8pq51ej"]
 
 [ext_resource type="Resource" uid="uid://c8ff3twc0mra8" path="res://items/ammo/laser_ammo.tres" id="1_bjold"]
-[ext_resource type="PackedScene" uid="uid://bmjbw3h5btlsw" path="res://items/weapons/weapon.tscn" id="2_da8ks"]
 [ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://items/weapons/laser/test_projectile.tscn" id="2_l8b5j"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon_data.gd" id="4_efmtk"]
+[ext_resource type="PackedScene" uid="uid://d0mr7wt6h2cry" path="res://items/weapons/laser/laser.tscn" id="4_wch0n"]
 [ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://items/weapons/laser/laser_view.tscn" id="5_l8b5j"]
 
 [sub_resource type="Gradient" id="Gradient_shorh"]
@@ -30,5 +30,5 @@ vertical_lag_amount = 0.002
 display_name = "Laser"
 description = "Laser"
 icon = SubResource("GradientTexture2D_wsopd")
-item_scene = ExtResource("2_da8ks")
+item_scene = ExtResource("4_wch0n")
 metadata/_custom_type_script = "uid://bjvp63efii4fn"
