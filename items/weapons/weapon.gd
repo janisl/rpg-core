@@ -79,3 +79,17 @@ func _on_firing_state_processing(delta: float) -> void:
 
 func _on_empty_state_entered() -> void:
 	print("Weapon empty!")
+
+
+func _get_from_position() -> Vector3:
+	return camera.global_position
+
+
+func _get_forward_direction() -> Vector3:
+	return -camera.global_transform.basis.z
+
+
+func _get_spread_delta(spread: float) -> Vector3:
+	var accuracy_x := randf_range(-spread, spread)
+	var accuracy_y := randf_range(-spread, spread)
+	return Vector3(accuracy_x, accuracy_y, 0) * camera.global_transform.basis
