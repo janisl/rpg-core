@@ -50,7 +50,7 @@ func _on_idle_state_entered() -> void:
 
 
 func _on_idle_state_processing(_delta: float) -> void:
-	if Input.is_action_just_pressed("primary_fire") and can_fire():
+	if attack_just_pressed and can_fire():
 		state_chart.send_event("onFiring")
 
 	if not has_ammo():
@@ -72,7 +72,7 @@ func _on_firing_state_processing(delta: float) -> void:
 		return
 
 	if weapon_data.is_automatic:
-		if Input.is_action_pressed("primary_fire"):
+		if attack_pressed:
 			if can_fire():
 				fire_weapon()
 			return
