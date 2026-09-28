@@ -10,17 +10,9 @@ var weapon_controller: WeaponController
 var _muzzle_flash: MuzzleFlash
 var animation_player: AnimationPlayer
 
-var can_fire_next := true
 var fire_rate_timer := 0.0
 
 @onready var state_chart: StateChart = $StateChart
-
-
-func _process(delta: float) -> void:
-	if fire_rate_timer > 0.0:
-		fire_rate_timer -= delta
-		if fire_rate_timer <= 0:
-			can_fire_next = true
 
 
 func has_ammo() -> bool:
@@ -28,7 +20,7 @@ func has_ammo() -> bool:
 
 
 func can_fire() -> bool:
-	return has_ammo() and can_fire_next
+	return has_ammo()
 
 
 func fire_weapon() -> void:
@@ -38,7 +30,6 @@ func fire_weapon() -> void:
 	Managers.weapon_manager.use_ammo(current_weapon_data.ammo_type)
 	animation_player.play("fire")
 
-	can_fire_next = false
 	fire_rate_timer = 1.0 / current_weapon_data.fire_rate
 
 	camera.add_recoil(
@@ -158,7 +149,12 @@ func _on_firing_state_entered() -> void:
 	fire_weapon()
 
 
-func _on_firing_state_processing(_delta: float) -> void:
+func _on_firing_state_processing(delta: float) -> void:
+	if fire_rate_timer > 0.0:
+		fire_rate_timer -= delta
+		if fire_rate_timer > 0.0:
+			return
+
 	if not has_ammo():
 		state_chart.send_event("onEmpty")
 		return
@@ -169,8 +165,7 @@ func _on_firing_state_processing(_delta: float) -> void:
 				fire_weapon()
 			return
 
-	if not animation_player.is_playing():
-		state_chart.send_event("onIdle")
+	state_chart.send_event("onIdle")
 
 
 func _on_empty_state_entered() -> void:
