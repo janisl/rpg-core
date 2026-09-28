@@ -90,6 +90,7 @@ func _get_forward_direction() -> Vector3:
 
 
 func _get_spread_delta(spread: float) -> Vector3:
-	var accuracy_x := randf_range(-spread, spread)
-	var accuracy_y := randf_range(-spread, spread)
-	return Vector3(accuracy_x, accuracy_y, 0) * camera.global_transform.basis
+	var spread_x := randf_range(-spread, spread)
+	var spread_y := randf_range(-spread, spread)
+	var basis := Basis.looking_at(_get_forward_direction())
+	return Vector3(spread_x, spread_y, 0) * basis
