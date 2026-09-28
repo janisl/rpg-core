@@ -5,21 +5,21 @@ func _on_state_entered() -> void:
 	if not weapon_controller:
 		return
 
-	weapon_controller.fire_weapon()
+	weapon_controller.current_weapon.fire_weapon()
 
 
 func _on_state_physics_processing(_delta: float) -> void:
 	if not weapon_controller:
 		return
 
-	if not weapon_controller.has_ammo():
+	if not weapon_controller.current_weapon.has_ammo():
 		weapon_controller.weapon_state_chart.send_event("onEmpty")
 		return
 
 	if weapon_controller.current_weapon_data.is_automatic:
 		if Input.is_action_pressed("primary_fire"):
-			if weapon_controller.can_fire():
-				weapon_controller.fire_weapon()
+			if weapon_controller.current_weapon.can_fire():
+				weapon_controller.current_weapon.fire_weapon()
 			return
 
 	if not weapon_controller.animation_player.is_playing():
