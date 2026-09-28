@@ -53,6 +53,7 @@ extends Node
 
 var current_weapon_data: WeaponData
 var current_weapon_model: Node3D
+var current_item_stack: ItemStack
 var current_weapon: Weapon
 var animation_player: AnimationPlayer
 var _muzzle_flash: MuzzleFlash
@@ -92,6 +93,7 @@ func _process(delta: float) -> void:
 
 
 func switch_weapon(item_stack: ItemStack) -> void:
+	current_item_stack = item_stack
 	current_weapon_data = item_stack.item as WeaponData if item_stack else null
 	_spawn_weapon_model()
 
@@ -107,7 +109,17 @@ func _spawn_weapon_model() -> void:
 	if not current_weapon_data:
 		return
 
-	assert(current_weapon_data.weapon_scene, "Weapon has no scene")
+	assert(current_weapon_data.item_scene, "Weapon has no item scene")
+	assert(current_weapon_data.weapon_scene, "Weapon has no view scene")
+
+	current_weapon = current_weapon_data.item_scene.instantiate() as Weapon
+	add_child(current_weapon)
+	current_weapon.initialize(player, current_item_stack)
+	current_weapon.camera = camera
+	current_weapon.weapon_manager = Managers.weapon_manager
+
+	current_weapon.weapon_idle.connect(_on_weapon_idle)
+	current_weapon.weapon_fired.connect(_on_weapon_fired)
 
 	current_weapon_model = current_weapon_data.weapon_scene.instantiate()
 	weapon_model_parent.add_child(current_weapon_model)
@@ -129,16 +141,6 @@ func _spawn_weapon_model() -> void:
 	_recoil_z_vel = 0.0
 	_recoil_pitch = 0.0
 	_recoil_pitch_vel = 0.0
-
-	current_weapon = current_weapon_data.item_scene.instantiate() as Weapon
-	add_child(current_weapon)
-	current_weapon.current_weapon_data = current_weapon_data
-	current_weapon.item_owner = player
-	current_weapon.camera = camera
-	current_weapon.weapon_manager = Managers.weapon_manager
-
-	current_weapon.weapon_idle.connect(_on_weapon_idle)
-	current_weapon.weapon_fired.connect(_on_weapon_fired)
 
 
 func _on_weapon_idle() -> void:
