@@ -5,7 +5,6 @@ signal weapon_idle
 signal weapon_fired
 
 var camera: CameraEffects
-var weapon_manager: WeaponManager
 
 var weapon_data: WeaponData
 
@@ -14,14 +13,17 @@ var fire_rate_timer := 0.0
 @onready var state_chart: StateChart = $StateChart
 
 
-func initialize(own: Actor, stack: ItemStack) -> void:
-	super(own, stack)
+func initialize(own: Actor, inventory: Inventory, stack: ItemStack) -> void:
+	super(own, inventory, stack)
 
 	weapon_data = item_stack.item as WeaponData
 
 
 func has_ammo() -> bool:
-	return weapon_manager.get_current_ammo(weapon_data.ammo_type) > 0
+	if not owner_inventory:
+		return true
+
+	return owner_inventory.get_available_amount(weapon_data.ammo_type) > 0
 
 
 func can_fire() -> bool:
@@ -32,7 +34,8 @@ func fire_weapon() -> void:
 	if not can_fire():
 		return
 
-	Managers.weapon_manager.use_ammo(weapon_data.ammo_type)
+	if owner_inventory:
+		owner_inventory.remove_item(weapon_data.ammo_type, 1)
 	weapon_fired.emit()
 
 	fire_rate_timer = 1.0 / weapon_data.fire_rate

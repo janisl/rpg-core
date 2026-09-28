@@ -114,9 +114,8 @@ func _spawn_weapon_model() -> void:
 
 	current_weapon = current_weapon_data.item_scene.instantiate() as Weapon
 	add_child(current_weapon)
-	current_weapon.initialize(player, current_item_stack)
+	current_weapon.initialize(player, player.inventory, current_item_stack)
 	current_weapon.camera = camera
-	current_weapon.weapon_manager = Managers.weapon_manager
 
 	current_weapon.weapon_idle.connect(_on_weapon_idle)
 	current_weapon.weapon_fired.connect(_on_weapon_fired)
