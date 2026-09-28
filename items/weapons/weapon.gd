@@ -1,14 +1,14 @@
 class_name Weapon
 extends Item
 
+signal weapon_idle
+signal weapon_fired
+
 var current_weapon_data: WeaponData
 var player: Player
 var camera: CameraEffects
 var hit_scan_collision_mask: int
 var weapon_manager: WeaponManager
-var weapon_controller: WeaponController
-var _muzzle_flash: MuzzleFlash
-var animation_player: AnimationPlayer
 
 var fire_rate_timer := 0.0
 
@@ -28,7 +28,7 @@ func fire_weapon() -> void:
 		return
 
 	Managers.weapon_manager.use_ammo(current_weapon_data.ammo_type)
-	animation_player.play("fire")
+	weapon_fired.emit()
 
 	fire_rate_timer = 1.0 / current_weapon_data.fire_rate
 
@@ -36,11 +36,6 @@ func fire_weapon() -> void:
 		current_weapon_data.recoil_cam_pitch,
 		current_weapon_data.recoil_cam_yaw,
 		current_weapon_data.recoil_cam_roll)
-	if weapon_controller.recoil_enabled:
-		weapon_controller._add_model_recoil()
-
-	if _muzzle_flash:
-		_muzzle_flash.flash()
 
 	_perform_attack()
 
@@ -133,8 +128,7 @@ func _spawn_projectile() -> void:
 
 
 func _on_idle_state_entered() -> void:
-	if animation_player:
-		animation_player.play("idle")
+	weapon_idle.emit()
 
 
 func _on_idle_state_processing(_delta: float) -> void:

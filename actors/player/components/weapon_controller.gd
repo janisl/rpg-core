@@ -138,9 +138,24 @@ func _spawn_weapon_model() -> void:
 	current_weapon.camera = camera
 	current_weapon.hit_scan_collision_mask = hit_scan_collision_mask
 	current_weapon.weapon_manager = Managers.weapon_manager
-	current_weapon.weapon_controller = self
-	current_weapon._muzzle_flash = _muzzle_flash
-	current_weapon.animation_player = animation_player
+
+	current_weapon.weapon_idle.connect(_on_weapon_idle)
+	current_weapon.weapon_fired.connect(_on_weapon_fired)
+
+
+func _on_weapon_idle() -> void:
+	if animation_player:
+		animation_player.play("idle")
+
+
+func _on_weapon_fired() -> void:
+	animation_player.play("fire")
+
+	if _muzzle_flash:
+		_muzzle_flash.flash()
+
+	if recoil_enabled:
+		_add_model_recoil()
 
 
 func _apply_offsets(delta: float) -> void:
