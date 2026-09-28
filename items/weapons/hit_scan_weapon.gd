@@ -9,19 +9,19 @@ func _perform_attack() -> void:
 
 
 func _perform_hit_scan() -> void:
-	var space_state := item_owner.get_world_3d().direct_space_state
+	var space_state := _item_owner.get_world_3d().direct_space_state
 
-	var accuracy_spread := (100.0 - weapon_data.accuracy) / 1000.0
+	var accuracy_spread := (100.0 - _weapon_data.accuracy) / 1000.0
 
-	for i in weapon_data.pellet_count:
-		var direction := forward_direction + _get_spread_delta(accuracy_spread)
+	for i in _weapon_data.pellet_count:
+		var direction := _forward_direction + _get_spread_delta(accuracy_spread)
 
-		if weapon_data.pellet_count > 1:
-			direction += _get_spread_delta(weapon_data.spread_angle)
+		if _weapon_data.pellet_count > 1:
+			direction += _get_spread_delta(_weapon_data.spread_angle)
 
-		var to := from_position + direction * weapon_data.hit_scan_range
+		var to := _from_position + direction * _weapon_data.hit_scan_range
 
-		var query := PhysicsRayQueryParameters3D.create(from_position, to)
+		var query := PhysicsRayQueryParameters3D.create(_from_position, to)
 		query.collision_mask = hit_scan_collision_mask
 		var result := space_state.intersect_ray(query)
 
@@ -39,7 +39,7 @@ func _apply_damage_to_target(target: Node3D) -> void:
 	var health_component := target.get_node_or_null("HealthComponent") as HealthComponent
 
 	if health_component:
-		health_component.take_damage(weapon_data.damage, item_owner)
+		health_component.take_damage(_weapon_data.damage, _item_owner)
 
 
 func _spawn_impact_marker(position: Vector3) -> void:

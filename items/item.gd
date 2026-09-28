@@ -1,19 +1,19 @@
 class_name Item
 extends Node
 
-var item_owner: Actor
-var owner_inventory: Inventory
-var item_stack: ItemStack
+var _item_owner: Actor
+var _owner_inventory: Inventory
+var _item_stack: ItemStack
 
-var from_position := Vector3.ZERO
-var forward_direction := Vector3.ZERO
-var attack_pressed := false
-var attack_just_pressed := false
+var _from_position := Vector3.ZERO
+var _forward_direction := Vector3.ZERO
+var _attack_pressed := false
+var _attack_just_pressed := false
 
 func initialize(own: Actor, inventory: Inventory, stack: ItemStack) -> void:
-	item_owner = own
-	owner_inventory = inventory
-	item_stack = stack
+	_item_owner = own
+	_owner_inventory = inventory
+	_item_stack = stack
 
 
 func update(
@@ -21,7 +21,7 @@ func update(
 		direction: Vector3,
 		atk_pressed: bool,
 		atk_just_pressed: bool) -> void:
-	from_position = position
-	forward_direction = direction
-	attack_pressed = atk_pressed
-	attack_just_pressed = atk_just_pressed
+	_from_position = position
+	_forward_direction = direction
+	_attack_pressed = atk_pressed
+	_attack_just_pressed = atk_just_pressed
