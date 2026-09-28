@@ -2,25 +2,19 @@
 
 [ext_resource type="PackedScene" uid="uid://bnvfahbsfb37o" path="res://items/item.tscn" id="1_1aasx"]
 [ext_resource type="Script" uid="uid://pisgkfuei3r7" path="res://items/weapons/weapon.gd" id="2_rde40"]
-[ext_resource type="Script" uid="uid://chbjxogxroaj6" path="res://weapons/behaviours/idle.gd" id="3_f1rvd"]
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="3_fqqk5"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="3_yteyy"]
-[ext_resource type="Script" uid="uid://d0fh2iien0o0f" path="res://weapons/behaviours/firing.gd" id="6_en5e4"]
-[ext_resource type="Script" uid="uid://caiu4rbdmbosx" path="res://weapons/behaviours/empty.gd" id="7_snoqv"]
 
 [node name="Weapon" unique_id=2003787361 instance=ExtResource("1_1aasx")]
 script = ExtResource("2_rde40")
 
-[node name="Behavior" type="Node" parent="StateChart/Root/Idle" parent_id_path=PackedInt32Array(1881439388) index="0" unique_id=357733530]
-script = ExtResource("3_f1rvd")
-
-[node name="OnFiring" type="Node" parent="StateChart/Root/Idle" parent_id_path=PackedInt32Array(1881439388) index="1" unique_id=168174707]
+[node name="OnFiring" type="Node" parent="StateChart/Root/Idle" parent_id_path=PackedInt32Array(1881439388) index="0" unique_id=168174707]
 script = ExtResource("3_yteyy")
 to = NodePath("../../Firing")
 event = &"onFiring"
 delay_in_seconds = "0.0"
 
-[node name="OnEmpty" type="Node" parent="StateChart/Root/Idle" parent_id_path=PackedInt32Array(1881439388) index="2" unique_id=1021899791]
+[node name="OnEmpty" type="Node" parent="StateChart/Root/Idle" parent_id_path=PackedInt32Array(1881439388) index="1" unique_id=1021899791]
 script = ExtResource("3_yteyy")
 to = NodePath("../../Empty")
 event = &"onEmpty"
@@ -29,16 +23,13 @@ delay_in_seconds = "0.0"
 [node name="Firing" type="Node" parent="StateChart/Root" parent_id_path=PackedInt32Array(458852534) index="1" unique_id=458781473]
 script = ExtResource("3_fqqk5")
 
-[node name="Behavior" type="Node" parent="StateChart/Root/Firing" index="0" unique_id=1454198443]
-script = ExtResource("6_en5e4")
-
-[node name="OnIdle" type="Node" parent="StateChart/Root/Firing" index="1" unique_id=1265458874]
+[node name="OnIdle" type="Node" parent="StateChart/Root/Firing" index="0" unique_id=1265458874]
 script = ExtResource("3_yteyy")
 to = NodePath("../../Idle")
 event = &"onIdle"
 delay_in_seconds = "0.0"
 
-[node name="OnEmpty" type="Node" parent="StateChart/Root/Firing" index="2" unique_id=536768794]
+[node name="OnEmpty" type="Node" parent="StateChart/Root/Firing" index="1" unique_id=536768794]
 script = ExtResource("3_yteyy")
 to = NodePath("../../Empty")
 event = &"onEmpty"
@@ -47,11 +38,14 @@ delay_in_seconds = "0.0"
 [node name="Empty" type="Node" parent="StateChart/Root" parent_id_path=PackedInt32Array(458852534) index="2" unique_id=1318988179]
 script = ExtResource("3_fqqk5")
 
-[node name="Behavior" type="Node" parent="StateChart/Root/Empty" index="0" unique_id=487619528]
-script = ExtResource("7_snoqv")
-
-[node name="OnIdle" type="Node" parent="StateChart/Root/Empty" index="1" unique_id=2017353449]
+[node name="OnIdle" type="Node" parent="StateChart/Root/Empty" index="0" unique_id=2017353449]
 script = ExtResource("3_yteyy")
 to = NodePath("../../Idle")
 event = &"onIdle"
 delay_in_seconds = "0.0"
+
+[connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
+[connection signal="state_processing" from="StateChart/Root/Idle" to="." method="_on_idle_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Firing" to="." method="_on_firing_state_entered"]
+[connection signal="state_processing" from="StateChart/Root/Firing" to="." method="_on_firing_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Empty" to="." method="_on_empty_state_entered"]
