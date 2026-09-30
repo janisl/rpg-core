@@ -13,4 +13,4 @@ func _on_state_processing(_delta: float) -> void:
 
 
 func _on_state_physics_processing(delta: float) -> void:
-	player.camera_controller.update_camera_height(delta, -1)
+	player.camera_controller.update_camera_height(delta, player.crouch_camera_height)

@@ -1,18 +1,16 @@
 class_name CameraController
 extends Node3D
 
-const DEFAULT_HEIGHT: float = 1.6
-
 @export_group("References")
 @export var player: Player
+
 @export_group("Camera settings")
 @export var mouse_sensitivity := 0.001
 @export_range(-90, -60, 0.1, "radians_as_degrees") var tilt_lower_limit := -PI / 2
 @export_range(60, 90, 0.1, "radians_as_degrees") var tilt_upper_limit := PI / 2
-@export_group("Crouch vertical movement")
-@export var crouch_offset: float = 0.8
+
+@export_group("Smoothing")
 @export var crouch_speed: float = 3.0
-@export_group("Step smoothing")
 @export var step_speed: float = 8.0
 
 var _rotation : Vector3
@@ -27,7 +25,7 @@ var offset_height : float
 
 func _ready() -> void:
 	_rotation = player.rotation
-	offset_height = DEFAULT_HEIGHT
+	offset_height = player.standing_camera_height
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
@@ -54,9 +52,8 @@ func _process(delta: float) -> void:
 	position.y = offset_height + _target_height
 
 
-func update_camera_height(delta: float, direction: int) -> void:
-	if offset_height >= crouch_offset - 0.0001 and offset_height <= DEFAULT_HEIGHT + 0.0001:
-		offset_height = clampf(offset_height + (crouch_speed * direction) * delta, crouch_offset, DEFAULT_HEIGHT)
+func update_camera_height(delta: float, target_height: float) -> void:
+	offset_height = move_toward(offset_height, target_height, crouch_speed * delta)
 
 
 func smooth_step(height_change: float) -> void:

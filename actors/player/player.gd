@@ -19,6 +19,11 @@ extends Actor
 @export_group("Movement settings")
 @export var jump_velocity := 5.0
 
+@export_group("Camera height")
+@export var standing_camera_height := 1.6
+@export var crouch_camera_height := 0.7
+@export var death_camera_height := 0.1
+
 @export_group("Render settings")
 @export_flags_3d_render var mesh_layer := 1
 
