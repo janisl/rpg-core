@@ -73,4 +73,4 @@ func _on_crouching() -> void:
 
 
 func _on_health_component_died() -> void:
-	anim_tree_state.travel("Death")
+	state_chart.send_event("onDead")
