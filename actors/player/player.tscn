@@ -1364,13 +1364,13 @@ transitions = ["Start", "Standing", SubResource("AnimationNodeStateMachineTransi
 [node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "weapon_controller", "animation_tree", "inventory", "health_component") groups=["player"]]
 collision_layer = 771
 script = ExtResource("1_nvxhs")
-camera_controller = NodePath("CameraController")
-camera_effects = NodePath("CameraController/Camera")
+camera_controller = NodePath("Neck")
+camera_effects = NodePath("Neck/Head/Camera")
 state_chart = NodePath("StateChart")
 standing_collision = NodePath("StandingCollision")
 crouching_collision = NodePath("CrouchingCollision")
 crouch_check = NodePath("CrouchCheck")
-interaction_ray_cast = NodePath("CameraController/Camera/InteractionRayCast")
+interaction_ray_cast = NodePath("Neck/Head/Camera/InteractionRayCast")
 stairs_ahead_ray_cast = NodePath("StairsAheadRayCast")
 stairs_below_ray_cast = NodePath("StairsBelowRayCast")
 weapon_controller = NodePath("Components/WeaponController")
@@ -1408,8 +1408,8 @@ metadata/_custom_type_script = "uid://cqmmur7bbutym"
 [node name="WeaponController" type="Node" parent="Components" unique_id=327890797 node_paths=PackedStringArray("player", "camera", "weapon_model_parent")]
 script = ExtResource("6_2vokq")
 player = NodePath("../..")
-camera = NodePath("../../CameraController/Camera")
-weapon_model_parent = NodePath("../../CameraController/Camera")
+camera = NodePath("../../Neck/Head/Camera")
+weapon_model_parent = NodePath("../../Neck/Head/Camera")
 weapon_mesh_layer = 2
 metadata/_custom_type_script = "uid://bssifbouhjhmf"
 
@@ -1436,25 +1436,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 shape = SubResource("SphereShape3D_rghg7")
 target_position = Vector3(0, 1.2, 0)
 
-[node name="CameraController" type="Node3D" parent="." unique_id=1669881013 node_paths=PackedStringArray("player")]
+[node name="Neck" type="Node3D" parent="." unique_id=1669881013 node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 script = ExtResource("3_12xki")
 player = NodePath("..")
 
-[node name="Camera" type="Camera3D" parent="CameraController" unique_id=1332938429 node_paths=PackedStringArray("player")]
+[node name="Head" type="Node3D" parent="Neck" unique_id=992966300]
+
+[node name="Camera" type="Camera3D" parent="Neck/Head" unique_id=1332938429 node_paths=PackedStringArray("player")]
 cull_mask = 1048571
 script = ExtResource("4_dqf5y")
-player = NodePath("../..")
+player = NodePath("../../..")
 
-[node name="InteractionRayCast" type="RayCast3D" parent="CameraController/Camera" unique_id=206725175]
+[node name="InteractionRayCast" type="RayCast3D" parent="Neck/Head/Camera" unique_id=206725175]
 target_position = Vector3(0, 0, -3)
 script = ExtResource("4_qrxv1")
 
-[node name="CameraArea" type="Area3D" parent="CameraController/Camera" unique_id=126417438]
+[node name="CameraArea" type="Area3D" parent="Neck/Head/Camera" unique_id=126417438]
 collision_layer = 0
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CameraController/Camera/CameraArea" unique_id=1310995675]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Neck/Head/Camera/CameraArea" unique_id=1310995675]
 shape = SubResource("SphereShape3D_bsiym")
 
 [node name="StateChart" type="Node" parent="." unique_id=136452644]
@@ -1698,8 +1700,8 @@ parameters/Crouching/blend_position = -0.7376093
 parameters/Standing/blend_position = -0.8558934
 
 [connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
-[connection signal="area_entered" from="CameraController/Camera/CameraArea" to="CameraController/Camera" method="_on_camera_area_entered"]
-[connection signal="area_exited" from="CameraController/Camera/CameraArea" to="CameraController/Camera" method="_on_camera_area_exited"]
+[connection signal="area_entered" from="Neck/Head/Camera/CameraArea" to="Neck/Head/Camera" method="_on_camera_area_entered"]
+[connection signal="area_exited" from="Neck/Head/Camera/CameraArea" to="Neck/Head/Camera" method="_on_camera_area_exited"]
 [connection signal="handle_ground_physics" from="StateChart/Root/Movement/Grounded/Behaviour" to="Components/GroundMovement" method="_on_handle_ground_physics"]
 [connection signal="landed" from="StateChart/Root/Movement/Grounded/Behaviour" to="Components/GroundMovement" method="_on_landed"]
 [connection signal="walking" from="StateChart/Root/Movement/Grounded/Moving/Walking/Behaviour" to="Components/GroundMovement" method="_on_walking"]

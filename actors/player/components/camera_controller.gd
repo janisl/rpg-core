@@ -22,6 +22,8 @@ var _step_smoothing := false
 
 var offset_height : float
 
+@onready var head: Node3D = $Head
+
 
 func _ready() -> void:
 	_rotation = player.rotation
@@ -70,5 +72,5 @@ func _update_camera_rotation(input: Vector2) -> void:
 	var camera_rortation = Vector3(_rotation.x, 0, 0)
 
 	player.update_rotation(player_rotation)
-	transform.basis = Basis.from_euler(camera_rortation)
-	rotation.z = 0
+	head.transform.basis = Basis.from_euler(camera_rortation)
+	head.rotation.z = 0
