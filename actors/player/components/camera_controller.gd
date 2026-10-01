@@ -22,13 +22,13 @@ extends Node3D
 var _target_height : float
 var _step_smoothing := false
 
-var offset_height : float
+var _offset_height : float
 
 @onready var head: Node3D = $Head
 
 
 func _ready() -> void:
-	offset_height = player.standing_camera_height
+	_offset_height = player.standing_camera_height
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
@@ -65,11 +65,11 @@ func _process(delta: float) -> void:
 			_target_height = 0.0
 			_step_smoothing = false
 
-	position.y = offset_height + _target_height
+	position.y = _offset_height + _target_height
 
 
 func update_camera_height(delta: float, target_height: float) -> void:
-	offset_height = move_toward(offset_height, target_height, crouch_speed * delta)
+	_offset_height = move_toward(_offset_height, target_height, crouch_speed * delta)
 
 
 func smooth_step(height_change: float) -> void:
