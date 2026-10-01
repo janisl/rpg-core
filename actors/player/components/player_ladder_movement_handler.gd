@@ -11,6 +11,11 @@ extends Node
 var _cur_ladder_climbing: Area3D = null
 
 
+func _on_check_for_ladder() -> void:
+	if player.is_in_ladder_area():
+		player.state_chart.send_event("onClimbingLadder")
+
+
 func _on_handle_ladder_physics(_delta: float) -> void:
 	var was_climbing_ladder := _cur_ladder_climbing and _cur_ladder_climbing.overlaps_body(player)
 	if not was_climbing_ladder:
@@ -20,12 +25,7 @@ func _on_handle_ladder_physics(_delta: float) -> void:
 
 	if not _handle_ladder_movement(was_climbing_ladder):
 		_cur_ladder_climbing = null
-		if player.is_in_swimmable_area():
-			player.state_chart.send_event("onSwimming")
-		elif player.is_on_floor():
-			player.state_chart.send_event("onGrounded")
-		else:
-			player.state_chart.send_event("onAirborne")
+		player.state_chart.send_event("onNotClimbingLadder")
 		return
 
 
