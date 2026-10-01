@@ -52,10 +52,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		$HealthComponent.take_damage(10.0)
 
 
-func update_rotation(value: Vector3) -> void:
-	global_transform.basis = Basis.from_euler(value)
-
-
 func jump() -> void:
 	velocity.y += jump_velocity
 

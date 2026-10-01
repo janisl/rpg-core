@@ -5,15 +5,13 @@ extends Node3D
 @export var player: Player
 
 @export_group("Camera settings")
-@export var mouse_sensitivity := 0.001
+@export_range(0, 10, 0.001, "radians_as_degrees") var mouse_sensitivity := 0.001
 @export_range(-90, -60, 0.1, "radians_as_degrees") var tilt_lower_limit := -PI / 2
 @export_range(60, 90, 0.1, "radians_as_degrees") var tilt_upper_limit := PI / 2
 
 @export_group("Smoothing")
 @export var crouch_speed: float = 3.0
 @export var step_speed: float = 8.0
-
-var _rotation : Vector3
 
 var _target_height : float
 var _step_smoothing := false
@@ -24,7 +22,6 @@ var offset_height : float
 
 
 func _ready() -> void:
-	_rotation = player.rotation
 	offset_height = player.standing_camera_height
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -61,13 +58,7 @@ func smooth_step(height_change: float) -> void:
 	_step_smoothing = true
 
 func _update_camera_rotation(input: Vector2) -> void:
-	_rotation.x += input.y
-	_rotation.y += input.x
-	_rotation.x = clampf(_rotation.x, tilt_lower_limit, tilt_upper_limit)
+	player.rotate_y(input.x)
 
-	var player_rotation = Vector3(0, _rotation.y, 0)
-	var camera_rortation = Vector3(_rotation.x, 0, 0)
-
-	player.update_rotation(player_rotation)
-	head.transform.basis = Basis.from_euler(camera_rortation)
-	head.rotation.z = 0
+	head.rotate_x(input.y)
+	head.rotation.x = clampf(head.rotation.x, tilt_lower_limit, tilt_upper_limit)
