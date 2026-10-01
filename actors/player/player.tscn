@@ -1611,33 +1611,33 @@ event = &"onClimbingLadder"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
-[node name="Posture" type="Node" parent="StateChart/Root/Alive" unique_id=1727521365]
+[node name="Stance" type="Node" parent="StateChart/Root/Alive" unique_id=1727521365]
 script = ExtResource("4_15y17")
 initial_state = NodePath("Standing")
 metadata/_custom_type_script = "uid://jk2jm1g6q853"
 
-[node name="Standing" type="Node" parent="StateChart/Root/Alive/Posture" unique_id=802997188]
+[node name="Standing" type="Node" parent="StateChart/Root/Alive/Stance" unique_id=802997188]
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 
-[node name="Behaviour" type="Node" parent="StateChart/Root/Alive/Posture/Standing" unique_id=374145619]
+[node name="Behaviour" type="Node" parent="StateChart/Root/Alive/Stance/Standing" unique_id=374145619]
 script = ExtResource("18_icg72")
 
-[node name="OnCrouching" type="Node" parent="StateChart/Root/Alive/Posture/Standing" unique_id=168957752]
+[node name="OnCrouching" type="Node" parent="StateChart/Root/Alive/Stance/Standing" unique_id=168957752]
 script = ExtResource("6_bop6h")
 to = NodePath("../../Crouching")
 event = &"onCrouching"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
-[node name="Crouching" type="Node" parent="StateChart/Root/Alive/Posture" unique_id=1700883319]
+[node name="Crouching" type="Node" parent="StateChart/Root/Alive/Stance" unique_id=1700883319]
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 
-[node name="Behaviour" type="Node" parent="StateChart/Root/Alive/Posture/Crouching" unique_id=1126616432]
+[node name="Behaviour" type="Node" parent="StateChart/Root/Alive/Stance/Crouching" unique_id=1126616432]
 script = ExtResource("19_icg72")
 
-[node name="OnStanding" type="Node" parent="StateChart/Root/Alive/Posture/Crouching" unique_id=1737244850]
+[node name="OnStanding" type="Node" parent="StateChart/Root/Alive/Stance/Crouching" unique_id=1737244850]
 script = ExtResource("6_bop6h")
 to = NodePath("../../Standing")
 event = &"onStanding"
@@ -1729,9 +1729,9 @@ parameters/Standing/blend_position = -0.8558934
 [connection signal="handle_airborne_physics" from="StateChart/Root/Alive/Movement/Airborne/Behaviour" to="Components/AirborneMovement" method="_on_handle_airborne_physics"]
 [connection signal="handle_swimming_physics" from="StateChart/Root/Alive/Movement/Swimming/Behaviour" to="Components/SwimmingMovement" method="_on_handle_swimming_physics"]
 [connection signal="handle_ladder_physics" from="StateChart/Root/Alive/Movement/ClimbingLadder/Behaviour" to="Components/LadderMovement" method="_on_handle_ladder_physics"]
-[connection signal="standing" from="StateChart/Root/Alive/Posture/Standing/Behaviour" to="." method="_on_standing"]
-[connection signal="standing" from="StateChart/Root/Alive/Posture/Standing/Behaviour" to="Components/GroundMovement" method="_on_standing"]
-[connection signal="standing" from="StateChart/Root/Alive/Posture/Standing/Behaviour" to="Components/AirborneMovement" method="_on_standing"]
-[connection signal="crouching" from="StateChart/Root/Alive/Posture/Crouching/Behaviour" to="." method="_on_crouching"]
-[connection signal="crouching" from="StateChart/Root/Alive/Posture/Crouching/Behaviour" to="Components/GroundMovement" method="_on_crouching"]
-[connection signal="crouching" from="StateChart/Root/Alive/Posture/Crouching/Behaviour" to="Components/AirborneMovement" method="_on_crouching"]
+[connection signal="standing" from="StateChart/Root/Alive/Stance/Standing/Behaviour" to="." method="_on_standing"]
+[connection signal="standing" from="StateChart/Root/Alive/Stance/Standing/Behaviour" to="Components/GroundMovement" method="_on_standing"]
+[connection signal="standing" from="StateChart/Root/Alive/Stance/Standing/Behaviour" to="Components/AirborneMovement" method="_on_standing"]
+[connection signal="crouching" from="StateChart/Root/Alive/Stance/Crouching/Behaviour" to="." method="_on_crouching"]
+[connection signal="crouching" from="StateChart/Root/Alive/Stance/Crouching/Behaviour" to="Components/GroundMovement" method="_on_crouching"]
+[connection signal="crouching" from="StateChart/Root/Alive/Stance/Crouching/Behaviour" to="Components/AirborneMovement" method="_on_crouching"]
