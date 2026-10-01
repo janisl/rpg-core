@@ -28,7 +28,7 @@ func _perform_hit_scan() -> void:
 		if not result:
 			return
 
-		_spawn_impact_marker(result.position)
+		_spawn_impact_marker(result)
 		_apply_damage_to_target(result.collider)
 
 		if result.collider is RigidBody3D:
@@ -42,17 +42,5 @@ func _apply_damage_to_target(target: Node3D) -> void:
 		health_component.take_damage(_weapon_data.damage, _item_owner)
 
 
-func _spawn_impact_marker(position: Vector3) -> void:
-	var marker := MeshInstance3D.new()
-	var box := BoxMesh.new()
-	box.size = Vector3(0.1, 0.1, 0.1)
-	marker.mesh = box
-
-	var material := StandardMaterial3D.new()
-	material.albedo_color = Color.RED
-	marker.set_surface_override_material(0, material)
-
-	get_tree().current_scene.add_child(marker)
-	marker.global_position = position
-
-	get_tree().create_timer(2.0).timeout.connect(marker.queue_free)
+func _spawn_impact_marker(result: Dictionary) -> void:
+	BulletDecalPool.spawn_bullet_decal(result.position, result.normal, result.collider, _item_owner.global_basis)
