@@ -12,6 +12,11 @@ extends Node
 @export var damped_factor := 2.0
 
 
+func _on_check_for_swim() -> void:
+	if player.is_in_swimmable_area():
+		player.state_chart.send_event("onSwimming")
+
+
 func _on_handle_swimming_physics(delta: float) -> void:
 	var direction := (player.camera_effects.global_transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
 
@@ -35,7 +40,4 @@ func _on_handle_swimming_physics(delta: float) -> void:
 	player.move_and_slide()
 
 	if not player.is_in_swimmable_area():
-		if player.is_on_floor():
-			player.state_chart.send_event("onGrounded")
-		else:
-			player.state_chart.send_event("onAirborne")
+		player.state_chart.send_event("onNotSwimming")
