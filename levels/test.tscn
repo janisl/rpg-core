@@ -118,22 +118,22 @@ background_color = Color(7.70092e-07, 0.68970317, 0.8517272, 1)
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_eudka"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_epu3l"]
 resource_local_to_scene = true
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qtvpr"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lqn8c"]
 resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_eudka")
+noise = SubResource("FastNoiseLite_epu3l")
 seamless = true
 as_normal_map = true
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_drwxn"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_08uri"]
 resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_eudka")
+noise = SubResource("FastNoiseLite_epu3l")
 seamless = true
 as_normal_map = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rmkky"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fivcu"]
 resource_local_to_scene = true
 transparency = 1
 cull_mode = 2
@@ -141,9 +141,9 @@ depth_draw_mode = 1
 albedo_color = Color(0.30980393, 0.5411765, 0.8666667, 0.3882353)
 roughness = 0.0
 normal_enabled = true
-normal_texture = SubResource("NoiseTexture2D_qtvpr")
+normal_texture = SubResource("NoiseTexture2D_lqn8c")
 refraction_enabled = true
-refraction_texture = SubResource("NoiseTexture2D_drwxn")
+refraction_texture = SubResource("NoiseTexture2D_08uri")
 uv1_scale = Vector3(0.04, 0.04, 0.04)
 uv1_triplanar = true
 uv1_world_triplanar = true
@@ -426,7 +426,7 @@ environment = SubResource("Environment_bsiym")
 [node name="SwimmableArea" parent="." unique_id=788056043 instance=ExtResource("2_lkjt4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2.4, -40)
 size = Vector3(10, 5, 10)
-material = SubResource("StandardMaterial3D_rmkky")
+material = SubResource("StandardMaterial3D_fivcu")
 
 [node name="Ladder" type="Node3D" parent="." unique_id=1971942035]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -34.5, 2.5, -36)

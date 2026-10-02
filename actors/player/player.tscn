@@ -1747,10 +1747,12 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/Crouching/blend_position = -0.7376093
 parameters/Standing/blend_position = -0.8558934
 
+[connection signal="ladder_entered" from="." to="Components/LadderMovement" method="_on_ladder_entered"]
+[connection signal="ladder_exited" from="." to="Components/LadderMovement" method="_on_ladder_exited"]
 [connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
 [connection signal="area_entered" from="Neck/Head/Camera/CameraArea" to="Neck/Head/Camera" method="_on_camera_area_entered"]
 [connection signal="area_exited" from="Neck/Head/Camera/CameraArea" to="Neck/Head/Camera" method="_on_camera_area_exited"]
-[connection signal="check_for_ladder" from="StateChart/Root/Alive/Movement/NotClimbingLadder/Behaviour" to="Components/LadderMovement" method="_on_check_for_ladder"]
+[connection signal="handle_not_ladder_physics" from="StateChart/Root/Alive/Movement/NotClimbingLadder/Behaviour" to="Components/LadderMovement" method="_on_handle_not_ladder_physics"]
 [connection signal="check_for_swim" from="StateChart/Root/Alive/Movement/NotClimbingLadder/NotSwimming/Behaviour" to="Components/SwimmingMovement" method="_on_check_for_swim"]
 [connection signal="handle_ground_physics" from="StateChart/Root/Alive/Movement/NotClimbingLadder/NotSwimming/Grounded/Behaviour" to="Components/GroundMovement" method="_on_handle_ground_physics"]
 [connection signal="landed" from="StateChart/Root/Alive/Movement/NotClimbingLadder/NotSwimming/Grounded/Behaviour" to="Components/GroundMovement" method="_on_landed"]

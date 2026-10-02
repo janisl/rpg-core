@@ -9,28 +9,45 @@ extends Node
 @export var jump_off_speed := 10.0
 
 var _cur_ladder_climbing: Area3D = null
+var _did_jump_off := false
 
 
-func _on_check_for_ladder() -> void:
-	if player.is_in_ladder_area():
+func _on_ladder_entered(area: Area3D) -> void:
+	if not _cur_ladder_climbing:
+		_cur_ladder_climbing = area
+
+
+func _on_ladder_exited(area: Area3D) -> void:
+	if _cur_ladder_climbing == area:
+		_cur_ladder_climbing = null
+		_did_jump_off = false
+		_stop_climbing_ladder()
+
+
+func _on_handle_not_ladder_physics(_delta: float) -> void:
+	if not player.is_in_ladder_area():
+		return
+
+	var was_climbing_ladder := _cur_ladder_climbing != null
+	if not _cur_ladder_climbing:
+		_cur_ladder_climbing = player.touching_ladder_areas[0]
+
+	if _handle_ladder_movement(was_climbing_ladder):
 		player.state_chart.send_event("onClimbingLadder")
 
 
 func _on_handle_ladder_physics(_delta: float) -> void:
-	var was_climbing_ladder := _cur_ladder_climbing and _cur_ladder_climbing.overlaps_body(player)
-	if not was_climbing_ladder:
-		_cur_ladder_climbing = null
-		if player.touching_ladder_areas.size():
-			_cur_ladder_climbing = player.touching_ladder_areas[0]
-
-	if not _handle_ladder_movement(was_climbing_ladder):
-		_cur_ladder_climbing = null
-		player.state_chart.send_event("onNotClimbingLadder")
+	if not _handle_ladder_movement(true):
+		_stop_climbing_ladder()
 		return
 
 
+func _stop_climbing_ladder() -> void:
+	player.state_chart.send_event("onNotClimbingLadder")
+
+
 func _handle_ladder_movement(was_climbing_ladder: bool) -> bool:
-	if not _cur_ladder_climbing:
+	if not _cur_ladder_climbing or _did_jump_off:
 		return false
 
 	var ladder_gtransform := _cur_ladder_climbing.global_transform
@@ -69,6 +86,7 @@ func _handle_ladder_movement(was_climbing_ladder: bool) -> bool:
 
 	if was_climbing_ladder and Input.is_action_just_pressed("jump"):
 		player.velocity = _cur_ladder_climbing.global_transform.basis.z * jump_off_speed
+		_did_jump_off = true
 		return false
 
 	player.velocity = ladder_gtransform.basis * Vector3(ladder_strafe_vel, ladder_climb_vel, 0)

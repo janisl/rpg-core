@@ -1,6 +1,9 @@
 class_name Actor
 extends CharacterBody3D
 
+signal ladder_entered(area: Area3D)
+signal ladder_exited(area: Area3D)
+
 const APPROX_MASS = 80.0
 
 var _touching_swimmable_areas: Array[Area3D]
@@ -25,10 +28,12 @@ func is_in_swimmable_area() -> bool:
 
 func on_ladder_area_entered(area: Area3D) -> void:
 	touching_ladder_areas.append(area)
+	ladder_entered.emit(area)
 
 
 func on_ladder_area_exited(area: Area3D) -> void:
 	touching_ladder_areas.erase(area)
+	ladder_exited.emit(area)
 
 
 func is_in_ladder_area() -> bool:

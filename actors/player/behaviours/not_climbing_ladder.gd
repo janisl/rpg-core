@@ -1,7 +1,7 @@
 extends PlayerStateBehaviour
 
-signal check_for_ladder
+signal handle_not_ladder_physics(delta: float)
 
 
-func _on_state_physics_processing(_delta: float) -> void:
-	check_for_ladder.emit()
+func _on_state_physics_processing(delta: float) -> void:
+	handle_not_ladder_physics.emit(delta)
