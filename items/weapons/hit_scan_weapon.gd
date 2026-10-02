@@ -25,8 +25,10 @@ func _perform_hit_scan() -> void:
 		query.collision_mask = hit_scan_collision_mask
 		var result := space_state.intersect_ray(query)
 
+		if randf() < _weapon_data.bullet_tracer_chance:
+			bullet_fired.emit(result.position if result else to)
 		if not result:
-			return
+			continue
 
 		_spawn_impact_marker(result)
 		_apply_damage_to_target(result.collider)

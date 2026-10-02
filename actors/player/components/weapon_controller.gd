@@ -1,6 +1,8 @@
 class_name WeaponController
 extends Node
 
+const BULLET_TRACER = preload("uid://lbvs8vldbgts")
+
 @export_group("References")
 @export var player: Player
 @export var camera: CameraEffects
@@ -124,6 +126,7 @@ func _spawn_weapon_model() -> void:
 
 	current_weapon.weapon_idle.connect(_on_weapon_idle)
 	current_weapon.weapon_fired.connect(_on_weapon_fired)
+	current_weapon.bullet_fired.connect(_on_bullet_fired)
 
 	current_weapon_model = current_weapon_data.weapon_scene.instantiate()
 	weapon_model_parent.add_child(current_weapon_model)
@@ -165,6 +168,20 @@ func _on_weapon_fired() -> void:
 		current_weapon_data.recoil_cam_pitch,
 		current_weapon_data.recoil_cam_yaw,
 		current_weapon_data.recoil_cam_roll)
+
+
+func _on_bullet_fired(target_position: Vector3) -> void:
+	if not _muzzle_flash:
+		return
+
+	var bullet_dir := _muzzle_flash.global_position.direction_to(target_position)
+	var start_pos := _muzzle_flash.global_position + bullet_dir * 0.25
+	if start_pos.distance_to(target_position) > 3.0:
+		var tracer := BULLET_TRACER.instantiate() as BulletTracer
+		player.add_sibling(tracer)
+		tracer.global_position = start_pos
+		tracer.target_pos = target_position
+		tracer.look_at(target_position)
 
 
 func _apply_offsets(delta: float) -> void:

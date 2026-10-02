@@ -3,6 +3,7 @@ extends Item
 
 signal weapon_idle
 signal weapon_fired
+signal bullet_fired(target_position: Vector3)
 
 var _weapon_data: WeaponData
 

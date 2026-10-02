@@ -18,6 +18,7 @@ extends ItemData
 @export var hit_scan_range := 25.0
 @export var pellet_count := 1
 @export var spread_angle := 0.0
+@export var bullet_tracer_chance := 0.5
 
 @export_group("Projectile")
 @export var projectile_speed := 50.0
