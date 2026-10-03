@@ -13,10 +13,10 @@ extends Node
 
 @export_group("Effect settings")
 @export var fall_velocity_threshold := -5.0
+@export var fall_kick := 2.0
 
 var _sprint_modifier := 0.0
 var _crouch_modifier := 0.0
-var _current_fall_velocity := 0.0
 
 
 func _on_walking() -> void:
@@ -36,7 +36,7 @@ func _on_crouching() -> void:
 
 
 func _on_handle_airborne_physics(delta: float) -> void:
-	_current_fall_velocity = player.velocity.y
+	var current_fall_velocity = player.velocity.y
 
 	player.velocity += player.get_gravity() * delta
 
@@ -57,17 +57,8 @@ func _on_handle_airborne_physics(delta: float) -> void:
 	player.move_and_slide()
 
 	if player.is_on_floor():
-		if _check_fall_speed():
-			player.camera_effects.add_fall_kick(2.0)
+		if current_fall_velocity < fall_velocity_threshold:
+			player.camera_effects.add_fall_kick(fall_kick)
 
 		player.state_chart.send_event("onGrounded")
 		return
-
-
-func _check_fall_speed() -> bool:
-	if _current_fall_velocity < fall_velocity_threshold:
-		_current_fall_velocity = 0.0
-		return true
-	else:
-		_current_fall_velocity = 0.0
-		return false
