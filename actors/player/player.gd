@@ -18,6 +18,7 @@ extends Actor
 
 @export_group("Movement settings")
 @export var jump_velocity := 5.0
+@export var crouch_jump_velocity := 3.0
 
 @export_group("Camera height")
 @export var standing_camera_height := 1.6
@@ -28,6 +29,9 @@ extends Actor
 @export_flags_3d_render var mesh_layer := 1
 
 var input_dir := Vector2.ZERO
+
+var is_crouching := false
+
 var anim_tree_state: AnimationNodeStateMachinePlayback
 
 
@@ -53,16 +57,18 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func jump() -> void:
-	velocity.y += jump_velocity
+	velocity.y += crouch_jump_velocity if is_crouching else jump_velocity
 
 
 func _on_standing() -> void:
+	is_crouching = false
 	standing_collision.disabled = false
 	crouching_collision.disabled = true
 	anim_tree_state.travel("Standing")
 
 
 func _on_crouching() -> void:
+	is_crouching = true
 	standing_collision.disabled = true
 	crouching_collision.disabled = false
 	anim_tree_state.travel("Crouching")
