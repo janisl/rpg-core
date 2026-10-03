@@ -1,5 +1,5 @@
 class_name Item
-extends Node
+extends Node3D
 
 var _item_owner: Actor
 var _owner_inventory: Inventory

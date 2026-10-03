@@ -1,5 +1,5 @@
 class_name WeaponController
-extends Node
+extends Node3D
 
 const BULLET_TRACER = preload("uid://lbvs8vldbgts")
 

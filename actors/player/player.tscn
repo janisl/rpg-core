@@ -1376,7 +1376,7 @@ crouch_check = NodePath("CrouchCheck")
 interaction_ray_cast = NodePath("Neck/Head/Camera/InteractionRayCast")
 stairs_ahead_ray_cast = NodePath("StairsAheadRayCast")
 stairs_below_ray_cast = NodePath("StairsBelowRayCast")
-weapon_controller = NodePath("Components/WeaponController")
+weapon_controller = NodePath("WeaponController")
 animation_tree = NodePath("AnimationTree")
 inventory = NodePath("Inventory")
 health_component = NodePath("HealthComponent")
@@ -1408,18 +1408,18 @@ script = ExtResource("25_yeioo")
 player = NodePath("../..")
 metadata/_custom_type_script = "uid://cqmmur7bbutym"
 
-[node name="WeaponController" type="Node" parent="Components" unique_id=327890797 node_paths=PackedStringArray("player", "camera", "weapon_model_parent")]
-script = ExtResource("6_2vokq")
-player = NodePath("../..")
-camera = NodePath("../../Neck/Head/Camera")
-weapon_model_parent = NodePath("../../Neck/Head/Camera")
-weapon_mesh_layer = 2
-metadata/_custom_type_script = "uid://bssifbouhjhmf"
-
 [node name="Inventory" type="Node" parent="." unique_id=1686695142]
 script = ExtResource("31_4ihbh")
 slots = Array[ExtResource("32_4jc6f")]([SubResource("Resource_4jc6f"), null, null, null, null, null, null, null, null, SubResource("Resource_drwxn"), null, null, null, null, null, null, null, null])
 metadata/_custom_type_script = "uid://bk8ufns0cjpgj"
+
+[node name="WeaponController" type="Node3D" parent="." unique_id=264511219 node_paths=PackedStringArray("player", "camera", "weapon_model_parent")]
+script = ExtResource("6_2vokq")
+player = NodePath("..")
+camera = NodePath("../Neck/Head/Camera")
+weapon_model_parent = NodePath("../Neck/Head/Camera")
+weapon_mesh_layer = 2
+metadata/_custom_type_script = "uid://bssifbouhjhmf"
 
 [node name="StateChartDebugger" parent="." unique_id=1438023907 instance=ExtResource("2_388e2")]
 offset_right = -1522.0

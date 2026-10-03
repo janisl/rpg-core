@@ -9,7 +9,7 @@ func _perform_attack() -> void:
 
 
 func _perform_hit_scan() -> void:
-	var space_state := _item_owner.get_world_3d().direct_space_state
+	var space_state := get_world_3d().direct_space_state
 
 	var accuracy_spread := (100.0 - _weapon_data.accuracy) / 1000.0
 
