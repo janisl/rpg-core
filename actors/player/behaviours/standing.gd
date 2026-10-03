@@ -5,10 +5,11 @@ signal standing()
 
 func _on_state_entered() -> void:
 	standing.emit()
+	player.try_crouch = false
 
 
 func _on_state_processing(_delta: float) -> void:
-	if Input.is_action_pressed("crouch") and player.is_on_floor():
+	if player.try_crouch and player.is_on_floor():
 		player.state_chart.send_event("onCrouching")
 
 

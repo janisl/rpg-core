@@ -19,6 +19,7 @@ extends Actor
 @export_group("Movement settings")
 @export var jump_velocity := 5.0
 @export var crouch_jump_velocity := 3.0
+@export var toggle_crouch := false
 
 @export_group("Camera height")
 @export var standing_camera_height := 1.6
@@ -29,6 +30,7 @@ extends Actor
 @export_flags_3d_render var mesh_layer := 1
 
 var input_dir := Vector2.ZERO
+var try_crouch := false
 
 var is_crouching := false
 
@@ -54,6 +56,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	if event.is_action_pressed("test"):
 		$HealthComponent.take_damage(10.0)
+
+	if toggle_crouch:
+		if Input.is_action_just_pressed("crouch"):
+			try_crouch = !try_crouch
+	else:
+		try_crouch = Input.is_action_pressed("crouch")
 
 
 func jump() -> void:
