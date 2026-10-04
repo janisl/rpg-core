@@ -1415,10 +1415,10 @@ metadata/_custom_type_script = "uid://bk8ufns0cjpgj"
 
 [node name="WeaponController" type="Node3D" parent="." unique_id=264511219 node_paths=PackedStringArray("player", "camera", "weapon_model_parent")]
 script = ExtResource("6_2vokq")
+weapon_mesh_layer = 2
 player = NodePath("..")
 camera = NodePath("../Neck/Head/Camera")
 weapon_model_parent = NodePath("../Neck/Head/Camera")
-weapon_mesh_layer = 2
 metadata/_custom_type_script = "uid://bssifbouhjhmf"
 
 [node name="StateChartDebugger" parent="." unique_id=1438023907 instance=ExtResource("2_388e2")]
