@@ -1,4 +1,4 @@
-class_name Item
+class_name Wieldable
 extends Node3D
 
 var _item_owner: Actor

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bmjbw3h5btlsw"]
 
-[ext_resource type="PackedScene" uid="uid://bnvfahbsfb37o" path="res://items/item.tscn" id="1_1aasx"]
+[ext_resource type="PackedScene" uid="uid://bnvfahbsfb37o" path="res://items/wieldable.tscn" id="1_1aasx"]
 [ext_resource type="Script" uid="uid://pisgkfuei3r7" path="res://items/weapons/weapon.gd" id="2_rde40"]
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="3_fqqk5"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="3_yteyy"]

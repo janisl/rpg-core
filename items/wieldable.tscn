@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bnvfahbsfb37o"]
 
-[ext_resource type="Script" uid="uid://c05lkrc1usa61" path="res://items/item.gd" id="1_88lpn"]
+[ext_resource type="Script" uid="uid://c05lkrc1usa61" path="res://items/wieldable.gd" id="1_88lpn"]
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="2_881i2"]
 [ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="3_bpufw"]
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="4_2knyj"]

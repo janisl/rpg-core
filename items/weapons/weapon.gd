@@ -1,5 +1,5 @@
 class_name Weapon
-extends Item
+extends Wieldable
 
 signal weapon_idle
 signal weapon_fired
