@@ -19,9 +19,8 @@ func initialize(own: Actor, inventory: Inventory, stack: ItemStack) -> void:
 func update(
 		position: Vector3,
 		direction: Vector3,
-		atk_pressed: bool,
-		atk_just_pressed: bool) -> void:
+		atk_pressed: bool) -> void:
 	_from_position = position
 	_forward_direction = direction
+	_attack_just_pressed = atk_pressed and not _attack_pressed
 	_attack_pressed = atk_pressed
-	_attack_just_pressed = atk_just_pressed
