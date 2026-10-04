@@ -53,10 +53,10 @@ const BULLET_TRACER = preload("uid://lbvs8vldbgts")
 @export var vertical_lag_max := 0.03
 @export var vertical_lag_vel_max := 10.0
 
-var current_weapon_data: WeaponData
+var current_weapon_data: WieldableData
 var current_weapon_model: Node3D
 var current_item_stack: ItemStack
-var current_weapon: Weapon
+var current_weapon: Wieldable
 var animation_player: AnimationPlayer
 var _muzzle_flash: MuzzleFlash
 
@@ -102,7 +102,7 @@ func _process(delta: float) -> void:
 
 func switch_weapon(item_stack: ItemStack) -> void:
 	current_item_stack = item_stack
-	current_weapon_data = item_stack.item as WeaponData if item_stack else null
+	current_weapon_data = item_stack.item as WieldableData if item_stack else null
 	_spawn_weapon_model()
 
 
@@ -117,10 +117,10 @@ func _spawn_weapon_model() -> void:
 	if not current_weapon_data:
 		return
 
-	assert(current_weapon_data.item_scene, "Weapon has no item scene")
+	assert(current_weapon_data.wieldable_scene, "Weapon has no wieldable scene")
 	assert(current_weapon_data.weapon_scene, "Weapon has no view scene")
 
-	current_weapon = current_weapon_data.item_scene.instantiate() as Weapon
+	current_weapon = current_weapon_data.wieldable_scene.instantiate() as Weapon
 	add_child(current_weapon)
 	current_weapon.initialize(player, player.inventory, current_item_stack)
 

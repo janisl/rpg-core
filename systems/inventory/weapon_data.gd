@@ -1,5 +1,5 @@
 class_name WeaponData
-extends ItemData
+extends WieldableData
 
 @export_group("General")
 @export var damage := 25.0
@@ -30,6 +30,3 @@ extends ItemData
 @export_range(0, 90, 0.1, "radians_as_degrees") var recoil_cam_roll := 0.0
 @export var recoil_model_kickback := 0.02
 @export_range(0, 90, 0.1, "radians_as_degrees") var recoil_model_rise := deg_to_rad(8.0)
-
-@export_group("Vertical lag")
-@export var vertical_lag_amount := 0.0
