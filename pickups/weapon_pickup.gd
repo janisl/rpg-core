@@ -14,7 +14,7 @@ func _apply_pickup(player: Player) -> void:
 	var weapon_slot := player.inventory.find_by_type(weapon_resource)
 
 	if weapon_slot:
-		player.inventory.add_item(weapon_resource.ammo_type, weapon_resource.max_ammo)
+		player.inventory.add_item(weapon_resource.ammo_type, weapon_resource.magazine_size)
 	else:
 		Managers.weapon_manager.unlock_weapon(weapon_resource)
 		Managers.weapon_manager.switch_to_weapon(weapon_resource)

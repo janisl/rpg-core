@@ -17,7 +17,7 @@ fill_to = Vector2(1, 1)
 
 [resource]
 script = ExtResource("3_wtgxi")
-max_ammo = 80
+magazine_size = 12
 is_automatic = true
 ammo_type = ExtResource("1_cxtko")
 weapon_scene = ExtResource("4_ka7mt")

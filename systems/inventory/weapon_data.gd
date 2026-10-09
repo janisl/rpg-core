@@ -3,7 +3,8 @@ extends WieldableData
 
 @export_group("General")
 @export var damage := 25.0
-@export var max_ammo := 12
+@export var magazine_size := 1
+@export var reload_time := 1.5
 @export var fire_rate := 2.0
 @export var is_automatic := false
 @export_range(0, 100) var accuracy := 100
