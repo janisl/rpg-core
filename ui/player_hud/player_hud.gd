@@ -45,4 +45,6 @@ func _update_ammo_label() -> void:
 		return
 
 	ammo_label.visible = true
-	ammo_label.text = str(_player.inventory.get_available_amount(weapon.item.ammo_type))
+	var magazine: int = weapon.metadata.get(Weapon.MAGAZINE_KEY, 0)
+	var reserve := _player.inventory.get_available_amount(weapon.item.ammo_type)
+	ammo_label.text = "%d / %d" % [magazine, reserve]
