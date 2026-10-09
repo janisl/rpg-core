@@ -104,6 +104,13 @@ func _get_pellet_count() -> int:
 	return _weapon_data.pellet_count
 
 
+func _get_projectile_scene() -> PackedScene:
+	var ammo := _get_loaded_ammo()
+	if ammo and ammo.projectile_scene_override:
+		return ammo.projectile_scene_override
+	return _weapon_data.projectile_scene
+
+
 func _can_fire() -> bool:
 	return _has_ammo()
 

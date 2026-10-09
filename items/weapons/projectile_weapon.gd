@@ -7,9 +7,10 @@ func _perform_attack() -> void:
 
 
 func _spawn_projectile() -> void:
-	assert(_weapon_data.projectile_scene, "No projectile addigned")
+	var projectile_scene := _get_projectile_scene()
+	assert(projectile_scene, "No projectile addigned")
 
-	var projectile := _weapon_data.projectile_scene.instantiate() as Projectile
+	var projectile := projectile_scene.instantiate() as Projectile
 	get_tree().current_scene.add_child(projectile)
 
 	projectile.global_position = _from_position
