@@ -97,7 +97,8 @@ func _process(delta: float) -> void:
 				camera.global_position,
 				-camera.global_transform.basis.z,
 				Input.is_action_pressed("primary_fire"),
-				Input.is_action_just_pressed("reload"))
+				Input.is_action_just_pressed("reload"),
+				Input.is_action_just_pressed("cycle_ammo"))
 
 
 func switch_weapon(item_stack: ItemStack) -> void:

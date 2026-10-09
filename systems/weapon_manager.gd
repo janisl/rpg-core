@@ -48,4 +48,5 @@ func switch_to_weapon(weapon: WeaponData) -> void:
 
 func unlock_weapon(weapon: WeaponData) -> void:
 	player.inventory.add_item(weapon)
-	player.inventory.add_item(weapon.ammo_type, weapon.magazine_size)
+	if not weapon.ammo_types.is_empty():
+		player.inventory.add_item(weapon.ammo_types[0], weapon.magazine_size)

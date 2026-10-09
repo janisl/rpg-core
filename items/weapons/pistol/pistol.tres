@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cojhl7nthk3w1" path="res://items/weapons/hit_scan_weapon.tscn" id="2_ka7mt"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon_data.gd" id="3_wtgxi"]
 [ext_resource type="PackedScene" uid="uid://567vdvii3fg6" path="res://items/weapons/pistol/pistol_view.tscn" id="4_ka7mt"]
+[ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/inventory/ammo_data.gd" id="ammo_data_script"]
 
 [sub_resource type="Gradient" id="Gradient_cm5tq"]
 offsets = PackedFloat32Array(0.31320754, 0.4264151, 0.5962264, 0.7169811)
@@ -19,7 +20,7 @@ fill_to = Vector2(1, 1)
 script = ExtResource("3_wtgxi")
 magazine_size = 12
 is_automatic = true
-ammo_type = ExtResource("1_cxtko")
+ammo_types = Array[ExtResource("ammo_data_script")]([ExtResource("1_cxtko")])
 weapon_scene = ExtResource("4_ka7mt")
 weapon_position = Vector3(0.14105655, -0.06323153, -0.18142417)
 wieldable_scene = ExtResource("2_ka7mt")

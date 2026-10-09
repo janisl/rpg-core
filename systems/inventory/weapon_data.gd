@@ -8,7 +8,7 @@ extends WieldableData
 @export var fire_rate := 2.0
 @export var is_automatic := false
 @export_range(0, 100) var accuracy := 100
-@export var ammo_type: ItemData
+@export var ammo_types: Array[AmmoData]
 
 @export_group("Visuals")
 @export var weapon_scene: PackedScene
