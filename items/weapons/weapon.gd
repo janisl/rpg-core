@@ -86,6 +86,12 @@ func _get_damage() -> float:
 	return _weapon_data.damage * (ammo.damage_multiplier if ammo else 1.0)
 
 
+func _get_accuracy_spread() -> float:
+	var ammo := _get_loaded_ammo()
+	var accuracy := _weapon_data.accuracy * (ammo.accuracy_multiplier if ammo else 1.0)
+	return (100.0 - clampf(accuracy, 0.0, 100.0)) / 1000.0
+
+
 func _can_fire() -> bool:
 	return _has_ammo()
 

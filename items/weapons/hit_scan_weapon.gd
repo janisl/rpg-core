@@ -11,7 +11,7 @@ func _perform_attack() -> void:
 func _perform_hit_scan() -> void:
 	var space_state := get_world_3d().direct_space_state
 
-	var accuracy_spread := (100.0 - _weapon_data.accuracy) / 1000.0
+	var accuracy_spread := _get_accuracy_spread()
 
 	for i in _weapon_data.pellet_count:
 		var direction := _forward_direction + _get_spread_delta(accuracy_spread)

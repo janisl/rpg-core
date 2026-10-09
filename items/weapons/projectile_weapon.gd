@@ -14,7 +14,7 @@ func _spawn_projectile() -> void:
 
 	projectile.global_position = _from_position
 
-	var accuracy_spread := (100.0 - _weapon_data.accuracy) / 1000.0
+	var accuracy_spread := _get_accuracy_spread()
 	var direction := _forward_direction + _get_spread_delta(accuracy_spread)
 
 	var velocity := direction * _weapon_data.projectile_speed
