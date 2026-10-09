@@ -20,4 +20,4 @@ func _spawn_projectile() -> void:
 	var velocity := direction * _weapon_data.projectile_speed
 
 	projectile.look_at(projectile.global_position + direction, Vector3.UP)
-	projectile.setup(_item_owner, velocity, _weapon_data.damage)
+	projectile.setup(_item_owner, velocity, _get_damage())

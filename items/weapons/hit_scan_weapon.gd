@@ -41,7 +41,7 @@ func _apply_damage_to_target(target: Node3D) -> void:
 	var health_component := target.get_node_or_null("HealthComponent") as HealthComponent
 
 	if health_component:
-		health_component.take_damage(_weapon_data.damage, _item_owner)
+		health_component.take_damage(_get_damage(), _item_owner)
 
 
 func _spawn_impact_marker(result: Dictionary) -> void:

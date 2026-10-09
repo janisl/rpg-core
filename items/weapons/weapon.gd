@@ -81,6 +81,11 @@ func _cycle_ammo() -> bool:
 	return false
 
 
+func _get_damage() -> float:
+	var ammo := _get_loaded_ammo()
+	return _weapon_data.damage * (ammo.damage_multiplier if ammo else 1.0)
+
+
 func _can_fire() -> bool:
 	return _has_ammo()
 
