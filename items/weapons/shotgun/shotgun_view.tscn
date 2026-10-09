@@ -2,6 +2,15 @@
 
 [ext_resource type="PackedScene" uid="uid://7f1hvxmn2lb8" path="res://items/weapons/muzzle_flash.tscn" id="1_k707q"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.58886385, 0.38416725, 9.62615e-08, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.3
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wutjk"]
 albedo_color = Color(0.3791798, 0.3791798, 0.37917978, 1)
 
@@ -18,37 +27,31 @@ albedo_color = Color(0.47794926, 0.24290296, 0, 1)
 material = SubResource("StandardMaterial3D_rghg7")
 size = Vector3(0.02, 0.15, 0.05)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
-albedo_color = Color(0.58886385, 0.38416725, 9.62615e-08, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_bsiym"]
-material = SubResource("StandardMaterial3D_rdqwp")
-top_radius = 0.03
-bottom_radius = 0.03
-height = 0.3
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_58473"]
-transparency = 1
-albedo_color = Color(1, 0.3623752, 0.27951252, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_bsiym"]
-material = SubResource("StandardMaterial3D_58473")
-radius = 0.05
-height = 0.1
-
 [sub_resource type="Animation" id="Animation_nrx6e"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Meshes/MeshInstance3D4:mesh:material:albedo_color")
+tracks/0/path = NodePath("Meshes:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 0.3623752, 0.27951252, 1)]
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Meshes/ShotgunMeshes:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_58473"]
@@ -56,57 +59,60 @@ resource_name = "fire"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Meshes/MeshInstance3D4:mesh:material:albedo_color")
+tracks/0/path = NodePath("Meshes:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Color(1, 0.36078432, 0.2784314, 0), Color(1, 0.3623752, 0.27951252, 1), Color(1, 0.36078432, 0.2784314, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.04233913), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_wutjk"]
 resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_vt1hf"]
+resource_name = "reload"
+length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Meshes/MeshInstance3D4:mesh:material:albedo_color")
+tracks/0/path = NodePath("Meshes/ShotgunMeshes:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 0.36078432, 0.2784314, 0)]
+"values": [Vector3(0, 0, 0), Vector3(6.2831855, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_nrx6e"]
 _data = {
 &"RESET": SubResource("Animation_nrx6e"),
 &"fire": SubResource("Animation_58473"),
-&"idle": SubResource("Animation_wutjk")
+&"idle": SubResource("Animation_wutjk"),
+&"reload": SubResource("Animation_vt1hf")
 }
 
 [node name="Shotgun" type="Node3D" unique_id=1327495288]
 
 [node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=96319735]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.028, -0.24706843)
-mesh = SubResource("CylinderMesh_58473")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Meshes" unique_id=1199806293]
-transform = Transform3D(1, 0, 0, 0, 0.5037843, 0.86382955, 0, -0.86382955, 0.5037843, 0, -0.020931177, 0.10458866)
-mesh = SubResource("BoxMesh_rdqwp")
-
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Meshes" unique_id=34653514]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.008923039, 0.1864188)
 mesh = SubResource("CylinderMesh_bsiym")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="Meshes" unique_id=1827255992]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.022499241, -0.65311193)
-mesh = SubResource("SphereMesh_bsiym")
+[node name="ShotgunMeshes" type="Node3D" parent="Meshes" unique_id=1173458423]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes/ShotgunMeshes" unique_id=96319735]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.028, -0.24706843)
+mesh = SubResource("CylinderMesh_58473")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Meshes/ShotgunMeshes" unique_id=1199806293]
+transform = Transform3D(1, 0, 0, 0, 0.5037843, 0.86382955, 0, -0.86382955, 0.5037843, 0, -0.020931177, 0.10458866)
+mesh = SubResource("BoxMesh_rdqwp")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=963382603]
 libraries/ = SubResource("AnimationLibrary_nrx6e")

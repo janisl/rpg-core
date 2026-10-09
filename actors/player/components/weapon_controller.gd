@@ -127,6 +127,7 @@ func _spawn_weapon_model() -> void:
 	current_weapon.weapon_idle.connect(_on_weapon_idle)
 	current_weapon.weapon_fired.connect(_on_weapon_fired)
 	current_weapon.bullet_fired.connect(_on_bullet_fired)
+	current_weapon.weapon_reload_started.connect(_on_reload_started)
 
 	current_weapon_model = current_weapon_data.weapon_scene.instantiate()
 	weapon_model_parent.add_child(current_weapon_model)
@@ -182,6 +183,11 @@ func _on_bullet_fired(target_position: Vector3) -> void:
 		tracer.global_position = start_pos
 		tracer.target_pos = target_position
 		tracer.look_at(target_position)
+
+
+func _on_reload_started() -> void:
+	if animation_player:
+		animation_player.play("reload")
 
 
 func _apply_offsets(delta: float) -> void:
