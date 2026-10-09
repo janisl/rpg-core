@@ -92,6 +92,18 @@ func _get_accuracy_spread() -> float:
 	return (100.0 - clampf(accuracy, 0.0, 100.0)) / 1000.0
 
 
+func _get_spread_multiplier() -> float:
+	var ammo := _get_loaded_ammo()
+	return ammo.spread_multiplier if ammo else 1.0
+
+
+func _get_pellet_count() -> int:
+	var ammo := _get_loaded_ammo()
+	if ammo and ammo.pellet_count_override > 0:
+		return ammo.pellet_count_override
+	return _weapon_data.pellet_count
+
+
 func _can_fire() -> bool:
 	return _has_ammo()
 

@@ -12,12 +12,13 @@ func _perform_hit_scan() -> void:
 	var space_state := get_world_3d().direct_space_state
 
 	var accuracy_spread := _get_accuracy_spread()
+	var pellet_count := _get_pellet_count()
 
-	for i in _weapon_data.pellet_count:
+	for i in pellet_count:
 		var direction := _forward_direction + _get_spread_delta(accuracy_spread)
 
-		if _weapon_data.pellet_count > 1:
-			direction += _get_spread_delta(_weapon_data.spread_angle)
+		if pellet_count > 1:
+			direction += _get_spread_delta(_weapon_data.spread_angle * _get_spread_multiplier())
 
 		var to := _from_position + direction * _weapon_data.hit_scan_range
 
