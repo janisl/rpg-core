@@ -1,7 +1,7 @@
 class_name AmmoPickup
 extends BasePickup
 
-@export var ammo_type: ItemData
+@export var ammo_type: AmmoData
 @export var ammount := 10
 
 

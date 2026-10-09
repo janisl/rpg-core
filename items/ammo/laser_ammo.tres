@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c8ff3twc0mra8"]
+[gd_resource type="Resource" script_class="AmmoData" format=3 uid="uid://c8ff3twc0mra8"]
 
-[ext_resource type="Script" uid="uid://bkignq3aylb0o" path="res://systems/inventory/item_data.gd" id="1_4gx8s"]
+[ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/inventory/ammo_data.gd" id="1_4gx8s"]
 
 [sub_resource type="Gradient" id="Gradient_xy5oi"]
 offsets = PackedFloat32Array(0, 0.3018868, 0.38490567)
@@ -15,4 +15,3 @@ display_name = "Laser ammo"
 description = "Laser ammo"
 icon = SubResource("GradientTexture2D_dxcik")
 max_stack = 250
-metadata/_custom_type_script = "uid://bkignq3aylb0o"
