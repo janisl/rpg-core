@@ -57,7 +57,6 @@ var current_weapon_data: WieldableData
 var current_weapon_model: FirstPersonWieldable
 var current_item_stack: ItemStack
 var current_weapon: Wieldable
-var _muzzle_flash: MuzzleFlash
 
 var base_weapon_position: Vector3
 
@@ -125,16 +124,12 @@ func _spawn_weapon_model() -> void:
 	current_weapon.initialize(player, player.inventory, current_item_stack)
 
 	current_weapon.weapon_fired.connect(_on_weapon_fired)
-	current_weapon.bullet_fired.connect(_on_bullet_fired)
 
 	current_weapon_model = current_weapon_data.weapon_scene.instantiate() as FirstPersonWieldable
 	weapon_model_parent.add_child(current_weapon_model)
 	current_weapon_model.initialize(player, current_weapon)
 	current_weapon_model.position = current_weapon_data.weapon_position
 	base_weapon_position = current_weapon_data.weapon_position
-
-	var found := current_weapon_model.find_children("*", "MuzzleFlash", true, false)
-	_muzzle_flash = found[0] if not found.is_empty() else null
 
 	_apply_clip_and_fov_shader_to_view_model(current_weapon_model)
 
@@ -157,20 +152,6 @@ func _on_weapon_fired() -> void:
 		current_weapon_data.recoil_cam_pitch,
 		current_weapon_data.recoil_cam_yaw,
 		current_weapon_data.recoil_cam_roll)
-
-
-func _on_bullet_fired(target_position: Vector3) -> void:
-	if not _muzzle_flash:
-		return
-
-	var bullet_dir := _muzzle_flash.global_position.direction_to(target_position)
-	var start_pos := _muzzle_flash.global_position + bullet_dir * 0.25
-	if start_pos.distance_to(target_position) > 3.0:
-		var tracer := BULLET_TRACER.instantiate() as BulletTracer
-		player.add_sibling(tracer)
-		tracer.global_position = start_pos
-		tracer.target_pos = target_position
-		tracer.look_at(target_position)
 
 
 func _apply_offsets(delta: float) -> void:

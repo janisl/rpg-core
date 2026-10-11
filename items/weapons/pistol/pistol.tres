@@ -24,6 +24,7 @@ is_automatic = true
 ammo_types = Array[ExtResource("ammo_data_script")]([ExtResource("1_cxtko")])
 weapon_scene = ExtResource("4_ka7mt")
 weapon_position = Vector3(0.14105655, -0.06323153, -0.18142417)
+fire_offset = Vector3(0.1, -0.02, -0.1)
 hit_scan_range = 50.0
 wieldable_scene = ExtResource("2_ka7mt")
 vertical_lag_amount = 0.002

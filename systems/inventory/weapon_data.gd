@@ -13,6 +13,7 @@ extends WieldableData
 @export_group("Visuals")
 @export var weapon_scene: PackedScene
 @export var weapon_position := Vector3.ZERO
+@export var fire_offset := Vector3(0.1, -0.05, -0.1)
 
 @export_group("Hit scan")
 @export var is_hit_scan := true

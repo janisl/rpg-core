@@ -25,6 +25,7 @@ accuracy = 80
 ammo_types = Array[ExtResource("ammo_data_script")]([ExtResource("1_d26d0")])
 weapon_scene = ExtResource("4_yn8j3")
 weapon_position = Vector3(0.15307574, -0.1009149, -0.18142417)
+fire_offset = Vector3(0.15, -0.02, -0.15)
 hit_scan_range = 35.0
 pellet_count = 8
 spread_angle = 0.1

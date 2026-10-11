@@ -1,10 +1,10 @@
+@abstract
 class_name Weapon
 extends Wieldable
 
 signal weapon_idle
 signal weapon_fired
 signal weapon_reload_started
-signal bullet_fired(target_position: Vector3)
 
 const MAGAZINE_KEY := "magazine_ammo"
 const LOADED_AMMO_KEY := "loaded_ammo_index"
@@ -128,11 +128,28 @@ func _fire_weapon() -> void:
 
 	_fire_rate_timer = 1.0 / _weapon_data.fire_rate
 
-	_perform_attack()
+	var camera_collision := _get_camera_collision()
+	var look_basis := Basis.looking_at(_forward_direction)
+	var from := _from_position + look_basis * _weapon_data.fire_offset
+	var fire_direction := from.direction_to(camera_collision)
+
+	_perform_attack(from, fire_direction)
 
 
-func _perform_attack() -> void:
-	pass
+@abstract
+func _perform_attack(from: Vector3, fire_direction: Vector3) -> void
+
+
+func _get_camera_collision() -> Vector3:
+	var ray_end = _from_position + _forward_direction * _item_stack.item.hit_scan_range
+
+	var query = PhysicsRayQueryParameters3D.create(_from_position, ray_end)
+	query.exclude = [ _item_owner.get_rid() ]
+	var result = get_world_3d().direct_space_state.intersect_ray(query)
+
+	if result:
+		return result.position
+	return ray_end
 
 
 func _finish_reload() -> void:
@@ -220,8 +237,8 @@ func _on_empty_state_processing(_delta: float) -> void:
 		state_chart.send_event("onIdle")
 
 
-func _get_spread_delta(spread: float) -> Vector3:
+func _get_spread_delta(direction: Vector3, spread: float) -> Vector3:
 	var spread_x := randf_range(-spread, spread)
 	var spread_y := randf_range(-spread, spread)
-	var basis := Basis.looking_at(_forward_direction)
-	return Vector3(spread_x, spread_y, 0) * basis
+	var direction_basis := Basis.looking_at(direction)
+	return Vector3(spread_x, spread_y, 0) * direction_basis

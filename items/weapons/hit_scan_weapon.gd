@@ -1,33 +1,32 @@
 class_name HitScanWeapon
 extends Weapon
 
+const BULLET_TRACER = preload("uid://lbvs8vldbgts")
+
 @export_flags_3d_physics var hit_scan_collision_mask: int = 1
 
 
-func _perform_attack() -> void:
-	_perform_hit_scan()
-
-
-func _perform_hit_scan() -> void:
+func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
 	var space_state := get_world_3d().direct_space_state
 
 	var accuracy_spread := _get_accuracy_spread()
 	var pellet_count := _get_pellet_count()
 
 	for i in pellet_count:
-		var direction := _forward_direction + _get_spread_delta(accuracy_spread)
+		var direction := fire_direction + _get_spread_delta(fire_direction, accuracy_spread)
 
 		if pellet_count > 1:
-			direction += _get_spread_delta(_weapon_data.spread_angle * _get_spread_multiplier())
+			direction += _get_spread_delta(fire_direction, _weapon_data.spread_angle * _get_spread_multiplier())
 
-		var to := _from_position + direction * _weapon_data.hit_scan_range
+		var to := from + direction * _weapon_data.hit_scan_range
 
-		var query := PhysicsRayQueryParameters3D.create(_from_position, to)
+		var query := PhysicsRayQueryParameters3D.create(from, to)
 		query.collision_mask = hit_scan_collision_mask
+		query.exclude = [ _item_owner.get_rid() ]
 		var result := space_state.intersect_ray(query)
 
 		if randf() < _weapon_data.bullet_tracer_chance:
-			bullet_fired.emit(result.position if result else to)
+			_spawn_tracer(from, result.position if result else to)
 		if not result:
 			continue
 
@@ -47,3 +46,14 @@ func _apply_damage_to_target(target: Node3D) -> void:
 
 func _spawn_impact_marker(result: Dictionary) -> void:
 	BulletDecalPool.spawn_bullet_decal(result.position, result.normal, result.collider, _item_owner.global_basis)
+
+
+func _spawn_tracer(from: Vector3, target_position: Vector3) -> void:
+	var bullet_dir := from.direction_to(target_position)
+	var start_pos := from + bullet_dir * 0.25
+	if start_pos.distance_to(target_position) > 3.0:
+		var tracer := BULLET_TRACER.instantiate() as BulletTracer
+		_item_owner.add_sibling(tracer)
+		tracer.global_position = start_pos
+		tracer.target_pos = target_position
+		tracer.look_at(target_position)
