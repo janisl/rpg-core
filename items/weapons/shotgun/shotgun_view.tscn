@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://br2mplv6cjpjb"]
 
+[ext_resource type="Script" uid="uid://3l8hkh0mdklm" path="res://items/first_person_wieldable.gd" id="1_348hx"]
 [ext_resource type="PackedScene" uid="uid://7f1hvxmn2lb8" path="res://items/weapons/muzzle_flash.tscn" id="1_k707q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
@@ -96,7 +97,10 @@ _data = {
 &"reload": SubResource("Animation_vt1hf")
 }
 
-[node name="Shotgun" type="Node3D" unique_id=1327495288]
+[node name="Shotgun" type="Node3D" unique_id=1327495288 node_paths=PackedStringArray("animation_player", "muzzle_flash")]
+script = ExtResource("1_348hx")
+animation_player = NodePath("AnimationPlayer")
+muzzle_flash = NodePath("MuzzleFlash")
 
 [node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
 

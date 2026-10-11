@@ -54,10 +54,9 @@ const BULLET_TRACER = preload("uid://lbvs8vldbgts")
 @export var vertical_lag_vel_max := 10.0
 
 var current_weapon_data: WieldableData
-var current_weapon_model: Node3D
+var current_weapon_model: FirstPersonWieldable
 var current_item_stack: ItemStack
 var current_weapon: Wieldable
-var animation_player: AnimationPlayer
 var _muzzle_flash: MuzzleFlash
 
 var base_weapon_position: Vector3
@@ -125,16 +124,14 @@ func _spawn_weapon_model() -> void:
 	add_child(current_weapon)
 	current_weapon.initialize(player, player.inventory, current_item_stack)
 
-	current_weapon.weapon_idle.connect(_on_weapon_idle)
 	current_weapon.weapon_fired.connect(_on_weapon_fired)
 	current_weapon.bullet_fired.connect(_on_bullet_fired)
-	current_weapon.weapon_reload_started.connect(_on_reload_started)
 
-	current_weapon_model = current_weapon_data.weapon_scene.instantiate()
+	current_weapon_model = current_weapon_data.weapon_scene.instantiate() as FirstPersonWieldable
 	weapon_model_parent.add_child(current_weapon_model)
+	current_weapon_model.initialize(player, current_weapon)
 	current_weapon_model.position = current_weapon_data.weapon_position
 	base_weapon_position = current_weapon_data.weapon_position
-	animation_player = current_weapon_model.get_node("AnimationPlayer")
 
 	var found := current_weapon_model.find_children("*", "MuzzleFlash", true, false)
 	_muzzle_flash = found[0] if not found.is_empty() else null
@@ -152,17 +149,7 @@ func _spawn_weapon_model() -> void:
 	_recoil_pitch_vel = 0.0
 
 
-func _on_weapon_idle() -> void:
-	if animation_player:
-		animation_player.play("idle")
-
-
 func _on_weapon_fired() -> void:
-	animation_player.play("fire")
-
-	if _muzzle_flash:
-		_muzzle_flash.flash()
-
 	if recoil_enabled:
 		_add_model_recoil()
 
@@ -184,11 +171,6 @@ func _on_bullet_fired(target_position: Vector3) -> void:
 		tracer.global_position = start_pos
 		tracer.target_pos = target_position
 		tracer.look_at(target_position)
-
-
-func _on_reload_started() -> void:
-	if animation_player:
-		animation_player.play("reload")
 
 
 func _apply_offsets(delta: float) -> void:
