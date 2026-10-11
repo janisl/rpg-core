@@ -19,6 +19,7 @@ fill_to = Vector2(1, 1)
 
 [resource]
 script = ExtResource("4_efmtk")
+damage = 10.0
 magazine_size = 20
 is_automatic = true
 accuracy = 90
@@ -26,6 +27,7 @@ ammo_types = Array[ExtResource("ammo_data_script")]([ExtResource("1_bjold")])
 weapon_scene = ExtResource("5_l8b5j")
 weapon_position = Vector3(0.14105655, -0.06323153, -0.18142417)
 is_hit_scan = false
+hit_scan_range = 40.0
 projectile_scene = ExtResource("2_l8b5j")
 wieldable_scene = ExtResource("2_da8ks")
 vertical_lag_amount = 0.002

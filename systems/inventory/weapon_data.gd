@@ -2,7 +2,7 @@ class_name WeaponData
 extends WieldableData
 
 @export_group("General")
-@export var damage := 25.0
+@export var damage := 0.0
 @export var magazine_size := 1
 @export var reload_time := 1.5
 @export var fire_rate := 2.0
@@ -16,7 +16,7 @@ extends WieldableData
 
 @export_group("Hit scan")
 @export var is_hit_scan := true
-@export var hit_scan_range := 25.0
+@export var hit_scan_range := 0.0
 @export var pellet_count := 1
 @export var spread_angle := 0.0
 @export var bullet_tracer_chance := 0.5
