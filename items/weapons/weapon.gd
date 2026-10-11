@@ -7,7 +7,7 @@ signal weapon_reload_started
 signal bullet_fired(target_position: Vector3)
 
 const MAGAZINE_KEY := "magazine_ammo"
-const LOADED_AMMO_KEY := "loaded_ammo_type"
+const LOADED_AMMO_KEY := "loaded_ammo_index"
 const SELECTED_AMMO_KEY := "selected_ammo_index"
 
 var _weapon_data: WeaponData
@@ -35,7 +35,11 @@ func _set_magazine_ammo(value: int) -> void:
 
 
 func _get_loaded_ammo() -> AmmoData:
-	return _item_stack.metadata.get(LOADED_AMMO_KEY)
+	if _weapon_data.ammo_types.is_empty():
+		return null
+
+	var index: int = _item_stack.metadata.get(LOADED_AMMO_KEY, 0)
+	return _weapon_data.ammo_types[clampi(index, 0, _weapon_data.ammo_types.size() - 1)]
 
 
 func _get_selected_ammo() -> AmmoData:
@@ -138,7 +142,7 @@ func _finish_reload() -> void:
 	if loaded != selected:
 		if loaded and _owner_inventory and _get_magazine_ammo() > 0:
 			_owner_inventory.add_item(loaded, _get_magazine_ammo())
-		_item_stack.metadata[LOADED_AMMO_KEY] = selected
+		_item_stack.metadata[LOADED_AMMO_KEY] = _item_stack.metadata.get(SELECTED_AMMO_KEY, 0)
 		_set_magazine_ammo(0)
 
 	var amount := mini(_weapon_data.magazine_size - _get_magazine_ammo(), _get_reserve_ammo(selected))
