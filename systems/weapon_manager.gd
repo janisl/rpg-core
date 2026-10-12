@@ -37,7 +37,7 @@ func switch_to_slot(index: int) -> void:
 	var item_stack := player.inventory.slots[index]
 	current_slot = index
 	current_slot_changed.emit()
-	player.weapon_controller.switch_weapon(item_stack)
+	player.wield_controller.switch_wieldable(item_stack)
 
 
 func switch_to_weapon(weapon: WeaponData) -> void:

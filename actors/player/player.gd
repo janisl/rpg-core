@@ -11,7 +11,7 @@ extends Actor
 @export var interaction_ray_cast: InteractionRayCast
 @export var stairs_ahead_ray_cast: RayCast3D
 @export var stairs_below_ray_cast: RayCast3D
-@export var weapon_controller: WeaponController
+@export var wield_controller: WieldController
 @export var animation_tree: AnimationTree
 @export var inventory: Inventory
 @export var health_component: HealthComponent

@@ -92,12 +92,13 @@ func add_model_recoil() -> void:
 	if not recoil_enabled:
 		return
 
-	_recoil_z += player.weapon_controller.current_weapon_data.recoil_model_kickback
-	_recoil_pitch += player.weapon_controller.current_weapon_data.recoil_model_rise
+	_recoil_z += player.wield_controller.wieldable_data.recoil_model_kickback
+	_recoil_pitch += player.wield_controller.wieldable_data.recoil_model_rise
 
 
 func _apply_offsets(delta: float) -> void:
-	if not player.weapon_controller.current_weapon_model:
+	var model := player.wield_controller.first_person_model
+	if not model:
 		return
 
 	var idle_offset := _update_idle_sway(delta)
@@ -108,8 +109,8 @@ func _apply_offsets(delta: float) -> void:
 
 	var strafe_tilt = _update_strafe_tilt(delta)
 
-	player.weapon_controller.current_weapon_model.position = idle_offset + look_offset + bob_offset + recoil_offset + vlag_offset
-	player.weapon_controller.current_weapon_model.rotation = Vector3(_recoil_pitch, 0.0, strafe_tilt)
+	model.position = idle_offset + look_offset + bob_offset + recoil_offset + vlag_offset
+	model.rotation = Vector3(_recoil_pitch, 0.0, strafe_tilt)
 
 
 func _update_idle_sway(delta: float) -> Vector3:
@@ -289,7 +290,7 @@ func _update_vertical_lag(delta: float) -> Vector3:
 	if abs(cam_vel_y) < vertical_lag_dead_zome:
 		cam_vel_y = 0.0
 
-	var target_y := -cam_vel_y * player.weapon_controller.current_weapon_data.vertical_lag_amount
+	var target_y := -cam_vel_y * player.wield_controller.wieldable_data.vertical_lag_amount
 	var result = SpringUtil.apply(
 			_vertical_lag_y,
 			_vertical_lag_y_vel,

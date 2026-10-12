@@ -1,23 +1,23 @@
-class_name WeaponController
+class_name WieldController
 extends Node3D
 
 @export_group("References")
 @export var player: Player
 @export var camera: CameraEffects
-@export var weapon_model_parent: WieldableEffects
+@export var first_person_parent: WieldableEffects
 
-@export_group("Weapon controller params")
-@export_flags_3d_render var weapon_mesh_layer := 1
+@export_group("Mesh layers")
+@export_flags_3d_render var first_person_mesh_layer := 1
 
-var current_weapon_data: WieldableData
-var current_weapon_model: FirstPersonWieldable
 var current_item_stack: ItemStack
-var current_weapon: Wieldable
+var wieldable_data: WieldableData
+var wieldable: Wieldable
+var first_person_model: FirstPersonWieldable
 
 
-func _process(delta: float) -> void:
-	if current_weapon:
-		current_weapon.update(
+func _process(_delta: float) -> void:
+	if wieldable:
+		wieldable.update(
 				camera.global_position,
 				-camera.global_transform.basis.z,
 				Input.is_action_pressed("primary_fire"),
@@ -25,52 +25,52 @@ func _process(delta: float) -> void:
 				Input.is_action_just_pressed("cycle_ammo"))
 
 
-func switch_weapon(item_stack: ItemStack) -> void:
+func switch_wieldable(item_stack: ItemStack) -> void:
 	current_item_stack = item_stack
-	current_weapon_data = item_stack.item as WieldableData if item_stack else null
-	_spawn_weapon_model()
+	wieldable_data = item_stack.item as WieldableData if item_stack else null
+	_spawn_wieldable_scenes()
 
 
-func _spawn_weapon_model() -> void:
-	if current_weapon_model:
-		current_weapon_model.queue_free()
-		current_weapon_model = null
-	if current_weapon:
-		current_weapon.queue_free()
-		current_weapon = null
+func _spawn_wieldable_scenes() -> void:
+	if first_person_model:
+		first_person_model.queue_free()
+		first_person_model = null
+	if wieldable:
+		wieldable.queue_free()
+		wieldable = null
 
-	if not current_weapon_data:
+	if not wieldable_data:
 		return
 
-	assert(current_weapon_data.controller_scene, "Wieldable has no controller scene")
-	assert(current_weapon_data.first_person_scene, "Wieldable has no first person scene")
+	assert(wieldable_data.controller_scene, "Wieldable has no controller scene")
+	assert(wieldable_data.first_person_scene, "Wieldable has no first person scene")
 
-	current_weapon = current_weapon_data.controller_scene.instantiate() as Wieldable
-	add_child(current_weapon)
-	current_weapon.initialize(player, player.inventory, current_item_stack)
+	wieldable = wieldable_data.controller_scene.instantiate() as Wieldable
+	add_child(wieldable)
+	wieldable.initialize(player, player.inventory, current_item_stack)
 
-	current_weapon.weapon_fired.connect(_on_weapon_fired)
+	wieldable.weapon_fired.connect(_on_weapon_fired)
 
-	current_weapon_model = current_weapon_data.first_person_scene.instantiate() as FirstPersonWieldable
-	weapon_model_parent.add_child(current_weapon_model)
-	current_weapon_model.initialize(player, current_weapon)
-	weapon_model_parent.position = current_weapon_data.first_person_position
+	first_person_model = wieldable_data.first_person_scene.instantiate() as FirstPersonWieldable
+	first_person_parent.add_child(first_person_model)
+	first_person_model.initialize(player, wieldable)
+	first_person_parent.position = wieldable_data.first_person_position
 
-	_apply_clip_and_fov_shader_to_view_model(current_weapon_model)
+	_apply_clip_and_fov_shader_to_view_model(first_person_model, first_person_mesh_layer)
 
-	weapon_model_parent.reset_effects()
+	first_person_parent.reset_effects()
 
 
 func _on_weapon_fired() -> void:
-	weapon_model_parent.add_model_recoil()
+	first_person_parent.add_model_recoil()
 
 	camera.add_recoil(
-		current_weapon_data.recoil_cam_pitch,
-		current_weapon_data.recoil_cam_yaw,
-		current_weapon_data.recoil_cam_roll)
+		wieldable_data.recoil_cam_pitch,
+		wieldable_data.recoil_cam_yaw,
+		wieldable_data.recoil_cam_roll)
 
 
-func _apply_clip_and_fov_shader_to_view_model(node3d : Node3D, fov_or_negative_for_unchanged = -1.0) -> void:
+func _apply_clip_and_fov_shader_to_view_model(node3d: Node3D, mesh_layer: int, fov_or_negative_for_unchanged = -1.0) -> void:
 	var all_mesh_instances := node3d.find_children("*", "MeshInstance3D")
 	if node3d is MeshInstance3D:
 		all_mesh_instances.push_back(node3d)
@@ -78,7 +78,7 @@ func _apply_clip_and_fov_shader_to_view_model(node3d : Node3D, fov_or_negative_f
 	for mesh_instance in all_mesh_instances:
 		var mesh = mesh_instance.mesh
 
-		mesh_instance.layers = weapon_mesh_layer
+		mesh_instance.layers = mesh_layer
 		mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 		for surface_idx in mesh.get_surface_count():
