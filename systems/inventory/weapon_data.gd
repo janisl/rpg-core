@@ -9,10 +9,6 @@ extends WieldableData
 @export var is_automatic := false
 @export_range(0, 100) var accuracy := 100
 @export var ammo_types: Array[AmmoData]
-
-@export_group("Visuals")
-@export var weapon_scene: PackedScene
-@export var weapon_position := Vector3.ZERO
 @export var fire_offset := Vector3(0.1, -0.05, -0.1)
 
 @export_group("Hit scan")

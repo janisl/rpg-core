@@ -42,19 +42,19 @@ func _spawn_weapon_model() -> void:
 	if not current_weapon_data:
 		return
 
-	assert(current_weapon_data.wieldable_scene, "Weapon has no wieldable scene")
-	assert(current_weapon_data.weapon_scene, "Weapon has no view scene")
+	assert(current_weapon_data.controller_scene, "Wieldable has no controller scene")
+	assert(current_weapon_data.first_person_scene, "Wieldable has no first person scene")
 
-	current_weapon = current_weapon_data.wieldable_scene.instantiate() as Weapon
+	current_weapon = current_weapon_data.controller_scene.instantiate() as Wieldable
 	add_child(current_weapon)
 	current_weapon.initialize(player, player.inventory, current_item_stack)
 
 	current_weapon.weapon_fired.connect(_on_weapon_fired)
 
-	current_weapon_model = current_weapon_data.weapon_scene.instantiate() as FirstPersonWieldable
+	current_weapon_model = current_weapon_data.first_person_scene.instantiate() as FirstPersonWieldable
 	weapon_model_parent.add_child(current_weapon_model)
 	current_weapon_model.initialize(player, current_weapon)
-	weapon_model_parent.position = current_weapon_data.weapon_position
+	weapon_model_parent.position = current_weapon_data.first_person_position
 
 	_apply_clip_and_fov_shader_to_view_model(current_weapon_model)
 
