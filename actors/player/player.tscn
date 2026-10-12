@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://b47bduygfbkju" path="res://actors/player/behaviours/walking.gd" id="13_lj3dd"]
 [ext_resource type="Script" uid="uid://be8wg0j4hyqs1" path="res://actors/player/behaviours/moving.gd" id="13_nsxbo"]
 [ext_resource type="Script" uid="uid://0dy74s7lq4er" path="res://actors/player/behaviours/sprinting.gd" id="14_lj3dd"]
+[ext_resource type="Script" uid="uid://buoxos72xs1dx" path="res://systems/wieldables/wieldable_effects.gd" id="14_v3s8r"]
 [ext_resource type="Script" uid="uid://161s6scpeppr" path="res://actors/player/behaviours/jumping.gd" id="16_icg72"]
 [ext_resource type="Script" uid="uid://cmvf60l7hjjac" path="res://actors/player/behaviours/airborne.gd" id="16_lj3dd"]
 [ext_resource type="Script" uid="uid://c2buoyfudxvg3" path="res://actors/player/behaviours/not_climbing_ladder.gd" id="17_4ihbh"]
@@ -1417,7 +1418,7 @@ metadata/_custom_type_script = "uid://bk8ufns0cjpgj"
 script = ExtResource("6_2vokq")
 player = NodePath("..")
 camera = NodePath("../Neck/Head/Camera")
-weapon_model_parent = NodePath("../Neck/Head/Camera")
+weapon_model_parent = NodePath("../Neck/Head/Camera/Wieldables")
 weapon_mesh_layer = 2
 metadata/_custom_type_script = "uid://bssifbouhjhmf"
 
@@ -1461,6 +1462,9 @@ monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Neck/Head/Camera/CameraArea" unique_id=1310995675]
 shape = SubResource("SphereShape3D_bsiym")
+
+[node name="Wieldables" type="Node3D" parent="Neck/Head/Camera" unique_id=1901824401]
+script = ExtResource("14_v3s8r")
 
 [node name="StateChart" type="Node" parent="." unique_id=136452644]
 script = ExtResource("2_lsqbn")
