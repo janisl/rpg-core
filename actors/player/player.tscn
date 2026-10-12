@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://dbeuckaub3kor" path="res://actors/player/components/camera_effects.gd" id="4_dqf5y"]
 [ext_resource type="Script" uid="uid://dra7tey8c0bv2" path="res://actors/player/components/interaction_ray_cast.gd" id="4_qrxv1"]
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="5_15y17"]
-[ext_resource type="Script" uid="uid://bssifbouhjhmf" path="res://actors/player/components/weapon_controller.gd" id="6_2vokq"]
+[ext_resource type="Script" uid="uid://bssifbouhjhmf" path="res://systems/wieldables/wield_controller.gd" id="6_2vokq"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="6_bop6h"]
 [ext_resource type="Script" uid="uid://dyr55krt5kuoq" path="res://actors/player/behaviours/grounded.gd" id="9_icg72"]
 [ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://items/weapons/pistol/pistol.tres" id="10_v3s8r"]
@@ -1415,10 +1415,10 @@ metadata/_custom_type_script = "uid://bk8ufns0cjpgj"
 
 [node name="WeaponController" type="Node3D" parent="." unique_id=264511219 node_paths=PackedStringArray("player", "camera", "weapon_model_parent")]
 script = ExtResource("6_2vokq")
-weapon_mesh_layer = 2
 player = NodePath("..")
 camera = NodePath("../Neck/Head/Camera")
 weapon_model_parent = NodePath("../Neck/Head/Camera")
+weapon_mesh_layer = 2
 metadata/_custom_type_script = "uid://bssifbouhjhmf"
 
 [node name="StateChartDebugger" parent="." unique_id=1438023907 instance=ExtResource("2_388e2")]
