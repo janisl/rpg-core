@@ -2,10 +2,6 @@
 class_name Weapon
 extends Wieldable
 
-signal weapon_idle
-signal weapon_fired
-signal weapon_reload_started
-
 const MAGAZINE_KEY := "magazine_ammo"
 const LOADED_AMMO_KEY := "loaded_ammo_index"
 const SELECTED_AMMO_KEY := "selected_ammo_index"
@@ -14,8 +10,6 @@ var _weapon_data: WeaponData
 
 var _fire_rate_timer := 0.0
 var _reload_timer := 0.0
-
-@onready var state_chart: StateChart = $StateChart
 
 
 func initialize(own: Actor, inventory: Inventory, stack: ItemStack) -> void:
@@ -124,7 +118,7 @@ func _fire_weapon() -> void:
 		return
 
 	_set_magazine_ammo(_get_magazine_ammo() - 1)
-	weapon_fired.emit()
+	primary_action_started.emit()
 
 	_fire_rate_timer = 1.0 / _weapon_data.fire_rate
 
@@ -169,7 +163,7 @@ func _finish_reload() -> void:
 
 
 func _on_idle_state_entered() -> void:
-	weapon_idle.emit()
+	idle_started.emit()
 
 
 func _on_idle_state_processing(_delta: float) -> void:
@@ -187,7 +181,7 @@ func _on_idle_state_processing(_delta: float) -> void:
 		state_chart.send_event("onReload")
 		return
 
-	if _attack_just_pressed and _can_fire():
+	if _primary_action_just_pressed and _can_fire():
 		state_chart.send_event("onFiring")
 
 
@@ -206,7 +200,7 @@ func _on_firing_state_processing(delta: float) -> void:
 		return
 
 	if _weapon_data.is_automatic:
-		if _attack_pressed:
+		if _primary_action_pressed:
 			if _can_fire():
 				_fire_weapon()
 			return
@@ -216,7 +210,7 @@ func _on_firing_state_processing(delta: float) -> void:
 
 func _on_reloading_state_entered() -> void:
 	_reload_timer = _weapon_data.reload_time
-	weapon_reload_started.emit()
+	reload_started.emit()
 
 
 func _on_reloading_state_processing(delta: float) -> void:

@@ -49,7 +49,7 @@ func _spawn_wieldable_scenes() -> void:
 	add_child(wieldable)
 	wieldable.initialize(player, player.inventory, current_item_stack)
 
-	wieldable.weapon_fired.connect(_on_weapon_fired)
+	wieldable.primary_action_started.connect(_on_primary_action_started)
 
 	first_person_model = wieldable_data.first_person_scene.instantiate() as FirstPersonWieldable
 	first_person_parent.add_child(first_person_model)
@@ -61,7 +61,7 @@ func _spawn_wieldable_scenes() -> void:
 	first_person_parent.reset_effects()
 
 
-func _on_weapon_fired() -> void:
+func _on_primary_action_started() -> void:
 	first_person_parent.add_model_recoil()
 
 	camera.add_recoil(

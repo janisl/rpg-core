@@ -16,17 +16,17 @@ func initialize(player: Player, wieldable: Wieldable) -> void:
 
 
 func _connect_signals() -> void:
-	_wieldable.weapon_idle.connect(_on_weapon_idle)
-	_wieldable.weapon_fired.connect(_on_weapon_fired)
-	_wieldable.weapon_reload_started.connect(_on_reload_started)
+	_wieldable.idle_started.connect(_on_idle_started)
+	_wieldable.primary_action_started.connect(_on_primary_action_started)
+	_wieldable.reload_started.connect(_on_reload_started)
 
 
-func _on_weapon_idle() -> void:
+func _on_idle_started() -> void:
 	if animation_player:
 		animation_player.play("idle")
 
 
-func _on_weapon_fired() -> void:
+func _on_primary_action_started() -> void:
 	if animation_player:
 		animation_player.play("fire")
 
