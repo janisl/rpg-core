@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://4fhry8pq51ej"]
 
 [ext_resource type="Resource" uid="uid://c8ff3twc0mra8" path="res://items/ammo/laser_ammo.tres" id="1_bjold"]
-[ext_resource type="PackedScene" uid="uid://b6eda53ea0fae" path="res://items/weapons/projectile_weapon.tscn" id="2_da8ks"]
+[ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_da8ks"]
 [ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://items/weapons/laser/test_projectile.tscn" id="2_l8b5j"]
-[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/inventory/weapon_data.gd" id="4_efmtk"]
+[ext_resource type="PackedScene" uid="uid://b6eda53ea0fae" path="res://systems/combat/projectile_weapon.tscn" id="3_wch0n"]
 [ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://items/weapons/laser/laser_view.tscn" id="5_l8b5j"]
-[ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/inventory/ammo_data.gd" id="ammo_data_script"]
+[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="6_efmtk"]
 
 [sub_resource type="Gradient" id="Gradient_shorh"]
 offsets = PackedFloat32Array(0.32830188, 0.41886792, 0.60754716, 0.71320754)
@@ -18,17 +18,17 @@ height = 128
 fill_to = Vector2(1, 1)
 
 [resource]
-script = ExtResource("4_efmtk")
+script = ExtResource("6_efmtk")
 damage = 10.0
 magazine_size = 20
 is_automatic = true
 accuracy = 90
-ammo_types = Array[ExtResource("ammo_data_script")]([ExtResource("1_bjold")])
+ammo_types = Array[ExtResource("1_da8ks")]([ExtResource("1_bjold")])
 fire_offset = Vector3(0.15, -0.02, -0.15)
 is_hit_scan = false
 hit_scan_range = 40.0
 projectile_scene = ExtResource("2_l8b5j")
-controller_scene = ExtResource("2_da8ks")
+controller_scene = ExtResource("3_wch0n")
 first_person_scene = ExtResource("5_l8b5j")
 first_person_position = Vector3(0.14105655, -0.06323153, -0.18142417)
 vertical_lag_amount = 0.002
