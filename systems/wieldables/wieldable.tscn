@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="2_f3rds"]
 [ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="3_x5fj7"]
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="4_6meyj"]
+[ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="5_f3rds"]
 
 [node name="Item" type="Node3D" unique_id=600030650]
 script = ExtResource("1_s658c")
@@ -14,7 +15,30 @@ metadata/_custom_type_script = "uid://couw105c3bde4"
 
 [node name="Root" type="Node" parent="StateChart" unique_id=458852534]
 script = ExtResource("3_x5fj7")
-initial_state = NodePath("Idle")
+initial_state = NodePath("Equiping")
+
+[node name="Equiping" type="Node" parent="StateChart/Root" unique_id=42353801]
+script = ExtResource("4_6meyj")
+
+[node name="OnIdle" type="Node" parent="StateChart/Root/Equiping" unique_id=1978888098]
+script = ExtResource("5_f3rds")
+to = NodePath("../../Idle")
+event = &"onIdle"
+delay_in_seconds = "0.0"
 
 [node name="Idle" type="Node" parent="StateChart/Root" unique_id=1881439388]
 script = ExtResource("4_6meyj")
+
+[node name="Unequiping" type="Node" parent="StateChart/Root" unique_id=793051644]
+script = ExtResource("4_6meyj")
+
+[node name="OnUnequiping" type="Node" parent="StateChart/Root" unique_id=1435836509]
+script = ExtResource("5_f3rds")
+to = NodePath("../Unequiping")
+event = &"onUnequiping"
+delay_in_seconds = "0.0"
+
+[connection signal="state_entered" from="StateChart/Root/Equiping" to="." method="_on_equiping_state_entered"]
+[connection signal="state_processing" from="StateChart/Root/Equiping" to="." method="_on_equiping_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Unequiping" to="." method="_on_unequiping_state_entered"]
+[connection signal="state_processing" from="StateChart/Root/Unequiping" to="." method="_on_unequiping_state_processing"]

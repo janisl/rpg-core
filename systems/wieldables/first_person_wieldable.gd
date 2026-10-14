@@ -48,9 +48,21 @@ func _apply_clip_and_fov_shader_to_view_model(mesh_layer: int, fov_or_negative_f
 
 
 func _connect_signals() -> void:
+	_wieldable.equip_started.connect(_on_equip_started)
+	_wieldable.unequip_started.connect(_on_unequip_started)
 	_wieldable.idle_started.connect(_on_idle_started)
 	_wieldable.primary_action_started.connect(_on_primary_action_started)
 	_wieldable.reload_started.connect(_on_reload_started)
+
+
+func _on_equip_started() -> void:
+	if animation_player:
+		animation_player.play("equip")
+
+
+func _on_unequip_started() -> void:
+	if animation_player:
+		animation_player.play("unequip")
 
 
 func _on_idle_started() -> void:

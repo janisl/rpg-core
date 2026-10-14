@@ -14,6 +14,8 @@ var wieldable_data: WieldableData
 var wieldable: Wieldable
 var first_person_model: FirstPersonWieldable
 
+var _selected_item_stack: ItemStack
+
 
 func _process(_delta: float) -> void:
 	if wieldable:
@@ -26,8 +28,12 @@ func _process(_delta: float) -> void:
 
 
 func switch_wieldable(item_stack: ItemStack) -> void:
-	current_item_stack = item_stack
-	wieldable_data = item_stack.item as WieldableData if item_stack else null
+	_selected_item_stack = item_stack
+
+	if wieldable != null:
+		wieldable.unequip()
+		return
+
 	_spawn_wieldable_scenes()
 
 
@@ -38,7 +44,14 @@ func _spawn_wieldable_scenes() -> void:
 	if wieldable:
 		wieldable.queue_free()
 		wieldable = null
+	wieldable_data = null
 
+	current_item_stack = _selected_item_stack
+	_selected_item_stack = null
+	if not current_item_stack or not current_item_stack.is_valid:
+		return
+
+	wieldable_data = current_item_stack.item as WieldableData
 	if not wieldable_data:
 		return
 
@@ -50,6 +63,7 @@ func _spawn_wieldable_scenes() -> void:
 	wieldable.initialize(player, player.inventory, current_item_stack)
 
 	wieldable.primary_action_started.connect(_on_primary_action_started)
+	wieldable.unequiped.connect(_on_unequiped)
 
 	first_person_model = wieldable_data.first_person_scene.instantiate() as FirstPersonWieldable
 	first_person_parent.add_child(first_person_model)
@@ -66,3 +80,7 @@ func _on_primary_action_started() -> void:
 		wieldable_data.recoil_cam_pitch,
 		wieldable_data.recoil_cam_yaw,
 		wieldable_data.recoil_cam_roll)
+
+
+func _on_unequiped() -> void:
+	_spawn_wieldable_scenes()
