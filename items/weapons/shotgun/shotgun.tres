@@ -18,13 +18,14 @@ fill_to = Vector2(1, 1)
 
 [resource]
 script = ExtResource("5_l67j6")
+range = 35.0
 damage = 3.0
-magazine_size = 8
-fire_rate = 1.0
 accuracy = 80
-ammo_types = Array[ExtResource("1_ptbh3")]([ExtResource("1_d26d0")])
 fire_offset = Vector3(0.15, -0.02, -0.15)
-hit_scan_range = 35.0
+fire_rate = 1.0
+is_automatic = true
+ammo_types = Array[ExtResource("1_ptbh3")]([ExtResource("1_d26d0")])
+magazine_size = 8
 pellet_count = 8
 spread_angle = 0.1
 recoil_cam_pitch = 0.08726646259971647

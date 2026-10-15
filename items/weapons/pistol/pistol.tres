@@ -18,12 +18,12 @@ fill_to = Vector2(1, 1)
 
 [resource]
 script = ExtResource("5_ebdrl")
+range = 50.0
 damage = 5.0
-magazine_size = 12
+fire_offset = Vector3(0.1, -0.02, -0.1)
 is_automatic = true
 ammo_types = Array[ExtResource("1_spaxh")]([ExtResource("1_cxtko")])
-fire_offset = Vector3(0.1, -0.02, -0.1)
-hit_scan_range = 50.0
+magazine_size = 12
 controller_scene = ExtResource("3_wtgxi")
 first_person_scene = ExtResource("4_ka7mt")
 first_person_position = Vector3(0.14105655, -0.06323153, -0.18142417)

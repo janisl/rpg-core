@@ -135,7 +135,7 @@ func _perform_attack(from: Vector3, fire_direction: Vector3) -> void
 
 
 func _get_camera_collision() -> Vector3:
-	var ray_end = _from_position + _forward_direction * _item_stack.item.hit_scan_range
+	var ray_end = _from_position + _forward_direction * _item_stack.item.range
 
 	var query = PhysicsRayQueryParameters3D.create(_from_position, ray_end)
 	query.exclude = [ _item_owner.get_rid() ]
