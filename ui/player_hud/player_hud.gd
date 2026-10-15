@@ -21,7 +21,7 @@ func _ready() -> void:
 
 	Managers.weapon_manager.current_slot_changed.connect(_update_current_slot)
 
-	_player.health_attribute.health_changed.connect(_on_health_changed)
+	_player.health_attribute.value_changed.connect(_on_health_changed)
 	_player.inventory.changed.connect(_on_inventory_changed)
 
 
@@ -30,7 +30,7 @@ func _update_current_slot() -> void:
 	_update_ammo_label()
 
 
-func _on_health_changed(new_health: float, _max_halth: float) -> void:
+func _on_health_changed(new_health: float, _old_health: float, _max_halth: float) -> void:
 	health_label.text = str(int(new_health))
 
 

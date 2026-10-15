@@ -23,6 +23,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_awh2e")
 
 [node name="HealthAttribute" parent="." unique_id=167552575 instance=ExtResource("2_5sfkv")]
-max_health = 50.0
+max_value = 50.0
+initial_value = 50.0
 
 [connection signal="died" from="HealthAttribute" to="." method="_on_health_attribute_died"]

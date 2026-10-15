@@ -7,7 +7,7 @@ extends BasePickup
 func _can_pickup(player: Player) -> bool:
 	var health_attribute := player.get_node_or_null("HealthAttribute") as HealthAttribute
 
-	return health_attribute and health_attribute.current_health < health_attribute.max_health
+	return health_attribute and health_attribute.value < health_attribute.max_value
 
 
 func _apply_pickup(player: Player) -> void:

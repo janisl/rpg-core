@@ -1,20 +1,10 @@
 class_name HealthAttribute
-extends Node
+extends BaseAttribute
 
-signal health_changed(new_health: float, max_health: float)
 signal damage_taken(amount: float, source: Node3D)
 signal died()
 
-@export var max_health := 100.0
-@export var start_at_max := true
-
-var current_health := 0.0
 var is_alive := true
-
-
-func _ready() -> void:
-	if start_at_max:
-		current_health = max_health
 
 
 func take_damage(amount: float, source: Node3D = null) -> void:
@@ -22,14 +12,13 @@ func take_damage(amount: float, source: Node3D = null) -> void:
 		return
 
 	var actual_damage = max(0.0, amount)
-	current_health = max(0.0, current_health - actual_damage)
+	subtract(actual_damage)
 
 	damage_taken.emit(actual_damage, source)
-	health_changed.emit(current_health, max_health)
 
-	print(get_parent().name, " took ", actual_damage, " damage. Health: ", current_health, "/", max_health)
+	print(get_parent().name, " took ", actual_damage, " damage. Health: ", value, "/", max_value)
 
-	if current_health <= 0.0:
+	if value <= 0.0:
 		_handle_death()
 
 
@@ -38,11 +27,9 @@ func heal(amount: float) -> void:
 		return
 
 	var actual_heal = max(0.0, amount)
-	current_health = min(max_health, current_health + actual_heal)
+	add(actual_heal)
 
-	print(get_parent().name, " healed ", actual_heal, " health. Health: ", current_health, "/", max_health)
-
-	health_changed.emit(current_health, max_health)
+	print(get_parent().name, " healed ", actual_heal, " health. Health: ", value, "/", max_value)
 
 
 func _handle_death() -> void:
@@ -50,7 +37,7 @@ func _handle_death() -> void:
 		return
 
 	is_alive = false
-	current_health = 0.0
+	value = 0.0
 	died.emit()
 
 	print(get_parent().name, " died!")
