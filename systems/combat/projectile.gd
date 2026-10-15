@@ -1,38 +1,22 @@
 class_name Projectile
-extends Area3D
+extends RigidBody3D
 
 var source: CharacterBody3D
-var velocity: Vector3
 var damage: float
 
 
 func setup(src: CharacterBody3D, vel: Vector3, dmg: float) -> void:
 	source = src
-	velocity = vel
+	linear_velocity = vel
 	damage = dmg
 
 
 func _ready() -> void:
+	continuous_cd = true
+	contact_monitor = true
+	max_contacts_reported = 10
 	body_entered.connect(_on_body_entered)
 	get_tree().create_timer(10.0).timeout.connect(queue_free)
-
-
-func _physics_process(delta: float) -> void:
-	var space_state := get_world_3d().direct_space_state
-	var start_pos := global_position
-	var end_pos := global_position + velocity * delta
-
-	var query := PhysicsRayQueryParameters3D.create(start_pos, end_pos)
-	query.collision_mask = collision_mask
-	query.exclude.append(source.get_rid())
-	var result = space_state.intersect_ray(query)
-
-	if result:
-		global_position = result.position
-		_on_body_entered(result.collider)
-		return
-
-	global_position = end_pos
 
 
 func _on_body_entered(body: Node3D) -> void:
@@ -45,7 +29,7 @@ func _on_body_entered(body: Node3D) -> void:
 	if health_attribute:
 		var hit_info := HitInfo.new(damage)
 		hit_info.source = source
-		hit_info.direction = velocity.normalized()
+		hit_info.direction = linear_velocity.normalized()
 		hit_info.impact_position = global_position
 		health_attribute.take_damage(hit_info)
 
