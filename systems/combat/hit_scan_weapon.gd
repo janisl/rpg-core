@@ -31,17 +31,22 @@ func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
 			continue
 
 		_spawn_impact_marker(result)
-		_apply_damage_to_target(result.collider)
+		_apply_damage_to_target(result, direction)
 
 		if result.collider is RigidBody3D:
 			result.collider.apply_impulse(-result.normal * 5.0 / result.collider.mass, result.position - result.collider.global_position)
 
 
-func _apply_damage_to_target(target: Node3D) -> void:
-	var health_attribute := target.get_node_or_null("HealthAttribute") as HealthAttribute
+func _apply_damage_to_target(result: Dictionary, direction: Vector3) -> void:
+	var health_attribute := result.collider.get_node_or_null("HealthAttribute") as HealthAttribute
+	if not health_attribute:
+		return
 
-	if health_attribute:
-		health_attribute.take_damage(_get_damage(), _item_owner)
+	var hit_info := HitInfo.new(_get_damage())
+	hit_info.source = _item_owner
+	hit_info.direction = direction
+	hit_info.impact_position = result.position
+	health_attribute.take_damage(hit_info)
 
 
 func _spawn_impact_marker(result: Dictionary) -> void:

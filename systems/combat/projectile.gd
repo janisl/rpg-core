@@ -43,7 +43,11 @@ func _on_body_entered(body: Node3D) -> void:
 
 	var health_attribute := body.get_node_or_null("HealthAttribute") as HealthAttribute
 	if health_attribute:
-		health_attribute.take_damage(damage, self)
+		var hit_info := HitInfo.new(damage)
+		hit_info.source = source
+		hit_info.direction = velocity.normalized()
+		hit_info.impact_position = global_position
+		health_attribute.take_damage(hit_info)
 
 	if body is RigidBody3D:
 		body.apply_impulse(global_position.direction_to(body.global_position) * 5.0 / body.mass, global_position - body.global_position)

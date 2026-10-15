@@ -1,22 +1,21 @@
 class_name HealthAttribute
 extends BaseAttribute
 
-signal damage_taken(amount: float, source: Node3D)
+signal damage_taken(hit_info: HitInfo)
 signal died()
 
 var is_alive := true
 
 
-func take_damage(amount: float, source: Node3D = null) -> void:
+func take_damage(hit_info: HitInfo) -> void:
 	if not is_alive:
 		return
 
-	var actual_damage = max(0.0, amount)
-	subtract(actual_damage)
+	subtract(hit_info.actual_damage)
 
-	damage_taken.emit(actual_damage, source)
+	damage_taken.emit(hit_info)
 
-	print(get_parent().name, " took ", actual_damage, " damage. Health: ", value, "/", max_value)
+	print(get_parent().name, " took ", hit_info.actual_damage, " damage. Health: ", value, "/", max_value)
 
 	if value <= 0.0:
 		_handle_death()

@@ -55,7 +55,7 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	if event.is_action_pressed("test"):
-		health_attribute.take_damage(10.0)
+		health_attribute.take_damage(HitInfo.new(10.0))
 
 	if toggle_crouch:
 		if Input.is_action_just_pressed("crouch"):
