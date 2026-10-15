@@ -130,4 +130,6 @@ func _apply_damage_to_target() -> void:
 	var target_health_attribute := target.get_node_or_null("HealthAttribute") as HealthAttribute
 
 	if target_health_attribute:
-		target_health_attribute.take_damage(melee_damage, self)
+		var hit_info := HitInfo.new(melee_damage)
+		hit_info.source = self
+		target_health_attribute.take_damage(hit_info)
