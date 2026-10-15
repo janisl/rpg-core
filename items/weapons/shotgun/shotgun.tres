@@ -3,6 +3,7 @@
 [ext_resource type="Resource" uid="uid://bvm2idvb450ig" path="res://items/ammo/shotgun_ammo.tres" id="1_d26d0"]
 [ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_ptbh3"]
 [ext_resource type="PackedScene" uid="uid://cojhl7nthk3w1" path="res://systems/combat/hit_scan_weapon.tscn" id="3_0jun3"]
+[ext_resource type="PackedScene" uid="uid://bdrf1d353xxqq" path="res://effects/decals/bullet_decal.tscn" id="4_l67j6"]
 [ext_resource type="PackedScene" uid="uid://br2mplv6cjpjb" path="res://items/weapons/shotgun/shotgun_view.tscn" id="4_yn8j3"]
 [ext_resource type="PackedScene" uid="uid://bd6vg3o6i0l17" path="res://effects/bullet_effects/bullet_impact.tscn" id="5_0jun3"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="5_l67j6"]
@@ -29,6 +30,7 @@ ammo_types = Array[ExtResource("1_ptbh3")]([ExtResource("1_d26d0")])
 magazine_size = 8
 pellet_count = 8
 spread_angle = 0.1
+decal_scene = ExtResource("4_l67j6")
 impact_scene = ExtResource("5_0jun3")
 recoil_cam_pitch = 0.08726646259971647
 controller_scene = ExtResource("3_0jun3")

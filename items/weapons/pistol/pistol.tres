@@ -3,6 +3,7 @@
 [ext_resource type="Resource" uid="uid://8wv77e0i7ndt" path="res://items/ammo/pistol_ammo.tres" id="1_cxtko"]
 [ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_spaxh"]
 [ext_resource type="PackedScene" uid="uid://cojhl7nthk3w1" path="res://systems/combat/hit_scan_weapon.tscn" id="3_wtgxi"]
+[ext_resource type="PackedScene" uid="uid://bdrf1d353xxqq" path="res://effects/decals/bullet_decal.tscn" id="4_ebdrl"]
 [ext_resource type="PackedScene" uid="uid://567vdvii3fg6" path="res://items/weapons/pistol/pistol_view.tscn" id="4_ka7mt"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="5_ebdrl"]
 [ext_resource type="PackedScene" uid="uid://bd6vg3o6i0l17" path="res://effects/bullet_effects/bullet_impact.tscn" id="5_wtgxi"]
@@ -25,6 +26,7 @@ fire_offset = Vector3(0.1, -0.02, -0.1)
 is_automatic = true
 ammo_types = Array[ExtResource("1_spaxh")]([ExtResource("1_cxtko")])
 magazine_size = 12
+decal_scene = ExtResource("4_ebdrl")
 impact_scene = ExtResource("5_wtgxi")
 controller_scene = ExtResource("3_wtgxi")
 first_person_scene = ExtResource("4_ka7mt")

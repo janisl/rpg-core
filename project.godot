@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GlobalManager="*uid://cr1xkklrulx6h"
 Managers="*uid://colfnh342d2p"
+EffectsManager="*uid://xaq71ee0rvh2"
 
 [display]
 

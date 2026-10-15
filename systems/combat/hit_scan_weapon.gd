@@ -30,7 +30,7 @@ func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
 		if not result:
 			continue
 
-		_spawn_impact_marker(result)
+		_spawn_impact_effects(result)
 		_apply_damage_to_target(result, direction)
 
 		if result.collider is RigidBody3D:
@@ -49,8 +49,8 @@ func _apply_damage_to_target(result: Dictionary, direction: Vector3) -> void:
 	health_attribute.take_damage(hit_info)
 
 
-func _spawn_impact_marker(result: Dictionary) -> void:
-	BulletDecalPool.spawn_bullet_decal(result.position, result.normal, result.collider, _item_owner.global_basis)
+func _spawn_impact_effects(result: Dictionary) -> void:
+	EffectsManager.spawn_bullet_decal(_weapon_data.decal_scene, result.position, result.normal, result.collider, _item_owner.global_basis)
 
 	if _weapon_data.impact_scene:
 		var spawned_impact_scene = _weapon_data.impact_scene.instantiate()

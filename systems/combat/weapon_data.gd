@@ -18,6 +18,8 @@ extends WieldableData
 @export var pellet_count := 1
 @export var spread_angle := 0.0
 @export var bullet_tracer_chance := 0.5
+@export var decal_scene: PackedScene
+@export var impact_scene: PackedScene
 
 @export_group("Projectile")
 @export var projectile_speed := 50.0
