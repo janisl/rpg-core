@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cj1cbhi5vwsb5"]
 
-[ext_resource type="Script" uid="uid://dr4uco4q7gkkg" path="res://components/health_component.gd" id="1_2xv2q"]
 [ext_resource type="Script" uid="uid://doypn4bs8xeol" path="res://props/destructible_box.gd" id="1_5sfkv"]
+[ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="2_5sfkv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
 albedo_color = Color(0.33825946, 0.19281942, 9.62615e-08, 1)
@@ -22,9 +22,7 @@ mesh = SubResource("BoxMesh_bsiym")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_awh2e")
 
-[node name="HealthComponent" type="Node" parent="." unique_id=942312116]
-script = ExtResource("1_2xv2q")
+[node name="HealthAttribute" parent="." unique_id=167552575 instance=ExtResource("2_5sfkv")]
 max_health = 50.0
-metadata/_custom_type_script = "uid://dr4uco4q7gkkg"
 
-[connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
+[connection signal="died" from="HealthAttribute" to="." method="_on_health_attribute_died"]

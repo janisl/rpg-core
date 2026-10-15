@@ -1,4 +1,4 @@
-class_name HealthComponent
+class_name HealthAttribute
 extends Node
 
 signal health_changed(new_health: float, max_health: float)

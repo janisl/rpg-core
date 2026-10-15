@@ -38,10 +38,10 @@ func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
 
 
 func _apply_damage_to_target(target: Node3D) -> void:
-	var health_component := target.get_node_or_null("HealthComponent") as HealthComponent
+	var health_attribute := target.get_node_or_null("HealthAttribute") as HealthAttribute
 
-	if health_component:
-		health_component.take_damage(_get_damage(), _item_owner)
+	if health_attribute:
+		health_attribute.take_damage(_get_damage(), _item_owner)
 
 
 func _spawn_impact_marker(result: Dictionary) -> void:

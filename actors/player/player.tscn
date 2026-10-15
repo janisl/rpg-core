@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dmm1368oglfp0"]
 
 [ext_resource type="Script" uid="uid://bsns0k0r51aap" path="res://actors/player/player.gd" id="1_nvxhs"]
-[ext_resource type="Script" uid="uid://dr4uco4q7gkkg" path="res://components/health_component.gd" id="2_1c637"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_388e2"]
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="2_lsqbn"]
 [ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="3_6p1w3"]
@@ -35,6 +34,7 @@
 [ext_resource type="Script" uid="uid://bk8ufns0cjpgj" path="res://systems/inventory/inventory.gd" id="31_4ihbh"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="32_4jc6f"]
 [ext_resource type="Script" uid="uid://dmrbdgpeqfjg7" path="res://actors/player/behaviours/dead.gd" id="32_v3s8r"]
+[ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="35_qls60"]
 
 [sub_resource type="Resource" id="Resource_4jc6f"]
 script = ExtResource("32_4jc6f")
@@ -1365,7 +1365,7 @@ states/Standing/node = SubResource("AnimationNodeBlendSpace1D_qnicj")
 states/Standing/position = Vector2(447.33334, 72.66667)
 transitions = ["Start", "Standing", SubResource("AnimationNodeStateMachineTransition_m1hv5"), "Standing", "Crouching", SubResource("AnimationNodeStateMachineTransition_rswtf"), "Crouching", "Standing", SubResource("AnimationNodeStateMachineTransition_wn017"), "Standing", "Death", SubResource("AnimationNodeStateMachineTransition_mnwg7"), "Crouching", "Death", SubResource("AnimationNodeStateMachineTransition_2cxsc")]
 
-[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "wield_controller", "animation_tree", "inventory", "health_component") groups=["player"]]
+[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_ray_cast", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "wield_controller", "animation_tree", "inventory", "health_attribute") groups=["player"]]
 collision_layer = 771
 script = ExtResource("1_nvxhs")
 camera_controller = NodePath("Neck")
@@ -1380,12 +1380,8 @@ stairs_below_ray_cast = NodePath("StairsBelowRayCast")
 wield_controller = NodePath("WieldController")
 animation_tree = NodePath("AnimationTree")
 inventory = NodePath("Inventory")
-health_component = NodePath("HealthComponent")
+health_attribute = NodePath("HealthAttribute")
 mesh_layer = 4
-
-[node name="HealthComponent" type="Node" parent="." unique_id=1018563726]
-script = ExtResource("2_1c637")
-metadata/_custom_type_script = "uid://dr4uco4q7gkkg"
 
 [node name="Components" type="Node" parent="." unique_id=1802761061]
 
@@ -1711,11 +1707,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5991349, 0.05)
 mesh = SubResource("SphereMesh_rdqwp")
 
 [node name="LowerLeg1" type="MeshInstance3D" parent="Meshes" unique_id=1662288489]
-transform = Transform3D(1, 0, 0, 0, 0.99999964, 0, 0, 0, 0.99999964, 0.15, 0.25, 0)
+transform = Transform3D(1, 0, 0, 0, 0.9999996, 0, 0, 0, 0.9999996, 0.15, 0.25, 0)
 mesh = SubResource("CapsuleMesh_rdqwp")
 
 [node name="LowerLeg2" type="MeshInstance3D" parent="Meshes" unique_id=2095013930]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.9999997, 0, 0, 0, 0.99999976, -0.15, 0.25, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999964, 0, 0, 0, 0.9999997, -0.15, 0.25, 0)
 mesh = SubResource("CapsuleMesh_rdqwp")
 
 [node name="UpperLeg1" type="MeshInstance3D" parent="Meshes" unique_id=2056227701]
@@ -1723,7 +1719,7 @@ transform = Transform3D(0.99999994, 0, 0, 0, 0.9999998, 0, 0, 0, 0.9999998, 0.15
 mesh = SubResource("CapsuleMesh_rdqwp")
 
 [node name="UpperLeg2" type="MeshInstance3D" parent="Meshes" unique_id=2087724549]
-transform = Transform3D(1, 0, 0, 0, 0.9999997, 0, 0, 0, 0.9999998, -0.15, 0.65, 0)
+transform = Transform3D(1, 0, 0, 0, 0.99999964, 0, 0, 0, 0.99999976, -0.15, 0.65, 0)
 mesh = SubResource("CapsuleMesh_rdqwp")
 
 [node name="UpperArm1" type="MeshInstance3D" parent="Meshes" unique_id=1823034044]
@@ -1751,9 +1747,10 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/Crouching/blend_position = -0.7376093
 parameters/Standing/blend_position = -0.8558934
 
+[node name="HealthAttribute" parent="." unique_id=213689897 instance=ExtResource("35_qls60")]
+
 [connection signal="ladder_entered" from="." to="Components/LadderMovement" method="_on_ladder_entered"]
 [connection signal="ladder_exited" from="." to="Components/LadderMovement" method="_on_ladder_exited"]
-[connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
 [connection signal="area_entered" from="Neck/Head/Camera/CameraArea" to="Neck/Head/Camera" method="_on_camera_area_entered"]
 [connection signal="area_exited" from="Neck/Head/Camera/CameraArea" to="Neck/Head/Camera" method="_on_camera_area_exited"]
 [connection signal="handle_not_ladder_physics" from="StateChart/Root/Alive/Movement/NotClimbingLadder/Behaviour" to="Components/LadderMovement" method="_on_handle_not_ladder_physics"]
@@ -1773,3 +1770,4 @@ parameters/Standing/blend_position = -0.8558934
 [connection signal="crouching" from="StateChart/Root/Alive/Stance/Crouching/Behaviour" to="." method="_on_crouching"]
 [connection signal="crouching" from="StateChart/Root/Alive/Stance/Crouching/Behaviour" to="Components/GroundMovement" method="_on_crouching"]
 [connection signal="crouching" from="StateChart/Root/Alive/Stance/Crouching/Behaviour" to="Components/AirborneMovement" method="_on_crouching"]
+[connection signal="died" from="HealthAttribute" to="." method="_on_health_attribute_died"]

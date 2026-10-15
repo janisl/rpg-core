@@ -14,7 +14,7 @@ extends Actor
 @export var wield_controller: WieldController
 @export var animation_tree: AnimationTree
 @export var inventory: Inventory
-@export var health_component: HealthComponent
+@export var health_attribute: HealthAttribute
 
 @export_group("Movement settings")
 @export var jump_velocity := 5.0
@@ -55,7 +55,7 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	if event.is_action_pressed("test"):
-		$HealthComponent.take_damage(10.0)
+		health_attribute.take_damage(10.0)
 
 	if toggle_crouch:
 		if Input.is_action_just_pressed("crouch"):
@@ -82,5 +82,5 @@ func _on_crouching() -> void:
 	anim_tree_state.travel("Crouching")
 
 
-func _on_health_component_died() -> void:
+func _on_health_attribute_died() -> void:
 	state_chart.send_event("onDead")

@@ -21,7 +21,7 @@ func _ready() -> void:
 
 	Managers.weapon_manager.current_slot_changed.connect(_update_current_slot)
 
-	_player.health_component.health_changed.connect(_on_health_changed)
+	_player.health_attribute.health_changed.connect(_on_health_changed)
 	_player.inventory.changed.connect(_on_inventory_changed)
 
 

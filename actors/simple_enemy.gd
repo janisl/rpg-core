@@ -9,7 +9,7 @@ extends Enemy
 
 @onready var nav_agent: NavigationAgent3D = $NavAgent
 @onready var state_chart: StateChart = $StateChart
-@onready var health_component: HealthComponent = $HealthComponent
+@onready var health_attribute: HealthAttribute = $HealthAttribute
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var animation_tree: AnimationTree = $AnimationTree
 
@@ -22,7 +22,7 @@ func _ready() -> void:
 
 	target = get_tree().get_first_node_in_group("player")
 
-	health_component.died.connect(_on_died)
+	health_attribute.died.connect(_on_died)
 	nav_agent.velocity_computed.connect(_on_velocity_computed)
 
 	anim_tree_state = animation_tree["parameters/playback"]
@@ -127,7 +127,7 @@ func _on_melee_state_entered() -> void:
 
 
 func _apply_damage_to_target() -> void:
-	var target_health_component := target.get_node_or_null("HealthComponent") as HealthComponent
+	var target_health_attribute := target.get_node_or_null("HealthAttribute") as HealthAttribute
 
-	if target_health_component:
-		target_health_component.take_damage(melee_damage, self)
+	if target_health_attribute:
+		target_health_attribute.take_damage(melee_damage, self)

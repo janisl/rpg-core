@@ -41,9 +41,9 @@ func _on_body_entered(body: Node3D) -> void:
 
 	_spawn_impact_marker(global_position)
 
-	var health_component := body.get_node_or_null("HealthComponent") as HealthComponent
-	if health_component:
-		health_component.take_damage(damage, self)
+	var health_attribute := body.get_node_or_null("HealthAttribute") as HealthAttribute
+	if health_attribute:
+		health_attribute.take_damage(damage, self)
 
 	if body is RigidBody3D:
 		body.apply_impulse(global_position.direction_to(body.global_position) * 5.0 / body.mass, global_position - body.global_position)

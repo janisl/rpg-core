@@ -5,13 +5,13 @@ extends BasePickup
 
 
 func _can_pickup(player: Player) -> bool:
-	var health_component := player.get_node_or_null("HealthComponent") as HealthComponent
+	var health_attribute := player.get_node_or_null("HealthAttribute") as HealthAttribute
 
-	return health_component and health_component.current_health < health_component.max_health
+	return health_attribute and health_attribute.current_health < health_attribute.max_health
 
 
 func _apply_pickup(player: Player) -> void:
-	var health_component := player.get_node_or_null("HealthComponent") as HealthComponent
+	var health_attribute := player.get_node_or_null("HealthAttribute") as HealthAttribute
 
-	if health_component:
-		health_component.heal(ammount)
+	if health_attribute:
+		health_attribute.heal(ammount)
