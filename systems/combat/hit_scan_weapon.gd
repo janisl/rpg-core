@@ -52,6 +52,11 @@ func _apply_damage_to_target(result: Dictionary, direction: Vector3) -> void:
 func _spawn_impact_marker(result: Dictionary) -> void:
 	BulletDecalPool.spawn_bullet_decal(result.position, result.normal, result.collider, _item_owner.global_basis)
 
+	if _weapon_data.impact_scene:
+		var spawned_impact_scene = _weapon_data.impact_scene.instantiate()
+		get_tree().current_scene.add_child(spawned_impact_scene)
+		spawned_impact_scene.global_position = result.position
+
 
 func _spawn_tracer(from: Vector3, target_position: Vector3) -> void:
 	var bullet_dir := from.direction_to(target_position)

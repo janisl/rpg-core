@@ -23,7 +23,6 @@ static func spawn_bullet_decal(position: Vector3, normal: Vector3, parent: Node3
 
 	decal_instance.global_transform = Transform3D(bullet_basis, position) * Transform3D(Basis().rotated(Vector3.RIGHT, PI * 0.5), Vector3.ZERO)
 	decal_instance.global_basis = Basis(Quaternion(decal_instance.global_basis.y, normal)) * decal_instance.global_basis
-	decal_instance.get_node("Particles").emitting = true
 
 	if texture_override is Texture2D:
 		decal_instance.texture_albedo = texture_override
