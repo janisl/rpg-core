@@ -4,9 +4,9 @@ extends Weapon
 
 func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
 	var projectile_scene := _get_projectile_scene()
-	assert(projectile_scene, "No projectile addigned")
+	assert(projectile_scene, "No projectile assigned")
 
-	var projectile := projectile_scene.instantiate() as Projectile
+	var projectile := projectile_scene.instantiate()
 	get_tree().current_scene.add_child(projectile)
 
 	projectile.global_position = from
@@ -17,4 +17,4 @@ func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
 	var velocity := direction * _weapon_data.projectile_speed
 
 	projectile.look_at(projectile.global_position + direction, Vector3.UP)
-	projectile.setup(_item_owner, velocity, _get_damage())
+	projectile.get_node("ProjectileController").setup(_item_owner, velocity, _get_damage())
