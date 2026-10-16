@@ -5,7 +5,7 @@ const MAX_BULLET_DECALS := 100
 var decal_pool: Array
 
 
-func spawn_bullet_decal(decal_scene: PackedScene, position: Vector3, normal: Vector3, parent: Node3D, bullet_basis: Basis) -> void:
+func spawn_decal(decal_scene: PackedScene, position: Vector3, normal: Vector3, parent: Node3D, bullet_basis: Basis) -> void:
 	if decal_pool.size() >= MAX_BULLET_DECALS:
 		decal_pool.pop_front().queue_free()
 

@@ -50,7 +50,7 @@ func _apply_damage_to_target(result: Dictionary, direction: Vector3) -> void:
 
 
 func _spawn_impact_effects(result: Dictionary) -> void:
-	EffectsManager.spawn_bullet_decal(_weapon_data.decal_scene, result.position, result.normal, result.collider, _item_owner.global_basis)
+	EffectsManager.spawn_decal(_weapon_data.decal_scene, result.position, result.normal, result.collider, _item_owner.global_basis)
 
 	if _weapon_data.impact_scene:
 		var spawned_impact_scene = _weapon_data.impact_scene.instantiate()
