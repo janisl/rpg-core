@@ -28,6 +28,9 @@ func _process(_delta: float) -> void:
 
 
 func switch_wieldable(item_stack: ItemStack) -> void:
+	if wieldable and not wieldable.is_unequipping and item_stack == current_item_stack:
+		return
+
 	_selected_item_stack = item_stack
 
 	if wieldable != null:
@@ -47,12 +50,13 @@ func _spawn_wieldable_scenes() -> void:
 	wieldable_data = null
 
 	current_item_stack = _selected_item_stack
-	_selected_item_stack = null
 	if not current_item_stack or not current_item_stack.is_valid:
+		current_item_stack = null
 		return
 
 	wieldable_data = current_item_stack.item as WieldableData
 	if not wieldable_data:
+		current_item_stack = null
 		return
 
 	assert(wieldable_data.controller_scene, "Wieldable has no controller scene")
