@@ -63,7 +63,7 @@ func _spawn_wieldable_scenes() -> void:
 	wieldable.initialize(player, player.inventory, current_item_stack)
 
 	wieldable.primary_action_started.connect(_on_primary_action_started)
-	wieldable.unequiped.connect(_on_unequiped)
+	wieldable.unequipped.connect(_on_unequipped)
 
 	first_person_model = wieldable_data.first_person_scene.instantiate() as FirstPersonWieldable
 	first_person_parent.add_child(first_person_model)
@@ -82,5 +82,5 @@ func _on_primary_action_started() -> void:
 		wieldable_data.recoil_cam_roll)
 
 
-func _on_unequiped() -> void:
+func _on_unequipped() -> void:
 	_spawn_wieldable_scenes()

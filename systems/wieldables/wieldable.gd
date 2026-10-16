@@ -7,7 +7,9 @@ signal idle_started
 signal primary_action_started
 signal reload_started
 
-signal unequiped
+signal unequipped
+
+var is_unequipping := false
 
 var _item_owner: Actor
 var _owner_inventory: Inventory
@@ -23,7 +25,6 @@ var _cycle_ammo_pressed := false
 
 var _equip_timer := 0.0
 var _unequip_timer := 0.0
-var _is_unequiping := false
 
 @onready var state_chart: StateChart = $StateChart
 
@@ -49,34 +50,34 @@ func update(
 
 
 func unequip() -> void:
-	if _is_unequiping:
+	if is_unequipping:
 		return
 
-	_is_unequiping = true
-	state_chart.send_event("onUnequiping")
+	is_unequipping = true
+	state_chart.send_event("onUnequipping")
 
 
-func _emit_unequiped() -> void:
-	unequiped.emit()
+func _emit_unequipped() -> void:
+	unequipped.emit()
 
 
-func _on_equiping_state_entered() -> void:
+func _on_equipping_state_entered() -> void:
 	_equip_timer = _wieldable_data.equip_time
 	equip_started.emit()
 
 
-func _on_equiping_state_processing(delta: float) -> void:
+func _on_equipping_state_processing(delta: float) -> void:
 	_equip_timer -= delta
 	if _equip_timer <= 0:
 		state_chart.send_event("onIdle")
 
 
-func _on_unequiping_state_entered() -> void:
+func _on_unequipping_state_entered() -> void:
 	_unequip_timer = _wieldable_data.unequip_time
 	unequip_started.emit()
 
 
-func _on_unequiping_state_processing(delta: float) -> void:
+func _on_unequipping_state_processing(delta: float) -> void:
 	_unequip_timer -= delta
 	if _unequip_timer <= 0:
-		_emit_unequiped()
+		_emit_unequipped()

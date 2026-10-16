@@ -15,12 +15,12 @@ metadata/_custom_type_script = "uid://couw105c3bde4"
 
 [node name="Root" type="Node" parent="StateChart" unique_id=458852534]
 script = ExtResource("3_x5fj7")
-initial_state = NodePath("Equiping")
+initial_state = NodePath("Equipping")
 
-[node name="Equiping" type="Node" parent="StateChart/Root" unique_id=42353801]
+[node name="Equipping" type="Node" parent="StateChart/Root" unique_id=42353801]
 script = ExtResource("4_6meyj")
 
-[node name="OnIdle" type="Node" parent="StateChart/Root/Equiping" unique_id=1978888098]
+[node name="OnIdle" type="Node" parent="StateChart/Root/Equipping" unique_id=1978888098]
 script = ExtResource("5_f3rds")
 to = NodePath("../../Idle")
 event = &"onIdle"
@@ -29,16 +29,16 @@ delay_in_seconds = "0.0"
 [node name="Idle" type="Node" parent="StateChart/Root" unique_id=1881439388]
 script = ExtResource("4_6meyj")
 
-[node name="Unequiping" type="Node" parent="StateChart/Root" unique_id=793051644]
+[node name="Unequipping" type="Node" parent="StateChart/Root" unique_id=793051644]
 script = ExtResource("4_6meyj")
 
-[node name="OnUnequiping" type="Node" parent="StateChart/Root" unique_id=1435836509]
+[node name="OnUnequipping" type="Node" parent="StateChart/Root" unique_id=1435836509]
 script = ExtResource("5_f3rds")
-to = NodePath("../Unequiping")
-event = &"onUnequiping"
+to = NodePath("../Unequipping")
+event = &"onUnequipping"
 delay_in_seconds = "0.0"
 
-[connection signal="state_entered" from="StateChart/Root/Equiping" to="." method="_on_equiping_state_entered"]
-[connection signal="state_processing" from="StateChart/Root/Equiping" to="." method="_on_equiping_state_processing"]
-[connection signal="state_entered" from="StateChart/Root/Unequiping" to="." method="_on_unequiping_state_entered"]
-[connection signal="state_processing" from="StateChart/Root/Unequiping" to="." method="_on_unequiping_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Equipping" to="." method="_on_equipping_state_entered"]
+[connection signal="state_processing" from="StateChart/Root/Equipping" to="." method="_on_equipping_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Unequipping" to="." method="_on_unequipping_state_entered"]
+[connection signal="state_processing" from="StateChart/Root/Unequipping" to="." method="_on_unequipping_state_processing"]
