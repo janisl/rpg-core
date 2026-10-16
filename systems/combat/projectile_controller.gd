@@ -1,6 +1,8 @@
 class_name ProjectileController
 extends Node
 
+@export var impact_scene: PackedScene
+
 var _rigid_body: RigidBody3D
 var _source: CharacterBody3D
 var _damage: float
@@ -44,16 +46,7 @@ func _on_body_entered(body: Node3D) -> void:
 
 
 func _spawn_impact_marker(impact_position: Vector3) -> void:
-	var marker := MeshInstance3D.new()
-	var box := BoxMesh.new()
-	box.size = Vector3(0.1, 0.1, 0.1)
-	marker.mesh = box
-
-	var material := StandardMaterial3D.new()
-	material.albedo_color = Color.RED
-	marker.set_surface_override_material(0, material)
-
-	get_tree().current_scene.add_child(marker)
-	marker.global_position = impact_position
-
-	get_tree().create_timer(2.0).timeout.connect(marker.queue_free)
+	if impact_scene:
+		var marker := impact_scene.instantiate()
+		get_tree().current_scene.add_child(marker)
+		marker.global_position = impact_position
