@@ -23,6 +23,10 @@ var _snapped_to_stairs_last_frame := false
 var _was_on_floor_last_frame := false
 
 
+func _on_movement_state_physics_processing(_delta: float) -> void:
+	player.state_chart.set_expression_property("on_ground", player.is_on_floor() or _snapped_to_stairs_last_frame)
+
+
 func _on_landed() -> void:
 	_was_on_floor_last_frame = false
 
@@ -66,11 +70,6 @@ func _on_handle_ground_physics(delta: float) -> void:
 
 	if Input.is_action_just_pressed("jump") and player.is_on_floor():
 		player.jump()
-		player.state_chart.send_event("onAirborne")
-		return
-
-	if not player.is_on_floor() and not _snapped_to_stairs_last_frame:
-		player.state_chart.send_event("onAirborne")
 
 
 func _snap_up_stairs_check(delta) -> bool:

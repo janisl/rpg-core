@@ -12,6 +12,10 @@ var _cur_ladder_climbing: Area3D = null
 var _did_jump_off := false
 
 
+func _on_movement_state_physics_processing(_delta: float) -> void:
+	player.state_chart.set_expression_property("climbing_ladder", _check_for_climbing_ladder())
+
+
 func _on_ladder_entered(area: Area3D) -> void:
 	if not _cur_ladder_climbing:
 		_cur_ladder_climbing = area
@@ -21,32 +25,24 @@ func _on_ladder_exited(area: Area3D) -> void:
 	if _cur_ladder_climbing == area:
 		_cur_ladder_climbing = null
 		_did_jump_off = false
-		_stop_climbing_ladder()
 
 
-func _on_handle_not_ladder_physics(_delta: float) -> void:
+func _on_handle_ladder_physics(_delta: float) -> void:
+	_handle_ladder_movement(true, false)
+
+
+func _check_for_climbing_ladder() -> bool:
 	if not player.is_in_ladder_area():
-		return
+		return false
 
 	var was_climbing_ladder := _cur_ladder_climbing != null
 	if not _cur_ladder_climbing:
 		_cur_ladder_climbing = player.touching_ladder_areas[0]
 
-	if _handle_ladder_movement(was_climbing_ladder):
-		player.state_chart.send_event("onClimbingLadder")
+	return _handle_ladder_movement(was_climbing_ladder, true)
 
 
-func _on_handle_ladder_physics(_delta: float) -> void:
-	if not _handle_ladder_movement(true):
-		_stop_climbing_ladder()
-		return
-
-
-func _stop_climbing_ladder() -> void:
-	player.state_chart.send_event("onNotClimbingLadder")
-
-
-func _handle_ladder_movement(was_climbing_ladder: bool) -> bool:
+func _handle_ladder_movement(was_climbing_ladder: bool, is_test: bool) -> bool:
 	if not _cur_ladder_climbing or _did_jump_off:
 		return false
 
@@ -83,6 +79,9 @@ func _handle_ladder_movement(was_climbing_ladder: bool) -> bool:
 
 	if should_dismount:
 		return false
+
+	if is_test:
+		return true
 
 	if was_climbing_ladder and Input.is_action_just_pressed("jump"):
 		player.velocity = _cur_ladder_climbing.global_transform.basis.z * jump_off_speed

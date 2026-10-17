@@ -52,6 +52,10 @@ func _process(_delta: float) -> void:
 	animation_tree["parameters/Crouching/blend_position"] = remap(move_amount, 0.0, 8.0, -1.0, 1.0)
 
 
+func _physics_process(_delta: float) -> void:
+	state_chart.set_expression_property("in_liquid", is_in_swimmable_area())
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	if event.is_action_pressed("test"):
@@ -83,4 +87,4 @@ func _on_crouching() -> void:
 
 
 func _on_health_attribute_died() -> void:
-	state_chart.send_event("onDead")
+	state_chart.send_event("died")

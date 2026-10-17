@@ -59,6 +59,3 @@ func _on_handle_airborne_physics(delta: float) -> void:
 	if player.is_on_floor():
 		if current_fall_velocity < fall_velocity_threshold:
 			player.camera_effects.add_fall_kick(fall_kick)
-
-		player.state_chart.send_event("onGrounded")
-		return
