@@ -5,34 +5,13 @@ extends Node
 @export var player: Player
 
 @export_group("Movement settings")
-@export var acceleration := 0.2
-@export var deceleration := 0.5
+@export var acceleration := 0.02
+@export var deceleration := 0.05
 @export var default_speed := 7.0
-@export var sprint_speed := 3.0
-@export var crouch_speed := -5.0
 
 @export_group("Effect settings")
 @export var fall_velocity_threshold := -5.0
 @export var fall_kick := 2.0
-
-var _sprint_modifier := 0.0
-var _crouch_modifier := 0.0
-
-
-func _on_walking_state_entered() -> void:
-	_sprint_modifier = 0
-
-
-func _on_sprinting_state_entered() -> void:
-	_sprint_modifier = sprint_speed
-
-
-func _on_standing_state_entered() -> void:
-	_crouch_modifier = 0
-
-
-func _on_crouching_state_entered() -> void:
-	_crouch_modifier = crouch_speed
 
 
 func _on_airborne_state_physics_processing(delta: float) -> void:
@@ -40,15 +19,14 @@ func _on_airborne_state_physics_processing(delta: float) -> void:
 
 	player.velocity += player.get_gravity() * delta
 
-	var speed_modifier = _sprint_modifier + _crouch_modifier
-	var speed = default_speed + speed_modifier
+	var speed = default_speed
 
 	var current_velocity = Vector2(player.velocity.x, player.velocity.z)
 	var direction := (player.transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
 	if direction:
-		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration * 0.1)
+		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration)
 	else:
-		current_velocity = current_velocity.move_toward(Vector2.ZERO, deceleration * 0.1)
+		current_velocity = current_velocity.move_toward(Vector2.ZERO, deceleration)
 
 	player.velocity.x = current_velocity.x
 	player.velocity.z = current_velocity.y
