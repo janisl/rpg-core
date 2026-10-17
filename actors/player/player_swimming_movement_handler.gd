@@ -12,7 +12,7 @@ extends Node
 @export var damped_factor := 2.0
 
 
-func _on_handle_swimming_physics(delta: float) -> void:
+func _on_swimming_state_physics_processing(delta: float) -> void:
 	var direction := (player.camera_effects.global_transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
 
 	var new_velocity = player.velocity

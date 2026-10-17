@@ -27,27 +27,27 @@ func _on_movement_state_physics_processing(_delta: float) -> void:
 	player.state_chart.set_expression_property("on_ground", player.is_on_floor() or _snapped_to_stairs_last_frame)
 
 
-func _on_landed() -> void:
+func _on_grounded_state_entered() -> void:
 	_was_on_floor_last_frame = false
 
 
-func _on_walking() -> void:
+func _on_walking_state_entered() -> void:
 	_sprint_modifier = 0
 
 
-func _on_sprinting() -> void:
+func _on_sprinting_state_entered() -> void:
 	_sprint_modifier = sprint_speed
 
 
-func _on_standing() -> void:
+func _on_standing_state_entered() -> void:
 	_crouch_modifier = 0
 
 
-func _on_crouching() -> void:
+func _on_crouching_state_entered() -> void:
 	_crouch_modifier = crouch_speed
 
 
-func _on_handle_ground_physics(delta: float) -> void:
+func _on_grounded_state_physics_processing(delta: float) -> void:
 	var speed_modifier = _sprint_modifier + _crouch_modifier
 	var speed = default_speed + speed_modifier
 
@@ -143,3 +143,23 @@ func _run_body_test_motion(from: Transform3D, motion: Vector3, result = null) ->
 	params.motion = motion
 
 	return PhysicsServer3D.body_test_motion(player.get_rid(), params, result)
+
+
+func _on_idle_state_processing(_delta: float) -> void:
+	if player and player.input_dir.length() > 0:
+		player.state_chart.send_event("onMoving")
+
+
+func _on_moving_state_processing(_delta: float) -> void:
+	if player.input_dir.length() == 0 and player.velocity.length() < 0.5:
+		player.state_chart.send_event("onIdle")
+
+
+func _on_walking_state_processing(_delta: float) -> void:
+	if Input.is_action_pressed("sprint"):
+		player.state_chart.send_event("onSprinting")
+
+
+func _on_sprinting_state_processing(_delta: float) -> void:
+	if not Input.is_action_pressed("sprint"):
+		player.state_chart.send_event("onWalking")

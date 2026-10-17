@@ -72,14 +72,15 @@ func jump() -> void:
 	velocity.y += crouch_jump_velocity if is_crouching else jump_velocity
 
 
-func _on_standing() -> void:
+func _on_standing_state_entered() -> void:
 	is_crouching = false
 	standing_collision.disabled = false
 	crouching_collision.disabled = true
 	anim_tree_state.travel("Standing")
+	try_crouch = false
 
 
-func _on_crouching() -> void:
+func _on_crouching_state_entered() -> void:
 	is_crouching = true
 	standing_collision.disabled = true
 	crouching_collision.disabled = false
@@ -88,3 +89,31 @@ func _on_crouching() -> void:
 
 func _on_health_attribute_died() -> void:
 	state_chart.send_event("died")
+	anim_tree_state.travel("Death")
+	wield_controller.switch_wieldable(null)
+
+
+func _on_standing_state_physics_processing(delta: float) -> void:
+	if try_crouch and is_on_floor():
+		state_chart.send_event("onCrouching")
+	camera_controller.update_camera_height(delta, standing_camera_height)
+
+
+func _on_crouching_state_physics_processing(delta: float) -> void:
+	if _should_stand_up():
+		state_chart.send_event("onStanding")
+	camera_controller.update_camera_height(delta, crouch_camera_height)
+
+
+func _should_stand_up() -> bool:
+	if crouch_check.is_colliding():
+		return false
+
+	if is_on_floor():
+		return not try_crouch
+	else:
+		return false
+
+
+func _on_lying_dead_state_physics_processing(delta: float) -> void:
+	camera_controller.update_camera_height(delta, death_camera_height)

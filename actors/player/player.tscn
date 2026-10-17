@@ -11,20 +11,9 @@
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="5_15y17"]
 [ext_resource type="Script" uid="uid://bssifbouhjhmf" path="res://systems/wieldables/wield_controller.gd" id="6_2vokq"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="6_bop6h"]
-[ext_resource type="Script" uid="uid://dyr55krt5kuoq" path="res://actors/player/behaviours/grounded.gd" id="9_icg72"]
 [ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://items/weapons/pistol/pistol.tres" id="10_v3s8r"]
-[ext_resource type="Script" uid="uid://b2ayqipj6b7xe" path="res://actors/player/behaviours/idle.gd" id="11_lj3dd"]
 [ext_resource type="Resource" uid="uid://8wv77e0i7ndt" path="res://items/ammo/pistol_ammo.tres" id="11_ne5l8"]
-[ext_resource type="Script" uid="uid://b47bduygfbkju" path="res://actors/player/behaviours/walking.gd" id="13_lj3dd"]
-[ext_resource type="Script" uid="uid://be8wg0j4hyqs1" path="res://actors/player/behaviours/moving.gd" id="13_nsxbo"]
-[ext_resource type="Script" uid="uid://0dy74s7lq4er" path="res://actors/player/behaviours/sprinting.gd" id="14_lj3dd"]
 [ext_resource type="Script" uid="uid://buoxos72xs1dx" path="res://systems/wieldables/wieldable_effects.gd" id="14_v3s8r"]
-[ext_resource type="Script" uid="uid://161s6scpeppr" path="res://actors/player/behaviours/jumping.gd" id="16_icg72"]
-[ext_resource type="Script" uid="uid://cmvf60l7hjjac" path="res://actors/player/behaviours/airborne.gd" id="16_lj3dd"]
-[ext_resource type="Script" uid="uid://yehmjqtwat3c" path="res://actors/player/behaviours/standing.gd" id="18_icg72"]
-[ext_resource type="Script" uid="uid://mde6cjgl03m2" path="res://actors/player/behaviours/swimming.gd" id="18_lj3dd"]
-[ext_resource type="Script" uid="uid://d1osbbja3ekev" path="res://actors/player/behaviours/crouching.gd" id="19_icg72"]
-[ext_resource type="Script" uid="uid://cckvcv6ev3vjp" path="res://actors/player/behaviours/climbing_ladder.gd" id="19_nsxbo"]
 [ext_resource type="Script" uid="uid://dek1hlgqh6p45" path="res://actors/player/player_ground_movement_handler.gd" id="20_otn2r"]
 [ext_resource type="Script" uid="uid://dte1dx7wmo5ca" path="res://actors/player/player_airborne_movement_handler.gd" id="21_ctwkf"]
 [ext_resource type="Script" uid="uid://v3eyncouit2i" path="res://actors/player/player_swimming_movement_handler.gd" id="23_lj3dd"]
@@ -32,7 +21,6 @@
 [ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="30_j5me0"]
 [ext_resource type="Script" uid="uid://bk8ufns0cjpgj" path="res://systems/inventory/inventory.gd" id="31_4ihbh"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="32_4jc6f"]
-[ext_resource type="Script" uid="uid://dmrbdgpeqfjg7" path="res://actors/player/behaviours/dead.gd" id="32_v3s8r"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="35_qls60"]
 
 [sub_resource type="Resource" id="Resource_4jc6f"]
@@ -1525,15 +1513,9 @@ script = ExtResource("4_15y17")
 initial_state = NodePath("Idle")
 metadata/_custom_type_script = "uid://jk2jm1g6q853"
 
-[node name="Behaviour" type="Node" parent="StateChart/Root/Movement/Grounded" unique_id=664684737]
-script = ExtResource("9_icg72")
-
 [node name="Idle" type="Node" parent="StateChart/Root/Movement/Grounded" unique_id=106206973]
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
-
-[node name="Behaviour" type="Node" parent="StateChart/Root/Movement/Grounded/Idle" unique_id=1252790020]
-script = ExtResource("11_lj3dd")
 
 [node name="OnMoving" type="Node" parent="StateChart/Root/Movement/Grounded/Idle" unique_id=1903365415]
 script = ExtResource("6_bop6h")
@@ -1547,15 +1529,9 @@ script = ExtResource("4_15y17")
 initial_state = NodePath("Walking")
 metadata/_custom_type_script = "uid://jk2jm1g6q853"
 
-[node name="Behaviour" type="Node" parent="StateChart/Root/Movement/Grounded/Moving" unique_id=1786530094]
-script = ExtResource("13_nsxbo")
-
 [node name="Walking" type="Node" parent="StateChart/Root/Movement/Grounded/Moving" unique_id=159433758]
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
-
-[node name="Behaviour" type="Node" parent="StateChart/Root/Movement/Grounded/Moving/Walking" unique_id=1748963541]
-script = ExtResource("13_lj3dd")
 
 [node name="OnSprinting" type="Node" parent="StateChart/Root/Movement/Grounded/Moving/Walking" unique_id=116265082]
 script = ExtResource("6_bop6h")
@@ -1567,9 +1543,6 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="Sprinting" type="Node" parent="StateChart/Root/Movement/Grounded/Moving" unique_id=474136810]
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
-
-[node name="Bhaviour" type="Node" parent="StateChart/Root/Movement/Grounded/Moving/Sprinting" unique_id=1686688927]
-script = ExtResource("14_lj3dd")
 
 [node name="OnWalking" type="Node" parent="StateChart/Root/Movement/Grounded/Moving/Sprinting" unique_id=1031922142]
 script = ExtResource("6_bop6h")
@@ -1611,15 +1584,9 @@ script = ExtResource("4_15y17")
 initial_state = NodePath("Jumping")
 metadata/_custom_type_script = "uid://jk2jm1g6q853"
 
-[node name="Behaviour" type="Node" parent="StateChart/Root/Movement/Airborne" unique_id=1637136221]
-script = ExtResource("16_lj3dd")
-
 [node name="Jumping" type="Node" parent="StateChart/Root/Movement/Airborne" unique_id=1865888198]
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
-
-[node name="Behaviour" type="Node" parent="StateChart/Root/Movement/Airborne/Jumping" unique_id=406289593]
-script = ExtResource("16_icg72")
 
 [node name="Transition" type="Node" parent="StateChart/Root/Movement/Airborne/Jumping" unique_id=454056994]
 script = ExtResource("6_bop6h")
@@ -1657,9 +1624,6 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 
-[node name="Behaviour" type="Node" parent="StateChart/Root/Movement/Swimming" unique_id=583834774]
-script = ExtResource("18_lj3dd")
-
 [node name="ToClimbingLadder" type="Node" parent="StateChart/Root/Movement/Swimming" unique_id=1140422596]
 script = ExtResource("6_bop6h")
 to = NodePath("../../ClimbingLadder")
@@ -1676,6 +1640,7 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="ToAirborne" type="Node" parent="StateChart/Root/Movement/Swimming" unique_id=1286768102]
 script = ExtResource("6_bop6h")
+to = NodePath("../../Airborne")
 guard = SubResource("Resource_j5me0")
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
@@ -1683,9 +1648,6 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="ClimbingLadder" type="Node" parent="StateChart/Root/Movement" unique_id=50281170]
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
-
-[node name="Behaviour" type="Node" parent="StateChart/Root/Movement/ClimbingLadder" unique_id=1511886316]
-script = ExtResource("19_nsxbo")
 
 [node name="ToSwimming" type="Node" parent="StateChart/Root/Movement/ClimbingLadder" unique_id=1048484838]
 script = ExtResource("6_bop6h")
@@ -1711,9 +1673,6 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="Dead" type="Node" parent="StateChart/Root/Movement" unique_id=1820990000]
 script = ExtResource("5_15y17")
 
-[node name="Behaviour" type="Node" parent="StateChart/Root/Movement/Dead" unique_id=1502919103]
-script = ExtResource("32_v3s8r")
-
 [node name="ToDead" type="Node" parent="StateChart/Root/Movement" unique_id=82234239]
 script = ExtResource("6_bop6h")
 to = NodePath("../Dead")
@@ -1729,9 +1688,6 @@ metadata/_custom_type_script = "uid://jk2jm1g6q853"
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 
-[node name="Behaviour" type="Node" parent="StateChart/Root/Stance/Standing" unique_id=374145619]
-script = ExtResource("18_icg72")
-
 [node name="OnCrouching" type="Node" parent="StateChart/Root/Stance/Standing" unique_id=168957752]
 script = ExtResource("6_bop6h")
 to = NodePath("../../Crouching")
@@ -1742,9 +1698,6 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="Crouching" type="Node" parent="StateChart/Root/Stance" unique_id=1700883319]
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
-
-[node name="Behaviour" type="Node" parent="StateChart/Root/Stance/Crouching" unique_id=1126616432]
-script = ExtResource("19_icg72")
 
 [node name="OnStanding" type="Node" parent="StateChart/Root/Stance/Crouching" unique_id=1737244850]
 script = ExtResource("6_bop6h")
@@ -1831,19 +1784,27 @@ parameters/Standing/blend_position = -1.1821413
 [connection signal="area_exited" from="Neck/Head/Camera/CameraArea" to="Neck/Head/Camera" method="_on_camera_area_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Movement" to="MovementHandlers/GroundMovement" method="_on_movement_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Movement" to="MovementHandlers/LadderMovement" method="_on_movement_state_physics_processing"]
-[connection signal="handle_ground_physics" from="StateChart/Root/Movement/Grounded/Behaviour" to="MovementHandlers/GroundMovement" method="_on_handle_ground_physics"]
-[connection signal="landed" from="StateChart/Root/Movement/Grounded/Behaviour" to="MovementHandlers/GroundMovement" method="_on_landed"]
-[connection signal="walking" from="StateChart/Root/Movement/Grounded/Moving/Walking/Behaviour" to="MovementHandlers/GroundMovement" method="_on_walking"]
-[connection signal="walking" from="StateChart/Root/Movement/Grounded/Moving/Walking/Behaviour" to="MovementHandlers/AirborneMovement" method="_on_walking"]
-[connection signal="sprinting" from="StateChart/Root/Movement/Grounded/Moving/Sprinting/Bhaviour" to="MovementHandlers/GroundMovement" method="_on_sprinting"]
-[connection signal="sprinting" from="StateChart/Root/Movement/Grounded/Moving/Sprinting/Bhaviour" to="MovementHandlers/AirborneMovement" method="_on_sprinting"]
-[connection signal="handle_airborne_physics" from="StateChart/Root/Movement/Airborne/Behaviour" to="MovementHandlers/AirborneMovement" method="_on_handle_airborne_physics"]
-[connection signal="handle_swimming_physics" from="StateChart/Root/Movement/Swimming/Behaviour" to="MovementHandlers/SwimmingMovement" method="_on_handle_swimming_physics"]
-[connection signal="handle_ladder_physics" from="StateChart/Root/Movement/ClimbingLadder/Behaviour" to="MovementHandlers/LadderMovement" method="_on_handle_ladder_physics"]
-[connection signal="standing" from="StateChart/Root/Stance/Standing/Behaviour" to="." method="_on_standing"]
-[connection signal="standing" from="StateChart/Root/Stance/Standing/Behaviour" to="MovementHandlers/GroundMovement" method="_on_standing"]
-[connection signal="standing" from="StateChart/Root/Stance/Standing/Behaviour" to="MovementHandlers/AirborneMovement" method="_on_standing"]
-[connection signal="crouching" from="StateChart/Root/Stance/Crouching/Behaviour" to="." method="_on_crouching"]
-[connection signal="crouching" from="StateChart/Root/Stance/Crouching/Behaviour" to="MovementHandlers/GroundMovement" method="_on_crouching"]
-[connection signal="crouching" from="StateChart/Root/Stance/Crouching/Behaviour" to="MovementHandlers/AirborneMovement" method="_on_crouching"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Grounded" to="MovementHandlers/GroundMovement" method="_on_grounded_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Grounded" to="MovementHandlers/GroundMovement" method="_on_grounded_state_physics_processing"]
+[connection signal="state_processing" from="StateChart/Root/Movement/Grounded/Idle" to="MovementHandlers/GroundMovement" method="_on_idle_state_processing"]
+[connection signal="state_processing" from="StateChart/Root/Movement/Grounded/Moving" to="MovementHandlers/GroundMovement" method="_on_moving_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Moving/Walking" to="MovementHandlers/GroundMovement" method="_on_walking_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Moving/Walking" to="MovementHandlers/AirborneMovement" method="_on_walking_state_entered"]
+[connection signal="state_processing" from="StateChart/Root/Movement/Grounded/Moving/Walking" to="MovementHandlers/GroundMovement" method="_on_walking_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Moving/Sprinting" to="MovementHandlers/GroundMovement" method="_on_sprinting_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Moving/Sprinting" to="MovementHandlers/AirborneMovement" method="_on_sprinting_state_entered"]
+[connection signal="state_processing" from="StateChart/Root/Movement/Grounded/Moving/Sprinting" to="MovementHandlers/GroundMovement" method="_on_sprinting_state_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Airborne" to="MovementHandlers/AirborneMovement" method="_on_airborne_state_physics_processing"]
+[connection signal="state_processing" from="StateChart/Root/Movement/Airborne/Jumping" to="MovementHandlers/AirborneMovement" method="_on_jumping_state_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Swimming" to="MovementHandlers/SwimmingMovement" method="_on_swimming_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/ClimbingLadder" to="MovementHandlers/LadderMovement" method="_on_climbing_ladder_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Stance/Standing" to="." method="_on_standing_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Stance/Standing" to="MovementHandlers/GroundMovement" method="_on_standing_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Stance/Standing" to="MovementHandlers/AirborneMovement" method="_on_standing_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Stance/Standing" to="." method="_on_standing_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Stance/Crouching" to="." method="_on_crouching_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Stance/Crouching" to="MovementHandlers/GroundMovement" method="_on_crouching_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Stance/Crouching" to="MovementHandlers/AirborneMovement" method="_on_crouching_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Stance/Crouching" to="." method="_on_crouching_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Stance/LyingDead" to="." method="_on_lying_dead_state_physics_processing"]
 [connection signal="died" from="HealthAttribute" to="." method="_on_health_attribute_died"]

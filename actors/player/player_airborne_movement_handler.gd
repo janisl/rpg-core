@@ -19,23 +19,23 @@ var _sprint_modifier := 0.0
 var _crouch_modifier := 0.0
 
 
-func _on_walking() -> void:
+func _on_walking_state_entered() -> void:
 	_sprint_modifier = 0
 
 
-func _on_sprinting() -> void:
+func _on_sprinting_state_entered() -> void:
 	_sprint_modifier = sprint_speed
 
 
-func _on_standing() -> void:
+func _on_standing_state_entered() -> void:
 	_crouch_modifier = 0
 
 
-func _on_crouching() -> void:
+func _on_crouching_state_entered() -> void:
 	_crouch_modifier = crouch_speed
 
 
-func _on_handle_airborne_physics(delta: float) -> void:
+func _on_airborne_state_physics_processing(delta: float) -> void:
 	var current_fall_velocity = player.velocity.y
 
 	player.velocity += player.get_gravity() * delta
@@ -59,3 +59,8 @@ func _on_handle_airborne_physics(delta: float) -> void:
 	if player.is_on_floor():
 		if current_fall_velocity < fall_velocity_threshold:
 			player.camera_effects.add_fall_kick(fall_kick)
+
+
+func _on_jumping_state_processing(_delta: float) -> void:
+	if player.velocity.y < 0:
+		player.state_chart.send_event("onFalling")

@@ -27,7 +27,7 @@ func _on_ladder_exited(area: Area3D) -> void:
 		_did_jump_off = false
 
 
-func _on_handle_ladder_physics(_delta: float) -> void:
+func _on_climbing_ladder_state_physics_processing(_delta: float) -> void:
 	_handle_ladder_movement(true, false)
 
 
