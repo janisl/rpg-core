@@ -1,7 +1,7 @@
 class_name ProjectileController
 extends Node
 
-@export var impact_scene: PackedScene
+@export var spawn_on_death: Array[PackedScene] = []
 
 var _rigid_body: RigidBody3D
 var _source: CharacterBody3D
@@ -27,26 +27,27 @@ func _on_body_entered(body: Node3D) -> void:
 	if body == _source:
 		return
 
-	_spawn_impact_marker(_rigid_body.global_position)
+	deal_damage(body, _rigid_body.linear_velocity.normalized(), _rigid_body.global_position)
+	die()
 
+
+func deal_damage(body: Node3D, hit_direction: Vector3, hit_position: Vector3) -> void:
 	var health_attribute := body.get_node_or_null("HealthAttribute") as HealthAttribute
-	if health_attribute:
-		var hit_info := HitInfo.new(_damage)
-		hit_info.source = _source
-		hit_info.direction = _rigid_body.linear_velocity.normalized()
-		hit_info.impact_position = _rigid_body.global_position
-		health_attribute.take_damage(hit_info)
+	if not health_attribute:
+		return
 
-	if body is RigidBody3D:
-		body.apply_impulse(
-			_rigid_body.global_position.direction_to(body.global_position) * 5.0 / body.mass,
-			_rigid_body.global_position - body.global_position)
+	var hit_info := HitInfo.new(_damage)
+	hit_info.source = _source
+	hit_info.direction = hit_direction
+	hit_info.impact_position = hit_position
+	health_attribute.take_damage(hit_info)
+
+
+func die() -> void:
+	for scene in spawn_on_death:
+		if scene:
+			var spawned_object = scene.instantiate()
+			spawned_object.global_position = _rigid_body.global_position
+			get_tree().current_scene.add_child(spawned_object)
 
 	_rigid_body.queue_free()
-
-
-func _spawn_impact_marker(impact_position: Vector3) -> void:
-	if impact_scene:
-		var marker := impact_scene.instantiate()
-		get_tree().current_scene.add_child(marker)
-		marker.global_position = impact_position
