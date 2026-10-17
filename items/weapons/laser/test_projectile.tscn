@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b2gscberboh83"]
 
 [ext_resource type="Script" uid="uid://bwwvm23vhe66h" path="res://systems/combat/projectile_controller.gd" id="1_ovnbp"]
+[ext_resource type="AudioStream" uid="uid://cs5wer1x4im4a" path="res://assets/sounds/impacts/234082__211redman112__lasgun-impact.ogg" id="2_ce7y8"]
 [ext_resource type="PackedScene" uid="uid://t8msyx8wbv75" path="res://items/weapons/laser/test_projectile_impact.tscn" id="2_obxtg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
@@ -32,6 +33,7 @@ shape = SubResource("CapsuleShape3D_igyxy")
 
 [node name="ProjectileController" type="Node" parent="." unique_id=1341747761]
 script = ExtResource("1_ovnbp")
+death_sound = ExtResource("2_ce7y8")
 spawn_on_death = Array[PackedScene]([ExtResource("2_obxtg")])
 metadata/_custom_type_script = "uid://bwwvm23vhe66h"
 

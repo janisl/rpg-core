@@ -3,6 +3,8 @@ extends Node
 
 signal fired
 
+@export var death_sound: AudioStream
+@export var death_sound_volume := 0.0
 @export var spawn_on_death: Array[PackedScene] = []
 
 var _rigid_body: RigidBody3D
@@ -52,6 +54,8 @@ func _deal_damage(body: Node3D, hit_direction: Vector3, hit_position: Vector3) -
 
 
 func _die() -> void:
+	AudioManager.play_sound_3d(death_sound, _rigid_body.global_position, death_sound_volume)
+
 	for scene in spawn_on_death:
 		if scene:
 			var spawned_object = scene.instantiate()

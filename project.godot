@@ -15,11 +15,16 @@ run/main_scene="uid://dy38uor1h3xvd"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://doshytrcde70x"
+
 [autoload]
 
 GlobalManager="*uid://cr1xkklrulx6h"
 Managers="*uid://colfnh342d2p"
 EffectsManager="*uid://xaq71ee0rvh2"
+AudioManager="*uid://bw56nh3y503kv"
 
 [display]
 
@@ -36,6 +41,7 @@ enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg")
 
 folder_colors={
 "res://addons/": "red",
+"res://assets/": "purple",
 "res://effects/": "green",
 "res://systems/": "red"
 }
