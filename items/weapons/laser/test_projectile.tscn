@@ -34,3 +34,6 @@ shape = SubResource("CapsuleShape3D_igyxy")
 script = ExtResource("1_ovnbp")
 spawn_on_death = Array[PackedScene]([ExtResource("2_obxtg")])
 metadata/_custom_type_script = "uid://bwwvm23vhe66h"
+
+[node name="Lifespan" type="Timer" parent="ProjectileController" unique_id=1627657959]
+wait_time = 10.0
