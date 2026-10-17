@@ -1,10 +1,8 @@
 Player
 - world interactions
-- death state
 - stats, leveling
 - equipment
 - footsteps
-- weapon overhaul
 
 UI
 - pause menu
@@ -34,7 +32,6 @@ Environment
 - throwable objects
 - explosions
 - drowning
-- extract impact marker into global effects manager
 
 Maps
 - player spawner
