@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dmm1368oglfp0"]
 
 [ext_resource type="Script" uid="uid://bsns0k0r51aap" path="res://actors/player/player.gd" id="1_nvxhs"]
-[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_388e2"]
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="2_lsqbn"]
 [ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="3_6p1w3"]
 [ext_resource type="Script" uid="uid://cpbru7gt1lbmj" path="res://actors/player/camera_controller.gd" id="3_12xki"]
@@ -1449,11 +1448,6 @@ camera = NodePath("../Neck/Head/Camera")
 first_person_parent = NodePath("../Neck/Head/Camera/Wieldables")
 first_person_mesh_layer = 2
 metadata/_custom_type_script = "uid://bssifbouhjhmf"
-
-[node name="StateChartDebugger" parent="." unique_id=1438023907 instance=ExtResource("2_388e2")]
-offset_right = -1522.0
-offset_bottom = -556.0
-initial_node_to_watch = NodePath("../StateChart")
 
 [node name="StandingCollision" type="CollisionShape3D" parent="." unique_id=1807291205]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
