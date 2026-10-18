@@ -18,7 +18,7 @@ func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
 		if pellet_count > 1:
 			direction += _get_spread_delta(fire_direction, _weapon_data.spread_angle * _get_spread_multiplier())
 
-		var to := from + direction * _weapon_data.range
+		var to := from + direction * _weapon_data.weapon_range
 
 		var query := PhysicsRayQueryParameters3D.create(from, to)
 		query.collision_mask = hit_scan_collision_mask

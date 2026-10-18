@@ -20,7 +20,7 @@ fill_to = Vector2(1, 1)
 
 [resource]
 script = ExtResource("5_ebdrl")
-range = 50.0
+weapon_range = 50.0
 damage = 5.0
 fire_offset = Vector3(0.1, -0.02, -0.1)
 is_automatic = true

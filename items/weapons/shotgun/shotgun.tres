@@ -20,7 +20,7 @@ fill_to = Vector2(1, 1)
 
 [resource]
 script = ExtResource("5_l67j6")
-range = 35.0
+weapon_range = 35.0
 damage = 3.0
 accuracy = 80
 fire_offset = Vector3(0.15, -0.02, -0.15)

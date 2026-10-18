@@ -2,7 +2,7 @@ class_name WeaponData
 extends WieldableData
 
 @export_group("General settings")
-@export var range := 0.0
+@export var weapon_range := 0.0
 @export var damage := 0.0
 @export_range(0, 100) var accuracy := 100
 @export var fire_offset := Vector3(0.1, -0.05, -0.1)
