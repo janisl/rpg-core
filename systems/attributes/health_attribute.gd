@@ -5,6 +5,7 @@ signal damage_taken(hit_info: HitInfo)
 signal died()
 
 @export var death_sound: AudioStream
+@export var free_on_death: Array[Node]
 
 var is_alive := true
 
@@ -38,5 +39,8 @@ func _handle_death() -> void:
 	is_alive = false
 
 	AudioManager.play_sound_3d(death_sound, get_parent().global_position)
+
+	for node in free_on_death:
+		node.queue_free()
 
 	died.emit()
