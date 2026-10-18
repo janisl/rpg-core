@@ -4,6 +4,8 @@ extends BaseAttribute
 signal damage_taken(hit_info: HitInfo)
 signal died()
 
+@export var death_sound: AudioStream
+
 var is_alive := true
 
 
@@ -34,4 +36,7 @@ func _handle_death() -> void:
 		return
 
 	is_alive = false
+
+	AudioManager.play_sound_3d(death_sound, get_parent().global_position)
+
 	died.emit()
