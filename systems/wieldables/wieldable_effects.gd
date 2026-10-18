@@ -101,6 +101,7 @@ func _apply_offsets(delta: float) -> void:
 	if not model:
 		return
 
+	var base_offset = _update_base_offset(delta)
 	var idle_offset := _update_idle_sway(delta)
 	var look_offset := _update_look_sway(delta)
 	var bob_offset := _update_bob(delta)
@@ -109,8 +110,12 @@ func _apply_offsets(delta: float) -> void:
 
 	var strafe_tilt = _update_strafe_tilt(delta)
 
-	model.position = idle_offset + look_offset + bob_offset + recoil_offset + vlag_offset
-	model.rotation = Vector3(_recoil_pitch, 0.0, strafe_tilt)
+	position = base_offset + idle_offset + look_offset + bob_offset + recoil_offset + vlag_offset
+	rotation = Vector3(_recoil_pitch, 0.0, strafe_tilt)
+
+
+func _update_base_offset(_delta: float) -> Vector3:
+	return player.wield_controller.wieldable_data.first_person_position
 
 
 func _update_idle_sway(delta: float) -> Vector3:

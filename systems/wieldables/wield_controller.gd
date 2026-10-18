@@ -76,7 +76,6 @@ func _spawn_wieldable_scenes() -> void:
 	first_person_model = wieldable_data.first_person_scene.instantiate() as FirstPersonWieldable
 	first_person_parent.add_child(first_person_model)
 	first_person_model.initialize(player, wieldable, first_person_mesh_layer)
-	first_person_parent.position = wieldable_data.first_person_position
 
 	first_person_parent.reset_effects()
 
