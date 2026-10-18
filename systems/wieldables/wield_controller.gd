@@ -1,6 +1,8 @@
 class_name WieldController
 extends Node3D
 
+signal wieldable_changed
+
 @export_group("References")
 @export var player: Player
 @export var camera: CameraEffects
@@ -52,11 +54,13 @@ func _spawn_wieldable_scenes() -> void:
 	current_item_stack = _selected_item_stack
 	if not current_item_stack or not current_item_stack.is_valid:
 		current_item_stack = null
+		wieldable_changed.emit()
 		return
 
 	wieldable_data = current_item_stack.item as WieldableData
 	if not wieldable_data:
 		current_item_stack = null
+		wieldable_changed.emit()
 		return
 
 	assert(wieldable_data.controller_scene, "Wieldable has no controller scene")
@@ -75,6 +79,8 @@ func _spawn_wieldable_scenes() -> void:
 	first_person_parent.position = wieldable_data.first_person_position
 
 	first_person_parent.reset_effects()
+
+	wieldable_changed.emit()
 
 
 func _on_primary_action_started() -> void:

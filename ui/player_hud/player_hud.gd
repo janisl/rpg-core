@@ -9,6 +9,7 @@ const ITEM_SLOT_CONTROL = preload("uid://d3nmme6bfak14")
 @onready var ammo_label: Label = $AmmoLabel
 
 var _player: Player
+var _wieldable: Wieldable
 
 
 func _ready() -> void:
@@ -23,6 +24,7 @@ func _ready() -> void:
 
 	_player.health_attribute.value_changed.connect(_on_health_changed)
 	_player.inventory.changed.connect(_on_inventory_changed)
+	_player.wield_controller.wieldable_changed.connect(_on_wieldable_changed)
 
 
 func _update_current_slot() -> void:
@@ -35,6 +37,21 @@ func _on_health_changed(new_health: float, _old_health: float, _max_halth: float
 
 
 func _on_inventory_changed() -> void:
+	_update_ammo_label()
+
+
+func _on_wieldable_changed() -> void:
+	if _wieldable:
+		_wieldable.data_changed.disconnect(_on_wieldable_data_changed)
+
+	_wieldable = _player.wield_controller.wieldable
+	_update_ammo_label()
+
+	if _wieldable:
+		_wieldable.data_changed.connect(_on_wieldable_data_changed)
+
+
+func _on_wieldable_data_changed() -> void:
 	_update_ammo_label()
 
 

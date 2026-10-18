@@ -40,5 +40,6 @@ delay_in_seconds = "0.0"
 
 [connection signal="state_entered" from="StateChart/Root/Equipping" to="." method="_on_equipping_state_entered"]
 [connection signal="state_processing" from="StateChart/Root/Equipping" to="." method="_on_equipping_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Unequipping" to="." method="_on_unequipping_state_entered"]
 [connection signal="state_processing" from="StateChart/Root/Unequipping" to="." method="_on_unequipping_state_processing"]

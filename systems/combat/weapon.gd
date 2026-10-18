@@ -1,4 +1,3 @@
-@abstract
 class_name Weapon
 extends Wieldable
 
@@ -24,8 +23,7 @@ func _get_magazine_ammo() -> int:
 
 func _set_magazine_ammo(value: int) -> void:
 	_item_stack.metadata[MAGAZINE_KEY] = value
-	if _owner_inventory:
-		_owner_inventory.changed.emit()
+	_emit_data_changed()
 
 
 func _get_loaded_ammo() -> AmmoData:
@@ -72,8 +70,7 @@ func _cycle_ammo() -> bool:
 		var next := (index + i) % count
 		if _get_reserve_ammo(_weapon_data.ammo_types[next]) > 0:
 			_item_stack.metadata[SELECTED_AMMO_KEY] = next
-			if _owner_inventory:
-				_owner_inventory.changed.emit()
+			_emit_data_changed()
 			return true
 
 	return false
@@ -118,7 +115,7 @@ func _fire_weapon() -> void:
 		return
 
 	_set_magazine_ammo(_get_magazine_ammo() - 1)
-	primary_action_started.emit()
+	_emit_primary_action_started()
 
 	_fire_rate_timer = 1.0 / _weapon_data.fire_rate
 
@@ -130,8 +127,8 @@ func _fire_weapon() -> void:
 	_perform_attack(from, fire_direction)
 
 
-@abstract
-func _perform_attack(from: Vector3, fire_direction: Vector3) -> void
+func _perform_attack(_from: Vector3, _fire_direction: Vector3) -> void:
+	pass
 
 
 func _get_camera_collision() -> Vector3:
@@ -160,10 +157,6 @@ func _finish_reload() -> void:
 	if _owner_inventory:
 		_owner_inventory.remove_item(selected, amount)
 	_set_magazine_ammo(_get_magazine_ammo() + amount)
-
-
-func _on_idle_state_entered() -> void:
-	idle_started.emit()
 
 
 func _on_idle_state_processing(_delta: float) -> void:
@@ -210,7 +203,7 @@ func _on_firing_state_processing(delta: float) -> void:
 
 func _on_reloading_state_entered() -> void:
 	_reload_timer = _weapon_data.reload_time
-	reload_started.emit()
+	_emit_reload_started()
 
 
 func _on_reloading_state_processing(delta: float) -> void:

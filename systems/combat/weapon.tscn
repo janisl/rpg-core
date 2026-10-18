@@ -8,18 +8,6 @@
 [node name="Weapon" unique_id=2003787361 instance=ExtResource("1_1aasx")]
 script = ExtResource("2_rde40")
 
-[node name="OnFiring" type="Node" parent="StateChart/Root/Idle" parent_id_path=PackedInt32Array(1881439388) index="0" unique_id=168174707]
-script = ExtResource("3_yteyy")
-to = NodePath("../../Firing")
-event = &"onFiring"
-delay_in_seconds = "0.0"
-
-[node name="OnEmpty" type="Node" parent="StateChart/Root/Idle" parent_id_path=PackedInt32Array(1881439388) index="1" unique_id=1021899791]
-script = ExtResource("3_yteyy")
-to = NodePath("../../Empty")
-event = &"onEmpty"
-delay_in_seconds = "0.0"
-
 [node name="Firing" type="Node" parent="StateChart/Root" parent_id_path=PackedInt32Array(458852534) index="1" unique_id=458781473]
 script = ExtResource("3_fqqk5")
 
@@ -35,21 +23,6 @@ to = NodePath("../../Empty")
 event = &"onEmpty"
 delay_in_seconds = "0.0"
 
-[node name="OnReload" type="Node" parent="StateChart/Root/Idle" parent_id_path=PackedInt32Array(1881439388) index="2" unique_id=1734920581]
-script = ExtResource("3_yteyy")
-to = NodePath("../../Reloading")
-event = &"onReload"
-delay_in_seconds = "0.0"
-
-[node name="Reloading" type="Node" parent="StateChart/Root" parent_id_path=PackedInt32Array(458852534) index="3" unique_id=902318467]
-script = ExtResource("3_fqqk5")
-
-[node name="OnIdle" type="Node" parent="StateChart/Root/Reloading" index="0" unique_id=1488203915]
-script = ExtResource("3_yteyy")
-to = NodePath("../../Idle")
-event = &"onIdle"
-delay_in_seconds = "0.0"
-
 [node name="Empty" type="Node" parent="StateChart/Root" parent_id_path=PackedInt32Array(458852534) index="2" unique_id=1318988179]
 script = ExtResource("3_fqqk5")
 
@@ -59,11 +32,37 @@ to = NodePath("../../Idle")
 event = &"onIdle"
 delay_in_seconds = "0.0"
 
-[connection signal="state_entered" from="StateChart/Root/Idle" to="." method="_on_idle_state_entered"]
-[connection signal="state_processing" from="StateChart/Root/Idle" to="." method="_on_idle_state_processing"]
+[node name="OnFiring" type="Node" parent="StateChart/Root/Idle" parent_id_path=PackedInt32Array(1881439388) index="0" unique_id=168174707]
+script = ExtResource("3_yteyy")
+to = NodePath("../../Firing")
+event = &"onFiring"
+delay_in_seconds = "0.0"
+
+[node name="OnEmpty" type="Node" parent="StateChart/Root/Idle" parent_id_path=PackedInt32Array(1881439388) index="1" unique_id=1021899791]
+script = ExtResource("3_yteyy")
+to = NodePath("../../Empty")
+event = &"onEmpty"
+delay_in_seconds = "0.0"
+
+[node name="OnReload" type="Node" parent="StateChart/Root/Idle" parent_id_path=PackedInt32Array(1881439388) index="2" unique_id=1734920581]
+script = ExtResource("3_yteyy")
+to = NodePath("../../Reloading")
+event = &"onReload"
+delay_in_seconds = "0.0"
+
+[node name="Reloading" type="Node" parent="StateChart/Root" parent_id_path=PackedInt32Array(458852534) index="4" unique_id=902318467]
+script = ExtResource("3_fqqk5")
+
+[node name="OnIdle" type="Node" parent="StateChart/Root/Reloading" index="0" unique_id=1488203915]
+script = ExtResource("3_yteyy")
+to = NodePath("../../Idle")
+event = &"onIdle"
+delay_in_seconds = "0.0"
+
 [connection signal="state_entered" from="StateChart/Root/Firing" to="." method="_on_firing_state_entered"]
 [connection signal="state_processing" from="StateChart/Root/Firing" to="." method="_on_firing_state_processing"]
 [connection signal="state_entered" from="StateChart/Root/Empty" to="." method="_on_empty_state_entered"]
 [connection signal="state_processing" from="StateChart/Root/Empty" to="." method="_on_empty_state_processing"]
+[connection signal="state_processing" from="StateChart/Root/Idle" to="." method="_on_idle_state_processing"]
 [connection signal="state_entered" from="StateChart/Root/Reloading" to="." method="_on_reloading_state_entered"]
 [connection signal="state_processing" from="StateChart/Root/Reloading" to="." method="_on_reloading_state_processing"]

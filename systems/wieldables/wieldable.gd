@@ -7,6 +7,7 @@ signal idle_started
 signal primary_action_started
 signal reload_started
 
+signal data_changed
 signal unequipped
 
 var is_unequipping := false
@@ -57,6 +58,18 @@ func unequip() -> void:
 	state_chart.send_event("onUnequipping")
 
 
+func _emit_primary_action_started() -> void:
+	primary_action_started.emit()
+
+
+func _emit_reload_started() -> void:
+	reload_started.emit()
+
+
+func _emit_data_changed() -> void:
+	data_changed.emit()
+
+
 func _emit_unequipped() -> void:
 	unequipped.emit()
 
@@ -81,3 +94,7 @@ func _on_unequipping_state_processing(delta: float) -> void:
 	_unequip_timer -= delta
 	if _unequip_timer <= 0:
 		_emit_unequipped()
+
+
+func _on_idle_state_entered() -> void:
+	idle_started.emit()
