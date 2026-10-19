@@ -11,6 +11,7 @@ UI
 - quest notifications
 
 Inventory
+- weight based inventory
 - usable items
 - drag and drop
 
@@ -41,3 +42,6 @@ Maps
 Systems
 - music manager
 - quest system
+
+Weapons
+- muzzle flash light separate
