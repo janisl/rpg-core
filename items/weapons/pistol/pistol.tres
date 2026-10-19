@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_spaxh"]
 [ext_resource type="PackedScene" uid="uid://cojhl7nthk3w1" path="res://systems/combat/hit_scan_weapon.tscn" id="3_wtgxi"]
 [ext_resource type="PackedScene" uid="uid://bdrf1d353xxqq" path="res://effects/decals/bullet_decal.tscn" id="4_ebdrl"]
-[ext_resource type="PackedScene" uid="uid://567vdvii3fg6" path="res://items/weapons/pistol/pistol_view.tscn" id="4_ka7mt"]
+[ext_resource type="PackedScene" uid="uid://567vdvii3fg6" path="res://items/weapons/pistol/pistol_first_person.tscn" id="5_4ccf2"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="5_ebdrl"]
 [ext_resource type="PackedScene" uid="uid://bd6vg3o6i0l17" path="res://effects/bullet_effects/bullet_impact.tscn" id="5_wtgxi"]
 
@@ -29,7 +29,7 @@ magazine_size = 12
 decal_scene = ExtResource("4_ebdrl")
 impact_scene = ExtResource("5_wtgxi")
 controller_scene = ExtResource("3_wtgxi")
-first_person_scene = ExtResource("4_ka7mt")
+first_person_scene = ExtResource("5_4ccf2")
 first_person_position = Vector3(0.14105655, -0.06323153, -0.18142417)
 vertical_lag_amount = 0.002
 display_name = "Pistol"

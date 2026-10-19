@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://br2mplv6cjpjb"]
 
-[ext_resource type="Script" uid="uid://3l8hkh0mdklm" path="res://systems/wieldables/first_person_wieldable.gd" id="1_348hx"]
-[ext_resource type="PackedScene" uid="uid://7f1hvxmn2lb8" path="res://items/weapons/muzzle_flash.tscn" id="1_k707q"]
+[ext_resource type="Script" uid="uid://3l8hkh0mdklm" path="res://systems/wieldables/first_person_wieldable.gd" id="1_sjcyh"]
+[ext_resource type="PackedScene" uid="uid://7f1hvxmn2lb8" path="res://items/weapons/muzzle_flash.tscn" id="2_rp0gk"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
 albedo_color = Color(0.58886385, 0.38416725, 9.62615e-08, 1)
@@ -168,7 +168,7 @@ _data = {
 }
 
 [node name="Shotgun" type="Node3D" unique_id=1327495288 node_paths=PackedStringArray("animation_player", "muzzle_flash")]
-script = ExtResource("1_348hx")
+script = ExtResource("1_sjcyh")
 animation_player = NodePath("AnimationPlayer")
 muzzle_flash = NodePath("MuzzleFlash")
 
@@ -192,5 +192,5 @@ mesh = SubResource("BoxMesh_rdqwp")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=963382603]
 libraries/ = SubResource("AnimationLibrary_nrx6e")
 
-[node name="MuzzleFlash" parent="." unique_id=546064966 instance=ExtResource("1_k707q")]
+[node name="MuzzleFlash" parent="." unique_id=546064966 instance=ExtResource("2_rp0gk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.029247114, -0.5492409)
