@@ -1,0 +1,2 @@
+class_name ThirdPersonWieldable
+extends Node3D
