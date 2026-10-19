@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://crytf2marbeak"]
+
+[ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="1_hspex"]
+[ext_resource type="PackedScene" uid="uid://c17xcvi36ce1i" path="res://effects/explosions/explosion_effect.tscn" id="2_qx2tc"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bsiym"]
+height = 1.0
+radius = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.863721, 0, 0.28387648, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+top_radius = 0.4
+bottom_radius = 0.4
+height = 1.0
+
+[node name="ExplodingBarrel" type="RigidBody3D" unique_id=23067863]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=581121016]
+shape = SubResource("CylinderShape3D_bsiym")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=773211918]
+mesh = SubResource("CylinderMesh_bsiym")
+
+[node name="HealthAttribute" parent="." unique_id=167552575 node_paths=PackedStringArray("free_on_death") instance=ExtResource("1_hspex")]
+free_on_death = [NodePath("..")]
+spawn_on_death = Array[PackedScene]([ExtResource("2_qx2tc")])
+max_value = 20.0
+initial_value = 20.0
