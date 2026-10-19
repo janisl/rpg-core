@@ -6,6 +6,7 @@ extends Enemy
 @export var deceleration := 5.0
 @export var melee_range := 1.0
 @export var melee_damage := 10.0
+@export var melee_hit_height := 1.0
 
 @onready var nav_agent: NavigationAgent3D = $NavAgent
 @onready var state_chart: StateChart = $StateChart
@@ -132,4 +133,7 @@ func _apply_damage_to_target() -> void:
 	if target_health_attribute:
 		var hit_info := HitInfo.new(melee_damage)
 		hit_info.source = self
+		var direction := global_position.direction_to(target.global_position)
+		hit_info.direction = direction
+		hit_info.impact_position = target.global_position - direction * 0.5 + Vector3.UP * melee_hit_height
 		target_health_attribute.take_damage(hit_info)

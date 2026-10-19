@@ -29,6 +29,7 @@ var _unequip_timer := 0.0
 
 @onready var state_chart: StateChart = $StateChart
 
+
 func initialize(own: Actor, inventory: Inventory, stack: ItemStack) -> void:
 	_item_owner = own
 	_owner_inventory = inventory

@@ -26,6 +26,11 @@ extends Actor
 @export var crouch_camera_height := 0.7
 @export var death_camera_height := 0.1
 
+@export_group("Damage effects")
+@export var damage_kick_pitch := 5.0
+@export var damage_kick_roll := 5.0
+@export var damage_for_full_kick := 20.0
+
 @export_group("Render settings")
 @export_flags_3d_render var mesh_layer := 1
 
@@ -42,6 +47,7 @@ func _ready() -> void:
 	for m in meshes:
 		m.layers = mesh_layer
 	anim_tree_state = animation_tree["parameters/playback"]
+	health_attribute.damage_taken.connect(_on_health_attribute_damage_taken)
 
 
 func _process(_delta: float) -> void:
@@ -91,6 +97,14 @@ func _on_health_attribute_died() -> void:
 	state_chart.send_event("died")
 	anim_tree_state.travel("Death")
 	wield_controller.switch_wieldable(null)
+
+
+func _on_health_attribute_damage_taken(hit_info: HitInfo) -> void:
+	if hit_info.direction.is_zero_approx():
+		return
+
+	var kick_scale := clampf(hit_info.actual_damage / damage_for_full_kick, 0.0, 1.0)
+	camera_effects.add_damage_kick(damage_kick_pitch * kick_scale, damage_kick_roll * kick_scale, hit_info.impact_position)
 
 
 func _on_standing_state_physics_processing(delta: float) -> void:
