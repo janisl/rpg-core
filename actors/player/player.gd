@@ -8,7 +8,7 @@ extends Actor
 @export var standing_collision: CollisionShape3D
 @export var crouching_collision: CollisionShape3D
 @export var crouch_check: ShapeCast3D
-@export var interaction_ray_cast: InteractionRayCast
+@export var interaction_controller: InteractionController
 @export var stairs_ahead_ray_cast: RayCast3D
 @export var stairs_below_ray_cast: RayCast3D
 @export var wield_controller: WieldController

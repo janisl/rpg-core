@@ -1,4 +1,4 @@
-class_name InteractionRayCast
+class_name InteractionController
 extends RayCast3D
 
 signal interactable_seen(interactable)
