@@ -43,7 +43,8 @@ var anim_tree_state: AnimationNodeStateMachinePlayback
 
 
 func _ready() -> void:
-	var meshes := find_children("*", "MeshInstance3D", true, false)
+	super()
+	var meshes := $Meshes.find_children("*", "MeshInstance3D", true, false)
 	for m in meshes:
 		m.layers = mesh_layer
 	anim_tree_state = animation_tree["parameters/playback"]
@@ -51,8 +52,6 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	state_chart.set_expression_property("Looking at: ", interaction_ray_cast.current_object)
-
 	var move_amount = velocity.length()
 	animation_tree["parameters/Standing/blend_position"] = remap(move_amount, 0.0, 10.0, -1.0, 1.0)
 	animation_tree["parameters/Crouching/blend_position"] = remap(move_amount, 0.0, 8.0, -1.0, 1.0)
