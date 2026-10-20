@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b16alro8fspcn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_18xq7"]
+size = Vector3(0.1, 0.01, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ioac1"]
+albedo_color = Color(0.4045111, 0.40451115, 0.4045111, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_18xq7"]
+material = SubResource("StandardMaterial3D_ioac1")
+size = Vector3(0.1, 0.01, 0.05)
+
+[node name="PistolAmmo" type="RigidBody3D" unique_id=270468499]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=514162245]
+shape = SubResource("BoxShape3D_18xq7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=386862216]
+mesh = SubResource("BoxMesh_18xq7")
