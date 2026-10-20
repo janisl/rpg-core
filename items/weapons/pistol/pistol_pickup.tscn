@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://cbtrf5bt881ri"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vgx7n"]
+albedo_color = Color(0.26536053, 0.26536053, 0.2653605, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_vgx7n")
+size = Vector3(0.02, 0.05, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rghg7"]
+albedo_color = Color(0.3118496, 0.31184962, 0.3118496, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rdqwp"]
+material = SubResource("StandardMaterial3D_rghg7")
+size = Vector3(0.02, 0.15, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_18xq7"]
+size = Vector3(0.17, 0.02, 0.24)
+
+[node name="Pistol" type="RigidBody3D" unique_id=2029630907]
+
+[node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
+transform = Transform3D(-4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 0, 0, 0.9999999, -0.033, 0, 0.03)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=96319735]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0.027999999, -0.05213326)
+mesh = SubResource("BoxMesh_bsiym")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Meshes" unique_id=1199806293]
+transform = Transform3D(1, 0, 0, 0, 0.96978825, 0.24394792, 0, -0.24394792, 0.96978825, 0, -0.029999997, 0.044999998)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=112048275]
+shape = SubResource("BoxShape3D_18xq7")

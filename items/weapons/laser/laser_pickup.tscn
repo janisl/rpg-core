@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://bmq87quw8icqf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iyp64"]
+albedo_color = Color(0.94818, 0, 0.38725978, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_k02qh"]
+material = SubResource("StandardMaterial3D_iyp64")
+top_radius = 0.015
+bottom_radius = 0.015
+height = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rghg7"]
+albedo_color = Color(0.5039047, 0.18092576, 0.31667912, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rdqwp"]
+material = SubResource("StandardMaterial3D_rghg7")
+size = Vector3(0.02, 0.15, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k02qh"]
+albedo_color = Color(0, 0.83089256, 0.5035127, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_rdqwp"]
+material = SubResource("StandardMaterial3D_k02qh")
+inner_radius = 0.01
+outer_radius = 0.06
+rings = 8
+ring_segments = 16
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_18xq7"]
+size = Vector3(0.2, 0.1, 0.29)
+
+[node name="Laser" type="RigidBody3D" unique_id=1424478614]
+
+[node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
+transform = Transform3D(-4.371139e-08, -0.99999994, 0, 1, -4.3711385e-08, 0, 0, 0, 0.99999994, -0.008151099, 0, 0.054807425)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=96319735]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 0.03431169, -0.076034926)
+mesh = SubResource("CylinderMesh_k02qh")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Meshes" unique_id=1199806293]
+transform = Transform3D(1, 0, 0, 0, 0.96978825, 0.24394792, 0, -0.24394792, 0.96978825, 0, -0.029999997, 0.044999998)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Meshes" unique_id=23347811]
+transform = Transform3D(0.9999998, 0, 0, 0, -4.3711385e-08, -0.99999976, 0, 0.99999994, -4.3711378e-08, 0, 0.029912366, -0.019753916)
+rotation_order = 0
+mesh = SubResource("TorusMesh_rdqwp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=293868555]
+shape = SubResource("BoxShape3D_18xq7")
