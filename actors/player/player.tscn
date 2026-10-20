@@ -6,13 +6,13 @@
 [ext_resource type="Script" uid="uid://cpbru7gt1lbmj" path="res://actors/player/camera_controller.gd" id="3_12xki"]
 [ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="4_15y17"]
 [ext_resource type="Script" uid="uid://dbeuckaub3kor" path="res://actors/player/camera_effects.gd" id="4_dqf5y"]
-[ext_resource type="Script" uid="uid://dra7tey8c0bv2" path="res://systems/interaction/interaction_ray_cast.gd" id="4_qrxv1"]
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="5_15y17"]
 [ext_resource type="Script" uid="uid://bssifbouhjhmf" path="res://systems/wieldables/wield_controller.gd" id="6_2vokq"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="6_bop6h"]
 [ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://items/weapons/pistol/pistol.tres" id="10_v3s8r"]
 [ext_resource type="Resource" uid="uid://8wv77e0i7ndt" path="res://items/ammo/pistol_ammo.tres" id="11_ne5l8"]
 [ext_resource type="Script" uid="uid://buoxos72xs1dx" path="res://systems/wieldables/wieldable_effects.gd" id="14_v3s8r"]
+[ext_resource type="PackedScene" uid="uid://cbd2ojah4nun6" path="res://systems/interaction/interaction_controller.tscn" id="15_jjb1w"]
 [ext_resource type="Script" uid="uid://dek1hlgqh6p45" path="res://actors/player/player_ground_movement_handler.gd" id="20_otn2r"]
 [ext_resource type="Script" uid="uid://dte1dx7wmo5ca" path="res://actors/player/player_airborne_movement_handler.gd" id="21_ctwkf"]
 [ext_resource type="Script" uid="uid://v3eyncouit2i" path="res://actors/player/player_swimming_movement_handler.gd" id="23_lj3dd"]
@@ -1475,9 +1475,7 @@ cull_mask = 1048571
 script = ExtResource("4_dqf5y")
 player = NodePath("../../..")
 
-[node name="InteractionRayCast" type="RayCast3D" parent="Neck/Head/Camera" unique_id=206725175]
-target_position = Vector3(0, 0, -3)
-script = ExtResource("4_qrxv1")
+[node name="InteractionRayCast" parent="Neck/Head/Camera" unique_id=327387966 instance=ExtResource("15_jjb1w")]
 
 [node name="CameraArea" type="Area3D" parent="Neck/Head/Camera" unique_id=126417438]
 collision_layer = 0
