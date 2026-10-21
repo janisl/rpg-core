@@ -47,9 +47,9 @@ func _handle_death() -> void:
 	for scene in spawn_on_death:
 		if scene:
 			var spawned_object = scene.instantiate()
+			get_tree().current_scene.add_child(spawned_object)
 			spawned_object.global_position = parent_position
 			spawned_object.global_rotation = parent_rotation
-			get_tree().current_scene.add_child(spawned_object)
 
 	for nodepath in free_on_death:
 		if get_node(nodepath):

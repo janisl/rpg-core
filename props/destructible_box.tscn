@@ -21,8 +21,8 @@ mesh = SubResource("BoxMesh_bsiym")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_awh2e")
 
-[node name="HealthAttribute" parent="." unique_id=167552575 node_paths=PackedStringArray("free_on_death") instance=ExtResource("2_5sfkv")]
+[node name="HealthAttribute" parent="." unique_id=167552575 instance=ExtResource("2_5sfkv")]
 death_sound = ExtResource("3_caev0")
-free_on_death = [NodePath("..")]
+free_on_death = Array[NodePath]([NodePath("..")])
 max_value = 20.0
 initial_value = 20.0
