@@ -1,13 +1,16 @@
 class_name InteractionController
 extends RayCast3D
 
-signal interactable_seen(interactable)
-signal interactable_unseen()
+signal interactive_object_detected(interaction_nodes: Array[Node])
+signal nothing_detected()
 
+@export var player: Player
 @export var show_debug_shapes : bool = false
 
-var _interactable = null:
+var interactable:
 	set = _set_interactable
+
+var interaction_nodes : Array[Node]
 
 var _hotspot_base_pos_z : float = -1.5
 
@@ -29,11 +32,12 @@ func _process(_delta: float) -> void:
 
 
 func _set_interactable(value) -> void:
-	_interactable = value
-	if _interactable == null:
-		interactable_unseen.emit()
+	interactable = value
+	if interactable == null:
+		nothing_detected.emit()
 	else:
-		interactable_seen.emit(_interactable)
+		interaction_nodes = interactable.find_children("", "InteractionComponent", true)
+		interactive_object_detected.emit(interaction_nodes)
 
 
 func _update_interactable() -> void:
@@ -41,7 +45,7 @@ func _update_interactable() -> void:
 		target_highlighter.visible = false
 
 	if _is_interactable_freed():
-		_interactable = null
+		interactable = null
 		return
 
 	var collider
@@ -83,14 +87,14 @@ func _update_interactable() -> void:
 			target_highlighter.global_position = hotspot_global_position
 			target_highlighter.visible = true
 
-	if collider == _interactable:
+	if collider == interactable:
 		return
 
 	if collider == null and typeof(collider) != 0:
 		collider = null
 
-	_interactable = collider
+	interactable = collider
 
 
 func _is_interactable_freed() -> bool:
-	return not is_instance_valid(_interactable) and typeof(_interactable) != 0
+	return not is_instance_valid(interactable) and typeof(interactable) != 0

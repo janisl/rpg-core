@@ -1475,7 +1475,8 @@ cull_mask = 1048571
 script = ExtResource("4_dqf5y")
 player = NodePath("../../..")
 
-[node name="InteractionRayCast" parent="Neck/Head/Camera" unique_id=327387966 instance=ExtResource("15_jjb1w")]
+[node name="InteractionRayCast" parent="Neck/Head/Camera" unique_id=327387966 node_paths=PackedStringArray("player") instance=ExtResource("15_jjb1w")]
+player = NodePath("../../../..")
 
 [node name="CameraArea" type="Area3D" parent="Neck/Head/Camera" unique_id=126417438]
 collision_layer = 0
