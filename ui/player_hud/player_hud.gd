@@ -7,6 +7,7 @@ const ITEM_SLOT_CONTROL = preload("uid://d3nmme6bfak14")
 @onready var selection_indicator: ColorRect = $HotbarBackground/SelectionIndicator
 @onready var health_label: Label = $HealthLabel
 @onready var ammo_label: Label = $AmmoLabel
+@onready var interact_label: Label = $InteractLabel
 
 var _player: Player
 var _wieldable: Wieldable
@@ -25,6 +26,10 @@ func _ready() -> void:
 	_player.health_attribute.value_changed.connect(_on_health_changed)
 	_player.inventory.changed.connect(_on_inventory_changed)
 	_player.wield_controller.wieldable_changed.connect(_on_wieldable_changed)
+	_player.interaction_controller.interactive_object_detected.connect(_on_interactive_object_detected)
+	_player.interaction_controller.nothing_detected.connect(_on_nothing_detected)
+
+	interact_label.visible = false
 
 
 func _update_current_slot() -> void:
@@ -72,3 +77,14 @@ func _update_ammo_label() -> void:
 	var selected := weapon_data.ammo_types[index]
 	var reserve := _player.inventory.get_available_amount(selected)
 	ammo_label.text = tr("%d / %d %s") % [magazine, reserve, tr(selected.display_name)]
+
+
+func _on_interactive_object_detected(nodes: Array[Node]) -> void:
+	interact_label.text = ""
+	for n: InteractionComponent in nodes:
+		interact_label.text += n.input_map_action + " - " + tr(n.interaction_text) + "\n"
+	interact_label.visible = true
+
+
+func _on_nothing_detected() -> void:
+	interact_label.visible = false
