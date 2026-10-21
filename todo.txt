@@ -9,6 +9,7 @@ UI
 - title screen
 - quest UI
 - quest notifications
+- player notifixations for pickups and whatever else needs them.
 
 Inventory
 - weight based inventory
@@ -30,9 +31,11 @@ NPCs
 
 Environment
 - hit boxes
+- object holding/carry
 - throwable objects
 - explosions
 - drowning
+- sitting
 
 Maps
 - player spawner
@@ -40,8 +43,13 @@ Maps
 - load & save
 
 Systems
+- event bus
 - music manager
 - quest system
 
 Weapons
 - muzzle flash light separate
+- aim action
+- knockback
+- melee weapon
+- throwable weapon
