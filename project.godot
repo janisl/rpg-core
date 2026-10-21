@@ -142,6 +142,11 @@ inventory={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://localization/strings.en.translation")
+locale/fallback="en"
+
 [layer_names]
 
 3d_render/layer_1="World"
