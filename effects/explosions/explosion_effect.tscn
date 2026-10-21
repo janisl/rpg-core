@@ -178,6 +178,7 @@ texture_albedo = SubResource("GradientTexture2D_bsiym")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=772347998]
 stream = ExtResource("1_hb1o2")
+bus = &"SFX"
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=1748631775]
 emitting = false
