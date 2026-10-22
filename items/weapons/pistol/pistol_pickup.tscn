@@ -1,5 +1,9 @@
 [gd_scene format=3 uid="uid://cbtrf5bt881ri"]
 
+[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/pickup_component.tscn" id="1_ctn22"]
+[ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://items/weapons/pistol/pistol.tres" id="2_5urlf"]
+[ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_giplq"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vgx7n"]
 albedo_color = Color(0.26536053, 0.26536053, 0.2653605, 1)
 
@@ -17,7 +21,15 @@ size = Vector3(0.02, 0.15, 0.05)
 [sub_resource type="BoxShape3D" id="BoxShape3D_18xq7"]
 size = Vector3(0.17, 0.02, 0.24)
 
-[node name="Pistol" type="RigidBody3D" unique_id=2029630907]
+[sub_resource type="Resource" id="Resource_bsiym"]
+script = ExtResource("3_giplq")
+item = ExtResource("2_5urlf")
+metadata = Dictionary[String, Variant]({
+"magazine_ammo": 12
+})
+metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
+
+[node name="Pistol" type="RigidBody3D" unique_id=2029630907 groups=["interactable"]]
 
 [node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
 transform = Transform3D(-4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 0, 0, 0.9999999, -0.033, 0, 0.03)
@@ -32,3 +44,6 @@ mesh = SubResource("BoxMesh_rdqwp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=112048275]
 shape = SubResource("BoxShape3D_18xq7")
+
+[node name="PickupComponent" parent="." unique_id=2017310821 instance=ExtResource("1_ctn22")]
+item_stack = SubResource("Resource_bsiym")

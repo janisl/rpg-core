@@ -1,5 +1,9 @@
 [gd_scene format=3 uid="uid://kcm3gee3e08y"]
 
+[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/pickup_component.tscn" id="1_ote4j"]
+[ext_resource type="Resource" uid="uid://bvm2idvb450ig" path="res://items/ammo/shotgun_ammo.tres" id="2_0ggaf"]
+[ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_wj8i7"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_18xq7"]
 size = Vector3(0.1, 0.01, 0.05)
 
@@ -10,10 +14,19 @@ albedo_color = Color(0.59492934, 0.3267657, 5.7756904e-07, 1)
 material = SubResource("StandardMaterial3D_ioac1")
 size = Vector3(0.1, 0.01, 0.05)
 
-[node name="PistolAmmo" type="RigidBody3D" unique_id=270468499]
+[sub_resource type="Resource" id="Resource_vyppb"]
+script = ExtResource("3_wj8i7")
+item = ExtResource("2_0ggaf")
+amount = 16
+metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
+
+[node name="ShotgunAmmo" type="RigidBody3D" unique_id=270468499 groups=["interactable"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=514162245]
 shape = SubResource("BoxShape3D_18xq7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=386862216]
 mesh = SubResource("BoxMesh_18xq7")
+
+[node name="PickupComponent" parent="." unique_id=2017310821 instance=ExtResource("1_ote4j")]
+item_stack = SubResource("Resource_vyppb")

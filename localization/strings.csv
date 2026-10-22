@@ -1,9 +1,17 @@
 keys,en
 %d / %d %s,%d / %d %s
-Pistol,Pistol
-Shotgun,Shotgun
-Laser,Laser
-Pistol ammo,Pistol ammo
-Shotgun ammo,Shotgun ammo
-Laser ammo,Laser ammo
+ITEM NAME Pistol,Pistol
+ITEM DESCRIPTION Pistol,Pistol
+ITEM NAME Shotgun,Shotgun
+ITEM DESCRIPTION Shotgun,Shotgun
+ITEM NAME Laser,Laser
+ITEM DESCRIPTION Laser,Laser
+ITEM NAME Pistol ammo,Pistol ammo
+ITEM DESCRIPTION Pistol ammo,Pistol ammo
+ITEM NAME Shotgun ammo,Birdshot
+ITEM DESCRIPTION Shotgun ammo,Birdshot ammo for shotgun
+ITEM NAME Shotgun ammo2,Slugs
+ITEM DESCRIPTION Shotgun ammo2,Slugs for shotgun
+ITEM NAME Laser ammo,Laser ammo
+ITEM DESCRIPTION Laser ammo,Laser ammo
 INTERACT Pick up,Pick up

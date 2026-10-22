@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AmmoData" format=3 uid="uid://cd8l0g101jh5w"]
+
+[ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_6jgk8"]
+
+[sub_resource type="Gradient" id="Gradient_xy5oi"]
+offsets = PackedFloat32Array(0, 0.3018868, 0.4)
+colors = PackedColorArray(0.415511, 0.21230453, 1.92523e-07, 1, 0.415511, 0.21230453, 1.92523e-07, 1, 0.41568628, 0.21176471, 0, 0.003921569)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dxcik"]
+gradient = SubResource("Gradient_xy5oi")
+
+[resource]
+script = ExtResource("1_6jgk8")
+damage_multiplier = 4.0
+pellet_count_override = 1
+display_name = "ITEM NAME Shotgun ammo2"
+description = "ITEM DESCRIPTION Shotgun ammo2"
+icon = SubResource("GradientTexture2D_dxcik")
+max_stack = 50

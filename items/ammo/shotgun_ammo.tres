@@ -11,7 +11,7 @@ gradient = SubResource("Gradient_xy5oi")
 
 [resource]
 script = ExtResource("1_14x0w")
-display_name = "Shotgun ammo"
-description = "Shotgun ammo"
+display_name = "ITEM NAME Shotgun ammo"
+description = "ITEM DESCRIPTION Shotgun ammo"
 icon = SubResource("GradientTexture2D_dxcik")
 max_stack = 50

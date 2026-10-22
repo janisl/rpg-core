@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://drtbte28rd2iw"]
+
+[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/pickup_component.tscn" id="1_hc2ej"]
+[ext_resource type="Resource" uid="uid://cd8l0g101jh5w" path="res://items/ammo/shotgun_ammo2.tres" id="2_uuryw"]
+[ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_r2y7g"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_18xq7"]
+size = Vector3(0.1, 0.01, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ioac1"]
+albedo_color = Color(0.40522653, 0.42936394, 9.62615e-08, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_18xq7"]
+material = SubResource("StandardMaterial3D_ioac1")
+size = Vector3(0.1, 0.01, 0.05)
+
+[sub_resource type="Resource" id="Resource_ote4j"]
+script = ExtResource("3_r2y7g")
+item = ExtResource("2_uuryw")
+amount = 16
+metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
+
+[node name="ShotgunAmmo2" type="RigidBody3D" unique_id=270468499 groups=["interactable"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=514162245]
+shape = SubResource("BoxShape3D_18xq7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=386862216]
+mesh = SubResource("BoxMesh_18xq7")
+
+[node name="PickupComponent" parent="." unique_id=2017310821 instance=ExtResource("1_hc2ej")]
+item_stack = SubResource("Resource_ote4j")

@@ -1,5 +1,9 @@
 [gd_scene format=3 uid="uid://bmq87quw8icqf"]
 
+[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/pickup_component.tscn" id="1_jgkro"]
+[ext_resource type="Resource" uid="uid://4fhry8pq51ej" path="res://items/weapons/laser/laser.tres" id="2_syb6x"]
+[ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_wvhbt"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iyp64"]
 albedo_color = Color(0.94818, 0, 0.38725978, 1)
 
@@ -29,7 +33,15 @@ ring_segments = 16
 [sub_resource type="BoxShape3D" id="BoxShape3D_18xq7"]
 size = Vector3(0.2, 0.1, 0.29)
 
-[node name="Laser" type="RigidBody3D" unique_id=1424478614]
+[sub_resource type="Resource" id="Resource_da8ks"]
+script = ExtResource("3_wvhbt")
+item = ExtResource("2_syb6x")
+metadata = Dictionary[String, Variant]({
+"magazine_ammo": 20
+})
+metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
+
+[node name="Laser" type="RigidBody3D" unique_id=1424478614 groups=["interactable"]]
 
 [node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
 transform = Transform3D(-4.371139e-08, -0.99999994, 0, 1, -4.3711385e-08, 0, 0, 0, 0.99999994, -0.008151099, 0, 0.054807425)
@@ -49,3 +61,6 @@ mesh = SubResource("TorusMesh_rdqwp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=293868555]
 shape = SubResource("BoxShape3D_18xq7")
+
+[node name="PickupComponent" parent="." unique_id=2017310821 instance=ExtResource("1_jgkro")]
+item_stack = SubResource("Resource_da8ks")

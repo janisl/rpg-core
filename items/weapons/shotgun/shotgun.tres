@@ -3,6 +3,7 @@
 [ext_resource type="Resource" uid="uid://bvm2idvb450ig" path="res://items/ammo/shotgun_ammo.tres" id="1_d26d0"]
 [ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_ptbh3"]
 [ext_resource type="PackedScene" uid="uid://cojhl7nthk3w1" path="res://systems/combat/hit_scan_weapon.tscn" id="3_0jun3"]
+[ext_resource type="Resource" uid="uid://cd8l0g101jh5w" path="res://items/ammo/shotgun_ammo2.tres" id="3_gfaep"]
 [ext_resource type="PackedScene" uid="uid://bdrf1d353xxqq" path="res://effects/decals/bullet_decal.tscn" id="4_l67j6"]
 [ext_resource type="PackedScene" uid="uid://bd6vg3o6i0l17" path="res://effects/bullet_effects/bullet_impact.tscn" id="5_0jun3"]
 [ext_resource type="PackedScene" uid="uid://br2mplv6cjpjb" path="res://items/weapons/shotgun/shotgun_first_person.tscn" id="5_gfaep"]
@@ -26,7 +27,7 @@ accuracy = 80
 fire_offset = Vector3(0.15, -0.02, -0.15)
 fire_rate = 1.0
 is_automatic = true
-ammo_types = Array[ExtResource("1_ptbh3")]([ExtResource("1_d26d0")])
+ammo_types = Array[ExtResource("1_ptbh3")]([ExtResource("1_d26d0"), ExtResource("3_gfaep")])
 magazine_size = 8
 pellet_count = 8
 spread_angle = 0.1
@@ -37,7 +38,7 @@ controller_scene = ExtResource("3_0jun3")
 first_person_scene = ExtResource("5_gfaep")
 first_person_position = Vector3(0.15307574, -0.1009149, -0.18142417)
 vertical_lag_amount = 0.001
-display_name = "Shotgun"
-description = "Shotgun"
+display_name = "ITEM NAME Shotgun"
+description = "ITEM DESCRIPTION Shotgun"
 icon = SubResource("GradientTexture2D_8hv22")
 metadata/_custom_type_script = "uid://bjvp63efii4fn"
