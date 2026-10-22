@@ -9,7 +9,7 @@ var _player: Player
 
 
 func _ready() -> void:
-	_player = get_tree().get_nodes_in_group("player")[0]
+	_player = get_tree().get_first_node_in_group("player")
 
 
 func show_screen() -> void:
@@ -32,4 +32,4 @@ func _recreate_slots() -> void:
 	for i in _player.inventory.slots.size():
 		var slot := ITEM_SLOT_CONTROL.instantiate() as ItemSlotControl
 		slots_container.add_child(slot)
-		slot.init(_player.inventory, i)
+		slot.init(_player.inventory.slots[i])

@@ -19,10 +19,7 @@ func _ready() -> void:
 
 	_player = get_tree().get_first_node_in_group("player")
 
-	for i in 9:
-		var slot := ITEM_SLOT_CONTROL.instantiate() as ItemSlotControl
-		hotbar_container.add_child(slot)
-		slot.init(_player.inventory, i)
+	_update_slots()
 
 	Managers.weapon_manager.current_slot_changed.connect(_update_current_slot)
 
@@ -45,6 +42,7 @@ func _update_current_slot() -> void:
 
 
 func _on_inventory_changed() -> void:
+	_update_slots()
 	_update_ammo_label()
 
 
@@ -64,6 +62,9 @@ func _on_wieldable_data_changed() -> void:
 
 
 func _update_ammo_label() -> void:
+	if Managers.weapon_manager.current_slot < 0:
+		return
+
 	var weapon := _player.inventory.slots[Managers.weapon_manager.current_slot]
 	if not weapon or weapon.item is not WeaponData:
 		ammo_label.visible = false
@@ -91,3 +92,14 @@ func _on_interactive_object_detected(nodes: Array[Node]) -> void:
 
 func _on_nothing_detected() -> void:
 	interact_label.visible = false
+
+
+func _update_slots() -> void:
+	for c in hotbar_container.get_children():
+		c.queue_free()
+
+	for i in 9:
+		var slot := ITEM_SLOT_CONTROL.instantiate() as ItemSlotControl
+		hotbar_container.add_child(slot)
+		if i < _player.inventory.slots.size():
+			slot.init(_player.inventory.slots[i])

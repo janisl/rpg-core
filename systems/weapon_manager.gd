@@ -4,7 +4,7 @@ extends Node
 signal current_slot_changed
 
 var player: Player
-var current_slot := 1
+var current_slot := -1
 
 
 func _ready() -> void:
@@ -29,7 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func initialize_starting_weapon() -> void:
-	for slot in range(0, 9):
+	for slot in range(0, mini(9, player.inventory.slots.size())):
 		if player.inventory.slots[slot] and player.inventory.slots[slot].item is WeaponData:
 			switch_to_slot(slot)
 			return
@@ -46,9 +46,3 @@ func switch_to_weapon(weapon: WeaponData) -> void:
 	for slot in range(0, 9):
 		if player.inventory.slots[slot] and player.inventory.slots[slot].item == weapon:
 			switch_to_slot(slot)
-
-
-func unlock_weapon(weapon: WeaponData) -> void:
-	player.inventory.add_item(weapon)
-	if not weapon.ammo_types.is_empty():
-		player.inventory.add_item(weapon.ammo_types[0], weapon.magazine_size)

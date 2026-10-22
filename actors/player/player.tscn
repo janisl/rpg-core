@@ -19,7 +19,6 @@
 [ext_resource type="Script" uid="uid://cqmmur7bbutym" path="res://actors/player/player_ladder_movement_handler.gd" id="25_yeioo"]
 [ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="30_j5me0"]
 [ext_resource type="Script" uid="uid://bk8ufns0cjpgj" path="res://systems/inventory/inventory.gd" id="31_4ihbh"]
-[ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="32_4jc6f"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="35_qls60"]
 [ext_resource type="PackedScene" uid="uid://ce7bjv28uakxl" path="res://systems/attributes/stamina_attribute.tscn" id="44_a13rm"]
 
@@ -355,7 +354,6 @@ metadata/_custom_type_script = "uid://cqmmur7bbutym"
 
 [node name="Inventory" type="Node" parent="." unique_id=1686695142]
 script = ExtResource("31_4ihbh")
-slots = Array[ExtResource("32_4jc6f")]([null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
 metadata/_custom_type_script = "uid://bk8ufns0cjpgj"
 
 [node name="WieldController" type="Node3D" parent="." unique_id=264511219 node_paths=PackedStringArray("player", "camera", "first_person_parent", "third_person_parent")]

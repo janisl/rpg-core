@@ -15,6 +15,6 @@ script = ExtResource("1_4gx8s")
 display_name = "ITEM NAME Laser ammo"
 description = "ITEM DESCRIPTION Laser ammo"
 icon = SubResource("GradientTexture2D_dxcik")
-max_stack = 250
+weight = 0.01
 pickup_scene = "uid://u5kjeyq7rd1m"
 pickup_sound = ExtResource("1_orenb")

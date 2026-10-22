@@ -17,6 +17,6 @@ pellet_count_override = 1
 display_name = "ITEM NAME Shotgun ammo2"
 description = "ITEM DESCRIPTION Shotgun ammo2"
 icon = SubResource("GradientTexture2D_dxcik")
-max_stack = 50
+weight = 0.05
 pickup_scene = "uid://drtbte28rd2iw"
 pickup_sound = ExtResource("1_srn2i")

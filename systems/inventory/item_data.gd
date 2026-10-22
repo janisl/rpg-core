@@ -5,7 +5,8 @@ extends Resource
 @export var display_name := ""
 @export var description := ""
 @export var icon: Texture2D
-@export var max_stack := 1
+@export var is_stacable := true
+@export var weight := 0.0
 
 @export_file("*.tscn") var pickup_scene := ""
 

@@ -1,36 +1,31 @@
 class_name ItemSlotControl
 extends ColorRect
 
-var _inventory: Inventory
-var _index: int
+var _stack: ItemStack
 
 @onready var item_icon: TextureRect = $ItemIcon
 @onready var amount_label: Label = $AmountLabel
 
 
-func init(inventory: Inventory, index: int) -> void:
-	_inventory = inventory
-	_index = index
+func init(stack: ItemStack) -> void:
+	_stack = stack
 	_update_slot()
-	_inventory.slot_changed.connect(_on_slot_changed)
+	_stack.changed.connect(_on_slot_changed)
 
 
-func _on_slot_changed(index: int) -> void:
-	if index != _index:
-		return
+func _on_slot_changed() -> void:
 	_update_slot()
 
 
 func _update_slot() -> void:
-	var stack := _inventory.slots[_index]
-	if not stack or not stack.is_valid:
-		item_icon.visible = false
+	if not _stack or not _stack.is_valid:
+		queue_free()
+		return
+
+	item_icon.visible = true
+	item_icon.texture = _stack.item.icon
+	if _stack.amount == 1:
 		amount_label.visible = false
 	else:
-		item_icon.visible = true
-		item_icon.texture = stack.item.icon
-		if stack.amount == 1:
-			amount_label.visible = false
-		else:
-			amount_label.visible = true
-			amount_label.text = str(stack.amount)
+		amount_label.visible = true
+		amount_label.text = str(_stack.amount)

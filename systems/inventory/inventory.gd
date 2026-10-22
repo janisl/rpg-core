@@ -2,52 +2,33 @@ class_name Inventory
 extends Node
 
 signal changed
-signal slot_changed(index: int)
 
 @export var slots: Array[ItemStack]
 
 
-func add_item(item: ItemData, amount := 1, metadata: Dictionary[String, Variant] = {}) -> int:
+func add_item(item: ItemData, amount := 1, metadata: Dictionary[String, Variant] = {}):
 	if not item or amount <= 0:
-		return amount
-	return add_stack(ItemStack.new(item, amount, metadata))
+		return
+	add_stack(ItemStack.new(item, amount, metadata))
 
 
-func add_stack(stack: ItemStack) -> int:
+func add_stack(stack: ItemStack):
 	if not stack or not stack.is_valid:
-		return 0;
+		return
 
-	var remaining := stack.amount
 	for i in slots.size():
-		if remaining == 0:
-			break
 		if _is_empty(i):
 			continue
 		if not _can_stack(i, stack):
 			continue
 
-		var space := _get_space(i, stack.item)
-		var added_amount := mini(space, remaining)
-		slots[i].amount += added_amount
-		remaining -= added_amount
-		slot_changed.emit(i)
+		slots[i].amount += stack.amount
+		slots[i].emit_changed()
+		changed.emit()
+		return
 
-	for i in slots.size():
-		if remaining == 0:
-			break
-		if not _is_empty(i):
-			continue
-		if not _can_accept(i, stack):
-			continue
-
-		var space := _get_space(i, stack.item)
-		var added_amount := mini(space, remaining)
-		slots[i] = ItemStack.new(stack.item, added_amount, stack.metadata)
-		remaining -= added_amount
-		slot_changed.emit(i)
-
+	slots.append(stack)
 	changed.emit()
-	return remaining
 
 
 func remove_item(item: ItemData, amount := 1, exact: bool = true) -> bool:
@@ -74,8 +55,8 @@ func remove_item(item: ItemData, amount := 1, exact: bool = true) -> bool:
 		stack.amount -= removed_amount
 		remaining -= removed_amount
 		if not stack.is_valid:
-			slots[i] = null
-		slot_changed.emit(i)
+			slots.erase(i)
+		stack.emit_changed()
 
 	changed.emit()
 	return remaining == 0
@@ -109,11 +90,3 @@ func _is_empty(index: int) -> bool:
 func _can_stack(index: int, stack: ItemStack) -> bool:
 	var existing := slots[index]
 	return existing.item == stack.item and existing.metadata.recursive_equal(stack.metadata, 10)
-
-
-func _can_accept(_index: int, _stack: ItemStack) -> bool:
-	return true
-
-
-func _get_space(_index: int, item: ItemData) -> int:
-	return item.max_stack

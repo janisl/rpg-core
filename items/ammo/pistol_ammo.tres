@@ -15,6 +15,6 @@ script = ExtResource("1_xy5oi")
 display_name = "ITEM NAME Pistol ammo"
 description = "ITEM DESCRIPTION Pistol ammo"
 icon = SubResource("GradientTexture2D_dxcik")
-max_stack = 200
+weight = 0.05
 pickup_scene = "uid://b16alro8fspcn"
 pickup_sound = ExtResource("1_dxcik")
