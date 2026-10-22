@@ -9,8 +9,6 @@
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="5_15y17"]
 [ext_resource type="Script" uid="uid://bssifbouhjhmf" path="res://systems/wieldables/wield_controller.gd" id="6_2vokq"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="6_bop6h"]
-[ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://items/weapons/pistol/pistol.tres" id="10_v3s8r"]
-[ext_resource type="Resource" uid="uid://8wv77e0i7ndt" path="res://items/ammo/pistol_ammo.tres" id="11_ne5l8"]
 [ext_resource type="Script" uid="uid://buoxos72xs1dx" path="res://systems/wieldables/wieldable_effects.gd" id="14_v3s8r"]
 [ext_resource type="PackedScene" uid="uid://cbd2ojah4nun6" path="res://systems/interaction/interaction_controller.tscn" id="15_jjb1w"]
 [ext_resource type="Script" uid="uid://dek1hlgqh6p45" path="res://actors/player/player_ground_movement_handler.gd" id="20_otn2r"]
@@ -21,20 +19,6 @@
 [ext_resource type="Script" uid="uid://bk8ufns0cjpgj" path="res://systems/inventory/inventory.gd" id="31_4ihbh"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="32_4jc6f"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="35_qls60"]
-
-[sub_resource type="Resource" id="Resource_4jc6f"]
-script = ExtResource("32_4jc6f")
-item = ExtResource("10_v3s8r")
-metadata = Dictionary[String, Variant]({
-"ammo": 100
-})
-metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
-
-[sub_resource type="Resource" id="Resource_drwxn"]
-script = ExtResource("32_4jc6f")
-item = ExtResource("11_ne5l8")
-amount = 50
-metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -1438,7 +1422,7 @@ metadata/_custom_type_script = "uid://cqmmur7bbutym"
 
 [node name="Inventory" type="Node" parent="." unique_id=1686695142]
 script = ExtResource("31_4ihbh")
-slots = Array[ExtResource("32_4jc6f")]([SubResource("Resource_4jc6f"), null, null, null, null, null, null, null, null, SubResource("Resource_drwxn"), null, null, null, null, null, null, null, null])
+slots = Array[ExtResource("32_4jc6f")]([null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
 metadata/_custom_type_script = "uid://bk8ufns0cjpgj"
 
 [node name="WieldController" type="Node3D" parent="." unique_id=264511219 node_paths=PackedStringArray("player", "camera", "first_person_parent")]
