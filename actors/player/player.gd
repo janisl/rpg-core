@@ -55,7 +55,7 @@ func _ready() -> void:
 		m.layers = mesh_layer
 	anim_tree_state = animation_tree["parameters/playback"]
 
-	for attribute in find_children("","BaseAttribute",false):
+	for attribute in find_children("", "BaseAttribute", false):
 		player_attributes[attribute.attribute_name] = attribute
 
 	health_attribute = player_attributes.get("health")

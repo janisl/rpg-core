@@ -314,7 +314,7 @@ states/Standing/node = SubResource("AnimationNodeBlendSpace1D_qnicj")
 states/Standing/position = Vector2(447.33334, 72.66667)
 transitions = ["Start", "Standing", SubResource("AnimationNodeStateMachineTransition_m1hv5"), "Standing", "Crouching", SubResource("AnimationNodeStateMachineTransition_rswtf"), "Crouching", "Standing", SubResource("AnimationNodeStateMachineTransition_wn017"), "Standing", "Death", SubResource("AnimationNodeStateMachineTransition_mnwg7"), "Crouching", "Death", SubResource("AnimationNodeStateMachineTransition_2cxsc")]
 
-[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_controller", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "wield_controller", "animation_tree", "inventory", "health_attribute") groups=["player"]]
+[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_controller", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "wield_controller", "animation_tree", "inventory") groups=["player"]]
 collision_layer = 771
 script = ExtResource("1_nvxhs")
 camera_controller = NodePath("Neck")
@@ -329,7 +329,6 @@ stairs_below_ray_cast = NodePath("StairsBelowRayCast")
 wield_controller = NodePath("WieldController")
 animation_tree = NodePath("AnimationTree")
 inventory = NodePath("Inventory")
-health_attribute = NodePath("HealthAttribute")
 mesh_layer = 4
 
 [node name="MovementHandlers" type="Node" parent="." unique_id=1802761061]

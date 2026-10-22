@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dvyghe0kgmbqf"]
+
+[ext_resource type="Script" uid="uid://1unm7xmcvtxu" path="res://ui/player_hud/attribute_control.gd" id="1_deaub"]
+
+[node name="AttributeControl" type="PanelContainer" unique_id=776313718]
+anchors_preset = -1
+offset_right = 264.0
+offset_bottom = 46.0
+script = ExtResource("1_deaub")
+
+[node name="NameLabel" type="Label" parent="." unique_id=474569707]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 32
+text = "Stamina"
+
+[node name="ValueLabel" type="Label" parent="." unique_id=1465058828]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 32
+text = "100"
+horizontal_alignment = 2

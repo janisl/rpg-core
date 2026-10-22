@@ -5,6 +5,7 @@
 [node name="HealthAttribute" type="Node" unique_id=167552575]
 script = ExtResource("1_2l1ju")
 attribute_name = "health"
+display_name = "ATTRIBUTE Health"
 max_value = 100.0
 initial_value = 100.0
 metadata/_custom_type_script = "uid://dr4uco4q7gkkg"

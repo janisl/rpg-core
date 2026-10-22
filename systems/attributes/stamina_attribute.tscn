@@ -5,6 +5,7 @@
 [node name="StaminaAttribute" type="Node" unique_id=1020555911]
 script = ExtResource("1_jkbcj")
 attribute_name = "stamina"
+display_name = "ATTRIBUTE Stamina"
 max_value = 30.0
 initial_value = 30.0
 

@@ -2,19 +2,22 @@ class_name PlayerHud
 extends Control
 
 const ITEM_SLOT_CONTROL = preload("uid://d3nmme6bfak14")
+const ATTRIBUTE_CONTROL = preload("uid://dvyghe0kgmbqf")
 
 @onready var hotbar_container: HBoxContainer = $HotbarBackground/HotbarContainer
 @onready var selection_indicator: ColorRect = $HotbarBackground/SelectionIndicator
-@onready var health_label: Label = $HealthLabel
 @onready var ammo_label: Label = $AmmoLabel
 @onready var interact_label: Label = $InteractLabel
+@onready var attributes_container: VBoxContainer = $AttributesContainer
 
 var _player: Player
 var _wieldable: Wieldable
 
 
 func _ready() -> void:
-	_player = get_tree().get_nodes_in_group("player")[0]
+	await get_tree().process_frame
+
+	_player = get_tree().get_first_node_in_group("player")
 
 	for i in 9:
 		var slot := ITEM_SLOT_CONTROL.instantiate() as ItemSlotControl
@@ -23,7 +26,6 @@ func _ready() -> void:
 
 	Managers.weapon_manager.current_slot_changed.connect(_update_current_slot)
 
-	_player.health_attribute.value_changed.connect(_on_health_changed)
 	_player.inventory.changed.connect(_on_inventory_changed)
 	_player.wield_controller.wieldable_changed.connect(_on_wieldable_changed)
 	_player.interaction_controller.interactive_object_detected.connect(_on_interactive_object_detected)
@@ -31,14 +33,15 @@ func _ready() -> void:
 
 	interact_label.visible = false
 
+	for attribute in _player.player_attributes.values():
+		var control := ATTRIBUTE_CONTROL.instantiate() as AttributeControl
+		attributes_container.add_child(control)
+		control.initialize(attribute)
+
 
 func _update_current_slot() -> void:
 	selection_indicator.position.x = Managers.weapon_manager.current_slot * 130
 	_update_ammo_label()
-
-
-func _on_health_changed(new_health: float, _old_health: float, _max_halth: float) -> void:
-	health_label.text = str(int(new_health))
 
 
 func _on_inventory_changed() -> void:

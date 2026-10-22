@@ -7,6 +7,7 @@ signal value_changed(new_value: float, old_value: float, max_value: float)
 signal value_reached_zero()
 
 @export var attribute_name : String
+@export var display_name : String
 @export var max_value : float
 @export var initial_value : float
 

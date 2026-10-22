@@ -15,3 +15,5 @@ ITEM DESCRIPTION Shotgun ammo2,Slugs for shotgun
 ITEM NAME Laser ammo,Laser ammo
 ITEM DESCRIPTION Laser ammo,Laser ammo
 INTERACT Pick up,Pick up
+ATTRIBUTE Health,Health
+ATTRIBUTE Stamina,Stamina
