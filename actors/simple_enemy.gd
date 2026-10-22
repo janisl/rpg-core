@@ -27,7 +27,7 @@ func _ready() -> void:
 	nav_agent.velocity_computed.connect(_on_velocity_computed)
 
 	anim_tree_state = animation_tree["parameters/playback"]
-	animation_tree["parameters/Idle/TimeSeek/seek_request"] = randf_range(0.0, animation_player.get_animation("idle").length)
+	animation_tree["parameters/Idle/TimeSeek/seek_request"] = randf_range(0.0, animation_player.get_animation("universal_animation_library_standard/Idle").length)
 
 
 func _physics_process(delta: float) -> void:
