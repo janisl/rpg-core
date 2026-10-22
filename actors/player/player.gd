@@ -36,12 +36,16 @@ extends Actor
 var input_dir := Vector2.ZERO
 var try_crouch := false
 
+var is_sprinting := false
 var is_crouching := false
 
 var anim_tree_state: AnimationNodeStateMachinePlayback
 
 var player_attributes: Dictionary[String, BaseAttribute]
 var health_attribute: HealthAttribute
+var stamina_attribute : StaminaAttribute
+
+@onready var ground_movement: PlayerGroundMovementHandler = $MovementHandlers/GroundMovement
 
 
 func _ready() -> void:
@@ -55,6 +59,7 @@ func _ready() -> void:
 		player_attributes[attribute.attribute_name] = attribute
 
 	health_attribute = player_attributes.get("health")
+	stamina_attribute = player_attributes.get("stamina")
 
 
 func _process(_delta: float) -> void:
@@ -107,6 +112,8 @@ func decrease_attribute(attribute_name: String, value: float):
 
 
 func jump() -> void:
+	decrease_attribute("stamina", stamina_attribute.jump_exhaustion)
+
 	velocity.y += crouch_jump_velocity if is_crouching else jump_velocity
 
 

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ce7bjv28uakxl"]
+
+[ext_resource type="Script" uid="uid://c24eqj2bmkmrk" path="res://systems/attributes/stamina_attribute.gd" id="1_jkbcj"]
+
+[node name="StaminaAttribute" type="Node" unique_id=1020555911]
+script = ExtResource("1_jkbcj")
+attribute_name = "stamina"
+max_value = 30.0
+initial_value = 30.0
+
+[node name="RegenTimer" type="Timer" parent="." unique_id=83697351]
+
+[connection signal="timeout" from="RegenTimer" to="." method="_on_regen_timer_timeout"]

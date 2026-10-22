@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://bk8ufns0cjpgj" path="res://systems/inventory/inventory.gd" id="31_4ihbh"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="32_4jc6f"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="35_qls60"]
+[ext_resource type="PackedScene" uid="uid://ce7bjv28uakxl" path="res://systems/attributes/stamina_attribute.tscn" id="44_a13rm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -1036,6 +1037,8 @@ parameters/Standing/blend_position = -1.1821413
 
 [node name="HealthAttribute" parent="." unique_id=213689897 instance=ExtResource("35_qls60")]
 
+[node name="StaminaAttribute" parent="." unique_id=1020555911 instance=ExtResource("44_a13rm")]
+
 [connection signal="ladder_entered" from="." to="MovementHandlers/LadderMovement" method="_on_ladder_entered"]
 [connection signal="ladder_exited" from="." to="MovementHandlers/LadderMovement" method="_on_ladder_exited"]
 [connection signal="area_entered" from="Neck/Head/Camera/CameraArea" to="Neck/Head/Camera" method="_on_camera_area_entered"]
@@ -1046,9 +1049,9 @@ parameters/Standing/blend_position = -1.1821413
 [connection signal="state_physics_processing" from="StateChart/Root/Movement/Grounded" to="MovementHandlers/GroundMovement" method="_on_grounded_state_physics_processing"]
 [connection signal="state_processing" from="StateChart/Root/Movement/Grounded/Idle" to="MovementHandlers/GroundMovement" method="_on_idle_state_processing"]
 [connection signal="state_processing" from="StateChart/Root/Movement/Grounded/Moving" to="MovementHandlers/GroundMovement" method="_on_moving_state_processing"]
-[connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Moving/Walking" to="MovementHandlers/GroundMovement" method="_on_walking_state_entered"]
 [connection signal="state_processing" from="StateChart/Root/Movement/Grounded/Moving/Walking" to="MovementHandlers/GroundMovement" method="_on_walking_state_processing"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Moving/Sprinting" to="MovementHandlers/GroundMovement" method="_on_sprinting_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Movement/Grounded/Moving/Sprinting" to="MovementHandlers/GroundMovement" method="_on_sprinting_state_exited"]
 [connection signal="state_processing" from="StateChart/Root/Movement/Grounded/Moving/Sprinting" to="MovementHandlers/GroundMovement" method="_on_sprinting_state_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Movement/Airborne" to="MovementHandlers/AirborneMovement" method="_on_airborne_state_physics_processing"]
 [connection signal="state_processing" from="StateChart/Root/Movement/Airborne/Jumping" to="MovementHandlers/AirborneMovement" method="_on_jumping_state_processing"]

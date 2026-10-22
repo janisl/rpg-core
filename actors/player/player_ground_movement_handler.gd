@@ -31,12 +31,14 @@ func _on_grounded_state_entered() -> void:
 	_was_on_floor_last_frame = false
 
 
-func _on_walking_state_entered() -> void:
-	_sprint_modifier = 0
-
-
 func _on_sprinting_state_entered() -> void:
 	_sprint_modifier = sprint_speed
+	player.is_sprinting = true
+
+
+func _on_sprinting_state_exited() -> void:
+	_sprint_modifier = 0
+	player.is_sprinting = false
 
 
 func _on_standing_state_entered() -> void:
@@ -68,7 +70,8 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 
 	_was_on_floor_last_frame = true
 
-	if Input.is_action_just_pressed("jump") and player.is_on_floor():
+	var has_stamina = player.stamina_attribute.value >= player.stamina_attribute.jump_exhaustion
+	if Input.is_action_just_pressed("jump") and player.is_on_floor() and has_stamina:
 		player.jump()
 
 
@@ -156,10 +159,10 @@ func _on_moving_state_processing(_delta: float) -> void:
 
 
 func _on_walking_state_processing(_delta: float) -> void:
-	if Input.is_action_pressed("sprint"):
+	if Input.is_action_pressed("sprint") and player.stamina_attribute.value > 0:
 		player.state_chart.send_event("onSprinting")
 
 
 func _on_sprinting_state_processing(_delta: float) -> void:
-	if not Input.is_action_pressed("sprint"):
+	if not (Input.is_action_pressed("sprint") and player.stamina_attribute.value > 0):
 		player.state_chart.send_event("onWalking")

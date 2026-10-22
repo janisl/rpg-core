@@ -1,5 +1,4 @@
 Player
-- world interactions
 - stats, leveling
 - equipment
 - footsteps
@@ -36,6 +35,7 @@ Environment
 - explosions
 - drowning
 - sitting
+- buttons, switches, doors
 
 Maps
 - player spawner
