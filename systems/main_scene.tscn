@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://evqkcb6vtw01" path="res://systems/game_manager.gd" id="1_cwqfn"]
 [ext_resource type="PackedScene" uid="uid://d1m2ngmuqlqgn" path="res://levels/test.tscn" id="1_mvsfx"]
 [ext_resource type="Script" uid="uid://bwon6hfw00tle" path="res://systems/weapon_manager.gd" id="2_0k5wg"]
-[ext_resource type="PackedScene" uid="uid://6ygkwtxr8bbo" path="res://ui/user_interface.tscn" id="2_u5mqa"]
 [ext_resource type="PackedScene" uid="uid://dmm1368oglfp0" path="res://actors/player/player.tscn" id="8_27o4d"]
 
 [node name="MainScene" type="Node" unique_id=384832263]
@@ -24,5 +23,3 @@ metadata/_custom_type_script = "uid://bwon6hfw00tle"
 [node name="Test" parent="CurrentLevel" unique_id=867766289 instance=ExtResource("1_mvsfx")]
 
 [node name="Player" parent="CurrentLevel" unique_id=86196454 instance=ExtResource("8_27o4d")]
-
-[node name="UserInterface" parent="." unique_id=82762904 instance=ExtResource("2_u5mqa")]
