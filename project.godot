@@ -24,7 +24,7 @@ buses/default_bus_layout="uid://doshytrcde70x"
 EventBus="*uid://dt1bhqw7367ca"
 AudioManager="*uid://bw56nh3y503kv"
 EffectsManager="*uid://xaq71ee0rvh2"
-Managers="*uid://colfnh342d2p"
+Managers="*uid://cpck7fm8u83nb"
 UserInterface="*uid://6ygkwtxr8bbo"
 GlobalManager="*uid://cr1xkklrulx6h"
 

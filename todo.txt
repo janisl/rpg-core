@@ -43,7 +43,6 @@ Maps
 - load & save
 
 Systems
-- event bus
 - music manager
 - quest system
 

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cpck7fm8u83nb"]
+
+[ext_resource type="Script" uid="uid://evqkcb6vtw01" path="res://systems/game_manager.gd" id="1_1p3p5"]
+[ext_resource type="Script" uid="uid://colfnh342d2p" path="res://systems/managers.gd" id="1_x5660"]
+[ext_resource type="Script" uid="uid://bwon6hfw00tle" path="res://systems/weapon_manager.gd" id="2_x5660"]
+
+[node name="Managers" type="Node" unique_id=222412927]
+script = ExtResource("1_x5660")
+
+[node name="GameManager" type="Node" parent="." unique_id=870730907]
+script = ExtResource("1_1p3p5")
+metadata/_custom_type_script = "uid://evqkcb6vtw01"
+
+[node name="WeaponManager" type="Node" parent="." unique_id=994807320]
+script = ExtResource("2_x5660")
+metadata/_custom_type_script = "uid://bwon6hfw00tle"
