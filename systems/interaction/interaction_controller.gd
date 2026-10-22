@@ -31,6 +31,11 @@ func _process(_delta: float) -> void:
 	_update_interactable()
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("interact"):
+		_handle_interaction("interact")
+
+
 func _set_interactable(value) -> void:
 	interactable = value
 	if interactable == null:
@@ -98,3 +103,25 @@ func _update_interactable() -> void:
 
 func _is_interactable_freed() -> bool:
 	return not is_instance_valid(interactable) and typeof(interactable) != 0
+
+
+func _handle_interaction(action: String) -> void:
+	if interactable:
+		_handle_interactable_interaction(action)
+
+
+func _handle_interactable_interaction(action: String) -> void:
+	for node: InteractionComponent in interaction_nodes:
+		if node.input_map_action != action or node.is_disabled:
+			continue
+
+		node.interact(player)
+
+		_rebuild_interaction_prompts()
+		break
+
+
+func _rebuild_interaction_prompts() -> void:
+	nothing_detected.emit()
+	if interactable != null:
+		interactive_object_detected.emit(interaction_nodes)
