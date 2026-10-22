@@ -44,7 +44,7 @@ var anim_tree_state: AnimationNodeStateMachinePlayback
 
 func _ready() -> void:
 	super()
-	var meshes := $Meshes.find_children("*", "MeshInstance3D", true, false)
+	var meshes := %GeneralSkeleton.find_children("*", "MeshInstance3D", true, false)
 	for m in meshes:
 		m.layers = mesh_layer
 	anim_tree_state = animation_tree["parameters/playback"]
