@@ -1,6 +1,8 @@
 class_name BaseAttribute
 extends Node
 
+enum ValueType { CURRENT, MAX }
+
 signal value_changed(new_value: float, old_value: float, max_value: float)
 signal value_reached_zero()
 

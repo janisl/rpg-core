@@ -14,7 +14,6 @@ extends Actor
 @export var wield_controller: WieldController
 @export var animation_tree: AnimationTree
 @export var inventory: Inventory
-@export var health_attribute: HealthAttribute
 
 @export_group("Movement settings")
 @export var jump_velocity := 5.0
@@ -41,6 +40,9 @@ var is_crouching := false
 
 var anim_tree_state: AnimationNodeStateMachinePlayback
 
+var player_attributes: Dictionary[String, BaseAttribute]
+var health_attribute: HealthAttribute
+
 
 func _ready() -> void:
 	super()
@@ -48,7 +50,11 @@ func _ready() -> void:
 	for m in meshes:
 		m.layers = mesh_layer
 	anim_tree_state = animation_tree["parameters/playback"]
-	health_attribute.damage_taken.connect(_on_health_attribute_damage_taken)
+
+	for attribute in find_children("","BaseAttribute",false):
+		player_attributes[attribute.attribute_name] = attribute
+
+	health_attribute = player_attributes.get("health")
 
 
 func _process(_delta: float) -> void:
@@ -71,6 +77,33 @@ func _unhandled_input(event: InputEvent) -> void:
 			try_crouch = !try_crouch
 	else:
 		try_crouch = Input.is_action_pressed("crouch")
+
+
+func increase_attribute(attribute_name: String, value: float, value_type: BaseAttribute.ValueType) -> bool:
+	var attribute = player_attributes.get(attribute_name)
+	if not attribute:
+		print("Increase attribute: " + attribute_name + " Attribute not found")
+		return false
+
+	if value_type == BaseAttribute.ValueType.CURRENT:
+		if attribute.value == attribute.max_value:
+			return false
+		attribute.add(value)
+		return true
+
+	if value_type == BaseAttribute.ValueType.MAX:
+		attribute.max_value += value
+		attribute.add(value)
+		return true
+	return false
+
+
+func decrease_attribute(attribute_name: String, value: float):
+	var attribute = player_attributes.get(attribute_name)
+	if not attribute:
+		print("Decrease attribute: " + attribute_name + " - Attribute not found")
+		return
+	attribute.subtract(value)
 
 
 func jump() -> void:
