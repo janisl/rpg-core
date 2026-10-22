@@ -31,9 +31,11 @@ func _on_pickup(body: Node3D) -> void:
 		queue_free()
 
 
+@warning_ignore("unused_parameter")
 func _can_pickup(player: Player) -> bool:
 	return true;
 
 
+@warning_ignore("unused_parameter")
 func _apply_pickup(player: Player) -> void:
 	pass

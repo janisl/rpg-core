@@ -127,7 +127,8 @@ func _fire_weapon() -> void:
 	_perform_attack(from, fire_direction)
 
 
-func _perform_attack(_from: Vector3, _fire_direction: Vector3) -> void:
+@warning_ignore("unused_parameter")
+func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
 	pass
 
 

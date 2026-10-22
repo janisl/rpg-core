@@ -409,6 +409,11 @@ script = ExtResource("14_v3s8r")
 
 [node name="StateChart" type="Node" parent="." unique_id=136452644]
 script = ExtResource("2_lsqbn")
+initial_expression_properties = {
+&"climbing_ladder": false,
+&"in_liquid": false,
+&"on_ground": false
+}
 metadata/_custom_type_script = "uid://couw105c3bde4"
 
 [node name="Root" type="Node" parent="StateChart" unique_id=1069640129]
