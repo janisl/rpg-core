@@ -112,8 +112,10 @@ _data = {
 &"reload": SubResource("Animation_a7kb6")
 }
 
-[node name="Pistol" type="Node3D" unique_id=1327495288]
+[node name="Pistol" type="Node3D" unique_id=1327495288 node_paths=PackedStringArray("animation_player", "muzzle_flash")]
 script = ExtResource("1_5jiht")
+animation_player = NodePath("AnimationPlayer")
+muzzle_flash = NodePath("MuzzleFlash")
 
 [node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)

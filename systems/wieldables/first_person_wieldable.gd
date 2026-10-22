@@ -5,6 +5,7 @@ const WIELDABLE_CLIP_AND_FOV_SHADER = preload("uid://dn5emhygjupes")
 
 @export var animation_player: AnimationPlayer
 @export var muzzle_flash: MuzzleFlash
+@export var mesh_fov := -1
 
 var _player: Player
 var _wieldable: Wieldable
@@ -14,16 +15,22 @@ func initialize(player: Player, wieldable: Wieldable, mesh_layer: int) -> void:
 	_player = player
 	_wieldable = wieldable
 
-	_apply_clip_and_fov_shader_to_view_model(mesh_layer)
+	_apply_mesh_layer(mesh_layer)
+	_apply_clip_and_fov_shader_to_view_model(mesh_fov)
 	_connect_signals()
 
 
-func _apply_clip_and_fov_shader_to_view_model(mesh_layer: int, fov_or_negative_for_unchanged = -1.0) -> void:
+func _apply_mesh_layer(mesh_layer: int) -> void:
+	var all_visual_instances := find_children("*", "VisualInstance3D")
+	for instance in all_visual_instances:
+		instance.layers = mesh_layer
+
+
+func _apply_clip_and_fov_shader_to_view_model(fov_or_negative_for_unchanged := -1.0) -> void:
 	var all_mesh_instances := find_children("*", "MeshInstance3D")
 	for mesh_instance in all_mesh_instances:
 		var mesh = mesh_instance.mesh
 
-		mesh_instance.layers = mesh_layer
 		mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 		for surface_idx in mesh.get_surface_count():

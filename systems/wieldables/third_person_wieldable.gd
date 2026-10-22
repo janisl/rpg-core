@@ -17,9 +17,9 @@ func initialize(player: Player, wieldable: Wieldable, mesh_layer: int) -> void:
 
 
 func _apply_mesh_layer(mesh_layer: int) -> void:
-	var all_mesh_instances := find_children("*", "MeshInstance3D")
-	for mesh_instance in all_mesh_instances:
-		mesh_instance.layers = mesh_layer
+	var all_visual_instances := find_children("*", "VisualInstance3D")
+	for instance in all_visual_instances:
+		instance.layers = mesh_layer
 
 
 func _connect_signals() -> void:
