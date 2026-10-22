@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://br2mplv6cjpjb"]
 
 [ext_resource type="Script" uid="uid://3l8hkh0mdklm" path="res://systems/wieldables/first_person_wieldable.gd" id="1_sjcyh"]
-[ext_resource type="PackedScene" uid="uid://7f1hvxmn2lb8" path="res://items/weapons/muzzle_flash.tscn" id="2_rp0gk"]
+[ext_resource type="PackedScene" uid="uid://7f1hvxmn2lb8" path="res://effects/muzzle_flash/muzzle_flash.tscn" id="2_rp0gk"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
 albedo_color = Color(0.58886385, 0.38416725, 9.62615e-08, 1)
