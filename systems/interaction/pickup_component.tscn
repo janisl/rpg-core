@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://1xq4y42qkcur"]
+
+[ext_resource type="Script" uid="uid://b0a3vpjf8hylo" path="res://systems/interaction/pickup_component.gd" id="1_fax7v"]
+
+[node name="PickupComponent" type="Node3D" unique_id=2017310821]
+script = ExtResource("1_fax7v")
+interaction_text = "INTERACT Pick up"
