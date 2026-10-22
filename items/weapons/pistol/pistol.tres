@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="5_ebdrl"]
 [ext_resource type="PackedScene" uid="uid://bd6vg3o6i0l17" path="res://effects/bullet_effects/bullet_impact.tscn" id="5_wtgxi"]
 [ext_resource type="AudioStream" uid="uid://wllyvfxmffj5" path="res://assets/sounds/kenney_ui-audio/click3.ogg" id="7_4ccf2"]
+[ext_resource type="PackedScene" uid="uid://cctjew3ncbu00" path="res://items/weapons/pistol/pistol_third_person.tscn" id="9_dcqkq"]
 
 [sub_resource type="Gradient" id="Gradient_cm5tq"]
 offsets = PackedFloat32Array(0.31320754, 0.4264151, 0.5962264, 0.7169811)
@@ -32,6 +33,7 @@ impact_scene = ExtResource("5_wtgxi")
 controller_scene = ExtResource("3_wtgxi")
 first_person_scene = ExtResource("5_4ccf2")
 first_person_position = Vector3(0.14105655, -0.06323153, -0.18142417)
+third_person_scene = ExtResource("9_dcqkq")
 vertical_lag_amount = 0.002
 display_name = "ITEM NAME Pistol"
 description = "ITEM DESCRIPTION Pistol"

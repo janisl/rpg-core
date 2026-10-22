@@ -7,14 +7,17 @@ signal wieldable_changed
 @export var player: Player
 @export var camera: CameraEffects
 @export var first_person_parent: WieldableEffects
+@export var third_person_parent: Node3D
 
 @export_group("Mesh layers")
 @export_flags_3d_render var first_person_mesh_layer := 1
+@export_flags_3d_render var third_person_mesh_layer := 1
 
 var current_item_stack: ItemStack
 var wieldable_data: WieldableData
 var wieldable: Wieldable
 var first_person_model: FirstPersonWieldable
+var third_person_model: ThirdPersonWieldable
 
 var _selected_item_stack: ItemStack
 
@@ -46,6 +49,9 @@ func _spawn_wieldable_scenes() -> void:
 	if first_person_model:
 		first_person_model.queue_free()
 		first_person_model = null
+	if third_person_model:
+		third_person_model.queue_free()
+		third_person_model = null
 	if wieldable:
 		wieldable.queue_free()
 		wieldable = null
@@ -65,6 +71,7 @@ func _spawn_wieldable_scenes() -> void:
 
 	assert(wieldable_data.controller_scene, "Wieldable has no controller scene")
 	assert(wieldable_data.first_person_scene, "Wieldable has no first person scene")
+	assert(wieldable_data.third_person_scene, "Wieldable has no third person scene")
 
 	wieldable = wieldable_data.controller_scene.instantiate() as Wieldable
 	add_child(wieldable)
@@ -76,6 +83,10 @@ func _spawn_wieldable_scenes() -> void:
 	first_person_model = wieldable_data.first_person_scene.instantiate() as FirstPersonWieldable
 	first_person_parent.add_child(first_person_model)
 	first_person_model.initialize(player, wieldable, first_person_mesh_layer)
+
+	third_person_model = wieldable_data.third_person_scene.instantiate() as ThirdPersonWieldable
+	third_person_parent.add_child(third_person_model)
+	third_person_model.initialize(player, wieldable, third_person_mesh_layer)
 
 	first_person_parent.reset_effects()
 

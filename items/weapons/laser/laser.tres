@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://items/weapons/laser/laser_first_person.tscn" id="4_da8ks"]
 [ext_resource type="AudioStream" uid="uid://wllyvfxmffj5" path="res://assets/sounds/kenney_ui-audio/click3.ogg" id="5_wch0n"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="6_efmtk"]
+[ext_resource type="PackedScene" uid="uid://drdns8qfuuwpb" path="res://items/weapons/laser/laser_third_person.tscn" id="8_efmtk"]
 
 [sub_resource type="Gradient" id="Gradient_shorh"]
 offsets = PackedFloat32Array(0.32830188, 0.41886792, 0.60754716, 0.71320754)
@@ -31,6 +32,7 @@ projectile_scene = ExtResource("2_l8b5j")
 controller_scene = ExtResource("3_wch0n")
 first_person_scene = ExtResource("4_da8ks")
 first_person_position = Vector3(0.14105655, -0.06323153, -0.18142417)
+third_person_scene = ExtResource("8_efmtk")
 vertical_lag_amount = 0.002
 display_name = "ITEM NAME Laser"
 description = "ITEM DESCRIPTION Laser"

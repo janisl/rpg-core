@@ -358,12 +358,14 @@ script = ExtResource("31_4ihbh")
 slots = Array[ExtResource("32_4jc6f")]([null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
 metadata/_custom_type_script = "uid://bk8ufns0cjpgj"
 
-[node name="WieldController" type="Node3D" parent="." unique_id=264511219 node_paths=PackedStringArray("player", "camera", "first_person_parent")]
+[node name="WieldController" type="Node3D" parent="." unique_id=264511219 node_paths=PackedStringArray("player", "camera", "first_person_parent", "third_person_parent")]
 script = ExtResource("6_2vokq")
 player = NodePath("..")
 camera = NodePath("../Neck/Head/Camera")
 first_person_parent = NodePath("../Neck/Head/Camera/Wieldables")
+third_person_parent = NodePath("../Rig/GeneralSkeleton/BoneAttachment3D/ThirdPersonWeaponHolder")
 first_person_mesh_layer = 2
+third_person_mesh_layer = 4
 metadata/_custom_type_script = "uid://bssifbouhjhmf"
 
 [node name="StandingCollision" type="CollisionShape3D" parent="." unique_id=1807291205]
@@ -1013,6 +1015,14 @@ bones/52/scale = Vector3(1, 1, 1)
 mesh = ExtResource("19_otn2r")
 skin = SubResource("Skin_3bqo7")
 skeleton = NodePath("..")
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Rig/GeneralSkeleton" unique_id=1994406797]
+transform = Transform3D(0.06359771, -0.14300057, 0.98767704, 0.53691, -0.8293437, -0.1546487, 0.84123886, 0.54012907, 0.024034087, -0.2817325, 0.9034639, -0.17303191)
+bone_name = "RightHand"
+bone_idx = 29
+
+[node name="ThirdPersonWeaponHolder" type="Node3D" parent="Rig/GeneralSkeleton/BoneAttachment3D" unique_id=988377783]
+transform = Transform3D(1.3113416e-07, 1, 4.371139e-08, 3.821371e-15, 4.371139e-08, -1, -1, 1.3113416e-07, 1.9106855e-15, 0.05, 0.12, 0.02)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=654230401]
 libraries/ = SubResource("AnimationLibrary_ne5l8")

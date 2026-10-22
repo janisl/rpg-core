@@ -5,6 +5,7 @@ extends ItemData
 @export var controller_scene: PackedScene
 @export var first_person_scene: PackedScene
 @export var first_person_position := Vector3.ZERO
+@export var third_person_scene: PackedScene
 
 @export_group("State durations")
 @export var equip_time := 0.5

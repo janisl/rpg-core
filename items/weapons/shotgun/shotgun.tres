@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://br2mplv6cjpjb" path="res://items/weapons/shotgun/shotgun_first_person.tscn" id="5_gfaep"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="5_l67j6"]
 [ext_resource type="AudioStream" uid="uid://wllyvfxmffj5" path="res://assets/sounds/kenney_ui-audio/click3.ogg" id="8_tigrw"]
+[ext_resource type="PackedScene" uid="uid://dg4nn0fehvx26" path="res://items/weapons/shotgun/shotgun_third_person.tscn" id="10_s8wen"]
 
 [sub_resource type="Gradient" id="Gradient_vy2tt"]
 offsets = PackedFloat32Array(0.33584905, 0.41886792, 0.6415094, 0.7358491)
@@ -38,6 +39,7 @@ recoil_cam_pitch = 0.08726646259971647
 controller_scene = ExtResource("3_0jun3")
 first_person_scene = ExtResource("5_gfaep")
 first_person_position = Vector3(0.15307574, -0.1009149, -0.18142417)
+third_person_scene = ExtResource("10_s8wen")
 vertical_lag_amount = 0.001
 display_name = "ITEM NAME Shotgun"
 description = "ITEM DESCRIPTION Shotgun"
