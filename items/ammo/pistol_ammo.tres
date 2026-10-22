@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="AmmoData" format=3 uid="uid://8wv77e0i7ndt"]
 
+[ext_resource type="AudioStream" uid="uid://2mgtgtbslunh" path="res://assets/sounds/kenney_ui-audio/click1.ogg" id="1_dxcik"]
 [ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_xy5oi"]
 
 [sub_resource type="Gradient" id="Gradient_xy5oi"]
@@ -15,3 +16,5 @@ display_name = "ITEM NAME Pistol ammo"
 description = "ITEM DESCRIPTION Pistol ammo"
 icon = SubResource("GradientTexture2D_dxcik")
 max_stack = 200
+pickup_scene = "uid://b16alro8fspcn"
+pickup_sound = ExtResource("1_dxcik")

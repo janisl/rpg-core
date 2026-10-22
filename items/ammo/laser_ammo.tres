@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="AmmoData" format=3 uid="uid://c8ff3twc0mra8"]
 
 [ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_4gx8s"]
+[ext_resource type="AudioStream" uid="uid://2mgtgtbslunh" path="res://assets/sounds/kenney_ui-audio/click1.ogg" id="1_orenb"]
 
 [sub_resource type="Gradient" id="Gradient_xy5oi"]
 offsets = PackedFloat32Array(0, 0.3018868, 0.38490567)
@@ -15,3 +16,5 @@ display_name = "ITEM NAME Laser ammo"
 description = "ITEM DESCRIPTION Laser ammo"
 icon = SubResource("GradientTexture2D_dxcik")
 max_stack = 250
+pickup_scene = "uid://u5kjeyq7rd1m"
+pickup_sound = ExtResource("1_orenb")

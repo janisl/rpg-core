@@ -12,5 +12,6 @@ func interact(player: Player):
 func pick_up(player: Player):
 	player.inventory.add_stack(item_stack)
 	print("Picked up " + tr(item_stack.item.display_name))
+	AudioManager.play_sound_3d(item_stack.item.pickup_sound, get_parent().global_position)
 	was_interacted_with.emit()
 	get_parent().queue_free()

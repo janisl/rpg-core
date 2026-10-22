@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://items/weapons/laser/test_projectile.tscn" id="2_l8b5j"]
 [ext_resource type="PackedScene" uid="uid://b6eda53ea0fae" path="res://systems/combat/projectile_weapon.tscn" id="3_wch0n"]
 [ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://items/weapons/laser/laser_first_person.tscn" id="4_da8ks"]
+[ext_resource type="AudioStream" uid="uid://wllyvfxmffj5" path="res://assets/sounds/kenney_ui-audio/click3.ogg" id="5_wch0n"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="6_efmtk"]
 
 [sub_resource type="Gradient" id="Gradient_shorh"]
@@ -34,4 +35,6 @@ vertical_lag_amount = 0.002
 display_name = "ITEM NAME Laser"
 description = "ITEM DESCRIPTION Laser"
 icon = SubResource("GradientTexture2D_wsopd")
+pickup_scene = "uid://bmq87quw8icqf"
+pickup_sound = ExtResource("5_wch0n")
 metadata/_custom_type_script = "uid://bjvp63efii4fn"

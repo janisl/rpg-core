@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="AmmoData" format=3 uid="uid://bvm2idvb450ig"]
 
 [ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_14x0w"]
+[ext_resource type="AudioStream" uid="uid://2mgtgtbslunh" path="res://assets/sounds/kenney_ui-audio/click1.ogg" id="1_t5v2a"]
 
 [sub_resource type="Gradient" id="Gradient_xy5oi"]
 offsets = PackedFloat32Array(0, 0.3018868, 0.4)
@@ -15,3 +16,5 @@ display_name = "ITEM NAME Shotgun ammo"
 description = "ITEM DESCRIPTION Shotgun ammo"
 icon = SubResource("GradientTexture2D_dxcik")
 max_stack = 50
+pickup_scene = "uid://kcm3gee3e08y"
+pickup_sound = ExtResource("1_t5v2a")

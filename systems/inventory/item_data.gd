@@ -8,3 +8,6 @@ extends Resource
 @export var max_stack := 1
 
 @export_file("*.tscn") var pickup_scene := ""
+
+@export_group("Sounds")
+@export var pickup_sound: AudioStream
