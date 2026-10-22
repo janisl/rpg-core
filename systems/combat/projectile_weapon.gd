@@ -3,6 +3,8 @@ extends Weapon
 
 
 func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
+	EffectsManager.spawn_light_flash(from, _weapon_data.light_color, _weapon_data.light_energy, _weapon_data.light_duration)
+
 	var projectile_scene := _get_projectile_scene()
 	assert(projectile_scene, "No projectile assigned")
 

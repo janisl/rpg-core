@@ -14,6 +14,11 @@ extends WieldableData
 @export var magazine_size := 1
 @export var reload_time := 1.5
 
+@export_group("Muzzle flash")
+@export var light_color := Color(1.0, 0.8, 0.4)
+@export var light_energy := 10.0
+@export var light_duration := 0.05
+
 @export_group("Hit scan")
 @export var pellet_count := 1
 @export var spread_angle := 0.0

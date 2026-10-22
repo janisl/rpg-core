@@ -28,6 +28,7 @@ fire_offset = Vector3(0.15, -0.02, -0.15)
 is_automatic = true
 ammo_types = Array[ExtResource("1_da8ks")]([ExtResource("1_bjold")])
 magazine_size = 20
+light_color = Color(1, 0.50995165, 0.67012393, 1)
 projectile_scene = ExtResource("2_l8b5j")
 controller_scene = ExtResource("3_wch0n")
 first_person_scene = ExtResource("4_da8ks")

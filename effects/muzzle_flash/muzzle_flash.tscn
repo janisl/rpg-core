@@ -17,5 +17,3 @@ one_shot = true
 explosiveness = 1.0
 process_material = ExtResource("2_nooxy")
 draw_pass_1 = ExtResource("3_juxps")
-
-[node name="Light" type="OmniLight3D" parent="." unique_id=1471996490]

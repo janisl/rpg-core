@@ -48,7 +48,6 @@ Systems
 - quest system
 
 Weapons
-- muzzle flash light separate
 - aim action
 - knockback
 - melee weapon
