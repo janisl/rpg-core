@@ -43,6 +43,7 @@ Maps
 - load & save
 
 Systems
+- crafting
 - music manager
 - quest system
 
