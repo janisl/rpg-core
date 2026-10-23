@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cw70ccc707pon" path="res://ui/player_hud/player_hud.gd" id="1_vyppb"]
 [ext_resource type="Shader" uid="uid://bd7wk8i5mqe5g" path="res://ui/player_hud/camera_water_overlay.gdshader" id="2_rtdb5"]
+[ext_resource type="Script" uid="uid://blwu7xyl5slu4" path="res://ui/player_hud/reticle_control.gd" id="3_sqrx6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sqrx6"]
 shader = ExtResource("2_rtdb5")
@@ -30,6 +31,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("PlaceholderTexture2D_4cl3s")
+
+[node name="Reticle" type="CenterContainer" parent="." unique_id=69922089]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ReticleControl" type="Control" parent="Reticle" unique_id=1539193926]
+layout_mode = 2
+script = ExtResource("3_sqrx6")
+metadata/_custom_type_script = "uid://blwu7xyl5slu4"
 
 [node name="HotbarBackground" type="ColorRect" parent="." unique_id=1907861593]
 layout_mode = 1
