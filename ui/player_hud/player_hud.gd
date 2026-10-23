@@ -9,6 +9,7 @@ const ATTRIBUTE_CONTROL = preload("uid://dvyghe0kgmbqf")
 @onready var ammo_label: Label = $AmmoLabel
 @onready var interact_label: Label = $InteractLabel
 @onready var attributes_container: VBoxContainer = $AttributesContainer
+@onready var water_ripple_overlay: TextureRect = $WaterRippleOverlay
 
 var _player: Player
 var _wieldable: Wieldable
@@ -27,6 +28,7 @@ func _ready() -> void:
 	_player.wield_controller.wieldable_changed.connect(_on_wieldable_changed)
 	_player.interaction_controller.interactive_object_detected.connect(_on_interactive_object_detected)
 	_player.interaction_controller.nothing_detected.connect(_on_nothing_detected)
+	GlobalManager.camera_underwater_effect_changed.connect(_on_camera_underwater_effect_changed)
 
 	interact_label.visible = false
 
@@ -34,6 +36,10 @@ func _ready() -> void:
 		var control := ATTRIBUTE_CONTROL.instantiate() as AttributeControl
 		attributes_container.add_child(control)
 		control.initialize(attribute)
+
+
+func _on_camera_underwater_effect_changed() -> void:
+	water_ripple_overlay.visible = GlobalManager.camera_underwater_effect
 
 
 func _update_current_slot() -> void:
