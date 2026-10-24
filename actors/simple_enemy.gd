@@ -57,35 +57,6 @@ func _on_died() -> void:
 	queue_free()
 
 
-func _on_chase_state_physics_processing(delta: float) -> void:
-	if anim_tree_state.get_current_node() != "Chase":
-		anim_tree_state.travel("Chase")
-
-	if not target:
-		return
-
-	nav_agent.target_position = target.global_position
-
-	var distance = global_position.distance_to(target.global_position)
-	if distance <= melee_range:
-		state_chart.send_event("onMelee")
-		return
-
-	if nav_agent.is_navigation_finished():
-		nav_agent.velocity = Vector3.ZERO
-		return
-
-	var next_pos := nav_agent.get_next_path_position()
-	var direction := global_position.direction_to(next_pos)
-
-	nav_agent.velocity = direction * follow_speed
-	if not nav_agent.avoidance_enabled:
-		_on_velocity_computed(nav_agent.velocity)
-
-	var target_rotation := get_look_at_angle(next_pos)
-	rotation.y = lerp_angle(rotation.y, target_rotation, 5.0 * delta)
-
-
 func _on_detection_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		on_triggered()
@@ -95,45 +66,3 @@ func _update_blends() -> void:
 	var move_amount = velocity.length()
 	move_amount = remap(move_amount, 0.0, follow_speed, 0.0, 1.0)
 	animation_tree["parameters/Chase/IdleChaseBlend/blend_position"] = move_amount
-
-
-func _attack() -> void:
-	velocity = Vector3.ZERO
-	nav_agent.velocity = Vector3.ZERO
-
-	if target:
-		var target_rotation = get_look_at_angle(target.global_position)
-		rotation.y = target_rotation
-		_apply_damage_to_target()
-
-	if anim_tree_state.get_current_node() != "Melee":
-		anim_tree_state.travel("Melee")
-	else:
-		anim_tree_state.start("Melee")
-
-	await animation_tree.animation_finished
-
-	if target:
-		var distance = global_position.distance_to(target.global_position)
-		if distance <= melee_range:
-			_attack()
-		else:
-			state_chart.send_event("onChase")
-	else:
-		state_chart.send_event("onIdle")
-
-
-func _on_melee_state_entered() -> void:
-	_attack()
-
-
-func _apply_damage_to_target() -> void:
-	var target_health_attribute := target.get_node_or_null("HealthAttribute") as HealthAttribute
-
-	if target_health_attribute:
-		var hit_info := HitInfo.new(melee_damage)
-		hit_info.source = self
-		var direction := global_position.direction_to(target.global_position)
-		hit_info.direction = direction
-		hit_info.impact_position = target.global_position - direction * 0.5 + Vector3.UP * melee_hit_height
-		target_health_attribute.take_damage(hit_info)

@@ -1,5 +1,5 @@
 class_name Enemy
-extends Actor
+extends Npc
 
 @export var enemy_groups: Array[String] = []
 

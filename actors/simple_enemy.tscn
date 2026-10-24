@@ -8,7 +8,10 @@
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="5_a0x3i"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="6_4s1oe"]
 [ext_resource type="ArrayMesh" uid="uid://caxjp2wqc7o7n" path="res://assets/models/mannequin.mesh" id="6_a0x3i"]
+[ext_resource type="Script" uid="uid://cwqlxrvrj657s" path="res://systems/npcs/states/idle.gd" id="6_evrkw"]
 [ext_resource type="AnimationLibrary" uid="uid://dm7sapnp2plx2" path="res://assets/animations/humanoid/universal_animation_library_standard.res" id="7_ngyoi"]
+[ext_resource type="Script" uid="uid://u3k7xpn2y14c" path="res://systems/npcs/states/chase.gd" id="8_gvg5y"]
+[ext_resource type="Script" uid="uid://djec4ecbh44mx" path="res://systems/npcs/states/attack.gd" id="9_0qgqr"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -281,28 +284,49 @@ initial_state = NodePath("Idle")
 [node name="Idle" type="Node" parent="StateChart/Root/Behaviour" unique_id=1549374654]
 script = ExtResource("4_4a0lb")
 
-[node name="OnIdle" type="Node" parent="StateChart/Root/Behaviour" unique_id=1276673632]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=1620400777 node_paths=PackedStringArray("npc", "state_chart")]
+script = ExtResource("6_evrkw")
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+
+[node name="OnChase" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=132159885]
 script = ExtResource("5_a0x3i")
-to = NodePath("../Idle")
-event = &"onIdle"
+to = NodePath("../../Chase")
+event = &"onChase"
 delay_in_seconds = "0.0"
 
 [node name="Chase" type="Node" parent="StateChart/Root/Behaviour" unique_id=226969982]
 script = ExtResource("4_4a0lb")
 
-[node name="OnChase" type="Node" parent="StateChart/Root/Behaviour" unique_id=132159885]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Chase" unique_id=735664981 node_paths=PackedStringArray("npc", "state_chart")]
+script = ExtResource("8_gvg5y")
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+
+[node name="OnIdle" type="Node" parent="StateChart/Root/Behaviour/Chase" unique_id=1276673632]
 script = ExtResource("5_a0x3i")
-to = NodePath("../Chase")
-event = &"onChase"
+to = NodePath("../../Idle")
+event = &"onIdle"
 delay_in_seconds = "0.0"
 
-[node name="Melee" type="Node" parent="StateChart/Root/Behaviour" unique_id=399243639]
+[node name="OnMelee" type="Node" parent="StateChart/Root/Behaviour/Chase" unique_id=1937042604]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Attack")
+event = &"onMelee"
+delay_in_seconds = "0.0"
+
+[node name="Attack" type="Node" parent="StateChart/Root/Behaviour" unique_id=399243639]
 script = ExtResource("4_4a0lb")
 
-[node name="OnMelee" type="Node" parent="StateChart/Root/Behaviour" unique_id=1937042604]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Attack" unique_id=1913314527 node_paths=PackedStringArray("npc", "state_chart")]
+script = ExtResource("9_0qgqr")
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+
+[node name="OnChase" type="Node" parent="StateChart/Root/Behaviour/Attack" unique_id=1618527547]
 script = ExtResource("5_a0x3i")
-to = NodePath("../Melee")
-event = &"onMelee"
+to = NodePath("../../Chase")
+event = &"onChase"
 delay_in_seconds = "0.0"
 
 [node name="Stance" type="Node" parent="StateChart/Root" unique_id=364074532]
@@ -693,6 +717,7 @@ bones/52/scale = Vector3(1, 1, 1)
 [node name="Mannequin" type="MeshInstance3D" parent="Rig/GeneralSkeleton" unique_id=1606865984]
 mesh = ExtResource("6_a0x3i")
 skin = SubResource("Skin_3bqo7")
+skeleton = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=196694139]
 libraries/ = SubResource("AnimationLibrary_a0x3i")
@@ -721,6 +746,6 @@ monitorable = false
 shape = SubResource("SphereShape3D_bsiym")
 debug_color = Color(0, 0.6, 0.69803923, 0.38039216)
 
-[connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Chase" to="." method="_on_chase_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/Root/Behaviour/Melee" to="." method="_on_melee_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Chase" to="StateChart/Root/Behaviour/Chase/Processor" method="_on_chase_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Behaviour/Attack" to="StateChart/Root/Behaviour/Attack/Processor" method="_on_attack_state_entered"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
