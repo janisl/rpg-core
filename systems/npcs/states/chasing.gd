@@ -1,17 +1,28 @@
 extends NpcStateProcessor
 
 
+func _on_chasing_state_entered() -> void:
+	pass # Replace with function body.
+
+
+func _on_chasing_state_exited() -> void:
+	pass # Replace with function body.
+
+
 func _on_chase_state_physics_processing(delta: float) -> void:
+	npc.move_and_slide()
+
 	if npc.anim_tree_state.get_current_node() != "Chase":
 		npc.anim_tree_state.travel("Chase")
 
-	if not npc.target:
+	if not npc.attention_target:
 		return
 
-	npc.nav_agent.target_position = npc.target.global_position
+	npc.nav_agent.target_position = npc.attention_target.global_position
 
-	var distance = npc.global_position.distance_to(npc.target.global_position)
+	var distance = npc.global_position.distance_to(npc.attention_target.global_position)
 	if distance <= npc.melee_range:
+		npc.nav_agent.velocity = Vector3.ZERO
 		state_chart.send_event("onMelee")
 		return
 
@@ -22,9 +33,8 @@ func _on_chase_state_physics_processing(delta: float) -> void:
 	var next_pos := npc.nav_agent.get_next_path_position() as Vector3
 	var direction := npc.global_position.direction_to(next_pos)
 
-	npc.nav_agent.velocity = direction * npc.follow_speed
+	npc.nav_agent.velocity = direction * npc.sprint_speed
 	if not npc.nav_agent.avoidance_enabled:
 		npc._on_velocity_computed(npc.nav_agent.velocity)
 
-	var target_rotation := npc.get_look_at_angle(next_pos)
-	npc.rotation.y = lerp_angle(npc.rotation.y, target_rotation, 5.0 * delta)
+	npc.face_direction(next_pos)

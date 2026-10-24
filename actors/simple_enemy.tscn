@@ -12,6 +12,13 @@
 [ext_resource type="AnimationLibrary" uid="uid://dm7sapnp2plx2" path="res://assets/animations/humanoid/universal_animation_library_standard.res" id="7_ngyoi"]
 [ext_resource type="Script" uid="uid://u3k7xpn2y14c" path="res://systems/npcs/states/chasing.gd" id="8_gvg5y"]
 [ext_resource type="Script" uid="uid://djec4ecbh44mx" path="res://systems/npcs/states/attacking.gd" id="9_0qgqr"]
+[ext_resource type="AudioStream" uid="uid://dw7jtahkwgjth" path="res://assets/sounds/misc/422513__nightflame__swinging-staff-whoosh-strong-04.wav" id="10_qld51"]
+[ext_resource type="Script" uid="uid://ye4ywev58xp2" path="res://systems/npcs/impact_zone.gd" id="11_wimj6"]
+[ext_resource type="AudioStream" uid="uid://dt6y5pgrmcume" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_000.ogg" id="12_25hyd"]
+[ext_resource type="AudioStream" uid="uid://da00ldi5hp5g" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_001.ogg" id="13_qld51"]
+[ext_resource type="AudioStream" uid="uid://clh4hlpramjwl" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_002.ogg" id="14_thjgf"]
+[ext_resource type="AudioStream" uid="uid://cba5cvqpa62l1" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_003.ogg" id="15_rpt3r"]
+[ext_resource type="AudioStream" uid="uid://l5srpaiywb2d" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_004.ogg" id="16_gbejp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -180,6 +187,17 @@ bind/52/name = &"RightToes"
 bind/52/bone = -1
 bind/52/pose = Transform3D(1.0000001, 1.7463009e-10, 1.164153e-10, -1.746047e-10, -4.4703486e-07, 0.9999998, 2.9102765e-10, -0.99999964, -2.3841854e-07, 0.08900002, -0.11319995, 0.015200049)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_vl7ky"]
+streams_count = 5
+stream_0/stream = ExtResource("12_25hyd")
+stream_1/stream = ExtResource("13_qld51")
+stream_2/stream = ExtResource("14_thjgf")
+stream_3/stream = ExtResource("15_rpt3r")
+stream_4/stream = ExtResource("16_gbejp")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hxqyq"]
+radius = 0.2
+
 [sub_resource type="Animation" id="Animation_4s1oe"]
 length = 0.001
 
@@ -219,7 +237,7 @@ animation = &"universal_animation_library_standard/Idle"
 [sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_a0x3i"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ngyoi"]
-graph_offset = Vector2(-542, -20.666666)
+graph_offset = Vector2(-892.41315, -0.18029785)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_4a0lb")
 nodes/Animation/position = Vector2(-453.33334, 133.33333)
 nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_a0x3i")
@@ -263,6 +281,7 @@ states/Melee/node = SubResource("AnimationNodeAnimation_ngyoi")
 states/Melee/position = Vector2(646.6667, 239.33333)
 states/Start/position = Vector2(193.33333, 126)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_evrkw"), "Idle", "Chase", SubResource("AnimationNodeStateMachineTransition_gvg5y"), "Chase", "Idle", SubResource("AnimationNodeStateMachineTransition_0qgqr"), "Chase", "Melee", SubResource("AnimationNodeStateMachineTransition_ouyvs"), "Melee", "Chase", SubResource("AnimationNodeStateMachineTransition_wimj6")]
+graph_offset = Vector2(-116, -138)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_bsiym"]
 radius = 5.0
@@ -320,16 +339,19 @@ delay_in_seconds = "0.0"
 [node name="Attacking" type="Node" parent="StateChart/Root/Behaviour" unique_id=399243639]
 script = ExtResource("4_4a0lb")
 
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Attacking" unique_id=1913314527 node_paths=PackedStringArray("npc", "state_chart", "audio")]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Attacking" unique_id=1913314527 node_paths=PackedStringArray("attack_impact_zone", "npc", "state_chart", "audio")]
 script = ExtResource("9_0qgqr")
+state_after_attack = "chase"
+attack_impact_zone = NodePath("../../../../../Rig/GeneralSkeleton/HandAttachment/ImpactZone")
+attack_sound = ExtResource("10_qld51")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
 
-[node name="OnChase" type="Node" parent="StateChart/Root/Behaviour/Attacking" unique_id=1618527547]
+[node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Attacking" unique_id=1618527547]
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Chasing")
-event = &"onChase"
+event = &"chase"
 delay_in_seconds = "0.0"
 
 [node name="Stance" type="Node" parent="StateChart/Root" unique_id=364074532]
@@ -722,6 +744,26 @@ mesh = ExtResource("6_a0x3i")
 skin = SubResource("Skin_3bqo7")
 skeleton = NodePath("..")
 
+[node name="HandAttachment" type="BoneAttachment3D" parent="Rig/GeneralSkeleton" unique_id=1559152291]
+transform = Transform3D(0.45492437, 0.032451764, -0.8899385, -0.41648537, -0.87555623, -0.24482897, -0.7871363, 0.4820251, -0.38479626, 0.3351844, 0.878888, 0.022770524)
+bone_name = "DEF-hand.L"
+bone_idx = 10
+
+[node name="ImpactZone" type="Area3D" parent="Rig/GeneralSkeleton/HandAttachment" unique_id=888741085 node_paths=PackedStringArray("npc")]
+transform = Transform3D(0.9998372, 0.009140596, 0.0155593455, -0.009313583, 0.9998951, 0.01109305, -0.015456617, -0.011236191, 0.9998175, -0.004041493, 0.07320613, 0.0038952082)
+script = ExtResource("11_wimj6")
+npc = NodePath("../../../..")
+damage_on_impact = 1
+impact_sound = SubResource("AudioStreamRandomizer_vl7ky")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rig/GeneralSkeleton/HandAttachment/ImpactZone" unique_id=719610995]
+transform = Transform3D(0.9995096, -0.018114343, -0.025539756, 0.017602995, 0.99964285, -0.020107806, 0.025894672, 0.019648463, 0.9994717, 0.026967615, 0.014783025, 0.027201623)
+shape = SubResource("SphereShape3D_hxqyq")
+
+[node name="HandSlot" type="Node3D" parent="Rig/GeneralSkeleton/HandAttachment" unique_id=1975747670]
+unique_name_in_owner = true
+transform = Transform3D(0.70710677, 0.70710677, -3.090862e-08, 0, -4.371139e-08, -1, -0.70710677, 0.70710677, -3.090862e-08, 0.075, 0.2, 0.075)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=196694139]
 libraries/ = SubResource("AnimationLibrary_a0x3i")
 libraries/universal_animation_library_standard = ExtResource("7_ngyoi")
@@ -752,6 +794,13 @@ debug_color = Color(0, 0.6, 0.69803923, 0.38039216)
 [node name="Audio" type="AudioStreamPlayer3D" parent="." unique_id=545162603]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5638493, -0.16451624)
 
+[connection signal="state_entered" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chase_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/Root/Behaviour/Attacking" to="StateChart/Root/Behaviour/Attacking/Processor" method="_on_attack_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Behaviour/Attacking" to="StateChart/Root/Behaviour/Attacking/Processor" method="_on_attacking_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Behaviour/Attacking" to="StateChart/Root/Behaviour/Attacking/Processor" method="_on_attacking_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Attacking" to="StateChart/Root/Behaviour/Attacking/Processor" method="_on_attacking_state_physics_processing"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]

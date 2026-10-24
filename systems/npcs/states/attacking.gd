@@ -1,43 +1,59 @@
 extends NpcStateProcessor
 
+@export var state_after_attack : String
 
-func _on_attack_state_entered() -> void:
-	_attack()
+@export_group("Melee attack properties")
+@export var attack_impact_zone: ImpactZone
+@export var attack_sound : AudioStream
+@export var attack_duration := 1.0
+@export var melee_range := 1.5
+
+var _target: Node3D
+var _count_down := 0.0
 
 
-func _attack() -> void:
-	npc.velocity = Vector3.ZERO
-	npc.nav_agent.velocity = Vector3.ZERO
+func _on_attacking_state_entered() -> void:
+	_target = npc.attention_target
+	if !_target:
+		state_chart.send_event(state_after_attack)
+	else:
+		_count_down = attack_duration
+		if _attack_while_moving():
+			_attempt_attack()
 
-	if npc.target:
-		var target_rotation = npc.get_look_at_angle(npc.target.global_position)
-		npc.rotation.y = target_rotation
-		_apply_damage_to_target()
 
+func _on_attacking_state_exited() -> void:
+	attack_impact_zone.set_collision(false)
+
+
+func _on_attacking_state_physics_processing(delta: float) -> void:
+	npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
+	npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
+	npc.face_direction(_target.global_position)
+	npc.move_and_slide()
+
+	if _count_down <= 0 and _attack_while_moving():
+		_attempt_attack()
+		state_chart.send_event(state_after_attack)
+	else:
+		_count_down -= delta
+
+
+func _attack_while_moving() -> bool:
+	return true
+
+
+func _attempt_attack():
+	_count_down = attack_duration
 	if npc.anim_tree_state.get_current_node() != "Melee":
 		npc.anim_tree_state.travel("Melee")
 	else:
 		npc.anim_tree_state.start("Melee")
-
-	await npc.animation_tree.animation_finished
-
-	if npc.target:
-		var distance = npc.global_position.distance_to(npc.target.global_position)
-		if distance <= npc.melee_range:
-			_attack()
-		else:
-			state_chart.send_event("onChase")
-	else:
-		state_chart.send_event("onIdle")
+	if npc.global_position.distance_to(_target.global_position) <= melee_range:
+		_punch_attack()
 
 
-func _apply_damage_to_target() -> void:
-	var target_health_attribute := npc.target.get_node_or_null("HealthAttribute") as HealthAttribute
+func _punch_attack():
+	AudioManager.play_sound_3d(attack_sound, npc.global_position)
 
-	if target_health_attribute:
-		var hit_info := HitInfo.new(npc.melee_damage)
-		hit_info.source = npc
-		var direction := npc.global_position.direction_to(npc.target.global_position)
-		hit_info.direction = direction
-		hit_info.impact_position = npc.target.global_position - direction * 0.5 + Vector3.UP * npc.melee_hit_height
-		target_health_attribute.take_damage(hit_info)
+	attack_impact_zone.set_collision(true)

@@ -27,3 +27,4 @@ CC0  https://quaternius.itch.io/universal-animation-library
 CC4  https://freesound.org/people/211redman112/sounds/234082/
 CC4  https://freesound.org/people/AleXZavesa/sounds/853904/
 CC0  https://freesound.org/people/AudioPapkin/sounds/828092/
+CC0  https://freesound.org/people/Nightflame/sounds/422513/
