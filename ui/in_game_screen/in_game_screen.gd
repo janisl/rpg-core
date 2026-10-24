@@ -8,8 +8,8 @@ const ITEM_SLOT_CONTROL = preload("uid://d3nmme6bfak14")
 var _player: Player
 
 
-func _ready() -> void:
-	_player = get_tree().get_first_node_in_group("player")
+func connect_to_player(player: Player) -> void:
+	_player = player
 
 
 func show_screen() -> void:

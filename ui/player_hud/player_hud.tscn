@@ -16,7 +16,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_behavior_recursive = 1
 script = ExtResource("1_vyppb")
 
 [node name="WaterRippleOverlay" type="TextureRect" parent="." unique_id=1931241548]

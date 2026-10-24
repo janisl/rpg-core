@@ -8,6 +8,7 @@
 script = ExtResource("1_r3gyj")
 
 [node name="PlayerHud" parent="." unique_id=155558568 instance=ExtResource("3_j1g8x")]
+visible = false
 
 [node name="InGameScreen" parent="." unique_id=606499691 instance=ExtResource("4_5skvp")]
 process_mode = 3

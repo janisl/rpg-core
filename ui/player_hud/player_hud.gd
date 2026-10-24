@@ -15,11 +15,8 @@ var _player: Player
 var _wieldable: Wieldable
 
 
-func _ready() -> void:
-	await get_tree().process_frame
-
-	_player = get_tree().get_first_node_in_group("player")
-
+func connect_to_player(player: Player) -> void:
+	_player = player
 	_update_slots()
 
 	Managers.weapon_manager.current_slot_changed.connect(_update_current_slot)
@@ -32,10 +29,14 @@ func _ready() -> void:
 
 	interact_label.visible = false
 
+	for c in attributes_container.get_children():
+		c.queue_free()
 	for attribute in _player.player_attributes.values():
 		var control := ATTRIBUTE_CONTROL.instantiate() as AttributeControl
 		attributes_container.add_child(control)
 		control.initialize(attribute)
+
+	visible = true
 
 
 func _on_camera_underwater_effect_changed() -> void:
@@ -44,7 +45,6 @@ func _on_camera_underwater_effect_changed() -> void:
 
 func _update_current_slot() -> void:
 	selection_indicator.position.x = Managers.weapon_manager.current_slot * 130
-	_update_ammo_label()
 
 
 func _on_inventory_changed() -> void:
@@ -68,10 +68,7 @@ func _on_wieldable_data_changed() -> void:
 
 
 func _update_ammo_label() -> void:
-	if Managers.weapon_manager.current_slot < 0:
-		return
-
-	var weapon := _player.inventory.slots[Managers.weapon_manager.current_slot]
+	var weapon := _player.wield_controller.current_item_stack
 	if not weapon or weapon.item is not WeaponData:
 		ammo_label.visible = false
 		return

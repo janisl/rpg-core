@@ -61,6 +61,8 @@ func _ready() -> void:
 	health_attribute = player_attributes.get("health")
 	stamina_attribute = player_attributes.get("stamina")
 
+	EventBus.player_spawned.emit(self)
+
 
 func _process(_delta: float) -> void:
 	var move_amount = velocity.length()
