@@ -39,9 +39,9 @@ func _process(delta):
 
 func _on_body_entered(body: Node3D) -> void:
 	if body is Actor:
-		body.on_swimmable_area_entered(detection_area)
+		body.on_liquid_entered(detection_area)
 
 
 func _on_body_exited(body: Node3D) -> void:
 	if body is Actor:
-		body.on_swimmable_area_exited(detection_area)
+		body.on_liquid_exited(detection_area)

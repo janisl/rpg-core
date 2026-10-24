@@ -71,7 +71,9 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	state_chart.set_expression_property("in_liquid", is_in_swimmable_area())
+	_update_liquid_level()
+	state_chart.set_expression_property("in_liquid", liquid_level >= LiquidLevel.BODY)
+	GlobalManager.camera_underwater_effect = liquid_level >= LiquidLevel.EYES
 
 
 func _unhandled_input(event: InputEvent) -> void:

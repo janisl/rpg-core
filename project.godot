@@ -156,8 +156,8 @@ locale/translations=PackedStringArray("res://localization/strings.en.translation
 3d_render/layer_3="Third person"
 3d_physics/layer_1="World"
 3d_physics/layer_2="Pickups"
-3d_physics/layer_9="Swimmable"
-3d_physics/layer_10="Ladder"
+3d_physics/layer_9="Liquids"
+3d_physics/layer_10="Ladders"
 
 [physics]
 

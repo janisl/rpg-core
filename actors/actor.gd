@@ -1,13 +1,25 @@
 class_name Actor
 extends CharacterBody3D
 
+enum LiquidLevel { NONE, FEET, BODY, EYES }
+
 signal ladder_entered(area: Area3D)
 signal ladder_exited(area: Area3D)
+signal liquid_level_changed
 
 const APPROX_MASS = 80.0
 const SWIM_SUBMERGED_RATIO = 0.5
 
-var _touching_swimmable_areas: Array[Area3D]
+@export var head: Node3D
+
+var liquid_level := LiquidLevel.NONE :
+	set(value):
+		if liquid_level == value:
+			return
+		liquid_level = value
+		liquid_level_changed.emit()
+
+var _touching_liquids: Array[Area3D]
 var touching_ladder_areas: Array[Area3D]
 
 
@@ -15,31 +27,36 @@ func _ready() -> void:
 	pass
 
 
-func on_swimmable_area_entered(area: Area3D) -> void:
-	_touching_swimmable_areas.append(area)
+func on_liquid_entered(area: Area3D) -> void:
+	_touching_liquids.append(area)
 
 
-func on_swimmable_area_exited(area: Area3D) -> void:
-	_touching_swimmable_areas.erase(area)
+func on_liquid_exited(area: Area3D) -> void:
+	_touching_liquids.erase(area)
 
 
-func is_in_swimmable_area() -> bool:
-	if _touching_swimmable_areas.is_empty():
-		return false
+func _update_liquid_level() -> void:
+	if not _touching_liquids.size():
+		liquid_level = LiquidLevel.NONE
+		return
+
+	var surface_y := -INF
+	for area in _touching_liquids:
+		surface_y = maxf(surface_y, _get_area_top_y(area))
+
+	if surface_y <= global_position.z:
+		liquid_level = LiquidLevel.NONE
+		return
+
+	if surface_y >= head.global_position.y:
+		liquid_level = LiquidLevel.EYES
+		return
 
 	var body_bounds := _get_body_vertical_bounds()
-	for area in _touching_swimmable_areas:
-		if _get_submerged_ratio(area, body_bounds) >= SWIM_SUBMERGED_RATIO:
-			return true
-	return false
-
-
-func _get_submerged_ratio(area: Area3D, body_bounds: Vector2) -> float:
 	var body_height := body_bounds.y - body_bounds.x
-	if body_height <= 0.0:
-		return 0.0
+	var submerge_ratio := clampf((surface_y - body_bounds.x) / body_height, 0.0, 1.0)
 
-	return clampf((_get_area_top_y(area) - body_bounds.x) / body_height, 0.0, 1.0)
+	liquid_level = LiquidLevel.FEET if submerge_ratio < SWIM_SUBMERGED_RATIO else LiquidLevel.BODY
 
 
 func _get_body_vertical_bounds() -> Vector2:

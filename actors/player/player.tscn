@@ -33,8 +33,6 @@ height = 0.8
 [sub_resource type="SphereShape3D" id="SphereShape3D_rghg7"]
 radius = 0.3
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_bsiym"]
-radius = 0.05
 
 [sub_resource type="Resource" id="Resource_et2yc"]
 script = ExtResource("30_j5me0")
@@ -313,7 +311,7 @@ states/Standing/node = SubResource("AnimationNodeBlendSpace1D_qnicj")
 states/Standing/position = Vector2(447.33334, 72.66667)
 transitions = ["Start", "Standing", SubResource("AnimationNodeStateMachineTransition_m1hv5"), "Standing", "Crouching", SubResource("AnimationNodeStateMachineTransition_rswtf"), "Crouching", "Standing", SubResource("AnimationNodeStateMachineTransition_wn017"), "Standing", "Death", SubResource("AnimationNodeStateMachineTransition_mnwg7"), "Crouching", "Death", SubResource("AnimationNodeStateMachineTransition_2cxsc")]
 
-[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_controller", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "wield_controller", "animation_tree", "inventory") groups=["player"]]
+[node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_controller", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "wield_controller", "animation_tree", "inventory", "head") groups=["player"]]
 collision_layer = 771
 script = ExtResource("1_nvxhs")
 camera_controller = NodePath("Neck")
@@ -329,6 +327,7 @@ wield_controller = NodePath("WieldController")
 animation_tree = NodePath("AnimationTree")
 inventory = NodePath("Inventory")
 mesh_layer = 4
+head = NodePath("Neck/Head")
 
 [node name="MovementHandlers" type="Node" parent="." unique_id=1802761061]
 
@@ -395,12 +394,7 @@ player = NodePath("../../..")
 [node name="InteractionRayCast" parent="Neck/Head/Camera" unique_id=327387966 node_paths=PackedStringArray("player") instance=ExtResource("15_jjb1w")]
 player = NodePath("../../../..")
 
-[node name="CameraArea" type="Area3D" parent="Neck/Head/Camera" unique_id=126417438]
-collision_layer = 0
-monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Neck/Head/Camera/CameraArea" unique_id=1310995675]
-shape = SubResource("SphereShape3D_bsiym")
 
 [node name="Wieldables" type="Node3D" parent="Neck/Head/Camera" unique_id=1901824401]
 script = ExtResource("14_v3s8r")
@@ -1043,8 +1037,6 @@ parameters/Standing/blend_position = -1.1821413
 
 [connection signal="ladder_entered" from="." to="MovementHandlers/LadderMovement" method="_on_ladder_entered"]
 [connection signal="ladder_exited" from="." to="MovementHandlers/LadderMovement" method="_on_ladder_exited"]
-[connection signal="area_entered" from="Neck/Head/Camera/CameraArea" to="Neck/Head/Camera" method="_on_camera_area_entered"]
-[connection signal="area_exited" from="Neck/Head/Camera/CameraArea" to="Neck/Head/Camera" method="_on_camera_area_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Movement" to="MovementHandlers/GroundMovement" method="_on_movement_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Movement" to="MovementHandlers/LadderMovement" method="_on_movement_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Grounded" to="MovementHandlers/GroundMovement" method="_on_grounded_state_entered"]
