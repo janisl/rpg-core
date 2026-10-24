@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://ca0wevg1lb4rx"]
 
-[ext_resource type="Script" uid="uid://dc6smac6cl60l" path="res://utils/swimmable_areas/swimmable_area.gd" id="1_cwqxf"]
-[ext_resource type="Shader" uid="uid://b4uvogluyyexx" path="res://shaders/fog_fade.gdshader" id="2_yg22s"]
-[ext_resource type="Script" uid="uid://cl0gaolcr3j87" path="res://utils/swimmable_areas/fog_volume_fade.gd" id="3_yol2g"]
+[ext_resource type="Script" uid="uid://dc6smac6cl60l" path="res://systems/liquids/liquid.gd" id="1_cwqxf"]
+[ext_resource type="Shader" uid="uid://b4uvogluyyexx" path="res://systems/liquids/fog_fade.gdshader" id="2_yg22s"]
+[ext_resource type="Script" uid="uid://cl0gaolcr3j87" path="res://systems/liquids/fog_volume_fade.gd" id="3_yol2g"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_1bimf"]
 resource_local_to_scene = true

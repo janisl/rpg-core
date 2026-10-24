@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://d1m2ngmuqlqgn"]
 
-[ext_resource type="PackedScene" uid="uid://ca0wevg1lb4rx" path="res://utils/swimmable_areas/swimmable_area.tscn" id="2_lkjt4"]
+[ext_resource type="PackedScene" uid="uid://ca0wevg1lb4rx" path="res://systems/liquids/liquid.tscn" id="2_lkjt4"]
 [ext_resource type="Script" uid="uid://5vb1p4xt6w58" path="res://utils/ladder_area.gd" id="3_ny0t1"]
 [ext_resource type="PackedScene" uid="uid://cj1cbhi5vwsb5" path="res://props/destructible_box.tscn" id="6_6g8e2"]
 [ext_resource type="PackedScene" uid="uid://djilda64tb5p8" path="res://pickups/health_pickup.tscn" id="7_u45fp"]
@@ -185,22 +185,22 @@ background_color = Color(7.70092e-07, 0.68970317, 0.8517272, 1)
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_fivcu"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lqn8c"]
 resource_local_to_scene = true
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_uy2g7"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_08uri"]
 resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_fivcu")
+noise = SubResource("FastNoiseLite_lqn8c")
 seamless = true
 as_normal_map = true
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_u1nm5"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fivcu"]
 resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_fivcu")
+noise = SubResource("FastNoiseLite_lqn8c")
 seamless = true
 as_normal_map = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1w0m8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uy2g7"]
 resource_local_to_scene = true
 transparency = 1
 cull_mode = 2
@@ -208,9 +208,9 @@ depth_draw_mode = 1
 albedo_color = Color(0.30980393, 0.5411765, 0.8666667, 0.3882353)
 roughness = 0.0
 normal_enabled = true
-normal_texture = SubResource("NoiseTexture2D_uy2g7")
+normal_texture = SubResource("NoiseTexture2D_08uri")
 refraction_enabled = true
-refraction_texture = SubResource("NoiseTexture2D_u1nm5")
+refraction_texture = SubResource("NoiseTexture2D_fivcu")
 uv1_scale = Vector3(0.04, 0.04, 0.04)
 uv1_triplanar = true
 uv1_world_triplanar = true
@@ -551,7 +551,7 @@ environment = SubResource("Environment_bsiym")
 [node name="SwimmableArea" parent="." unique_id=788056043 instance=ExtResource("2_lkjt4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2.4, -40)
 size = Vector3(10, 5, 10)
-material = SubResource("StandardMaterial3D_1w0m8")
+material = SubResource("StandardMaterial3D_uy2g7")
 
 [node name="Ladder" type="Node3D" parent="." unique_id=1971942035]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -34.5, 2.5, -36)
