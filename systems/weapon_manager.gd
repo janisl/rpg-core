@@ -16,9 +16,11 @@ func _ready() -> void:
 			event.keycode = KEY_1 + (i - 1)
 			InputMap.action_add_event(action_name, event)
 
-	await get_tree().process_frame
+	EventBus.player_spawned.connect(_on_player_spawned)
 
-	player = get_tree().get_first_node_in_group("player")
+
+func _on_player_spawned(p: Player) -> void:
+	player = p
 	initialize_starting_weapon.call_deferred()
 
 
