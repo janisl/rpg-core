@@ -25,7 +25,7 @@ func connect_to_player(player: Player) -> void:
 	_player.wield_controller.wieldable_changed.connect(_on_wieldable_changed)
 	_player.interaction_controller.interactive_object_detected.connect(_on_interactive_object_detected)
 	_player.interaction_controller.nothing_detected.connect(_on_nothing_detected)
-	GlobalManager.camera_underwater_effect_changed.connect(_on_camera_underwater_effect_changed)
+	_player.liquid_level_changed.connect(_on_liquid_level_changed)
 
 	interact_label.visible = false
 
@@ -39,8 +39,8 @@ func connect_to_player(player: Player) -> void:
 	visible = true
 
 
-func _on_camera_underwater_effect_changed() -> void:
-	water_ripple_overlay.visible = GlobalManager.camera_underwater_effect
+func _on_liquid_level_changed() -> void:
+	water_ripple_overlay.visible = _player.liquid_level >= Actor.LiquidLevel.EYES
 
 
 func _update_current_slot() -> void:
