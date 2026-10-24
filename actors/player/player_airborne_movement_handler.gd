@@ -15,13 +15,13 @@ extends Node
 
 
 func _on_airborne_state_physics_processing(delta: float) -> void:
-	var current_fall_velocity = player.velocity.y
+	var current_fall_velocity := player.velocity.y
 
 	player.velocity += player.get_gravity() * delta
 
-	var speed = default_speed
+	var speed := default_speed
 
-	var current_velocity = Vector2(player.velocity.x, player.velocity.z)
+	var current_velocity := Vector2(player.velocity.x, player.velocity.z)
 	var direction := (player.transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
 	if direction:
 		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration)

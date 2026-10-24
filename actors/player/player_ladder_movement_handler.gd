@@ -64,7 +64,7 @@ func _handle_ladder_movement(was_climbing_ladder: bool, is_test: bool) -> bool:
 
 	var should_dismount := false
 	if not was_climbing_ladder:
-		var mounting_from_top = pos_rel_to_ladder.y > _cur_ladder_climbing.get_node("TopOfLadder").position.y
+		var mounting_from_top: bool = pos_rel_to_ladder.y > _cur_ladder_climbing.get_node("TopOfLadder").position.y
 		if mounting_from_top:
 			if ladder_climb_vel > 0:
 				should_dismount = true

@@ -50,10 +50,10 @@ func _on_crouching_state_entered() -> void:
 
 
 func _on_grounded_state_physics_processing(delta: float) -> void:
-	var speed_modifier = _sprint_modifier + _crouch_modifier
-	var speed = default_speed + speed_modifier
+	var speed_modifier := _sprint_modifier + _crouch_modifier
+	var speed := default_speed + speed_modifier
 
-	var current_velocity = Vector2(player.velocity.x, player.velocity.z)
+	var current_velocity := Vector2(player.velocity.x, player.velocity.z)
 	var direction := (player.transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
 	if direction:
 		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration)
@@ -64,13 +64,14 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 	player.velocity.z = current_velocity.y
 
 	if not _snap_up_stairs_check(delta):
-		player.push_away_rigid_bodies()
 		player.move_and_slide()
 		_snap_down_to_stairs_check()
 
+	player.push_away_rigid_bodies()
+
 	_was_on_floor_last_frame = true
 
-	var has_stamina = player.stamina_attribute.value >= player.stamina_attribute.jump_exhaustion
+	var has_stamina := player.stamina_attribute.value >= player.stamina_attribute.jump_exhaustion
 	if Input.is_action_just_pressed("jump") and player.is_on_floor() and has_stamina:
 		player.jump()
 
@@ -95,7 +96,7 @@ func _snap_up_stairs_check(delta) -> bool:
 
 	var top_of_step: Vector3 = step_pos_with_clearance.origin + down_check_result.get_travel()
 	var measured_height := (top_of_step - player.global_position).y
-	var collision_point_height = (down_check_result.get_collision_point() - player.global_position).y
+	var collision_point_height := (down_check_result.get_collision_point() - player.global_position).y
 	if (
 			measured_height > step_height
 			or measured_height > test_step_height
@@ -141,7 +142,7 @@ func _run_body_test_motion(from: Transform3D, motion: Vector3, result = null) ->
 	if not result:
 		result = PhysicsTestMotionResult3D.new()
 
-	var params = PhysicsTestMotionParameters3D.new()
+	var params := PhysicsTestMotionParameters3D.new()
 	params.from = from
 	params.motion = motion
 

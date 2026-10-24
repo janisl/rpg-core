@@ -15,11 +15,11 @@ extends Node
 func _on_swimming_state_physics_processing(delta: float) -> void:
 	var direction := (player.camera_effects.global_transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
 
-	var new_velocity = player.velocity
+	var new_velocity := player.velocity
 	if not player.is_on_floor():
 		new_velocity += player.get_gravity() * gravity_factor * delta
 
-	var speed = swim_sprint_speed if Input.is_action_pressed("sprint") else swim_speed
+	var speed := swim_sprint_speed if Input.is_action_pressed("sprint") else swim_speed
 	new_velocity += direction * speed * delta
 
 	if Input.is_action_pressed("jump"):
