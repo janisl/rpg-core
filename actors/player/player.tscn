@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cbd2ojah4nun6" path="res://systems/interaction/interaction_controller.tscn" id="15_jjb1w"]
 [ext_resource type="ArrayMesh" uid="uid://caxjp2wqc7o7n" path="res://assets/models/mannequin.mesh" id="19_otn2r"]
 [ext_resource type="AnimationLibrary" uid="uid://dm7sapnp2plx2" path="res://assets/animations/humanoid/universal_animation_library_standard.res" id="20_ctwkf"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://bbe1e835q82bc" path="res://systems/actors/humanoid_animation_tree.tres" id="20_icg72"]
 [ext_resource type="Script" uid="uid://dek1hlgqh6p45" path="res://actors/player/player_ground_movement_handler.gd" id="20_otn2r"]
 [ext_resource type="Script" uid="uid://dte1dx7wmo5ca" path="res://actors/player/player_airborne_movement_handler.gd" id="21_ctwkf"]
 [ext_resource type="Script" uid="uid://v3eyncouit2i" path="res://actors/player/player_swimming_movement_handler.gd" id="23_lj3dd"]
@@ -249,67 +250,6 @@ length = 0.001
 _data = {
 &"RESET": SubResource("Animation_4ihbh")
 }
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jjb1w"]
-animation = &"universal_animation_library_standard/Crouch_Idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_igrto"]
-animation = &"universal_animation_library_standard/Crouch_Fwd"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_c1klp"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_jjb1w")
-blend_point_0/pos = -1.0
-blend_point_0/name = &"Crouch"
-blend_point_1/node = SubResource("AnimationNodeAnimation_igrto")
-blend_point_1/pos = 1.0
-blend_point_1/name = &"CrouchSprint"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s7w8x"]
-animation = &"universal_animation_library_standard/Death01"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_i0btr"]
-animation = &"universal_animation_library_standard/Idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rfvym"]
-animation = &"universal_animation_library_standard/Walk"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ifggu"]
-animation = &"universal_animation_library_standard/Sprint"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_qnicj"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_i0btr")
-blend_point_0/pos = -1.0
-blend_point_0/name = &"Idle"
-blend_point_1/node = SubResource("AnimationNodeAnimation_rfvym")
-blend_point_1/pos = 0.0
-blend_point_1/name = &"Walk"
-blend_point_2/node = SubResource("AnimationNodeAnimation_ifggu")
-blend_point_2/pos = 1.0
-blend_point_2/name = &"Sprint"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_m1hv5"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rswtf"]
-xfade_time = 0.2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wn017"]
-xfade_time = 0.2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mnwg7"]
-xfade_time = 0.2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2cxsc"]
-xfade_time = 0.2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_m6vwk"]
-states/Crouching/node = SubResource("AnimationNodeBlendSpace1D_c1klp")
-states/Crouching/position = Vector2(458.66666, 240.66667)
-states/Death/node = SubResource("AnimationNodeAnimation_s7w8x")
-states/Death/position = Vector2(631.3333, 119.333336)
-states/Standing/node = SubResource("AnimationNodeBlendSpace1D_qnicj")
-states/Standing/position = Vector2(447.33334, 72.66667)
-transitions = ["Start", "Standing", SubResource("AnimationNodeStateMachineTransition_m1hv5"), "Standing", "Crouching", SubResource("AnimationNodeStateMachineTransition_rswtf"), "Crouching", "Standing", SubResource("AnimationNodeStateMachineTransition_wn017"), "Standing", "Death", SubResource("AnimationNodeStateMachineTransition_mnwg7"), "Crouching", "Death", SubResource("AnimationNodeStateMachineTransition_2cxsc")]
 
 [node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_controller", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "wield_controller", "animation_tree", "inventory", "head") groups=["player"]]
 collision_layer = 771
@@ -1026,10 +966,12 @@ libraries/ = SubResource("AnimationLibrary_ne5l8")
 libraries/universal_animation_library_standard = ExtResource("20_ctwkf")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1632634472]
-tree_root = SubResource("AnimationNodeStateMachine_m6vwk")
+tree_root = ExtResource("20_icg72")
 anim_player = NodePath("../AnimationPlayer")
-parameters/Crouching/blend_position = -0.7376093
-parameters/Standing/blend_position = -1.1821413
+parameters/UpperBody/Idle/TimeSeek/seek_request = -1.0
+parameters/Blend2/blend_amount = 0.0
+parameters/LowerBody/Crouching/blend_position = Vector2(0, 0)
+parameters/LowerBody/Standing/blend_position = Vector2(0, 0)
 
 [node name="HealthAttribute" parent="." unique_id=213689897 instance=ExtResource("35_qls60")]
 

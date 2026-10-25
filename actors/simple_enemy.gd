@@ -20,8 +20,8 @@ func _ready() -> void:
 	health_attribute.died.connect(_on_died)
 	nav_agent.velocity_computed.connect(_on_velocity_computed)
 
-	anim_tree_state = animation_tree["parameters/playback"]
-	animation_tree["parameters/Idle/TimeSeek/seek_request"] = randf_range(0.0, animation_player.get_animation("universal_animation_library_standard/Idle").length)
+	anim_tree_state = animation_tree["parameters/UpperBody/playback"]
+	animation_tree["parameters/UpperBody/Idle/TimeSeek/seek_request"] = randf_range(0.0, animation_player.get_animation("universal_animation_library_standard/Idle").length)
 
 
 func _physics_process(delta: float) -> void:
@@ -57,5 +57,5 @@ func _on_detection_area_body_entered(body: Node3D) -> void:
 
 func _update_blends() -> void:
 	var move_amount = velocity.length()
-	move_amount = remap(move_amount, 0.0, sprint_speed, 0.0, 1.0)
-	animation_tree["parameters/Chase/IdleChaseBlend/blend_position"] = move_amount
+	move_amount = remap(move_amount, -sprint_speed, sprint_speed, -1.0, 1.0)
+	animation_tree["parameters/LowerBody/Standing/blend_position"].y = move_amount

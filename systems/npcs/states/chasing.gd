@@ -12,9 +12,6 @@ func _on_chasing_state_exited() -> void:
 func _on_chase_state_physics_processing(delta: float) -> void:
 	npc.move_and_slide()
 
-	if npc.anim_tree_state.get_current_node() != "Chase":
-		npc.anim_tree_state.travel("Chase")
-
 	if not npc.attention_target:
 		return
 

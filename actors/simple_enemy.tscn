@@ -19,6 +19,7 @@
 [ext_resource type="AudioStream" uid="uid://clh4hlpramjwl" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_002.ogg" id="14_thjgf"]
 [ext_resource type="AudioStream" uid="uid://cba5cvqpa62l1" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_003.ogg" id="15_rpt3r"]
 [ext_resource type="AudioStream" uid="uid://l5srpaiywb2d" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_004.ogg" id="16_gbejp"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://bbe1e835q82bc" path="res://systems/actors/humanoid_animation_tree.tres" id="19_thjgf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -205,83 +206,6 @@ length = 0.001
 _data = {
 &"RESET": SubResource("Animation_4s1oe")
 }
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4s1oe"]
-animation = &"universal_animation_library_standard/Idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a0x3i"]
-animation = &"universal_animation_library_standard/Sprint"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_ngyoi"]
-min_space = 0.0
-blend_point_0/node = SubResource("AnimationNodeAnimation_4s1oe")
-blend_point_0/pos = 0.0
-blend_point_0/name = &"idle"
-blend_point_1/node = SubResource("AnimationNodeAnimation_a0x3i")
-blend_point_1/pos = 1.0
-blend_point_1/name = &"run"
-
-[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_evrkw"]
-
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_4s1oe"]
-graph_offset = Vector2(-589.3333, 16.666666)
-nodes/IdleChaseBlend/node = SubResource("AnimationNodeBlendSpace1D_ngyoi")
-nodes/IdleChaseBlend/position = Vector2(-346.66666, 146.66667)
-nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_evrkw")
-nodes/TimeSeek/position = Vector2(-40, 146.66667)
-node_connections = [&"output", 0, &"TimeSeek", &"TimeSeek", 0, &"IdleChaseBlend"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4a0lb"]
-animation = &"universal_animation_library_standard/Idle"
-
-[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_a0x3i"]
-
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ngyoi"]
-graph_offset = Vector2(-892.41315, -0.18029785)
-nodes/Animation/node = SubResource("AnimationNodeAnimation_4a0lb")
-nodes/Animation/position = Vector2(-453.33334, 133.33333)
-nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_a0x3i")
-nodes/TimeSeek/position = Vector2(-80, 93.333336)
-node_connections = [&"output", 0, &"TimeSeek", &"TimeSeek", 0, &"Animation"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ngyoi"]
-animation = &"universal_animation_library_standard/Punch_Cross"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_evrkw"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gvg5y"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0qgqr"]
-
-[sub_resource type="Curve" id="Curve_4a0lb"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ouyvs"]
-xfade_time = 0.2
-xfade_curve = SubResource("Curve_4a0lb")
-
-[sub_resource type="Curve" id="Curve_4s1oe"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wimj6"]
-xfade_time = 0.2
-xfade_curve = SubResource("Curve_4s1oe")
-switch_mode = 2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_bsiym"]
-states/Chase/node = SubResource("AnimationNodeBlendTree_4s1oe")
-states/Chase/position = Vector2(647.3333, 123.259254)
-states/End/position = Vector2(1286.6666, 100.88889)
-states/Idle/node = SubResource("AnimationNodeBlendTree_ngyoi")
-states/Idle/position = Vector2(404.66666, 124.888885)
-states/Melee/node = SubResource("AnimationNodeAnimation_ngyoi")
-states/Melee/position = Vector2(646.6667, 239.33333)
-states/Start/position = Vector2(193.33333, 126)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_evrkw"), "Idle", "Chase", SubResource("AnimationNodeStateMachineTransition_gvg5y"), "Chase", "Idle", SubResource("AnimationNodeStateMachineTransition_0qgqr"), "Chase", "Melee", SubResource("AnimationNodeStateMachineTransition_ouyvs"), "Melee", "Chase", SubResource("AnimationNodeStateMachineTransition_wimj6")]
-graph_offset = Vector2(-116, -138)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_bsiym"]
 radius = 5.0
@@ -745,9 +669,9 @@ skin = SubResource("Skin_3bqo7")
 skeleton = NodePath("..")
 
 [node name="HandAttachment" type="BoneAttachment3D" parent="Rig/GeneralSkeleton" unique_id=1559152291]
-transform = Transform3D(0.45492437, 0.032451764, -0.8899385, -0.41648537, -0.87555623, -0.24482897, -0.7871363, 0.4820251, -0.38479626, 0.3351844, 0.878888, 0.022770524)
-bone_name = "DEF-hand.L"
-bone_idx = 10
+transform = Transform3D(0.060977273, -0.13250157, 0.9893055, 0.55604565, -0.81859815, -0.14391093, 0.82891196, 0.55887425, 0.02376094, -0.27533787, 0.902922, -0.16007772)
+bone_name = "RightHand"
+bone_idx = 29
 
 [node name="ImpactZone" type="Area3D" parent="Rig/GeneralSkeleton/HandAttachment" unique_id=888741085 node_paths=PackedStringArray("npc")]
 transform = Transform3D(0.9998372, 0.009140596, 0.0155593455, -0.009313583, 0.9998951, 0.01109305, -0.015456617, -0.011236191, 0.9998175, -0.004041493, 0.07320613, 0.0038952082)
@@ -769,11 +693,12 @@ libraries/ = SubResource("AnimationLibrary_a0x3i")
 libraries/universal_animation_library_standard = ExtResource("7_ngyoi")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=2041500962]
-tree_root = SubResource("AnimationNodeStateMachine_bsiym")
+tree_root = ExtResource("19_thjgf")
 anim_player = NodePath("../AnimationPlayer")
-parameters/Chase/IdleChaseBlend/blend_position = 1.002499
-parameters/Chase/TimeSeek/seek_request = -1.0
-parameters/Idle/TimeSeek/seek_request = -1.0
+parameters/UpperBody/Idle/TimeSeek/seek_request = -1.0
+parameters/Blend2/blend_amount = 1.0
+parameters/LowerBody/Crouching/blend_position = Vector2(0, 0)
+parameters/LowerBody/Standing/blend_position = Vector2(-0.005210817, -0.006337166)
 
 [node name="NavAgent" type="NavigationAgent3D" parent="." unique_id=120446349]
 avoidance_enabled = true

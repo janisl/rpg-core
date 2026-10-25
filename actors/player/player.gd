@@ -53,7 +53,7 @@ func _ready() -> void:
 	var meshes := %GeneralSkeleton.find_children("*", "MeshInstance3D", true, false)
 	for m in meshes:
 		m.layers = mesh_layer
-	anim_tree_state = animation_tree["parameters/playback"]
+	anim_tree_state = animation_tree["parameters/LowerBody/playback"]
 
 	for attribute in find_children("", "BaseAttribute", false):
 		player_attributes[attribute.attribute_name] = attribute
@@ -66,8 +66,8 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	var move_amount = velocity.length()
-	animation_tree["parameters/Standing/blend_position"] = remap(move_amount, 0.0, 10.0, -1.0, 1.0)
-	animation_tree["parameters/Crouching/blend_position"] = remap(move_amount, 0.0, 8.0, -1.0, 1.0)
+	animation_tree["parameters/LowerBody/Standing/blend_position"].y = remap(-velocity.z, -10.0, 10.0, -1.0, 1.0)
+	animation_tree["parameters/LowerBody/Crouching/blend_position"].y = remap(move_amount, -8.0, 8.0, -1.0, 1.0)
 
 
 func _physics_process(_delta: float) -> void:
