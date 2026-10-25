@@ -47,3 +47,7 @@ func _on_attack_state_physics_processing(_delta: float) -> void:
 	var is_attack_active = animation_tree.get("parameters/UpperBody/RaisedFists/attack/active")
 	if !is_attack_active:
 		state_chart.send_event("ubody_raise_weapon")
+
+
+func _on_health_attribute_damage_taken(_hit_info: HitInfo) -> void:
+	animation_tree.set("parameters/hurt/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)

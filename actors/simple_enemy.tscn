@@ -787,6 +787,9 @@ parameters/UpperBodyBlend/blend_amount = 1.0
 parameters/LowerBody/Crouching/blend_position = Vector2(0, 0)
 parameters/LowerBody/Standing/blend_position = Vector2(-0.005210817, -0.006337166)
 parameters/LowerBody/Standing/BlendTree/TimeSeek/seek_request = -1.0
+parameters/hurt/active = false
+parameters/hurt/internal_active = false
+parameters/hurt/request = 0
 
 [node name="NavAgent" type="NavigationAgent3D" parent="." unique_id=120446349]
 avoidance_enabled = true
@@ -828,4 +831,5 @@ debug_color = Color(0, 0.6, 0.69803923, 0.38039216)
 [connection signal="state_physics_processing" from="StateChart/Root/Posture/UpperBody/Attack" to="StateChart/Root/Posture/Processor" method="_on_attack_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Posture/LowerBody/Walking" to="StateChart/Root/Posture/Processor" method="_on_walking_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Posture/LowerBody/Running" to="StateChart/Root/Posture/Processor" method="_on_running_state_physics_processing"]
+[connection signal="damage_taken" from="HealthAttribute" to="StateChart/Root/Posture/Processor" method="_on_health_attribute_damage_taken"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]

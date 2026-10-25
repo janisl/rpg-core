@@ -1,5 +1,8 @@
 [gd_resource type="AnimationNodeBlendTree" format=3 uid="uid://bbe1e835q82bc"]
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xqf0j"]
+animation = &"universal_animation_library_standard/Hit_Chest"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_thjgf"]
 animation = &"universal_animation_library_standard/Crouch_Idle"
 
@@ -203,13 +206,19 @@ graph_offset = Vector2(-191, -139)
 filter_enabled = true
 filters = ["%GeneralSkeleton:Head", "%GeneralSkeleton:LeftHand", "%GeneralSkeleton:LeftIndexDistal", "%GeneralSkeleton:LeftIndexIntermediate", "%GeneralSkeleton:LeftIndexProximal", "%GeneralSkeleton:LeftLittleDistal", "%GeneralSkeleton:LeftLittleIntermediate", "%GeneralSkeleton:LeftLittleProximal", "%GeneralSkeleton:LeftLowerArm", "%GeneralSkeleton:LeftMiddleDistal", "%GeneralSkeleton:LeftMiddleIntermediate", "%GeneralSkeleton:LeftMiddleProximal", "%GeneralSkeleton:LeftRingDistal", "%GeneralSkeleton:LeftRingIntermediate", "%GeneralSkeleton:LeftRingProximal", "%GeneralSkeleton:LeftShoulder", "%GeneralSkeleton:LeftThumbDistal", "%GeneralSkeleton:LeftThumbMetacarpal", "%GeneralSkeleton:LeftThumbProximal", "%GeneralSkeleton:LeftUpperArm", "%GeneralSkeleton:Neck", "%GeneralSkeleton:RightHand", "%GeneralSkeleton:RightIndexDistal", "%GeneralSkeleton:RightIndexIntermediate", "%GeneralSkeleton:RightIndexProximal", "%GeneralSkeleton:RightLittleDistal", "%GeneralSkeleton:RightLittleIntermediate", "%GeneralSkeleton:RightLittleProximal", "%GeneralSkeleton:RightLowerArm", "%GeneralSkeleton:RightMiddleDistal", "%GeneralSkeleton:RightMiddleIntermediate", "%GeneralSkeleton:RightMiddleProximal", "%GeneralSkeleton:RightRingDistal", "%GeneralSkeleton:RightRingIntermediate", "%GeneralSkeleton:RightRingProximal", "%GeneralSkeleton:RightShoulder", "%GeneralSkeleton:RightThumbDistal", "%GeneralSkeleton:RightThumbMetacarpal", "%GeneralSkeleton:RightThumbProximal", "%GeneralSkeleton:RightUpperArm", "%GeneralSkeleton:UpperChest"]
 
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_w64io"]
+
 [resource]
-graph_offset = Vector2(-905.3333, -198.66667)
-nodes/output/position = Vector2(386.66666, 53.333332)
+graph_offset = Vector2(-674.93994, -169.09998)
+nodes/output/position = Vector2(360, -40)
 nodes/UpperBody/node = SubResource("AnimationNodeStateMachine_bsiym")
 nodes/UpperBody/position = Vector2(-493.33334, 160)
 nodes/UpperBodyBlend/node = SubResource("AnimationNodeBlend2_rpt3r")
-nodes/UpperBodyBlend/position = Vector2(40, 0)
+nodes/UpperBodyBlend/position = Vector2(146.66667, -40)
 nodes/LowerBody/node = SubResource("AnimationNodeStateMachine_f3ltb")
 nodes/LowerBody/position = Vector2(-493.33334, -40)
-node_connections = [&"output", 0, &"UpperBodyBlend", &"UpperBodyBlend", 0, &"LowerBody", &"UpperBodyBlend", 1, &"UpperBody"]
+nodes/Animation/node = SubResource("AnimationNodeAnimation_xqf0j")
+nodes/Animation/position = Vector2(-493.33334, 360)
+nodes/hurt/node = SubResource("AnimationNodeOneShot_w64io")
+nodes/hurt/position = Vector2(-53.333332, 133.33333)
+node_connections = [&"output", 0, &"UpperBodyBlend", &"UpperBodyBlend", 0, &"LowerBody", &"UpperBodyBlend", 1, &"hurt", &"hurt", 0, &"UpperBody", &"hurt", 1, &"Animation"]
