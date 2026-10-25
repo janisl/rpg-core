@@ -245,6 +245,7 @@ script = ExtResource("6_evrkw")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
+behaviour_state = 1
 
 [node name="OnChase" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=132159885]
 script = ExtResource("5_a0x3i")
@@ -260,6 +261,7 @@ script = ExtResource("8_gvg5y")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
+behaviour_state = 5
 
 [node name="OnIdle" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=1276673632]
 script = ExtResource("5_a0x3i")
@@ -284,6 +286,7 @@ attack_sound = ExtResource("10_qld51")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
+behaviour_state = 6
 
 [node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Attacking" unique_id=1618527547]
 script = ExtResource("5_a0x3i")

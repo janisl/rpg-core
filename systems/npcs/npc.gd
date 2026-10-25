@@ -1,6 +1,13 @@
 class_name Npc
 extends Actor
 
+enum BehaviourState {
+	None,
+	Idle,
+	Chasing,
+	Attacking,
+}
+
 @export_group("Movement")
 @export var walk_speed := 2.0
 @export var sprint_speed := 4.0
@@ -9,6 +16,9 @@ extends Actor
 
 var attention_target: Node3D
 var move_speed := 2.0
+
+var previous_behaviour: BehaviourState
+var current_behaviour: BehaviourState
 
 @onready var velocity_debug_shape: MeshInstance3D = $VelocityDebugShape
 

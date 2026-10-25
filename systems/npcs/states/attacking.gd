@@ -13,6 +13,7 @@ var _count_down := 0.0
 
 
 func _on_attacking_state_entered() -> void:
+	_enter_state()
 	_target = npc.attention_target
 	if !_target:
 		state_chart.send_event(state_after_attack)
@@ -23,6 +24,7 @@ func _on_attacking_state_entered() -> void:
 
 
 func _on_attacking_state_exited() -> void:
+	_exit_state()
 	attack_impact_zone.set_collision(false)
 
 

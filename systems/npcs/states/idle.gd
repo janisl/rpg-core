@@ -2,11 +2,11 @@ extends NpcStateProcessor
 
 
 func _on_idle_state_entered() -> void:
-	pass # Replace with function body.
+	_enter_state()
 
 
 func _on_idle_state_exited() -> void:
-	pass # Replace with function body.
+	_exit_state()
 
 
 func _on_idle_state_physics_processing(delta: float) -> void:

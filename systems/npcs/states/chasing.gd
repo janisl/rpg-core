@@ -2,12 +2,13 @@ extends NpcStateProcessor
 
 
 func _on_chasing_state_entered() -> void:
+	_enter_state()
 	state_chart.send_event("body_run")
 	state_chart.send_event("ubody_raise_weapon")
 
 
 func _on_chasing_state_exited() -> void:
-	pass # Replace with function body.
+	_exit_state()
 
 
 func _on_chase_state_physics_processing(delta: float) -> void:
