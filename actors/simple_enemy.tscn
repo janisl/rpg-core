@@ -224,8 +224,9 @@ height = 0.1
 radial_segments = 8
 rings = 4
 
-[node name="SimpleEnemy" type="CharacterBody3D" unique_id=1330723701]
+[node name="SimpleEnemy" type="CharacterBody3D" unique_id=1330723701 node_paths=PackedStringArray("head")]
 script = ExtResource("1_4s1oe")
+head = NodePath("Rig/GeneralSkeleton/HeadAttachment/Head")
 
 [node name="StateChart" type="Node" parent="." unique_id=1116907845]
 script = ExtResource("2_tmhjk")
@@ -756,6 +757,10 @@ skeleton = NodePath("..")
 transform = Transform3D(1, 0, 0, 0, 1, -6.7800283e-07, 0, 6.7800283e-07, 1, 0, 1.5687002, 0.005100037)
 bone_name = "Head"
 bone_idx = 6
+
+[node name="Head" type="Node3D" parent="Rig/GeneralSkeleton/HeadAttachment" unique_id=1524963797]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
 
 [node name="DetectionArea" type="Area3D" parent="Rig/GeneralSkeleton/HeadAttachment" unique_id=1544427392]
 transform = Transform3D(0.9999998, -0.0008125226, 0.00080436096, 0.0008076176, 0.9999807, 0.006068611, -0.00080915075, -0.006067942, 0.9999813, 0.0031453073, 0.13780785, -0.25541118)
