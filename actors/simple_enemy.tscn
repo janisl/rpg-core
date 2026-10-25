@@ -21,6 +21,7 @@
 [ext_resource type="AudioStream" uid="uid://cba5cvqpa62l1" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_003.ogg" id="15_rpt3r"]
 [ext_resource type="AudioStream" uid="uid://l5srpaiywb2d" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_004.ogg" id="16_gbejp"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://bbe1e835q82bc" path="res://systems/actors/humanoid_animation_tree.tres" id="19_thjgf"]
+[ext_resource type="Script" uid="uid://crvmh56qwb83k" path="res://systems/npcs/detection/sight_detection.gd" id="22_gbejp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -810,6 +811,12 @@ visible = false
 mesh = SubResource("SphereMesh_rpt3r")
 skeleton = NodePath("../Audio")
 
+[node name="SightDetection" type="Node3D" parent="." unique_id=1899700967 node_paths=PackedStringArray("detection_area", "npc")]
+script = ExtResource("22_gbejp")
+detection_area = NodePath("../DetectionArea")
+npc = NodePath("..")
+metadata/_custom_type_script = "uid://crvmh56qwb83k"
+
 [node name="DetectionArea" type="Area3D" parent="." unique_id=1630955694]
 collision_layer = 0
 collision_mask = 2
@@ -835,4 +842,3 @@ debug_color = Color(0, 0.6, 0.69803923, 0.38039216)
 [connection signal="state_physics_processing" from="StateChart/Root/Posture/LowerBody/Walking" to="StateChart/Root/Posture/Processor" method="_on_walking_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Posture/LowerBody/Running" to="StateChart/Root/Posture/Processor" method="_on_running_state_physics_processing"]
 [connection signal="damage_taken" from="HealthAttribute" to="StateChart/Root/Posture/Processor" method="_on_health_attribute_damage_taken"]
-[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
