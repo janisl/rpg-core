@@ -179,28 +179,34 @@ size = Vector3(2, 1, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_mteop"]
 size = Vector3(2, 1, 0.5)
 
+[sub_resource type="BoxMesh" id="BoxMesh_b4548"]
+size = Vector3(0.2, 2, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_slyy5"]
+size = Vector3(0.2, 2, 4)
+
 [sub_resource type="Environment" id="Environment_bsiym"]
 background_mode = 1
 background_color = Color(7.70092e-07, 0.68970317, 0.8517272, 1)
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_lqn8c"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_6k6bt"]
 resource_local_to_scene = true
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_08uri"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7nn5j"]
 resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_lqn8c")
+noise = SubResource("FastNoiseLite_6k6bt")
 seamless = true
 as_normal_map = true
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fivcu"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fywoe"]
 resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_lqn8c")
+noise = SubResource("FastNoiseLite_6k6bt")
 seamless = true
 as_normal_map = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uy2g7"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_clpq5"]
 resource_local_to_scene = true
 transparency = 1
 cull_mode = 2
@@ -208,9 +214,9 @@ depth_draw_mode = 1
 albedo_color = Color(0.30980393, 0.5411765, 0.8666667, 0.3882353)
 roughness = 0.0
 normal_enabled = true
-normal_texture = SubResource("NoiseTexture2D_08uri")
+normal_texture = SubResource("NoiseTexture2D_7nn5j")
 refraction_enabled = true
-refraction_texture = SubResource("NoiseTexture2D_fivcu")
+refraction_texture = SubResource("NoiseTexture2D_fywoe")
 uv1_scale = Vector3(0.04, 0.04, 0.04)
 uv1_triplanar = true
 uv1_world_triplanar = true
@@ -541,6 +547,15 @@ mesh = SubResource("BoxMesh_nylvy")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion/WeaponsTable3/StaticBody3D" unique_id=153131489]
 shape = SubResource("BoxShape3D_mteop")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion" unique_id=1117447890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 5)
+mesh = SubResource("BoxMesh_b4548")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion/MeshInstance3D" unique_id=1868330300]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion/MeshInstance3D/StaticBody3D" unique_id=1489952368]
+shape = SubResource("BoxShape3D_slyy5")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=850189060]
 transform = Transform3D(1, 0, 0, 0, 0.17364822, 0.9848077, 0, -0.9848077, 0.17364822, 0, 0, 0)
 shadow_enabled = true
@@ -551,7 +566,7 @@ environment = SubResource("Environment_bsiym")
 [node name="SwimmableArea" parent="." unique_id=788056043 instance=ExtResource("2_lkjt4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2.4, -40)
 size = Vector3(10, 5, 10)
-material = SubResource("StandardMaterial3D_uy2g7")
+material = SubResource("StandardMaterial3D_clpq5")
 
 [node name="Ladder" type="Node3D" parent="." unique_id=1971942035]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -34.5, 2.5, -36)
@@ -741,19 +756,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.8
 [node name="Enemies" type="Node3D" parent="." unique_id=164662087]
 
 [node name="SimpleEnemy" parent="Enemies" unique_id=1330723701 instance=ExtResource("8_2grjb")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 48, 0, 40)
-
-[node name="SimpleEnemy2" parent="Enemies" unique_id=989452042 instance=ExtResource("8_2grjb")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 48, 0, 42)
-
-[node name="SimpleEnemy3" parent="Enemies" unique_id=459669414 instance=ExtResource("8_2grjb")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 48, 0, 44)
-
-[node name="SimpleEnemy4" parent="Enemies" unique_id=1345343460 instance=ExtResource("8_2grjb")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 48, 0, 46)
-
-[node name="SimpleEnemy5" parent="Enemies" unique_id=62278871 instance=ExtResource("8_2grjb")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 48, 0, 48)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 5)
 
 [node name="Decorations" type="Node3D" parent="." unique_id=211340265]
 
@@ -796,4 +799,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.5, -40)
 [node name="Player" parent="." unique_id=86196454 instance=ExtResource("16_08uri")]
 
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]
-[connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy4" method="on_trigger"]
