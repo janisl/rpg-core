@@ -54,6 +54,7 @@ func _ready() -> void:
 	for m in meshes:
 		m.layers = mesh_layer
 	anim_tree_state = animation_tree["parameters/LowerBody/playback"]
+	animation_tree.process_mode = Node.PROCESS_MODE_INHERIT
 
 	for attribute in find_children("", "BaseAttribute", false):
 		player_attributes[attribute.attribute_name] = attribute

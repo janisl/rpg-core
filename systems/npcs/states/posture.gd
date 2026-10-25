@@ -6,6 +6,7 @@ extends NpcStateProcessor
 
 func _ready() -> void:
 	animation_tree["parameters/LowerBody/Standing/BlendTree/TimeSeek/seek_request"] = randf_range(0.0, idle_random_range)
+	animation_tree.process_mode = Node.PROCESS_MODE_INHERIT
 
 
 func _on_walking_state_physics_processing(_delta: float) -> void:

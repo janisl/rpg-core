@@ -954,7 +954,7 @@ skin = SubResource("Skin_3bqo7")
 skeleton = NodePath("..")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Rig/GeneralSkeleton" unique_id=1994406797]
-transform = Transform3D(0.06359771, -0.14300057, 0.98767704, 0.53691, -0.8293437, -0.1546487, 0.84123886, 0.54012907, 0.024034087, -0.2817325, 0.9034639, -0.17303191)
+transform = Transform3D(-2.6149354e-07, -1, -7.748603e-07, -9.313226e-07, 7.748605e-07, -1, 1, -2.6149283e-07, -9.313227e-07, -0.73889995, 1.4408002, -0.065400004)
 bone_name = "RightHand"
 bone_idx = 29
 
@@ -966,12 +966,20 @@ libraries/ = SubResource("AnimationLibrary_ne5l8")
 libraries/universal_animation_library_standard = ExtResource("20_ctwkf")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1632634472]
+process_mode = 4
 tree_root = ExtResource("20_icg72")
 anim_player = NodePath("../AnimationPlayer")
-parameters/UpperBody/Idle/TimeSeek/seek_request = -1.0
-parameters/Blend2/blend_amount = 0.0
+parameters/UpperBody/Neutral/TimeSeek/seek_request = -1.0
+parameters/UpperBody/PistolReady/attack/active = false
+parameters/UpperBody/PistolReady/attack/internal_active = false
+parameters/UpperBody/PistolReady/attack/request = 0
+parameters/UpperBody/RaisedFists/attack/active = false
+parameters/UpperBody/RaisedFists/attack/internal_active = false
+parameters/UpperBody/RaisedFists/attack/request = 0
+parameters/UpperBodyBlend/blend_amount = 0.0
 parameters/LowerBody/Crouching/blend_position = Vector2(0, 0)
 parameters/LowerBody/Standing/blend_position = Vector2(0, 0)
+parameters/LowerBody/Standing/BlendTree/TimeSeek/seek_request = -1.0
 
 [node name="HealthAttribute" parent="." unique_id=213689897 instance=ExtResource("35_qls60")]
 
