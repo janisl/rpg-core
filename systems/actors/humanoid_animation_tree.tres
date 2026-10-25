@@ -1,9 +1,5 @@
 [gd_resource type="AnimationNodeBlendTree" format=3 uid="uid://bbe1e835q82bc"]
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_rpt3r"]
-filter_enabled = true
-filters = ["%GeneralSkeleton:Head", "%GeneralSkeleton:LeftHand", "%GeneralSkeleton:LeftIndexDistal", "%GeneralSkeleton:LeftIndexIntermediate", "%GeneralSkeleton:LeftIndexProximal", "%GeneralSkeleton:LeftLittleDistal", "%GeneralSkeleton:LeftLittleIntermediate", "%GeneralSkeleton:LeftLittleProximal", "%GeneralSkeleton:LeftLowerArm", "%GeneralSkeleton:LeftMiddleDistal", "%GeneralSkeleton:LeftMiddleIntermediate", "%GeneralSkeleton:LeftMiddleProximal", "%GeneralSkeleton:LeftRingDistal", "%GeneralSkeleton:LeftRingIntermediate", "%GeneralSkeleton:LeftRingProximal", "%GeneralSkeleton:LeftShoulder", "%GeneralSkeleton:LeftThumbDistal", "%GeneralSkeleton:LeftThumbMetacarpal", "%GeneralSkeleton:LeftThumbProximal", "%GeneralSkeleton:LeftUpperArm", "%GeneralSkeleton:Neck", "%GeneralSkeleton:RightHand", "%GeneralSkeleton:RightIndexDistal", "%GeneralSkeleton:RightIndexIntermediate", "%GeneralSkeleton:RightIndexProximal", "%GeneralSkeleton:RightLittleDistal", "%GeneralSkeleton:RightLittleIntermediate", "%GeneralSkeleton:RightLittleProximal", "%GeneralSkeleton:RightLowerArm", "%GeneralSkeleton:RightMiddleDistal", "%GeneralSkeleton:RightMiddleIntermediate", "%GeneralSkeleton:RightMiddleProximal", "%GeneralSkeleton:RightRingDistal", "%GeneralSkeleton:RightRingIntermediate", "%GeneralSkeleton:RightRingProximal", "%GeneralSkeleton:RightShoulder", "%GeneralSkeleton:RightThumbDistal", "%GeneralSkeleton:RightThumbMetacarpal", "%GeneralSkeleton:RightThumbProximal", "%GeneralSkeleton:RightUpperArm", "%GeneralSkeleton:UpperChest"]
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_thjgf"]
 animation = &"universal_animation_library_standard/Crouch_Idle"
 
@@ -39,9 +35,6 @@ blend_point_4/name = &"universal_animation_library_standard_Crouch_Fwd 4"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rpt3r"]
 animation = &"universal_animation_library_standard/Death01"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gbejp"]
-animation = &"universal_animation_library_standard/Idle"
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gn5pi"]
 animation = &"universal_animation_library_standard/Sprint"
 
@@ -66,35 +59,48 @@ animation = &"universal_animation_library_standard/Sprint"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1cfep"]
 animation = &"universal_animation_library_standard/Walk"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b1k4c"]
+animation = &"universal_animation_library_standard/Idle"
+
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_xqf0j"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_w64io"]
+graph_offset = Vector2(-352.68945, 4.982361)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_b1k4c")
+nodes/Animation/position = Vector2(-240, 146.66667)
+nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_xqf0j")
+nodes/TimeSeek/position = Vector2(133.33333, 146.66667)
+node_connections = [&"output", 0, &"TimeSeek", &"TimeSeek", 0, &"Animation"]
+
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_5sy0m"]
 snap = Vector2(0.01, 0.01)
-blend_point_0/node = SubResource("AnimationNodeAnimation_gbejp")
-blend_point_0/pos = Vector2(0, 0)
-blend_point_0/name = &"universal_animation_library_standard_Idle"
-blend_point_1/node = SubResource("AnimationNodeAnimation_gn5pi")
-blend_point_1/pos = Vector2(0, 1)
-blend_point_1/name = &"universal_animation_library_standard_Sprint"
-blend_point_2/node = SubResource("AnimationNodeAnimation_tbtbn")
-blend_point_2/pos = Vector2(0, 0.5)
-blend_point_2/name = &"universal_animation_library_standard_Walk"
-blend_point_3/node = SubResource("AnimationNodeAnimation_rqi7l")
-blend_point_3/pos = Vector2(0, -1)
-blend_point_3/name = &"universal_animation_library_standard_Sprint 2"
-blend_point_4/node = SubResource("AnimationNodeAnimation_ocjwc")
-blend_point_4/pos = Vector2(0, -0.5)
-blend_point_4/name = &"universal_animation_library_standard_Walk 2"
-blend_point_5/node = SubResource("AnimationNodeAnimation_dqk6m")
-blend_point_5/pos = Vector2(-1, 0)
-blend_point_5/name = &"universal_animation_library_standard_Sprint 3"
-blend_point_6/node = SubResource("AnimationNodeAnimation_j0stw")
-blend_point_6/pos = Vector2(-0.5, 0)
-blend_point_6/name = &"universal_animation_library_standard_Walk 3"
-blend_point_7/node = SubResource("AnimationNodeAnimation_n5j1i")
-blend_point_7/pos = Vector2(1, 0)
-blend_point_7/name = &"universal_animation_library_standard_Sprint 4"
-blend_point_8/node = SubResource("AnimationNodeAnimation_1cfep")
-blend_point_8/pos = Vector2(0.5, 0)
-blend_point_8/name = &"universal_animation_library_standard_Walk 4"
+blend_point_0/node = SubResource("AnimationNodeAnimation_gn5pi")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_0/name = &"universal_animation_library_standard_Sprint"
+blend_point_1/node = SubResource("AnimationNodeAnimation_tbtbn")
+blend_point_1/pos = Vector2(0, 0.5)
+blend_point_1/name = &"universal_animation_library_standard_Walk"
+blend_point_2/node = SubResource("AnimationNodeAnimation_rqi7l")
+blend_point_2/pos = Vector2(0, -1)
+blend_point_2/name = &"universal_animation_library_standard_Sprint 2"
+blend_point_3/node = SubResource("AnimationNodeAnimation_ocjwc")
+blend_point_3/pos = Vector2(0, -0.5)
+blend_point_3/name = &"universal_animation_library_standard_Walk 2"
+blend_point_4/node = SubResource("AnimationNodeAnimation_dqk6m")
+blend_point_4/pos = Vector2(-1, 0)
+blend_point_4/name = &"universal_animation_library_standard_Sprint 3"
+blend_point_5/node = SubResource("AnimationNodeAnimation_j0stw")
+blend_point_5/pos = Vector2(-0.5, 0)
+blend_point_5/name = &"universal_animation_library_standard_Walk 3"
+blend_point_6/node = SubResource("AnimationNodeAnimation_n5j1i")
+blend_point_6/pos = Vector2(1, 0)
+blend_point_6/name = &"universal_animation_library_standard_Sprint 4"
+blend_point_7/node = SubResource("AnimationNodeAnimation_1cfep")
+blend_point_7/pos = Vector2(0.5, 0)
+blend_point_7/name = &"universal_animation_library_standard_Walk 4"
+blend_point_8/node = SubResource("AnimationNodeBlendTree_w64io")
+blend_point_8/pos = Vector2(0, 0)
+blend_point_8/name = &"BlendTree"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_oxcgc"]
 advance_mode = 2
@@ -132,37 +138,78 @@ nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_a0x3i")
 nodes/TimeSeek/position = Vector2(0, 120)
 node_connections = [&"output", 0, &"TimeSeek", &"TimeSeek", 0, &"Animation"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ngyoi"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_215bw"]
+animation = &"universal_animation_library_standard/Pistol_Shoot"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bd3wk"]
+animation = &"universal_animation_library_standard/Pistol_Idle"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_b1k4c"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_xqf0j"]
+graph_offset = Vector2(-838.5673, 83.216675)
+nodes/output/position = Vector2(306.66666, 146.66667)
+nodes/attack/node = SubResource("AnimationNodeOneShot_b1k4c")
+nodes/attack/position = Vector2(146.66667, 146.66667)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_bd3wk")
+nodes/Animation/position = Vector2(-293.33334, 146.66667)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_215bw")
+"nodes/Animation 2/position" = Vector2(-293.33334, 333.33334)
+node_connections = [&"output", 0, &"attack", &"attack", 0, &"Animation", &"attack", 1, &"Animation 2"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_w64io"]
 animation = &"universal_animation_library_standard/Punch_Cross"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_htyeb"]
+animation = &"universal_animation_library_standard/Punch_Enter"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_m2h1g"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_dgt2y"]
+graph_offset = Vector2(-605.26666, 0.6553548)
+nodes/output/position = Vector2(400, 106.666664)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_htyeb")
+nodes/Animation/position = Vector2(-293.33334, 106.666664)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_w64io")
+"nodes/Animation 2/position" = Vector2(-293.33334, 280)
+nodes/attack/node = SubResource("AnimationNodeOneShot_m2h1g")
+nodes/attack/position = Vector2(226.66667, 106.666664)
+node_connections = [&"output", 0, &"attack", &"attack", 0, &"Animation", &"attack", 1, &"Animation 2"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_evrkw"]
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8qopa"]
-xfade_time = 0.2
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gcriy"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ug1nv"]
-xfade_time = 0.3
-switch_mode = 2
-advance_mode = 2
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yga4h"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nsymf"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6lmat"]
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_bsiym"]
 states/End/position = Vector2(1286.6666, 100.88889)
-states/Idle/node = SubResource("AnimationNodeBlendTree_ngyoi")
-states/Idle/position = Vector2(567.3333, 150.88889)
-states/Melee/node = SubResource("AnimationNodeAnimation_ngyoi")
-states/Melee/position = Vector2(568.22217, 349.3333)
+states/Neutral/node = SubResource("AnimationNodeBlendTree_ngyoi")
+states/Neutral/position = Vector2(567.3333, 150.88889)
+states/PistolReady/node = SubResource("AnimationNodeBlendTree_xqf0j")
+states/PistolReady/position = Vector2(711.6666, 363.2222)
+states/RaisedFists/node = SubResource("AnimationNodeBlendTree_dgt2y")
+states/RaisedFists/position = Vector2(375.00003, 362.9259)
 states/Start/position = Vector2(368, 160.66666)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_evrkw"), "Idle", "Melee", SubResource("AnimationNodeStateMachineTransition_8qopa"), "Melee", "Idle", SubResource("AnimationNodeStateMachineTransition_ug1nv")]
-graph_offset = Vector2(-24, -6)
+transitions = ["Start", "Neutral", SubResource("AnimationNodeStateMachineTransition_evrkw"), "Neutral", "RaisedFists", SubResource("AnimationNodeStateMachineTransition_gcriy"), "RaisedFists", "Neutral", SubResource("AnimationNodeStateMachineTransition_yga4h"), "Neutral", "PistolReady", SubResource("AnimationNodeStateMachineTransition_nsymf"), "PistolReady", "Neutral", SubResource("AnimationNodeStateMachineTransition_6lmat")]
+graph_offset = Vector2(-191, -139)
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_rpt3r"]
+filter_enabled = true
+filters = ["%GeneralSkeleton:Head", "%GeneralSkeleton:LeftHand", "%GeneralSkeleton:LeftIndexDistal", "%GeneralSkeleton:LeftIndexIntermediate", "%GeneralSkeleton:LeftIndexProximal", "%GeneralSkeleton:LeftLittleDistal", "%GeneralSkeleton:LeftLittleIntermediate", "%GeneralSkeleton:LeftLittleProximal", "%GeneralSkeleton:LeftLowerArm", "%GeneralSkeleton:LeftMiddleDistal", "%GeneralSkeleton:LeftMiddleIntermediate", "%GeneralSkeleton:LeftMiddleProximal", "%GeneralSkeleton:LeftRingDistal", "%GeneralSkeleton:LeftRingIntermediate", "%GeneralSkeleton:LeftRingProximal", "%GeneralSkeleton:LeftShoulder", "%GeneralSkeleton:LeftThumbDistal", "%GeneralSkeleton:LeftThumbMetacarpal", "%GeneralSkeleton:LeftThumbProximal", "%GeneralSkeleton:LeftUpperArm", "%GeneralSkeleton:Neck", "%GeneralSkeleton:RightHand", "%GeneralSkeleton:RightIndexDistal", "%GeneralSkeleton:RightIndexIntermediate", "%GeneralSkeleton:RightIndexProximal", "%GeneralSkeleton:RightLittleDistal", "%GeneralSkeleton:RightLittleIntermediate", "%GeneralSkeleton:RightLittleProximal", "%GeneralSkeleton:RightLowerArm", "%GeneralSkeleton:RightMiddleDistal", "%GeneralSkeleton:RightMiddleIntermediate", "%GeneralSkeleton:RightMiddleProximal", "%GeneralSkeleton:RightRingDistal", "%GeneralSkeleton:RightRingIntermediate", "%GeneralSkeleton:RightRingProximal", "%GeneralSkeleton:RightShoulder", "%GeneralSkeleton:RightThumbDistal", "%GeneralSkeleton:RightThumbMetacarpal", "%GeneralSkeleton:RightThumbProximal", "%GeneralSkeleton:RightUpperArm", "%GeneralSkeleton:UpperChest"]
 
 [resource]
-graph_offset = Vector2(-659.3333, -32)
+graph_offset = Vector2(-905.3333, -198.66667)
 nodes/output/position = Vector2(386.66666, 53.333332)
 nodes/UpperBody/node = SubResource("AnimationNodeStateMachine_bsiym")
 nodes/UpperBody/position = Vector2(-493.33334, 160)
-nodes/Blend2/node = SubResource("AnimationNodeBlend2_rpt3r")
-nodes/Blend2/position = Vector2(40, 0)
+nodes/UpperBodyBlend/node = SubResource("AnimationNodeBlend2_rpt3r")
+nodes/UpperBodyBlend/position = Vector2(40, 0)
 nodes/LowerBody/node = SubResource("AnimationNodeStateMachine_f3ltb")
 nodes/LowerBody/position = Vector2(-493.33334, -40)
-node_connections = [&"output", 0, &"Blend2", &"Blend2", 0, &"LowerBody", &"Blend2", 1, &"UpperBody"]
+node_connections = [&"output", 0, &"UpperBodyBlend", &"UpperBodyBlend", 0, &"LowerBody", &"UpperBodyBlend", 1, &"UpperBody"]

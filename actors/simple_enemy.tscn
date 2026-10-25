@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://u3k7xpn2y14c" path="res://systems/npcs/states/chasing.gd" id="8_gvg5y"]
 [ext_resource type="Script" uid="uid://djec4ecbh44mx" path="res://systems/npcs/states/attacking.gd" id="9_0qgqr"]
 [ext_resource type="AudioStream" uid="uid://dw7jtahkwgjth" path="res://assets/sounds/misc/422513__nightflame__swinging-staff-whoosh-strong-04.wav" id="10_qld51"]
+[ext_resource type="Script" uid="uid://b5ekeqtjbhney" path="res://systems/npcs/states/posture.gd" id="11_rpt3r"]
 [ext_resource type="Script" uid="uid://ye4ywev58xp2" path="res://systems/npcs/impact_zone.gd" id="11_wimj6"]
 [ext_resource type="AudioStream" uid="uid://dt6y5pgrmcume" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_000.ogg" id="12_25hyd"]
 [ext_resource type="AudioStream" uid="uid://da00ldi5hp5g" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_001.ogg" id="13_qld51"]
@@ -207,6 +208,18 @@ _data = {
 &"RESET": SubResource("Animation_4s1oe")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iac3b"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.333333, 1, 0, 0.501961)
+
+[sub_resource type="SphereMesh" id="SphereMesh_rpt3r"]
+material = SubResource("StandardMaterial3D_iac3b")
+radius = 0.05
+height = 0.1
+radial_segments = 8
+rings = 4
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_bsiym"]
 radius = 5.0
 
@@ -278,8 +291,75 @@ to = NodePath("../../Chasing")
 event = &"chase"
 delay_in_seconds = "0.0"
 
-[node name="Stance" type="Node" parent="StateChart/Root" unique_id=364074532]
+[node name="Posture" type="Node" parent="StateChart/Root" unique_id=1113553867]
+script = ExtResource("3_ngyoi")
+
+[node name="Processor" type="Node" parent="StateChart/Root/Posture" unique_id=722321629 node_paths=PackedStringArray("animation_tree", "npc", "state_chart", "audio")]
+script = ExtResource("11_rpt3r")
+animation_tree = NodePath("../../../../AnimationTree")
+idle_random_range = 2.5
+npc = NodePath("../../../..")
+state_chart = NodePath("../../..")
+audio = NodePath("../../../../Audio")
+
+[node name="UpperBody" type="Node" parent="StateChart/Root/Posture" unique_id=364074532]
 script = ExtResource("3_4s1oe")
+initial_state = NodePath("Neutral")
+
+[node name="Neutral" type="Node" parent="StateChart/Root/Posture/UpperBody" unique_id=1730256287]
+script = ExtResource("4_4a0lb")
+
+[node name="ToRaisedWeapon" type="Node" parent="StateChart/Root/Posture/UpperBody/Neutral" unique_id=848493444]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../RaisedWeapon")
+event = &"ubody_raise_weapon"
+delay_in_seconds = "0.0"
+
+[node name="RaisedWeapon" type="Node" parent="StateChart/Root/Posture/UpperBody" unique_id=1998574946]
+script = ExtResource("4_4a0lb")
+
+[node name="ToNeutral" type="Node" parent="StateChart/Root/Posture/UpperBody/RaisedWeapon" unique_id=615229405]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Neutral")
+event = &"ubody_neutral"
+delay_in_seconds = "0.0"
+
+[node name="ToAttack" type="Node" parent="StateChart/Root/Posture/UpperBody/RaisedWeapon" unique_id=329787236]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Attack")
+event = &"ubody_attack"
+delay_in_seconds = "0.0"
+
+[node name="Attack" type="Node" parent="StateChart/Root/Posture/UpperBody" unique_id=1918823857]
+script = ExtResource("4_4a0lb")
+
+[node name="ToRaisedWeapon" type="Node" parent="StateChart/Root/Posture/UpperBody/Attack" unique_id=865227466]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../RaisedWeapon")
+event = &"ubody_raise_weapon"
+delay_in_seconds = "0.0"
+
+[node name="LowerBody" type="Node" parent="StateChart/Root/Posture" unique_id=439160564]
+script = ExtResource("3_4s1oe")
+initial_state = NodePath("Walking")
+
+[node name="Walking" type="Node" parent="StateChart/Root/Posture/LowerBody" unique_id=1247860955]
+script = ExtResource("4_4a0lb")
+
+[node name="ToRunning" type="Node" parent="StateChart/Root/Posture/LowerBody/Walking" unique_id=286340394]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Running")
+event = &"body_run"
+delay_in_seconds = "0.0"
+
+[node name="Running" type="Node" parent="StateChart/Root/Posture/LowerBody" unique_id=1673697108]
+script = ExtResource("4_4a0lb")
+
+[node name="ToWalking" type="Node" parent="StateChart/Root/Posture/LowerBody/Running" unique_id=9802481]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Walking")
+event = &"body_walk"
+delay_in_seconds = "0.0"
 
 [node name="CollisionShape" type="CollisionShape3D" parent="." unique_id=2117515800]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
@@ -695,10 +775,17 @@ libraries/universal_animation_library_standard = ExtResource("7_ngyoi")
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=2041500962]
 tree_root = ExtResource("19_thjgf")
 anim_player = NodePath("../AnimationPlayer")
-parameters/UpperBody/Idle/TimeSeek/seek_request = -1.0
-parameters/Blend2/blend_amount = 1.0
+parameters/UpperBody/Neutral/TimeSeek/seek_request = -1.0
+parameters/UpperBody/PistolReady/attack/active = false
+parameters/UpperBody/PistolReady/attack/internal_active = false
+parameters/UpperBody/PistolReady/attack/request = 0
+parameters/UpperBody/RaisedFists/attack/active = false
+parameters/UpperBody/RaisedFists/attack/internal_active = false
+parameters/UpperBody/RaisedFists/attack/request = 0
+parameters/UpperBodyBlend/blend_amount = 1.0
 parameters/LowerBody/Crouching/blend_position = Vector2(0, 0)
 parameters/LowerBody/Standing/blend_position = Vector2(-0.005210817, -0.006337166)
+parameters/LowerBody/Standing/BlendTree/TimeSeek/seek_request = -1.0
 
 [node name="NavAgent" type="NavigationAgent3D" parent="." unique_id=120446349]
 avoidance_enabled = true
@@ -706,6 +793,15 @@ avoidance_enabled = true
 [node name="HealthAttribute" parent="." unique_id=167552575 instance=ExtResource("6_4s1oe")]
 max_value = 50.0
 initial_value = 50.0
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="." unique_id=545162603]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5638493, -0.16451624)
+
+[node name="VelocityDebugShape" type="MeshInstance3D" parent="." unique_id=108628966]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5638493, -0.16451624)
+visible = false
+mesh = SubResource("SphereMesh_rpt3r")
+skeleton = NodePath("../Audio")
 
 [node name="DetectionArea" type="Area3D" parent="." unique_id=1630955694]
 collision_layer = 0
@@ -716,9 +812,6 @@ monitorable = false
 shape = SubResource("SphereShape3D_bsiym")
 debug_color = Color(0, 0.6, 0.69803923, 0.38039216)
 
-[node name="Audio" type="AudioStreamPlayer3D" parent="." unique_id=545162603]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5638493, -0.16451624)
-
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_physics_processing"]
@@ -728,4 +821,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5638493, -0.16451624)
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Attacking" to="StateChart/Root/Behaviour/Attacking/Processor" method="_on_attacking_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Behaviour/Attacking" to="StateChart/Root/Behaviour/Attacking/Processor" method="_on_attacking_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Attacking" to="StateChart/Root/Behaviour/Attacking/Processor" method="_on_attacking_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/Neutral" to="StateChart/Root/Posture/Processor" method="_on_neutral_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/RaisedWeapon" to="StateChart/Root/Posture/Processor" method="_on_raised_weapon_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/Attack" to="StateChart/Root/Posture/Processor" method="_on_attack_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Posture/UpperBody/Attack" to="StateChart/Root/Posture/Processor" method="_on_attack_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Posture/LowerBody/Walking" to="StateChart/Root/Posture/Processor" method="_on_walking_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Posture/LowerBody/Running" to="StateChart/Root/Posture/Processor" method="_on_running_state_physics_processing"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]

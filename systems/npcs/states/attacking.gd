@@ -45,10 +45,7 @@ func _attack_while_moving() -> bool:
 
 func _attempt_attack():
 	_count_down = attack_duration
-	if npc.anim_tree_state.get_current_node() != "Melee":
-		npc.anim_tree_state.travel("Melee")
-	else:
-		npc.anim_tree_state.start("Melee")
+	state_chart.send_event("ubody_attack")
 	if npc.global_position.distance_to(_target.global_position) <= melee_range:
 		_punch_attack()
 
