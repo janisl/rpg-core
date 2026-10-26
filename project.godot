@@ -26,6 +26,7 @@ AudioManager="*uid://bw56nh3y503kv"
 EffectsManager="*uid://xaq71ee0rvh2"
 Managers="*uid://cpck7fm8u83nb"
 UserInterface="*uid://6ygkwtxr8bbo"
+DevTools="*uid://bf0htswuay7cy"
 
 [display]
 

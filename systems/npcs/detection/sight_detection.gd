@@ -4,6 +4,8 @@ extends Node3D
 @export var detection_area: Area3D
 @export var npc: Npc
 
+@export var show_detection_line: bool = false
+
 var _nodes_inside_detection_area: Array[Node3D] = []
 
 var ref_to_player: Player
@@ -60,4 +62,6 @@ func _fire_raycast_at(node: Node3D) -> bool:
 func _fire_raycast_at_player_result(pos: Vector3, player: Player) -> bool:
 	player_sight_collision_point = pos
 	ref_to_player = player
+	if show_detection_line:
+		DevTools.debug_line.draw_3d_line(npc.head.global_position, player.global_position, Color(1,0,0), 0.1)
 	return true
