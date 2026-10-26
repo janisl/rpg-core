@@ -17,3 +17,4 @@ ITEM DESCRIPTION Laser ammo,Laser ammo
 INTERACT Pick up,Pick up
 ATTRIBUTE Health,Health
 ATTRIBUTE Stamina,Stamina
+ATTRIBUTE Visibility,Visibility

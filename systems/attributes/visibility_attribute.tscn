@@ -5,5 +5,5 @@
 [node name="VisibilityAttribute" type="Node" unique_id=2015746694]
 script = ExtResource("1_yrrgw")
 attribute_name = "visibility"
-display_name = "ATTR_visibility"
+display_name = "ATTRIBUTE Visibility"
 max_value = 5.0

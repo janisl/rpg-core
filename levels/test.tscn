@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://delu2qjrw6teu" path="res://addons/Mirror3D/Mirror3D.tscn" id="11_eudka"]
 [ext_resource type="PackedScene" uid="uid://dmm1368oglfp0" path="res://actors/player/player.tscn" id="16_08uri"]
 [ext_resource type="PackedScene" uid="uid://crytf2marbeak" path="res://props/exploding_barrel.tscn" id="16_lqn8c"]
+[ext_resource type="PackedScene" uid="uid://ctr7n0w3hgys7" path="res://systems/attributes/areas/lightzone_component.tscn" id="17_08uri"]
 [ext_resource type="PackedScene" uid="uid://cbtrf5bt881ri" path="res://items/weapons/pistol/pistol_pickup.tscn" id="18_fivcu"]
 [ext_resource type="PackedScene" uid="uid://c1w5e3ieei41o" path="res://items/weapons/shotgun/shotgun_pickup.tscn" id="19_b5wip"]
 [ext_resource type="PackedScene" uid="uid://bmq87quw8icqf" path="res://items/weapons/laser/laser_pickup.tscn" id="20_70x8p"]
@@ -240,6 +241,22 @@ albedo_color = Color(0.05188883, 0.5375777, 0.6576247, 1)
 material = SubResource("StandardMaterial3D_rdqwp")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g5r3q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g5r3q"]
+transparency = 1
+albedo_color = Color(0.8980392, 0.11372549, 0, 0.4509804)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6qnao"]
+material = SubResource("StandardMaterial3D_g5r3q")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hftbt"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.49803922)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g5r3q"]
+material = SubResource("StandardMaterial3D_hftbt")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6k6bt"]
 
 [node name="Test" type="Node3D" unique_id=867766289]
 
@@ -589,6 +606,18 @@ shape = SubResource("BoxShape3D_6qnao")
 [node name="TopOfLadder" type="Node3D" parent="Ladder/Area3D" unique_id=839623352]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2832785, 0)
 
+[node name="Enemies" type="Node3D" parent="Ladder" unique_id=164662087]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -36, -2.5, 34.5)
+
+[node name="SimpleEnemy" parent="Ladder/Enemies" unique_id=1330723701 instance=ExtResource("8_2grjb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 5)
+
+[node name="SimpleEnemy2" parent="Ladder/Enemies" unique_id=268849966 instance=ExtResource("8_2grjb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 10)
+
+[node name="SightDetection" parent="Ladder/Enemies/SimpleEnemy2" index="9" unique_id=1899700967]
+minimum_visibility = 1
+
 [node name="Ladder2" type="Node3D" parent="." unique_id=1333784860]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -43, 2.5, -35.5)
 
@@ -753,11 +782,6 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.7
 [node name="LaserAmmo10" parent="Pickups" unique_id=9996306 instance=ExtResource("21_uyurq")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.8, 1.005, 5.9)
 
-[node name="Enemies" type="Node3D" parent="." unique_id=164662087]
-
-[node name="SimpleEnemy" parent="Enemies" unique_id=1330723701 instance=ExtResource("8_2grjb")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 5)
-
 [node name="Decorations" type="Node3D" parent="." unique_id=211340265]
 
 [node name="Ball" type="RigidBody3D" parent="Decorations" unique_id=589787673]
@@ -775,13 +799,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -45)
 [node name="DestructibleBox2" parent="Decorations" unique_id=1727946077 instance=ExtResource("6_6g8e2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -45)
 
+[node name="ExplodingBarrel" parent="Decorations" unique_id=23067863 instance=ExtResource("16_lqn8c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, -40)
+
+[node name="ExplodingBarrel2" parent="Decorations" unique_id=1834983115 instance=ExtResource("16_lqn8c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.5, -40)
+
 [node name="TriggerVolume" type="Area3D" parent="." unique_id=355576465]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6120062, -3.497616)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.5, 5)
 script = ExtResource("9_qhvcx")
 metadata/_custom_type_script = "uid://dkyw6ncoxwu4k"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerVolume" unique_id=1153436555]
 shape = SubResource("BoxShape3D_g5r3q")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TriggerVolume" unique_id=931368805]
+mesh = SubResource("BoxMesh_6qnao")
 
 [node name="Mirror3D" parent="." unique_id=916837440 instance=ExtResource("11_eudka")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 1, -34.49)
@@ -790,12 +823,18 @@ pixels_per_unit = 1000
 cull_mask = 1048573
 cull_far = 1000.0
 
-[node name="ExplodingBarrel" parent="." unique_id=23067863 instance=ExtResource("16_lqn8c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, -40)
-
-[node name="ExplodingBarrel2" parent="." unique_id=1834983115 instance=ExtResource("16_lqn8c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.5, -40)
-
 [node name="Player" parent="." unique_id=86196454 instance=ExtResource("16_08uri")]
 
-[connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=366468528]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10)
+mesh = SubResource("BoxMesh_g5r3q")
+
+[node name="LightzoneComponent" parent="MeshInstance3D" unique_id=880632074 instance=ExtResource("17_08uri")]
+
+[node name="CollisionShape3D" parent="MeshInstance3D/LightzoneComponent" index="0" unique_id=1407484355]
+shape = SubResource("BoxShape3D_6k6bt")
+
+[connection signal="activated" from="TriggerVolume" to="Ladder/Enemies/SimpleEnemy" method="on_trigger"]
+
+[editable path="Ladder/Enemies/SimpleEnemy2"]
+[editable path="MeshInstance3D/LightzoneComponent"]
