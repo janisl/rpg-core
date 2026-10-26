@@ -1,9 +1,14 @@
 class_name SightDetection
 extends Node3D
 
+@export_group("References")
 @export var detection_area: Area3D
 @export var npc: Npc
 
+@export_group("Suspicion Build-Up")
+@export_range(0, 100) var minimum_visibility := 0
+
+@export_group("Debug")
 @export var show_detection_line: bool = false
 
 var _nodes_inside_detection_area: Array[Node3D] = []
@@ -64,4 +69,7 @@ func _fire_raycast_at_player_result(pos: Vector3, player: Player) -> bool:
 	ref_to_player = player
 	if show_detection_line:
 		DevTools.debug_line.draw_3d_line(npc.head.global_position, player.global_position, Color(1,0,0), 0.1)
-	return true
+	if ref_to_player.visibility_attribute:
+		return ref_to_player.visibility_attribute.value >= minimum_visibility
+	else:
+		return true

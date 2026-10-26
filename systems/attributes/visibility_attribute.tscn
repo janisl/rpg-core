@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://wtf1fqndii2p"]
+
+[ext_resource type="Script" uid="uid://djib7uowdt6f2" path="res://systems/attributes/visibility_attribute.gd" id="1_yrrgw"]
+
+[node name="VisibilityAttribute" type="Node" unique_id=2015746694]
+script = ExtResource("1_yrrgw")
+attribute_name = "visibility"
+display_name = "ATTR_visibility"
+max_value = 5.0

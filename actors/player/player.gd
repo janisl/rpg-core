@@ -43,7 +43,8 @@ var anim_tree_state: AnimationNodeStateMachinePlayback
 
 var player_attributes: Dictionary[String, BaseAttribute]
 var health_attribute: HealthAttribute
-var stamina_attribute : StaminaAttribute
+var stamina_attribute: StaminaAttribute
+var visibility_attribute: BaseAttribute
 
 @onready var ground_movement: PlayerGroundMovementHandler = $MovementHandlers/GroundMovement
 
@@ -61,6 +62,7 @@ func _ready() -> void:
 
 	health_attribute = player_attributes.get("health")
 	stamina_attribute = player_attributes.get("stamina")
+	visibility_attribute = player_attributes.get("visibility")
 
 	EventBus.player_spawned.emit(self)
 

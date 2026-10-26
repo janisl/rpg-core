@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://ctr7n0w3hgys7"]
+
+[ext_resource type="Script" uid="uid://cko7ubdrqsfgi" path="res://systems/attributes/areas/lightzone_component.gd" id="1_5d44w"]
+[ext_resource type="Script" uid="uid://dgniyghxxx2sy" path="res://systems/attributes/areas/lightzone_switch_component.gd" id="2_5d44w"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_t8ref"]
+radius = 1.5
+
+[node name="LightzoneComponent" type="Area3D" unique_id=880632074]
+script = ExtResource("1_5d44w")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1407484355]
+shape = SubResource("SphereShape3D_t8ref")
+
+[node name="LightzoneSwitchComponent" type="Node" parent="." unique_id=2047517650]
+script = ExtResource("2_5d44w")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
