@@ -86,7 +86,7 @@ func _spawn_wieldable_scenes() -> void:
 
 	third_person_model = wieldable_data.third_person_scene.instantiate() as ThirdPersonWieldable
 	third_person_parent.add_child(third_person_model)
-	third_person_model.initialize(player, wieldable, third_person_mesh_layer)
+	third_person_model.initialize(wieldable, third_person_mesh_layer)
 
 	first_person_parent.reset_effects()
 

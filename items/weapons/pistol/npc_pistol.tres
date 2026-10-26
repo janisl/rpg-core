@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://drbfxa64htkw"]
+
+[ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_sjaj3"]
+[ext_resource type="PackedScene" uid="uid://cojhl7nthk3w1" path="res://systems/combat/hit_scan_weapon.tscn" id="3_xx38m"]
+[ext_resource type="PackedScene" uid="uid://bdrf1d353xxqq" path="res://effects/decals/bullet_decal.tscn" id="4_eloci"]
+[ext_resource type="PackedScene" uid="uid://567vdvii3fg6" path="res://items/weapons/pistol/pistol_first_person.tscn" id="5_exkkw"]
+[ext_resource type="PackedScene" uid="uid://bd6vg3o6i0l17" path="res://effects/bullet_effects/bullet_impact.tscn" id="6_uesgm"]
+[ext_resource type="AudioStream" uid="uid://wllyvfxmffj5" path="res://assets/sounds/kenney_ui-audio/click3.ogg" id="7_6lsfx"]
+[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="8_wbnpa"]
+[ext_resource type="PackedScene" uid="uid://cctjew3ncbu00" path="res://items/weapons/pistol/pistol_third_person.tscn" id="9_7wygj"]
+
+[sub_resource type="Gradient" id="Gradient_cm5tq"]
+offsets = PackedFloat32Array(0.31320754, 0.4264151, 0.5962264, 0.7169811)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8hv22"]
+gradient = SubResource("Gradient_cm5tq")
+width = 128
+height = 128
+fill_to = Vector2(1, 1)
+
+[resource]
+script = ExtResource("8_wbnpa")
+weapon_range = 50.0
+damage = 5.0
+fire_offset = Vector3(0.1, -0.02, -0.1)
+is_automatic = true
+decal_scene = ExtResource("4_eloci")
+impact_scene = ExtResource("6_uesgm")
+controller_scene = ExtResource("3_xx38m")
+first_person_scene = ExtResource("5_exkkw")
+first_person_position = Vector3(0.14105655, -0.06323153, -0.18142417)
+third_person_scene = ExtResource("9_7wygj")
+vertical_lag_amount = 0.002
+display_name = "ITEM NAME Pistol"
+description = "ITEM DESCRIPTION Pistol"
+icon = SubResource("GradientTexture2D_8hv22")
+is_stacable = false
+weight = 1.0
+pickup_scene = "uid://cbtrf5bt881ri"
+pickup_sound = ExtResource("7_6lsfx")
+metadata/_custom_type_script = "uid://bjvp63efii4fn"

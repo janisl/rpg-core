@@ -5,6 +5,7 @@ extends Npc
 
 
 func _ready() -> void:
+	super()
 	for group in enemy_groups:
 		add_to_group(group)
 

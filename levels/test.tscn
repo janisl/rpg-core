@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://ca0wevg1lb4rx" path="res://systems/liquids/liquid.tscn" id="2_lkjt4"]
 [ext_resource type="Script" uid="uid://5vb1p4xt6w58" path="res://utils/ladder_area.gd" id="3_ny0t1"]
+[ext_resource type="Resource" uid="uid://drbfxa64htkw" path="res://items/weapons/pistol/npc_pistol.tres" id="4_uy2g7"]
+[ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="5_u1nm5"]
 [ext_resource type="PackedScene" uid="uid://cj1cbhi5vwsb5" path="res://props/destructible_box.tscn" id="6_6g8e2"]
 [ext_resource type="PackedScene" uid="uid://djilda64tb5p8" path="res://pickups/health_pickup.tscn" id="7_u45fp"]
 [ext_resource type="PackedScene" uid="uid://dtaji4kxnotrq" path="res://actors/simple_enemy.tscn" id="8_2grjb"]
@@ -192,22 +194,22 @@ background_color = Color(7.70092e-07, 0.68970317, 0.8517272, 1)
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_lqn8c"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_08uri"]
 resource_local_to_scene = true
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_08uri"]
-resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_lqn8c")
-seamless = true
-as_normal_map = true
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fivcu"]
 resource_local_to_scene = true
-noise = SubResource("FastNoiseLite_lqn8c")
+noise = SubResource("FastNoiseLite_08uri")
 seamless = true
 as_normal_map = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uy2g7"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_uy2g7"]
+resource_local_to_scene = true
+noise = SubResource("FastNoiseLite_08uri")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u1nm5"]
 resource_local_to_scene = true
 transparency = 1
 cull_mode = 2
@@ -215,9 +217,9 @@ depth_draw_mode = 1
 albedo_color = Color(0.30980393, 0.5411765, 0.8666667, 0.3882353)
 roughness = 0.0
 normal_enabled = true
-normal_texture = SubResource("NoiseTexture2D_08uri")
+normal_texture = SubResource("NoiseTexture2D_fivcu")
 refraction_enabled = true
-refraction_texture = SubResource("NoiseTexture2D_fivcu")
+refraction_texture = SubResource("NoiseTexture2D_uy2g7")
 uv1_scale = Vector3(0.04, 0.04, 0.04)
 uv1_triplanar = true
 uv1_world_triplanar = true
@@ -231,6 +233,11 @@ size = Vector3(0.1, 5, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6qnao"]
 size = Vector3(0.4, 5, 1)
+
+[sub_resource type="Resource" id="Resource_08uri"]
+script = ExtResource("5_u1nm5")
+item = ExtResource("4_uy2g7")
+metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_bsiym"]
 
@@ -583,7 +590,7 @@ environment = SubResource("Environment_bsiym")
 [node name="SwimmableArea" parent="." unique_id=788056043 instance=ExtResource("2_lkjt4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2.4, -40)
 size = Vector3(10, 5, 10)
-material = SubResource("StandardMaterial3D_uy2g7")
+material = SubResource("StandardMaterial3D_u1nm5")
 
 [node name="Ladder" type="Node3D" parent="." unique_id=1971942035]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -34.5, 2.5, -36)
@@ -614,6 +621,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0
 
 [node name="SimpleEnemy2" parent="Ladder/Enemies" unique_id=268849966 instance=ExtResource("8_2grjb")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 10)
+weapon_stack = SubResource("Resource_08uri")
 
 [node name="SightDetection" parent="Ladder/Enemies/SimpleEnemy2" index="9" unique_id=1899700967]
 minimum_visibility = 1

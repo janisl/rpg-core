@@ -11,7 +11,7 @@ extends WieldableData
 
 @export_group("Ammo & reload")
 @export var ammo_types: Array[AmmoData]
-@export var magazine_size := 1
+@export var magazine_size := 0
 @export var reload_time := 1.5
 
 @export_group("Muzzle flash")

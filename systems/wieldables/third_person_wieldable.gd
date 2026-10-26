@@ -4,12 +4,10 @@ extends Node3D
 @export var animation_player: AnimationPlayer
 @export var muzzle_flash: MuzzleFlash
 
-var _player: Player
 var _wieldable: Wieldable
 
 
-func initialize(player: Player, wieldable: Wieldable, mesh_layer: int) -> void:
-	_player = player
+func initialize(wieldable: Wieldable, mesh_layer: int) -> void:
 	_wieldable = wieldable
 
 	_apply_mesh_layer(mesh_layer)

@@ -52,6 +52,8 @@ func _get_reserve_ammo(ammo: AmmoData) -> int:
 
 
 func _has_ammo() -> bool:
+	if not _owner_inventory:
+		return true
 	return _get_magazine_ammo() > 0
 
 

@@ -20,7 +20,12 @@ func _on_chase_state_physics_processing(delta: float) -> void:
 	npc.nav_agent.target_position = npc.attention_target.global_position
 
 	var distance = npc.global_position.distance_to(npc.attention_target.global_position)
-	if distance <= npc.melee_range:
+	var ranged_distance := _get_wieldable_range()
+	if ranged_distance > 0 && distance < ranged_distance:
+		npc.nav_agent.velocity = Vector3.ZERO
+		state_chart.send_event("onMelee")
+		return
+	elif distance <= npc.melee_range:
 		npc.nav_agent.velocity = Vector3.ZERO
 		state_chart.send_event("onMelee")
 		return
@@ -37,3 +42,9 @@ func _on_chase_state_physics_processing(delta: float) -> void:
 		npc._on_velocity_computed(npc.nav_agent.velocity)
 
 	npc.face_direction(next_pos)
+
+
+func _get_wieldable_range() -> float:
+	if npc.is_using_weapon():
+		return npc.get_weapon_range()
+	return 0

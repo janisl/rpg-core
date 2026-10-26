@@ -791,7 +791,7 @@ shape = SubResource("SphereShape3D_hxqyq")
 
 [node name="HandSlot" type="Node3D" parent="Rig/GeneralSkeleton/HandAttachment" unique_id=1975747670]
 unique_name_in_owner = true
-transform = Transform3D(0.70710677, 0.70710677, -3.090862e-08, 0, -4.371139e-08, -1, -0.70710677, 0.70710677, -3.090862e-08, 0.075, 0.2, 0.075)
+transform = Transform3D(0.4226182, 0.9063078, -3.785517e-08, 3.809698e-09, -4.3545054e-08, -0.99999994, -0.90630776, 0.42261824, -2.185569e-08, 0.04, 0.13, 0.03)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=196694139]
 libraries/ = SubResource("AnimationLibrary_a0x3i")
