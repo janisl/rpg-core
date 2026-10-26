@@ -15,10 +15,15 @@ enum BehaviourState {
 @export var rotation_speed := 0.2
 
 @export_group("NPC Behaviour")
+@export_enum("Friendly", "Neutral", "Hostile") var response_to_player := "Neutral"
 @export var weapon_stack: ItemStack
+
+@export_group("Head LookAt")
+@export var head_turner: LookAtModifier3D
 
 var attention_target: Node3D
 var move_speed := 2.0
+var last_reachable_path: Vector3
 
 var previous_behaviour: BehaviourState
 var current_behaviour: BehaviourState
@@ -30,6 +35,7 @@ var _weapon_third_person: ThirdPersonWieldable
 @onready var velocity_debug_shape: MeshInstance3D = $VelocityDebugShape
 @onready var sight_detection: SightDetection = $SightDetection
 @onready var hand_slot: Node3D = %HandSlot
+@onready var nav_agent: NavigationAgent3D = $NavAgent
 
 
 func _ready() -> void:
@@ -74,6 +80,28 @@ func do_weapon_attack() -> void:
 		var forward_direction := from_position.direction_to(player_sight_collision_point)
 		_weapon.update(from_position, forward_direction, false, false, false)
 		_weapon.state_chart.send_event("onFiring")
+
+
+func move_npc_to_next_position(delta: float) -> void:
+	var next_position := nav_agent.get_next_path_position()
+	if nav_agent.is_target_reachable():
+		last_reachable_path = next_position
+
+	var direction := global_position.direction_to(next_position)
+	if direction:
+		var face_dir := global_position + velocity
+		face_direction(face_dir)
+		var new_velocity := direction * move_speed
+		velocity.x = velocity.move_toward(new_velocity, .25).x
+		velocity.z = velocity.move_toward(new_velocity, .25).z
+	else:
+		velocity.x = move_toward(velocity.x, 0, move_speed)
+		velocity.z = move_toward(velocity.z, 0, move_speed)
+
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	move_and_slide()
 
 
 func _spawn_weapon() -> void:

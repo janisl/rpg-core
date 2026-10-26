@@ -1,9 +1,6 @@
 class_name SimpleEnemy
 extends Enemy
 
-@export var melee_range := 1.0
-
-@onready var nav_agent: NavigationAgent3D = $NavAgent
 @onready var state_chart: StateChart = $StateChart
 @onready var health_attribute: HealthAttribute = $HealthAttribute
 
@@ -14,12 +11,6 @@ func _ready() -> void:
 	attention_target = get_tree().get_first_node_in_group("player")
 
 	health_attribute.died.connect(_on_died)
-	nav_agent.velocity_computed.connect(_on_velocity_computed)
-
-
-func _physics_process(delta: float) -> void:
-	if not is_on_floor():
-		velocity += get_gravity() * delta
 
 
 func on_triggered() -> void:
@@ -28,13 +19,6 @@ func on_triggered() -> void:
 
 func on_trigger(_player: Player) -> void:
 	state_chart.send_event("onChase")
-
-
-func _on_velocity_computed(safe_velocity: Vector3) -> void:
-	var target_velocity = Vector3(safe_velocity.x, velocity.y, safe_velocity.z)
-	var accel = acceleration
-	velocity.x = move_toward(velocity.x, target_velocity.x, accel * get_physics_process_delta_time())
-	velocity.z = move_toward(velocity.z, target_velocity.z, accel * get_physics_process_delta_time())
 
 
 func _on_died() -> void:

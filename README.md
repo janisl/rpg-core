@@ -20,6 +20,10 @@ MIT  https://codeberg.org/Phazorknight/Cogito
 MIT  https://github.com/derkork/godot-statecharts
 MIT  https://github.com/Joy-less/Mirror3D
 
+## Misc
+
+CC0  https://github.com/klaykree/Godot-3D-Lines
+
 ## Assets
 
 CC0  https://kenney.nl/
@@ -28,3 +32,4 @@ CC4  https://freesound.org/people/211redman112/sounds/234082/
 CC4  https://freesound.org/people/AleXZavesa/sounds/853904/
 CC0  https://freesound.org/people/AudioPapkin/sounds/828092/
 CC0  https://freesound.org/people/Nightflame/sounds/422513/
+CC0  https://opengameart.org/content/rpg-sound-pack
