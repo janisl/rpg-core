@@ -1,16 +1,27 @@
 extends NpcStateProcessor
 
-enum ChaseStatus { CHASING, CAUGHT }
+enum ChaseStatus { CHASING, CAUGHT, WAITING }
 
 @export var target_melee_distance := 1.5
 @export var target_ranged_distance_offset := 1.0
 @export var action_when_caught := "attack"
 @export var start_chase_sound: AudioStream
 @export_flags_3d_physics var collision_mask := 1
+@export var giveup_chase_time := 5.0
+@export var face_target_while_waiting := true
 
+var _chase_wait_timer: Timer
 var _current_chase_status: ChaseStatus
 var _chase_target: Node3D
 var _can_see_player := false
+
+
+func _enter_tree() -> void:
+	_chase_wait_timer = Timer.new()
+	_chase_wait_timer.wait_time = giveup_chase_time
+	_chase_wait_timer.one_shot = true
+	_chase_wait_timer.timeout.connect(_stop_chasing)
+	add_child(_chase_wait_timer)
 
 
 func _on_chasing_state_entered() -> void:
@@ -18,12 +29,12 @@ func _on_chasing_state_entered() -> void:
 	if npc.attention_target is Player:
 		_chase_target = npc.attention_target
 
-	if !_chase_target or npc.response_to_player == "Neutral":
+	if not _chase_target or npc.response_to_player == "Neutral":
 		state_chart.send_event("onIdle")
 		state_chart.send_event("body_walk")
 		return
 
-	if not npc.previous_behaviour == Npc.BehaviourState.Attacking:
+	if npc.previous_behaviour != Npc.BehaviourState.Attacking:
 		play_sound(start_chase_sound)
 	state_chart.send_event("body_run")
 	state_chart.send_event("ubody_raise_weapon")
@@ -49,7 +60,19 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 			state_chart.send_event(action_when_caught)
 			return
 
+		ChaseStatus.WAITING:
+			npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
+			npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
+			npc.move_and_slide()
 
+			if face_target_while_waiting:
+				npc.face_direction(_chase_target.global_position)
+
+			npc.nav_agent.target_position = _chase_target.global_position
+			if npc.nav_agent.is_target_reachable() or _can_see_player:
+				_chase_wait_timer.stop()
+				_current_chase_status = ChaseStatus.CHASING
+			return
 
 
 func _check_los_to_player() -> bool:
@@ -73,6 +96,9 @@ func _running(delta: float) -> void:
 		elif distance_to_target <= target_melee_distance:
 			_current_chase_status = ChaseStatus.CAUGHT
 
+	if not npc.nav_agent.is_target_reachable():
+		_start_waiting()
+
 	npc.move_npc_to_next_position(delta)
 
 
@@ -80,3 +106,13 @@ func _get_wieldable_range() -> float:
 	if npc.is_using_weapon():
 		return npc.get_weapon_range()
 	return 0
+
+
+func _start_waiting() -> void:
+	_current_chase_status = ChaseStatus.WAITING
+	_chase_wait_timer.start()
+
+
+func _stop_chasing() -> void:
+	npc.move_speed = npc.walk_speed
+	state_chart.send_event("onIdle")
