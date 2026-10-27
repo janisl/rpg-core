@@ -28,6 +28,8 @@ var last_reachable_path: Vector3
 var previous_behaviour: BehaviourState
 var current_behaviour: BehaviourState
 
+var _health: HealthAttribute
+
 var _weapon_data: WeaponData
 var _weapon: Weapon
 var _weapon_third_person: ThirdPersonWieldable
@@ -40,6 +42,7 @@ var _weapon_third_person: ThirdPersonWieldable
 
 func _ready() -> void:
 	_spawn_weapon()
+	_find_health_attribute()
 
 
 func face_direction(target_position: Vector3) -> void:
@@ -104,6 +107,10 @@ func move_npc_to_next_position(delta: float) -> void:
 	move_and_slide()
 
 
+func is_dead() -> bool:
+	return _health and _health.value <= 0
+
+
 func _spawn_weapon() -> void:
 	if not weapon_stack:
 		return
@@ -126,3 +133,7 @@ func _can_attack_with_weapon() -> bool:
 	if not ref_to_player:
 		return false
 	return not _weapon._fire_rate_timer > 0 and global_position.distance_to(ref_to_player.global_position) <= _weapon_data.weapon_range
+
+
+func _find_health_attribute() -> void:
+	_health = find_children("", "HealthAttribute", true).front()

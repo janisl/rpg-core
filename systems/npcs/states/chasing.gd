@@ -1,6 +1,6 @@
 extends NpcStateProcessor
 
-enum ChaseStatus { CHASING, CAUGHT, WAITING }
+enum ChaseStatus { CHASING, CAUGHT, WAITING, LOST }
 
 @export var target_melee_distance := 1.5
 @export var target_ranged_distance_offset := 1.0
@@ -8,9 +8,11 @@ enum ChaseStatus { CHASING, CAUGHT, WAITING }
 @export var start_chase_sound: AudioStream
 @export_flags_3d_physics var collision_mask := 1
 @export var giveup_chase_time := 5.0
+@export var wait_after_broken_los_time := 3.0
 @export var face_target_while_waiting := true
 
 var _chase_wait_timer: Timer
+var _los_broken_timer: Timer
 var _current_chase_status: ChaseStatus
 var _chase_target: Node3D
 var _can_see_player := false
@@ -23,6 +25,12 @@ func _enter_tree() -> void:
 	_chase_wait_timer.timeout.connect(_stop_chasing)
 	add_child(_chase_wait_timer)
 
+	_los_broken_timer = Timer.new()
+	_los_broken_timer.wait_time = wait_after_broken_los_time
+	_los_broken_timer.one_shot = true
+	_los_broken_timer.timeout.connect(_start_searching)
+	add_child(_los_broken_timer)
+
 
 func _on_chasing_state_entered() -> void:
 	_enter_state()
@@ -30,7 +38,7 @@ func _on_chasing_state_entered() -> void:
 		_chase_target = npc.attention_target
 
 	if not _chase_target or npc.response_to_player == "Neutral":
-		state_chart.send_event("onIdle")
+		state_chart.send_event("search")
 		state_chart.send_event("body_walk")
 		return
 
@@ -49,7 +57,24 @@ func _on_chasing_state_exited() -> void:
 
 
 func _on_chasing_state_physics_processing(delta: float) -> void:
+	# When loading a game during a chase, the attention target needs to be reacquired
+	if not _chase_target and npc.attention_target:
+		_chase_target = npc.attention_target
+
 	_can_see_player = _check_los_to_player()
+	if _can_see_player:
+		npc.head_turner.active = true
+		_los_broken_timer.stop()
+	else:
+		npc.head_turner.active = false
+		if _los_broken_timer.is_stopped() and _chase_wait_timer.is_stopped():
+			_los_broken_timer.start()
+
+	if not _chase_target or not (_chase_target as Player).health_attribute.is_alive:
+		_stop_chasing()
+
+	if npc.is_dead():
+		_npc_has_died()
 
 	match _current_chase_status:
 		ChaseStatus.CHASING:
@@ -72,6 +97,10 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 			if npc.nav_agent.is_target_reachable() or _can_see_player:
 				_chase_wait_timer.stop()
 				_current_chase_status = ChaseStatus.CHASING
+			return
+
+		ChaseStatus.LOST:
+			_start_searching()
 			return
 
 
@@ -115,4 +144,13 @@ func _start_waiting() -> void:
 
 func _stop_chasing() -> void:
 	npc.move_speed = npc.walk_speed
-	state_chart.send_event("onIdle")
+	_current_chase_status = ChaseStatus.LOST
+
+
+func _npc_has_died() -> void:
+	_current_chase_status = ChaseStatus.LOST
+
+
+func _start_searching() -> void:
+	state_chart.send_event("search")
+	state_chart.send_event("body_walk")

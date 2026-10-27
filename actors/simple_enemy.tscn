@@ -272,7 +272,7 @@ behaviour_state = 5
 [node name="OnIdle" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=1276673632]
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Idle")
-event = &"onIdle"
+event = &"search"
 delay_in_seconds = "0.0"
 
 [node name="ToAttacking" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=1937042604]
@@ -837,6 +837,7 @@ parameters/hurt/request = 0
 avoidance_enabled = true
 
 [node name="HealthAttribute" parent="." unique_id=167552575 instance=ExtResource("6_4s1oe")]
+free_on_death = Array[NodePath]([NodePath("..")])
 max_value = 50.0
 initial_value = 50.0
 
