@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bvaj87ob7hpq6" path="res://systems/dev_tools/dev_tools.gd" id="1_qi31n"]
 [ext_resource type="Script" uid="uid://dnuvf830j1lrn" path="res://systems/dev_tools/debug_line.gd" id="2_aoadl"]
 [ext_resource type="PackedScene" path="res://systems/dev_tools/developer_overlay.tscn" id="3_overlay"]
+[ext_resource type="PackedScene" path="res://systems/dev_tools/developer_console.tscn" id="4_console"]
 
 [node name="DevTools" type="Node" unique_id=1985555156]
 script = ExtResource("1_qi31n")
@@ -11,3 +12,5 @@ script = ExtResource("1_qi31n")
 script = ExtResource("2_aoadl")
 
 [node name="DeveloperOverlay" parent="." instance=ExtResource("3_overlay")]
+
+[node name="DeveloperConsole" parent="." instance=ExtResource("4_console")]
