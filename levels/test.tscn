@@ -582,19 +582,6 @@ shape = SubResource("BoxShape3D_6qnao")
 [node name="TopOfLadder" type="Node3D" parent="Ladder/Area3D" unique_id=839623352]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2832785, 0)
 
-[node name="Enemies" type="Node3D" parent="Ladder" unique_id=164662087]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -36, -2.5, 34.5)
-
-[node name="SimpleEnemy" parent="Ladder/Enemies" unique_id=1330723701 instance=ExtResource("8_2grjb")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 5)
-
-[node name="SimpleEnemy2" parent="Ladder/Enemies" unique_id=268849966 instance=ExtResource("8_2grjb")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 10)
-weapon_stack = SubResource("Resource_08uri")
-
-[node name="SightDetection" parent="Ladder/Enemies/SimpleEnemy2" index="9" unique_id=1899700967]
-minimum_visibility = 1
-
 [node name="Ladder2" type="Node3D" parent="." unique_id=1333784860]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -43, 2.5, -35.5)
 
@@ -615,6 +602,18 @@ shape = SubResource("BoxShape3D_6qnao")
 
 [node name="TopOfLadder" type="Node3D" parent="Ladder2/Area3D" unique_id=1066862836]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2832785, 0)
+
+[node name="Enemies" type="Node3D" parent="." unique_id=164662087]
+
+[node name="SimpleEnemy" parent="Enemies" unique_id=1330723701 instance=ExtResource("8_2grjb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 5)
+
+[node name="SimpleEnemy2" parent="Enemies" unique_id=268849966 instance=ExtResource("8_2grjb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 10)
+weapon_stack = SubResource("Resource_08uri")
+
+[node name="SightDetection" parent="Enemies/SimpleEnemy2" index="9" unique_id=1899700967]
+minimum_visibility = 1
 
 [node name="Pickups" type="Node3D" parent="." unique_id=564936879]
 
@@ -763,6 +762,8 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.8
 
 [node name="Ball" type="RigidBody3D" parent="Decorations" unique_id=589787673]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, -45)
+collision_layer = 32
+collision_mask = 45
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Decorations/Ball" unique_id=1167890926]
 shape = SubResource("SphereShape3D_bsiym")
@@ -784,6 +785,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.5, -40)
 
 [node name="TriggerVolume" type="Area3D" parent="." unique_id=355576465]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.5, 5)
+collision_layer = 0
+collision_mask = 4
+monitorable = false
 script = ExtResource("9_qhvcx")
 metadata/_custom_type_script = "uid://dkyw6ncoxwu4k"
 
@@ -802,16 +806,16 @@ cull_far = 1000.0
 
 [node name="Player" parent="." unique_id=86196454 instance=ExtResource("16_08uri")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=366468528]
+[node name="LightZoneArea" type="MeshInstance3D" parent="." unique_id=366468528]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10)
 mesh = SubResource("BoxMesh_g5r3q")
 
-[node name="LightzoneComponent" parent="MeshInstance3D" unique_id=880632074 instance=ExtResource("17_08uri")]
+[node name="LightzoneComponent" parent="LightZoneArea" unique_id=880632074 instance=ExtResource("17_08uri")]
 
-[node name="CollisionShape3D" parent="MeshInstance3D/LightzoneComponent" index="0" unique_id=1407484355]
+[node name="CollisionShape3D" parent="LightZoneArea/LightzoneComponent" index="0" unique_id=1407484355]
 shape = SubResource("BoxShape3D_6k6bt")
 
-[connection signal="activated" from="TriggerVolume" to="Ladder/Enemies/SimpleEnemy" method="on_trigger"]
+[connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]
 
-[editable path="Ladder/Enemies/SimpleEnemy2"]
-[editable path="MeshInstance3D/LightzoneComponent"]
+[editable path="Enemies/SimpleEnemy2"]
+[editable path="LightZoneArea/LightzoneComponent"]

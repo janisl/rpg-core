@@ -42,6 +42,8 @@ metadata = Dictionary[String, Variant]({
 metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
 
 [node name="Laser" type="RigidBody3D" unique_id=1424478614 groups=["interactable"]]
+collision_layer = 34
+collision_mask = 45
 
 [node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
 transform = Transform3D(-4.371139e-08, -0.99999994, 0, 1, -4.3711385e-08, 0, 0, 0, 0.99999994, -0.008151099, 0, 0.054807425)

@@ -160,7 +160,11 @@ locale/translations=PackedStringArray("res://localization/strings.en.translation
 3d_render/layer_2="First person"
 3d_render/layer_3="Third person"
 3d_physics/layer_1="World"
-3d_physics/layer_2="Pickups"
+3d_physics/layer_2="Interactables"
+3d_physics/layer_3="Player"
+3d_physics/layer_4="NPCs"
+3d_physics/layer_5="Projectiles"
+3d_physics/layer_6="Dynamic objects"
 3d_physics/layer_9="Liquids"
 3d_physics/layer_10="Ladders"
 

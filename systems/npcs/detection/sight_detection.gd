@@ -8,6 +8,13 @@ extends Node3D
 @export_group("Suspicion Build-Up")
 @export_range(0, 100) var minimum_visibility := 0
 
+@export_flags_3d_physics var collision_mask := (
+	PhysicsLayers.WORLD_MASK |
+	PhysicsLayers.PLAYER_MASK |
+	PhysicsLayers.NPCS_MASK |
+	PhysicsLayers.DYNAMIC_OBJECTS_MASK
+)
+
 @export_group("Debug")
 @export var show_detection_line: bool = false
 
@@ -49,7 +56,9 @@ func _on_body_exited(body: Node3D) -> void:
 
 func _fire_raycast_at(node: Node3D) -> bool:
 	var space_state := get_world_3d().direct_space_state
-	var query := PhysicsRayQueryParameters3D.create(npc.head.global_position, node.head.global_position if node is Actor else node.global_position)
+	var end: Vector3 = node.head.global_position if node is Actor else node.global_position
+	var query := PhysicsRayQueryParameters3D.create(npc.head.global_position, end)
+	query.collision_mask = collision_mask
 	query.exclude = [npc.get_rid(), detection_area.get_rid()]
 	var result := space_state.intersect_ray(query)
 	var last_raycasted_target: Node3D = result.collider if result else null

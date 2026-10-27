@@ -5,4 +5,4 @@
 
 [node name="HitScanWeapon" unique_id=2003787361 instance=ExtResource("1_sqb1c")]
 script = ExtResource("2_5sdol")
-hit_scan_collision_mask = 1
+hit_scan_collision_mask = 45

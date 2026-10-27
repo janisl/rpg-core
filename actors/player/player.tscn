@@ -253,7 +253,8 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody3D" unique_id=86196454 node_paths=PackedStringArray("camera_controller", "camera_effects", "state_chart", "standing_collision", "crouching_collision", "crouch_check", "interaction_controller", "stairs_ahead_ray_cast", "stairs_below_ray_cast", "wield_controller", "animation_tree", "inventory", "head") groups=["player"]]
-collision_layer = 771
+collision_layer = 772
+collision_mask = 45
 script = ExtResource("1_nvxhs")
 camera_controller = NodePath("Neck")
 camera_effects = NodePath("Neck/Head/Camera")
@@ -333,6 +334,7 @@ script = ExtResource("4_dqf5y")
 player = NodePath("../../..")
 
 [node name="InteractionRayCast" parent="Neck/Head/Camera" unique_id=327387966 node_paths=PackedStringArray("player") instance=ExtResource("15_jjb1w")]
+collision_mask = 47
 player = NodePath("../../../..")
 
 
@@ -981,6 +983,9 @@ parameters/UpperBodyBlend/blend_amount = 0.0
 parameters/LowerBody/Crouching/blend_position = Vector2(0, 0)
 parameters/LowerBody/Standing/blend_position = Vector2(0, 0)
 parameters/LowerBody/Standing/BlendTree/TimeSeek/seek_request = -1.0
+parameters/hurt/active = false
+parameters/hurt/internal_active = false
+parameters/hurt/request = 0
 
 [node name="HealthAttribute" parent="." unique_id=213689897 instance=ExtResource("35_qls60")]
 

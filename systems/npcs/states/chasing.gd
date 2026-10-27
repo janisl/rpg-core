@@ -6,10 +6,16 @@ enum ChaseStatus { CHASING, CAUGHT, WAITING, LOST }
 @export var target_ranged_distance_offset := 1.0
 @export var action_when_caught := "attack"
 @export var start_chase_sound: AudioStream
-@export_flags_3d_physics var collision_mask := 1
 @export var giveup_chase_time := 5.0
 @export var wait_after_broken_los_time := 3.0
 @export var face_target_while_waiting := true
+
+@export_flags_3d_physics var collision_mask := (
+	PhysicsLayers.WORLD_MASK |
+	PhysicsLayers.PLAYER_MASK |
+	PhysicsLayers.NPCS_MASK |
+	PhysicsLayers.DYNAMIC_OBJECTS_MASK
+)
 
 var _chase_wait_timer: Timer
 var _los_broken_timer: Timer
