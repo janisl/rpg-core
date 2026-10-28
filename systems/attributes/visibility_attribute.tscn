@@ -6,4 +6,5 @@
 script = ExtResource("1_yrrgw")
 attribute_name = "visibility"
 display_name = "ATTRIBUTE Visibility"
-max_value = 5.0
+max_value = 100.0
+initial_value = 50.0

@@ -11,7 +11,10 @@ extends Node3D
 @export var aggro_threshold := 5.0
 @export var buildup_to_investigation_rate := 1.0
 @export var buildup_to_aggro_rate := 3.0
-@export_range(0, 100) var minimum_visibility := 0
+@export var sight_range_cone := Vector3(10, 10, 15)
+@export var max_distance_multiplier := 0.1
+@export_range(0, 100) var minimum_visibility := 30
+@export var visibility_modifier_curve := _linear_curve()
 @export var delay_before_suspicion_decays := 2.0
 @export var suspicion_decay_rate := 0.3
 
@@ -53,7 +56,7 @@ func _physics_process(delta: float) -> void:
 			_decay_timer.stop()
 			_is_decaying = false
 			var initial_amount := buildup_to_investigation_rate if npc.in_state([Npc.BehaviourState.Idle]) else buildup_to_aggro_rate
-			var amount := initial_amount * delta
+			var amount := initial_amount * _get_distance_modifier_to(node) * _get_visibility_modifier(node) * delta
 			current_suspicion = clamp(current_suspicion + amount, 0, aggro_threshold + 0.5)
 
 	_decay_suspicion(delta)
@@ -71,6 +74,17 @@ func check_if_player_in_los() -> bool:
 func reset() -> void:
 	current_suspicion = 0
 	sight_suspicion_indicator.visible = false
+
+
+static func _linear_curve() -> Curve:
+	var curve := Curve.new()
+	curve.max_domain = 100
+	curve.min_domain = 0
+	curve.max_value = 1
+	curve.min_value = 0
+	curve.add_point(Vector2(0, 0), 0, 1, Curve.TANGENT_FREE, Curve.TANGENT_LINEAR)
+	curve.add_point(Vector2(100, 1), 1, 0, Curve.TANGENT_LINEAR, Curve.TANGENT_LINEAR)
+	return curve
 
 
 func _connect_detection_signals() -> void:
@@ -133,6 +147,20 @@ func _update_suspicion_indicator() -> void:
 		else:
 			sight_suspicion_indicator.is_investigating = true
 			sight_suspicion_indicator.update(current_suspicion, aggro_threshold)
+
+
+func _get_distance_modifier_to(node: Node3D) -> float:
+	var cone_magnitude := sight_range_cone.length_squared()
+	var distance_to := npc.global_position.distance_squared_to(node.global_position)
+	return lerp(1.0, max_distance_multiplier, distance_to / cone_magnitude)
+
+
+func _get_visibility_modifier(node: Node3D) -> float:
+	if node is not Player:
+		return 1.0
+	elif node.visibility_attribute:
+		return visibility_modifier_curve.sample(node.visibility_attribute.value)
+	return 1.0
 
 
 func _decay_suspicion(delta: float) -> void:

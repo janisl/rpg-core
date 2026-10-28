@@ -613,7 +613,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0
 weapon_stack = SubResource("Resource_08uri")
 
 [node name="SightDetection" parent="Enemies/SimpleEnemy2" index="9" unique_id=1899700967]
-minimum_visibility = 1
+minimum_visibility = 51
 
 [node name="Pickups" type="Node3D" parent="." unique_id=564936879]
 
