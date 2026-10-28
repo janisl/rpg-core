@@ -81,7 +81,7 @@ func _physics_process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	if event.is_action_pressed("test"):
-		health_attribute.take_damage(HitInfo.new(10.0))
+		set_collision_layer_value(PhysicsLayers.PLAYER, not get_collision_layer_value(PhysicsLayers.PLAYER))
 
 	if toggle_crouch:
 		if Input.is_action_just_pressed("crouch"):
