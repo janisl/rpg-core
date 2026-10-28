@@ -1,15 +1,25 @@
 extends NpcStateProcessor
 
+@export var sight_detection: SightDetection
+
+@export var reacquire_time := 0.5
 @export var wait_at_first_point := 5.0
 @export var end_search_after_second_point := 3.0
 
 @export var searching_sound: AudioStream
 @export var end_search_sound: AudioStream
+@export var i_see_you_sound: AudioStream
 
 @export var show_search_points := false
 
 var broken_los_point: Vector3
 var last_known_player_point: Vector3
+
+var player: Player:
+	get:
+		if not player:
+			return get_tree().get_first_node_in_group("player")
+		return player
 
 var _search_point_one_label: Label3D
 var _search_point_two_label: Label3D
@@ -17,6 +27,7 @@ var _search_point_two_label: Label3D
 var _los_point_reached := false
 var _last_known_point_reached := false
 
+var _reacquire_timer: Timer
 var _first_wait_timer: Timer
 var _second_wait_timer: Timer
 
@@ -28,6 +39,7 @@ func _enter_tree() -> void:
 
 	_first_wait_timer = _create_timer(wait_at_first_point, _search_next_point)
 	_second_wait_timer = _create_timer(end_search_after_second_point, _end_search)
+	_reacquire_timer = _create_timer(reacquire_time, _start_chasing)
 func _on_searching_state_entered() -> void:
 	_enter_state()
 	if show_search_points and not _search_point_one_label.is_inside_tree():
@@ -50,6 +62,7 @@ func _on_searching_state_exited() -> void:
 
 	_first_wait_timer.stop()
 	_second_wait_timer.stop()
+	_reacquire_timer.stop()
 
 	if show_search_points:
 		_search_point_one_label.visible = false
@@ -63,11 +76,27 @@ func _on_searching_state_physics_processing(delta: float) -> void:
 		_search_point_two_label.visible = true
 		_search_point_two_label.global_position = last_known_player_point
 
+	_sight_detection_check()
 	if npc.nav_agent.is_target_reached():
 		npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
 		npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
 	else:
+		if _reacquire_timer.is_stopped():
 			npc.move_npc_to_next_position(delta)
+
+
+func _sight_detection_check() -> void:
+	if sight_detection.check_if_player_in_los():
+		if _reacquire_timer.is_stopped():
+			play_sound(i_see_you_sound)
+			_reacquire_timer.start()
+	else:
+		_reacquire_timer.stop()
+
+
+func _start_chasing() -> void:
+	npc.attention_target = player
+	state_chart.send_event("chase")
 
 
 func _on_reached_target() -> void:

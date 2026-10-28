@@ -160,6 +160,7 @@ func _npc_has_died() -> void:
 
 
 func _start_searching() -> void:
+	searching_state.player = _chase_target
 	searching_state.last_known_player_point = npc.last_reachable_path
 	state_chart.send_event("search")
 	state_chart.send_event("body_walk")

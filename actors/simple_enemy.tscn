@@ -312,8 +312,10 @@ metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 
 [node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Searching" unique_id=1973182074 node_paths=PackedStringArray("sight_detection", "searching_look_ahead_pivot", "searching_look_ahead", "npc", "state_chart", "audio")]
 script = ExtResource("12_dqk6m")
+sight_detection = NodePath("../../../../../SightDetection")
 searching_sound = ExtResource("13_ocjwc")
 end_search_sound = ExtResource("14_dqk6m")
+i_see_you_sound = ExtResource("9_gn5pi")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
