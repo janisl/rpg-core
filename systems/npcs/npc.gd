@@ -6,6 +6,7 @@ enum BehaviourState {
 	Idle,
 	Chasing,
 	Attacking,
+	Searching,
 }
 
 @export_group("Movement")

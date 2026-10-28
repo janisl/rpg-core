@@ -6,6 +6,7 @@ extends Node3D
 @export var npc: Npc
 
 @export_group("Suspicion Build-Up")
+@export var sight_suspicion_indicator: DetectionIndicator
 @export_range(0, 100) var minimum_visibility := 0
 
 @export_flags_3d_physics var collision_mask := (

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://ukmk3wjft8no"]
+
+[ext_resource type="Script" uid="uid://b8eqn2etkgo8a" path="res://systems/npcs/detection/sight_indicator.gd" id="1_805fm"]
+
+[sub_resource type="Gradient" id="Gradient_mq1g2"]
+offsets = PackedFloat32Array(0.48811412, 0.6244057, 0.8415214, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dqk6m"]
+gradient = SubResource("Gradient_mq1g2")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="SightIndicator" type="Node3D" unique_id=15315927]
+script = ExtResource("1_805fm")
+
+[node name="Indicator" type="Sprite3D" parent="." unique_id=1846533567]
+billboard = 2
+texture = SubResource("GradientTexture2D_dqk6m")
+
+[node name="Value" type="Label3D" parent="." unique_id=476109689]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12024465, 0.0010458231)
+pixel_size = 0.002
+billboard = 2
+text = "0"

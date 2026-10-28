@@ -24,6 +24,7 @@
 [ext_resource type="AudioStream" uid="uid://clh4hlpramjwl" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_002.ogg" id="14_thjgf"]
 [ext_resource type="AudioStream" uid="uid://cba5cvqpa62l1" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_003.ogg" id="15_rpt3r"]
 [ext_resource type="AudioStream" uid="uid://l5srpaiywb2d" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_004.ogg" id="16_gbejp"]
+[ext_resource type="PackedScene" uid="uid://ukmk3wjft8no" path="res://systems/npcs/detection/sight_indicator.tscn" id="17_dqk6m"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://bbe1e835q82bc" path="res://systems/actors/humanoid_animation_tree.tres" id="19_thjgf"]
 [ext_resource type="Script" uid="uid://crvmh56qwb83k" path="res://systems/npcs/detection/sight_detection.gd" id="22_gbejp"]
 
@@ -816,6 +817,10 @@ bone_idx = 6
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
 
+[node name="SightIndicator" parent="Rig/GeneralSkeleton/HeadAttachment" unique_id=15315927 instance=ExtResource("17_dqk6m")]
+transform = Transform3D(0.99999607, -0.0028922604, -0.00011506688, 0.0028917382, 0.99998605, -0.0046596844, 0.00012856734, 0.004659284, 0.99998957, 0.019188542, 0.3905226, -0.07442388)
+visible = false
+
 [node name="DetectionArea" type="Area3D" parent="Rig/GeneralSkeleton/HeadAttachment" unique_id=1544427392]
 transform = Transform3D(0.9999998, -0.0008125226, 0.00080436096, 0.0008076176, 0.9999807, 0.006068611, -0.00080915075, -0.006067942, 0.9999813, 0.0031453073, 0.13780785, -0.25541118)
 collision_layer = 0
@@ -894,10 +899,11 @@ visible = false
 mesh = SubResource("SphereMesh_rpt3r")
 skeleton = NodePath("../Audio")
 
-[node name="SightDetection" type="Node3D" parent="." unique_id=1899700967 node_paths=PackedStringArray("detection_area", "npc")]
+[node name="SightDetection" type="Node3D" parent="." unique_id=1899700967 node_paths=PackedStringArray("detection_area", "npc", "sight_suspicion_indicator")]
 script = ExtResource("22_gbejp")
 detection_area = NodePath("../Rig/GeneralSkeleton/HeadAttachment/DetectionArea")
 npc = NodePath("..")
+sight_suspicion_indicator = NodePath("../Rig/GeneralSkeleton/HeadAttachment/SightIndicator")
 metadata/_custom_type_script = "uid://crvmh56qwb83k"
 
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_entered"]
