@@ -6,6 +6,7 @@ extends NpcStateProcessor
 
 @export var reacquire_time := 0.5
 @export var head_target_rotation_angle := 60.0
+@export var reset_suspicion_when_search_ends := true
 @export var wait_at_first_point := 5.0
 @export var end_search_after_second_point := 3.0
 @export var end_search_if_stuck_for := 10.0
@@ -138,6 +139,9 @@ func _search_next_point() -> void:
 
 func _end_search() -> void:
 	play_sound(end_search_sound)
+	if reset_suspicion_when_search_ends:
+		if npc.sight_detection:
+			npc.sight_detection.reset()
 	state_chart.send_event("idle")
 
 

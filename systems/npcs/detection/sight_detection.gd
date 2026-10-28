@@ -7,7 +7,10 @@ extends Node3D
 
 @export_group("Suspicion Build-Up")
 @export var sight_suspicion_indicator: DetectionIndicator
+@export var investigation_threshold := 3.0
 @export var aggro_threshold := 5.0
+@export var buildup_to_investigation_rate := 1.0
+@export var buildup_to_aggro_rate := 3.0
 @export_range(0, 100) var minimum_visibility := 0
 
 @export_flags_3d_physics var collision_mask := (
@@ -31,9 +34,19 @@ func _ready() -> void:
 	_connect_detection_signals()
 
 
-func _physics_process(_delta: float) -> void:
-	if check_if_player_in_los():
-		current_suspicion = aggro_threshold
+func _physics_process(delta: float) -> void:
+	if npc.in_state([Npc.BehaviourState.Chasing, Npc.BehaviourState.Attacking]):
+		return
+
+	_update_suspicion_indicator()
+
+	for node:Node in _nodes_inside_detection_area:
+		if node is Player and npc.response_to_player != "Hostile":
+			continue
+		if _fire_raycast_at(node):
+			var initial_amount := buildup_to_investigation_rate if npc.in_state([Npc.BehaviourState.Idle]) else buildup_to_aggro_rate
+			var amount := initial_amount * delta
+			current_suspicion = clamp(current_suspicion + amount, 0, aggro_threshold + 0.5)
 
 	_state_trigger_checks()
 
@@ -43,6 +56,11 @@ func check_if_player_in_los() -> bool:
 		if node is Player:
 			return _fire_raycast_at(node)
 	return false
+
+
+func reset() -> void:
+	current_suspicion = 0
+	sight_suspicion_indicator.visible = false
 
 
 func _connect_detection_signals() -> void:
@@ -87,6 +105,16 @@ func _fire_raycast_at_player_result(pos: Vector3, player: Player) -> bool:
 		return ref_to_player.visibility_attribute.value >= minimum_visibility
 	else:
 		return true
+
+
+func _update_suspicion_indicator() -> void:
+	if sight_suspicion_indicator and current_suspicion > 0:
+		if current_suspicion < investigation_threshold:
+			sight_suspicion_indicator.is_investigating = false
+			sight_suspicion_indicator.update(current_suspicion, investigation_threshold)
+		else:
+			sight_suspicion_indicator.is_investigating = true
+			sight_suspicion_indicator.update(current_suspicion, aggro_threshold)
 
 
 func _state_trigger_checks() -> void:
