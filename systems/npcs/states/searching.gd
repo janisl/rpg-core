@@ -5,6 +5,7 @@ extends NpcStateProcessor
 @export var reacquire_time := 0.5
 @export var wait_at_first_point := 5.0
 @export var end_search_after_second_point := 3.0
+@export var end_search_if_stuck_for := 10.0
 
 @export var searching_sound: AudioStream
 @export var end_search_sound: AudioStream
@@ -30,6 +31,7 @@ var _last_known_point_reached := false
 var _reacquire_timer: Timer
 var _first_wait_timer: Timer
 var _second_wait_timer: Timer
+var _stuck_timer: Timer
 
 
 func _enter_tree() -> void:
@@ -40,6 +42,9 @@ func _enter_tree() -> void:
 	_first_wait_timer = _create_timer(wait_at_first_point, _search_next_point)
 	_second_wait_timer = _create_timer(end_search_after_second_point, _end_search)
 	_reacquire_timer = _create_timer(reacquire_time, _start_chasing)
+	_stuck_timer = _create_timer(end_search_if_stuck_for, _end_search)
+
+
 func _on_searching_state_entered() -> void:
 	_enter_state()
 	if show_search_points and not _search_point_one_label.is_inside_tree():
@@ -63,6 +68,7 @@ func _on_searching_state_exited() -> void:
 	_first_wait_timer.stop()
 	_second_wait_timer.stop()
 	_reacquire_timer.stop()
+	_stuck_timer.stop()
 
 	if show_search_points:
 		_search_point_one_label.visible = false
@@ -84,9 +90,13 @@ func _on_searching_state_physics_processing(delta: float) -> void:
 		if _reacquire_timer.is_stopped():
 			npc.move_npc_to_next_position(delta)
 
+		if not npc.nav_agent.is_target_reachable() and _stuck_timer.is_stopped():
+			_stuck_timer.start()
+
 
 func _sight_detection_check() -> void:
 	if sight_detection.check_if_player_in_los():
+		_stuck_timer.stop()
 		if _reacquire_timer.is_stopped():
 			play_sound(i_see_you_sound)
 			_reacquire_timer.start()
