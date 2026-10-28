@@ -56,6 +56,10 @@ func face_direction(target_position: Vector3) -> void:
 	basis = basis.slerp(target_basis, rotation_speed)
 
 
+func in_state(states: Array[BehaviourState]) -> bool:
+	return states.any(func(state: BehaviourState) -> bool: return current_behaviour == state)
+
+
 func is_using_weapon() -> bool:
 	return _weapon != null
 

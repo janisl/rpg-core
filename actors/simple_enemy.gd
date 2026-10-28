@@ -4,15 +4,6 @@ extends Enemy
 @onready var state_chart: StateChart = $StateChart
 
 
-func _ready() -> void:
-	super()
-
-	attention_target = get_tree().get_first_node_in_group("player")
-
-
-func on_triggered() -> void:
-	state_chart.send_event("onChase")
-
-
-func on_trigger(_player: Player) -> void:
-	state_chart.send_event("onChase")
+func on_trigger(player: Player) -> void:
+	attention_target = player
+	state_chart.send_event("chase")

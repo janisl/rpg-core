@@ -258,10 +258,10 @@ state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
 behaviour_state = 1
 
-[node name="OnChase" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=132159885]
+[node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=132159885]
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Chasing")
-event = &"onChase"
+event = &"chase"
 delay_in_seconds = "0.0"
 
 [node name="Chasing" type="Node" parent="StateChart/Root/Behaviour" unique_id=226969982]

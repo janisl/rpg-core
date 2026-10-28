@@ -7,6 +7,7 @@ extends Node3D
 
 @export_group("Suspicion Build-Up")
 @export var sight_suspicion_indicator: DetectionIndicator
+@export var aggro_threshold := 5.0
 @export_range(0, 100) var minimum_visibility := 0
 
 @export_flags_3d_physics var collision_mask := (
@@ -19,10 +20,11 @@ extends Node3D
 @export_group("Debug")
 @export var show_detection_line: bool = false
 
-var _nodes_inside_detection_area: Array[Node3D] = []
-
 var ref_to_player: Player
 var player_sight_collision_point := Vector3.ZERO
+var current_suspicion := 0.0
+
+var _nodes_inside_detection_area: Array[Node3D] = []
 
 
 func _ready() -> void:
@@ -31,7 +33,9 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if check_if_player_in_los():
-		npc.on_triggered()
+		current_suspicion = aggro_threshold
+
+	_state_trigger_checks()
 
 
 func check_if_player_in_los() -> bool:
@@ -83,3 +87,9 @@ func _fire_raycast_at_player_result(pos: Vector3, player: Player) -> bool:
 		return ref_to_player.visibility_attribute.value >= minimum_visibility
 	else:
 		return true
+
+
+func _state_trigger_checks() -> void:
+	if current_suspicion >= aggro_threshold and ref_to_player and npc.in_state([Npc.BehaviourState.Idle]):
+		npc.attention_target = ref_to_player
+		npc.state_chart.send_event("chase")
