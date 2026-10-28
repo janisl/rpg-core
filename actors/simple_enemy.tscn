@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://cwqlxrvrj657s" path="res://systems/npcs/states/idle.gd" id="6_evrkw"]
 [ext_resource type="AnimationLibrary" uid="uid://dm7sapnp2plx2" path="res://assets/animations/humanoid/universal_animation_library_standard.res" id="7_ngyoi"]
 [ext_resource type="Script" uid="uid://u3k7xpn2y14c" path="res://systems/npcs/states/chasing.gd" id="8_gvg5y"]
+[ext_resource type="Script" uid="uid://d1esyyr4q7tuf" path="res://systems/npcs/states/patrolling.gd" id="8_j0stw"]
 [ext_resource type="Script" uid="uid://djec4ecbh44mx" path="res://systems/npcs/states/attacking.gd" id="9_0qgqr"]
 [ext_resource type="AudioStream" uid="uid://cxmh3hbaxd2km" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre1.wav" id="9_gn5pi"]
 [ext_resource type="AudioStream" uid="uid://dw7jtahkwgjth" path="res://assets/sounds/misc/422513__nightflame__swinging-staff-whoosh-strong-04.wav" id="10_qld51"]
@@ -258,11 +259,34 @@ state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
 behaviour_state = 1
 
+[node name="ToPatrolling" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=1187028747]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Patrolling")
+event = &"patrol"
+delay_in_seconds = "0.0"
+
 [node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=132159885]
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Chasing")
 event = &"chase"
 delay_in_seconds = "0.0"
+
+[node name="Patrolling" type="Node" parent="StateChart/Root/Behaviour" unique_id=632220434]
+script = ExtResource("4_4a0lb")
+
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Patrolling" unique_id=156281610 node_paths=PackedStringArray("npc", "state_chart", "audio")]
+script = ExtResource("8_j0stw")
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+audio = NodePath("../../../../../Audio")
+behaviour_state = 2
+
+[node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Patrolling" unique_id=17159183]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Chasing")
+event = &"chase"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="Chasing" type="Node" parent="StateChart/Root/Behaviour" unique_id=226969982]
 script = ExtResource("4_4a0lb")
@@ -911,6 +935,9 @@ metadata/_custom_type_script = "uid://crvmh56qwb83k"
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Behaviour/Patrolling" to="StateChart/Root/Behaviour/Patrolling/Processor" method="_on_patrolling_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Behaviour/Patrolling" to="StateChart/Root/Behaviour/Patrolling/Processor" method="_on_patrolling_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Patrolling" to="StateChart/Root/Behaviour/Patrolling/Processor" method="_on_patrolling_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_physics_processing"]

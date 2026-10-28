@@ -7,11 +7,11 @@ extends Node
 @export var behaviour_state := Npc.BehaviourState.None
 
 
-func _enter_state():
+func _enter_state() -> void:
 	npc.current_behaviour = behaviour_state
 
 
-func _exit_state():
+func _exit_state() -> void:
 	npc.previous_behaviour = behaviour_state
 
 

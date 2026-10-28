@@ -4,10 +4,13 @@ extends Actor
 enum BehaviourState {
 	None,
 	Idle,
+	Patrolling,
 	Chasing,
 	Attacking,
 	Searching,
 }
+
+@export var patrol_path : PatrolPath
 
 @export_group("Movement")
 @export var walk_speed := 2.0
