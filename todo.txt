@@ -17,12 +17,11 @@ Inventory
 
 Enemies
 - wandering
-- patroling
 - item drops
+- ragdool
 
 NPCs
 - wandering
-- following a path
 - dialog system
 - branching dialogs
 - shops
@@ -32,7 +31,6 @@ Environment
 - hit boxes
 - object holding/carry
 - throwable objects
-- explosions
 - drowning
 - sitting
 - buttons, switches, doors

@@ -437,7 +437,6 @@ metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 script = ExtResource("18_5sy0m")
 alerted_sound = ExtResource("14_dqk6m")
 must_have_been_the_wind_sound = ExtResource("19_oxcgc")
-show_attention_target_sprite = true
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
