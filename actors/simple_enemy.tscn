@@ -839,6 +839,8 @@ bone_idx = 29
 
 [node name="ImpactZone" type="Area3D" parent="Rig/GeneralSkeleton/HandAttachment" unique_id=888741085 node_paths=PackedStringArray("npc")]
 transform = Transform3D(0.9998372, 0.009140596, 0.0155593455, -0.009313583, 0.9998951, 0.01109305, -0.015456617, -0.011236191, 0.9998175, -0.004041493, 0.07320613, 0.0038952082)
+collision_mask = 12
+monitorable = false
 script = ExtResource("11_wimj6")
 npc = NodePath("../../../..")
 damage_on_impact = 1
