@@ -75,6 +75,7 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 	else:
 		npc.head_turner.active = false
 		if _los_broken_timer.is_stopped() and _chase_wait_timer.is_stopped():
+			searching_state.broken_los_point = _chase_target.global_position
 			_los_broken_timer.start()
 
 	if not _chase_target or not (_chase_target as Player).health_attribute.is_alive:
@@ -159,5 +160,6 @@ func _npc_has_died() -> void:
 
 
 func _start_searching() -> void:
+	searching_state.last_known_player_point = npc.last_reachable_path
 	state_chart.send_event("search")
 	state_chart.send_event("body_walk")
