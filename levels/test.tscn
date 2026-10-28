@@ -598,17 +598,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2832785, 0)
 [node name="Enemies" type="Node3D" parent="." unique_id=164662087]
 
 [node name="SimpleEnemy" parent="Enemies" unique_id=1330723701 node_paths=PackedStringArray("patrol_path") instance=ExtResource("8_2grjb")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 8, 0, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 8)
 patrol_path = NodePath("../PatrolPath")
 
 [node name="SimpleEnemy2" parent="Enemies" unique_id=268849966 instance=ExtResource("8_2grjb")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 10)
 weapon_stack = SubResource("Resource_08uri")
 
-[node name="PatrolPath" type="Node3D" parent="Enemies" unique_id=148961647 node_paths=PackedStringArray("starting_patrol_point")]
+[node name="PatrolPath" type="Node3D" parent="Enemies" unique_id=148961647 node_paths=PackedStringArray("starting_patrol_point", "simulate_with")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)
 script = ExtResource("6_u1nm5")
 starting_patrol_point = NodePath("PatrolPoint")
+simulate_with = NodePath("../SimpleEnemy")
 metadata/_custom_type_script = "uid://cabgyitb3d8cj"
 
 [node name="PatrolPoint" type="Marker3D" parent="Enemies/PatrolPath" unique_id=965936434 node_paths=PackedStringArray("next_patrol_points")]
