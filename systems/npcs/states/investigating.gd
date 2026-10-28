@@ -17,7 +17,7 @@ func _on_investigate_state_entered() -> void:
 func _on_investigating_state_exited() -> void:
 	_exit_state()
 	if _attention_spot:
-		_attention_spot.visible = false
+		_attention_spot.queue_free()
 
 
 func _on_investigate_state_physics_processing(delta: float) -> void:
