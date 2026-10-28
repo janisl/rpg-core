@@ -6,9 +6,13 @@ extends NpcStateProcessor
 @export var searching_sound: AudioStream
 @export var end_search_sound: AudioStream
 
+@export var show_search_points := false
+
 var broken_los_point: Vector3
 var last_known_player_point: Vector3
 
+var _search_point_one_label: Label3D
+var _search_point_two_label: Label3D
 
 var _los_point_reached := false
 var _last_known_point_reached := false
@@ -18,10 +22,17 @@ var _second_wait_timer: Timer
 
 
 func _enter_tree() -> void:
+	if show_search_points:
+		_search_point_one_label = _create_debug_label("1")
+		_search_point_two_label = _create_debug_label("2")
+
 	_first_wait_timer = _create_timer(wait_at_first_point, _search_next_point)
 	_second_wait_timer = _create_timer(end_search_after_second_point, _end_search)
 func _on_searching_state_entered() -> void:
 	_enter_state()
+	if show_search_points and not _search_point_one_label.is_inside_tree():
+			get_tree().current_scene.add_child(_search_point_one_label)
+			get_tree().current_scene.add_child(_search_point_two_label)
 
 	npc.nav_agent.target_position = broken_los_point
 	npc.nav_agent.target_reached.connect(_on_reached_target)
@@ -40,8 +51,18 @@ func _on_searching_state_exited() -> void:
 	_first_wait_timer.stop()
 	_second_wait_timer.stop()
 
+	if show_search_points:
+		_search_point_one_label.visible = false
+		_search_point_two_label.visible = false
+
 
 func _on_searching_state_physics_processing(delta: float) -> void:
+	if show_search_points:
+		_search_point_one_label.visible = true
+		_search_point_one_label.global_position = broken_los_point
+		_search_point_two_label.visible = true
+		_search_point_two_label.global_position = last_known_player_point
+
 	if npc.nav_agent.is_target_reached():
 		npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
 		npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
@@ -74,3 +95,10 @@ func _create_timer(wait_time: float, call_on_timeout: Callable) -> Timer:
 	timer.timeout.connect(call_on_timeout)
 	add_child(timer)
 	return timer
+
+
+func _create_debug_label(text: String) -> Label3D:
+	var label := Label3D.new()
+	label.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
+	label.text = text
+	return label
