@@ -10,6 +10,7 @@ signal fired
 var _rigid_body: RigidBody3D
 var _source: CharacterBody3D
 var _damage: float
+var _spawn_position: Vector3
 
 @onready var lifespan: Timer = $Lifespan
 
@@ -23,6 +24,7 @@ func setup(src: CharacterBody3D, vel: Vector3, dmg: float) -> void:
 	_rigid_body.contact_monitor = true
 	_rigid_body.max_contacts_reported = 10
 	_rigid_body.linear_velocity = vel
+	_spawn_position = _rigid_body.global_position
 
 	_rigid_body.body_entered.connect(_on_body_entered)
 
@@ -47,7 +49,7 @@ func _deal_damage(body: Node3D, hit_direction: Vector3, hit_position: Vector3) -
 		return
 
 	var hit_info := HitInfo.new(_damage)
-	hit_info.source = _source
+	hit_info.source_position = _spawn_position
 	hit_info.direction = hit_direction
 	hit_info.impact_position = hit_position
 	health_attribute.take_damage(hit_info)
@@ -58,7 +60,7 @@ func _die() -> void:
 
 	for scene in spawn_on_death:
 		if scene:
-			var spawned_object = scene.instantiate()
+			var spawned_object := scene.instantiate()
 			spawned_object.global_position = _rigid_body.global_position
 			get_tree().current_scene.add_child(spawned_object)
 

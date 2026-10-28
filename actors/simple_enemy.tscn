@@ -28,6 +28,8 @@
 [ext_resource type="AudioStream" uid="uid://cba5cvqpa62l1" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_003.ogg" id="15_rpt3r"]
 [ext_resource type="AudioStream" uid="uid://l5srpaiywb2d" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_004.ogg" id="16_gbejp"]
 [ext_resource type="PackedScene" uid="uid://ukmk3wjft8no" path="res://systems/npcs/detection/sight_indicator.tscn" id="17_dqk6m"]
+[ext_resource type="Script" uid="uid://51h2b8uanxuf" path="res://systems/npcs/states/alerted.gd" id="18_5sy0m"]
+[ext_resource type="AudioStream" uid="uid://ccys0rwespgyq" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre5.wav" id="19_oxcgc"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://bbe1e835q82bc" path="res://systems/actors/humanoid_animation_tree.tres" id="19_thjgf"]
 [ext_resource type="Script" uid="uid://crvmh56qwb83k" path="res://systems/npcs/detection/sight_detection.gd" id="22_gbejp"]
 
@@ -291,6 +293,13 @@ to = NodePath("../../Chasing")
 event = &"chase"
 delay_in_seconds = "0.0"
 
+[node name="ToAlerted" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=157579163]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Alerted")
+event = &"alerted"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
 [node name="Patrolling" type="Node" parent="StateChart/Root/Behaviour" unique_id=632220434]
 script = ExtResource("4_4a0lb")
 
@@ -311,6 +320,13 @@ delay_in_seconds = "0.0"
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Chasing")
 event = &"chase"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="ToAlerted" type="Node" parent="StateChart/Root/Behaviour/Patrolling" unique_id=1250195304]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Alerted")
+event = &"alerted"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
@@ -351,16 +367,16 @@ state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
 behaviour_state = 5
 
-[node name="ToSearching" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=1276673632]
-script = ExtResource("5_a0x3i")
-to = NodePath("../../Searching")
-event = &"search"
-delay_in_seconds = "0.0"
-
 [node name="ToAttacking" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=1937042604]
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Attacking")
 event = &"attack"
+delay_in_seconds = "0.0"
+
+[node name="ToSearching" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=1276673632]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Searching")
+event = &"search"
 delay_in_seconds = "0.0"
 
 [node name="Attacking" type="Node" parent="StateChart/Root/Behaviour" unique_id=399243639]
@@ -410,6 +426,41 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Idle")
 event = &"idle"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Alerted" type="Node" parent="StateChart/Root/Behaviour" unique_id=114586948]
+script = ExtResource("4_4a0lb")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=708287372 node_paths=PackedStringArray("npc", "state_chart", "audio")]
+script = ExtResource("18_5sy0m")
+alerted_sound = ExtResource("14_dqk6m")
+must_have_been_the_wind_sound = ExtResource("19_oxcgc")
+show_attention_target_sprite = true
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+audio = NodePath("../../../../../Audio")
+behaviour_state = 4
+
+[node name="ToIdle" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=1215990218]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Idle")
+event = &"idle"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=950769532]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Chasing")
+event = &"chase"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="ToInvestigating" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=1762598127]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Investigating")
+event = &"investigate"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
@@ -1002,10 +1053,14 @@ metadata/_custom_type_script = "uid://crvmh56qwb83k"
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Searching" to="StateChart/Root/Behaviour/Searching/Processor" method="_on_searching_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Behaviour/Searching" to="StateChart/Root/Behaviour/Searching/Processor" method="_on_searching_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Searching" to="StateChart/Root/Behaviour/Searching/Processor" method="_on_searching_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Behaviour/Alerted" to="StateChart/Root/Behaviour/Alerted/Processor" method="_on_alerted_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Behaviour/Alerted" to="StateChart/Root/Behaviour/Alerted/Processor" method="_on_alerted_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Alerted" to="StateChart/Root/Behaviour/Alerted/Processor" method="_on_alerted_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/Neutral" to="StateChart/Root/Posture/Processor" method="_on_neutral_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/RaisedWeapon" to="StateChart/Root/Posture/Processor" method="_on_raised_weapon_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/Attack" to="StateChart/Root/Posture/Processor" method="_on_attack_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Posture/UpperBody/Attack" to="StateChart/Root/Posture/Processor" method="_on_attack_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Posture/LowerBody/Walking" to="StateChart/Root/Posture/Processor" method="_on_walking_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Posture/LowerBody/Running" to="StateChart/Root/Posture/Processor" method="_on_running_state_physics_processing"]
+[connection signal="damage_taken" from="HealthAttribute" to="." method="_on_health_attribute_damage_taken"]
 [connection signal="damage_taken" from="HealthAttribute" to="StateChart/Root/Posture/Processor" method="_on_health_attribute_damage_taken"]

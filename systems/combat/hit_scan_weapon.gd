@@ -45,7 +45,7 @@ func _apply_damage_to_target(result: Dictionary, direction: Vector3) -> void:
 		return
 
 	var hit_info := HitInfo.new(_get_damage())
-	hit_info.source = _item_owner
+	hit_info.source_position = _item_owner.global_position
 	hit_info.direction = direction
 	hit_info.impact_position = result.position
 	health_attribute.take_damage(hit_info)
@@ -55,7 +55,7 @@ func _spawn_impact_effects(result: Dictionary) -> void:
 	EffectsManager.spawn_decal(_weapon_data.decal_scene, result.position, result.normal, result.collider, _item_owner.global_basis)
 
 	if _weapon_data.impact_scene:
-		var spawned_impact_scene = _weapon_data.impact_scene.instantiate()
+		var spawned_impact_scene := _weapon_data.impact_scene.instantiate()
 		get_tree().current_scene.add_child(spawned_impact_scene)
 		spawned_impact_scene.global_position = result.position
 

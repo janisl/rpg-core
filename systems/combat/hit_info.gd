@@ -3,7 +3,7 @@ extends RefCounted
 
 var initial_damage := 0.0
 var actual_damage := 0.0
-var source: Node3D
+var source_position := Vector3.ZERO
 var impact_position := Vector3.ZERO
 var direction := Vector3.ZERO
 
