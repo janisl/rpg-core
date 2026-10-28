@@ -9,6 +9,7 @@ enum ChaseStatus { CHASING, CAUGHT, WAITING, LOST }
 @export var giveup_chase_time := 5.0
 @export var wait_after_broken_los_time := 3.0
 @export var face_target_while_waiting := true
+@export var searching_state: NpcStateProcessor
 
 @export_flags_3d_physics var collision_mask := (
 	PhysicsLayers.WORLD_MASK |
