@@ -313,6 +313,8 @@ metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 [node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Searching" unique_id=1973182074 node_paths=PackedStringArray("sight_detection", "searching_look_ahead_pivot", "searching_look_ahead", "npc", "state_chart", "audio")]
 script = ExtResource("12_dqk6m")
 sight_detection = NodePath("../../../../../SightDetection")
+searching_look_ahead_pivot = NodePath("../../../../../Rig/GeneralSkeleton/LookingPivot")
+searching_look_ahead = NodePath("../../../../../Rig/GeneralSkeleton/LookingPivot/LookAtWhileSearching")
 searching_sound = ExtResource("13_ocjwc")
 end_search_sound = ExtResource("14_dqk6m")
 i_see_you_sound = ExtResource("9_gn5pi")
@@ -806,7 +808,7 @@ secondary_limit_angle = 6.28319
 secondary_damp_threshold = 1.0
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="Rig/GeneralSkeleton" unique_id=244071168]
-transform = Transform3D(1, 0, 0, 0, 1, -6.7800283e-07, 0, 6.7800283e-07, 1, 0, 1.5687002, 0.005100037)
+transform = Transform3D(0.99999905, -3.7913996e-05, -0.0013813069, -2.7615724e-10, 0.99962354, -0.027437784, 0.001381827, 0.027437758, 0.9996226, 0, 1.5687002, 0.005100037)
 bone_name = "Head"
 bone_idx = 6
 
@@ -844,6 +846,13 @@ shape = SubResource("SphereShape3D_hxqyq")
 [node name="HandSlot" type="Node3D" parent="Rig/GeneralSkeleton/HandAttachment" unique_id=1975747670]
 unique_name_in_owner = true
 transform = Transform3D(0.4226182, 0.9063078, -3.785517e-08, 3.809698e-09, -4.3545054e-08, -0.99999994, -0.90630776, 0.42261824, -2.185569e-08, 0.04, 0.13, 0.03)
+
+[node name="LookingPivot" type="Node3D" parent="Rig/GeneralSkeleton" unique_id=1113620638]
+transform = Transform3D(1, 0, -1.7484558e-07, 0, 1, 0, 1.7484558e-07, 0, 1, 0, 0, 0)
+
+[node name="LookAtWhileSearching" type="Node3D" parent="Rig/GeneralSkeleton/LookingPivot" unique_id=752475460]
+unique_name_in_owner = true
+transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.99999994, -0.003101331, 1.5070887, 2.2497523)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=196694139]
 libraries/ = SubResource("AnimationLibrary_a0x3i")

@@ -1,8 +1,11 @@
 extends NpcStateProcessor
 
 @export var sight_detection: SightDetection
+@export var searching_look_ahead_pivot: Node3D
+@export var searching_look_ahead: Node3D
 
 @export var reacquire_time := 0.5
+@export var head_target_rotation_angle := 60.0
 @export var wait_at_first_point := 5.0
 @export var end_search_after_second_point := 3.0
 @export var end_search_if_stuck_for := 10.0
@@ -33,6 +36,8 @@ var _first_wait_timer: Timer
 var _second_wait_timer: Timer
 var _stuck_timer: Timer
 
+var _head: LookAtModifier3D
+
 
 func _enter_tree() -> void:
 	if show_search_points:
@@ -59,6 +64,9 @@ func _on_searching_state_entered() -> void:
 	npc.move_speed = npc.walk_speed
 	_los_point_reached = false
 	_last_known_point_reached = false
+	_head = npc.head_turner
+	_head.active = true
+	_head.target_node = searching_look_ahead.get_path()
 
 
 func _on_searching_state_exited() -> void:
@@ -69,6 +77,9 @@ func _on_searching_state_exited() -> void:
 	_second_wait_timer.stop()
 	_reacquire_timer.stop()
 	_stuck_timer.stop()
+
+	searching_look_ahead_pivot.rotation_degrees.y = 0
+	_head.target_node = NodePath("")
 
 	if show_search_points:
 		_search_point_one_label.visible = false
@@ -88,6 +99,7 @@ func _on_searching_state_physics_processing(delta: float) -> void:
 		npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
 	else:
 		if _reacquire_timer.is_stopped():
+			_turn_head(delta)
 			npc.move_npc_to_next_position(delta)
 
 		if not npc.nav_agent.is_target_reachable() and _stuck_timer.is_stopped():
@@ -98,9 +110,11 @@ func _sight_detection_check() -> void:
 	if sight_detection.check_if_player_in_los():
 		_stuck_timer.stop()
 		if _reacquire_timer.is_stopped():
+			_head.target_node = player.head.get_path()
 			play_sound(i_see_you_sound)
 			_reacquire_timer.start()
 	else:
+		_head.target_node = searching_look_ahead.get_path()
 		_reacquire_timer.stop()
 
 
@@ -125,6 +139,17 @@ func _search_next_point() -> void:
 func _end_search() -> void:
 	play_sound(end_search_sound)
 	state_chart.send_event("idle")
+
+
+func _turn_head(delta: float) -> void:
+	if head_target_rotation_angle > 0:
+		searching_look_ahead_pivot.rotate_y(deg_to_rad(180) * delta)
+		if searching_look_ahead_pivot.rotation_degrees.y >= head_target_rotation_angle:
+			head_target_rotation_angle *= -1
+	else:
+		searching_look_ahead_pivot.rotate_y(deg_to_rad(-180) * delta)
+		if searching_look_ahead_pivot.rotation_degrees.y <= head_target_rotation_angle:
+			head_target_rotation_angle *= -1
 
 
 func _create_timer(wait_time: float, call_on_timeout: Callable) -> Timer:
