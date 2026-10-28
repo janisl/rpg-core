@@ -12,6 +12,8 @@ extends Node3D
 @export var buildup_to_investigation_rate := 1.0
 @export var buildup_to_aggro_rate := 3.0
 @export_range(0, 100) var minimum_visibility := 0
+@export var delay_before_suspicion_decays := 2.0
+@export var suspicion_decay_rate := 0.3
 
 @export_flags_3d_physics var collision_mask := (
 	PhysicsLayers.WORLD_MASK |
@@ -29,9 +31,13 @@ var current_suspicion := 0.0
 
 var _nodes_inside_detection_area: Array[Node3D] = []
 
+var _decay_timer: Timer
+var _is_decaying: bool = false
+
 
 func _ready() -> void:
 	_connect_detection_signals()
+	_create_decay_timer()
 
 
 func _physics_process(delta: float) -> void:
@@ -44,9 +50,13 @@ func _physics_process(delta: float) -> void:
 		if node is Player and npc.response_to_player != "Hostile":
 			continue
 		if _fire_raycast_at(node):
+			_decay_timer.stop()
+			_is_decaying = false
 			var initial_amount := buildup_to_investigation_rate if npc.in_state([Npc.BehaviourState.Idle]) else buildup_to_aggro_rate
 			var amount := initial_amount * delta
 			current_suspicion = clamp(current_suspicion + amount, 0, aggro_threshold + 0.5)
+
+	_decay_suspicion(delta)
 
 	_state_trigger_checks()
 
@@ -107,6 +117,14 @@ func _fire_raycast_at_player_result(pos: Vector3, player: Player) -> bool:
 		return true
 
 
+func _create_decay_timer() -> void:
+	_decay_timer = Timer.new()
+	_decay_timer.wait_time = delay_before_suspicion_decays
+	_decay_timer.timeout.connect(func() -> void: _is_decaying = true)
+	_decay_timer.one_shot = true
+	add_child(_decay_timer)
+
+
 func _update_suspicion_indicator() -> void:
 	if sight_suspicion_indicator and current_suspicion > 0:
 		if current_suspicion < investigation_threshold:
@@ -115,6 +133,13 @@ func _update_suspicion_indicator() -> void:
 		else:
 			sight_suspicion_indicator.is_investigating = true
 			sight_suspicion_indicator.update(current_suspicion, aggro_threshold)
+
+
+func _decay_suspicion(delta: float) -> void:
+	if _decay_timer.is_stopped() and not _is_decaying:
+		_decay_timer.start()
+	elif _is_decaying and current_suspicion > 0:
+		current_suspicion -= (suspicion_decay_rate * delta)
 
 
 func _state_trigger_checks() -> void:
