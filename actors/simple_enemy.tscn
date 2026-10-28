@@ -13,7 +13,9 @@
 [ext_resource type="Script" uid="uid://u3k7xpn2y14c" path="res://systems/npcs/states/chasing.gd" id="8_gvg5y"]
 [ext_resource type="Script" uid="uid://d1esyyr4q7tuf" path="res://systems/npcs/states/patrolling.gd" id="8_j0stw"]
 [ext_resource type="Script" uid="uid://djec4ecbh44mx" path="res://systems/npcs/states/attacking.gd" id="9_0qgqr"]
+[ext_resource type="Script" uid="uid://xdrs64ru4ias" path="res://systems/npcs/states/investigating.gd" id="9_1cfep"]
 [ext_resource type="AudioStream" uid="uid://cxmh3hbaxd2km" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre1.wav" id="9_gn5pi"]
+[ext_resource type="AudioStream" uid="uid://bjtmd38r3mmyg" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre4.wav" id="10_1cfep"]
 [ext_resource type="AudioStream" uid="uid://dw7jtahkwgjth" path="res://assets/sounds/misc/422513__nightflame__swinging-staff-whoosh-strong-04.wav" id="10_qld51"]
 [ext_resource type="Script" uid="uid://b5ekeqtjbhney" path="res://systems/npcs/states/posture.gd" id="11_rpt3r"]
 [ext_resource type="Script" uid="uid://ye4ywev58xp2" path="res://systems/npcs/impact_zone.gd" id="11_wimj6"]
@@ -230,6 +232,18 @@ height = 0.1
 radial_segments = 8
 rings = 4
 
+[sub_resource type="Gradient" id="Gradient_mq1g2"]
+offsets = PackedFloat32Array(0.48811412, 0.6244057, 0.8415214, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dqk6m"]
+gradient = SubResource("Gradient_mq1g2")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
 [node name="SimpleEnemy" type="CharacterBody3D" unique_id=1330723701 node_paths=PackedStringArray("head_turner", "head")]
 collision_layer = 8
 collision_mask = 45
@@ -265,6 +279,12 @@ to = NodePath("../../Patrolling")
 event = &"patrol"
 delay_in_seconds = "0.0"
 
+[node name="ToInvestigating" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=1726950324]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Investigating")
+event = &"investigate"
+delay_in_seconds = "0.0"
+
 [node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=132159885]
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Chasing")
@@ -281,7 +301,38 @@ state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
 behaviour_state = 2
 
+[node name="ToInvestigating" type="Node" parent="StateChart/Root/Behaviour/Patrolling" unique_id=1578602841]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Investigating")
+event = &"investigate"
+delay_in_seconds = "0.0"
+
 [node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Patrolling" unique_id=17159183]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Chasing")
+event = &"chase"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Investigating" type="Node" parent="StateChart/Root/Behaviour" unique_id=272624112]
+script = ExtResource("4_4a0lb")
+
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Investigating" unique_id=1887146408 node_paths=PackedStringArray("npc", "state_chart", "audio")]
+script = ExtResource("9_1cfep")
+investigate_sound = ExtResource("10_1cfep")
+npc = NodePath("../../../../..")
+state_chart = NodePath("../../../..")
+audio = NodePath("../../../../../Audio")
+behaviour_state = 3
+
+[node name="ToIdle" type="Node" parent="StateChart/Root/Behaviour/Investigating" unique_id=1241240719]
+script = ExtResource("5_a0x3i")
+to = NodePath("../../Idle")
+event = &"idle"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Investigating" unique_id=234732129]
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Chasing")
 event = &"chase"
@@ -930,6 +981,7 @@ script = ExtResource("22_gbejp")
 detection_area = NodePath("../Rig/GeneralSkeleton/HeadAttachment/DetectionArea")
 npc = NodePath("..")
 sight_suspicion_indicator = NodePath("../Rig/GeneralSkeleton/HeadAttachment/SightIndicator")
+attention_target_sprite_texture = SubResource("GradientTexture2D_dqk6m")
 metadata/_custom_type_script = "uid://crvmh56qwb83k"
 
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_entered"]
@@ -938,6 +990,9 @@ metadata/_custom_type_script = "uid://crvmh56qwb83k"
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Patrolling" to="StateChart/Root/Behaviour/Patrolling/Processor" method="_on_patrolling_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Behaviour/Patrolling" to="StateChart/Root/Behaviour/Patrolling/Processor" method="_on_patrolling_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Patrolling" to="StateChart/Root/Behaviour/Patrolling/Processor" method="_on_patrolling_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Behaviour/Investigating" to="StateChart/Root/Behaviour/Investigating/Processor" method="_on_investigate_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Behaviour/Investigating" to="StateChart/Root/Behaviour/Investigating/Processor" method="_on_investigating_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Investigating" to="StateChart/Root/Behaviour/Investigating/Processor" method="_on_investigate_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_physics_processing"]

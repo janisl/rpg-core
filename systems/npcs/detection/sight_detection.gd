@@ -26,7 +26,9 @@ extends Node3D
 )
 
 @export_group("Debug")
-@export var show_detection_line: bool = false
+@export var show_detection_line := false
+@export var show_debug_info := false
+@export var attention_target_sprite_texture: Texture2D
 
 var ref_to_player: Player
 var player_sight_collision_point := Vector3.ZERO
@@ -168,9 +170,22 @@ func _decay_suspicion(delta: float) -> void:
 		_decay_timer.start()
 	elif _is_decaying and current_suspicion > 0:
 		current_suspicion -= (suspicion_decay_rate * delta)
+	if current_suspicion <= 0 and npc.in_state([Npc.BehaviourState.Investigating]):
+		npc.try_end_investigation()
 
 
 func _state_trigger_checks() -> void:
-	if current_suspicion >= aggro_threshold and ref_to_player and npc.in_state([Npc.BehaviourState.Idle]):
+	if current_suspicion >= aggro_threshold and ref_to_player and npc.in_state([Npc.BehaviourState.Investigating]):
+		current_suspicion = investigation_threshold
 		npc.attention_target = ref_to_player
 		npc.state_chart.send_event("chase")
+	elif current_suspicion >= investigation_threshold and ref_to_player and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling]):
+		_generate_attention_target(ref_to_player.global_position)
+		npc.state_chart.send_event("investigate")
+
+
+func _generate_attention_target(pos: Vector3) -> void:
+	var attention_point := AttentionPoint.new(attention_target_sprite_texture, show_debug_info)
+	get_tree().current_scene.add_child(attention_point)
+	attention_point.global_position = pos
+	npc.attention_target = attention_point

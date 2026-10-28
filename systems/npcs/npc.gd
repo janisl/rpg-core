@@ -5,6 +5,7 @@ enum BehaviourState {
 	None,
 	Idle,
 	Patrolling,
+	Investigating,
 	Chasing,
 	Attacking,
 	Searching,
@@ -42,11 +43,17 @@ var _weapon_third_person: ThirdPersonWieldable
 @onready var sight_detection: SightDetection = $SightDetection
 @onready var hand_slot: Node3D = %HandSlot
 @onready var nav_agent: NavigationAgent3D = $NavAgent
+@onready var state_chart: StateChart = $StateChart
 
 
 func _ready() -> void:
 	_spawn_weapon()
 	_find_health_attribute()
+
+
+func _physics_process(delta: float) -> void:
+	if not is_on_floor():
+		velocity += get_gravity() * delta
 
 
 func face_direction(target_position: Vector3) -> void:
@@ -93,7 +100,7 @@ func do_weapon_attack() -> void:
 		_weapon.state_chart.send_event("onFiring")
 
 
-func move_npc_to_next_position(delta: float) -> void:
+func move_npc_to_next_position(_delta: float) -> void:
 	var next_position := nav_agent.get_next_path_position()
 	if nav_agent.is_target_reachable():
 		last_reachable_path = next_position
@@ -109,10 +116,12 @@ func move_npc_to_next_position(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, move_speed)
 		velocity.z = move_toward(velocity.z, 0, move_speed)
 
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
 	move_and_slide()
+
+
+func try_end_investigation() -> void:
+	if sight_detection.current_suspicion <= 0:
+		state_chart.send_event("idle")
 
 
 func is_dead() -> bool:
