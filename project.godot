@@ -27,6 +27,7 @@ EffectsManager="*uid://xaq71ee0rvh2"
 Managers="*uid://cpck7fm8u83nb"
 UserInterface="*uid://6ygkwtxr8bbo"
 DevTools="*uid://bf0htswuay7cy"
+LevelManager="*uid://ero0l8bg86td"
 
 [display]
 

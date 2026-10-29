@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cbtrf5bt881ri" path="res://items/weapons/pistol/pistol_pickup.tscn" id="18_fivcu"]
 [ext_resource type="PackedScene" uid="uid://c1w5e3ieei41o" path="res://items/weapons/shotgun/shotgun_pickup.tscn" id="19_b5wip"]
 [ext_resource type="PackedScene" uid="uid://bmq87quw8icqf" path="res://items/weapons/laser/laser_pickup.tscn" id="20_70x8p"]
+[ext_resource type="Script" uid="uid://co3ihnup4mtgl" path="res://systems/levels/level_transition.gd" id="21_1w0m8"]
 [ext_resource type="PackedScene" uid="uid://u5kjeyq7rd1m" path="res://items/ammo/laser_ammo.tscn" id="21_uyurq"]
 [ext_resource type="PackedScene" uid="uid://b16alro8fspcn" path="res://items/ammo/pistol_ammo.tscn" id="22_8m07d"]
 [ext_resource type="PackedScene" uid="uid://kcm3gee3e08y" path="res://items/ammo/shotgun_ammo.tscn" id="23_mfah6"]
@@ -226,6 +227,13 @@ albedo_color = Color(0.8980392, 0.11372549, 0, 0.4509804)
 
 [sub_resource type="BoxMesh" id="BoxMesh_6qnao"]
 material = SubResource("StandardMaterial3D_g5r3q")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uyurq"]
+transparency = 1
+albedo_color = Color(0.6313726, 0.003921569, 0.8352941, 0.5019608)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6k6bt"]
+size = Vector3(1, 2, 1)
 
 [node name="Test" type="Node3D" unique_id=867766289]
 
@@ -818,5 +826,20 @@ cull_mask = 1048573
 cull_far = 1000.0
 
 [node name="Player" parent="." unique_id=86196454 instance=ExtResource("16_08uri")]
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=650715055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 2)
+size = Vector3(1, 2, 1)
+material = SubResource("StandardMaterial3D_uyurq")
+
+[node name="LevelTransition" type="Area3D" parent="CSGBox3D2" unique_id=1210128166]
+collision_mask = 4
+monitorable = false
+script = ExtResource("21_1w0m8")
+target_level = "uid://cjhb8h4jjicl1"
+metadata/_custom_type_script = "uid://co3ihnup4mtgl"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGBox3D2/LevelTransition" unique_id=1014313366]
+shape = SubResource("BoxShape3D_6k6bt")
 
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]

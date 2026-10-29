@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://cjhb8h4jjicl1"]
+
+[ext_resource type="Script" uid="uid://co3ihnup4mtgl" path="res://systems/levels/level_transition.gd" id="1_b481m"]
+[ext_resource type="PackedScene" uid="uid://dmm1368oglfp0" path="res://actors/player/player.tscn" id="2_k2k1l"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bsiym"]
+transparency = 1
+albedo_color = Color(0.6313726, 0.003921569, 0.8352941, 0.5019608)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
+size = Vector3(1, 2, 1)
+
+[node name="Test2" type="Node3D" unique_id=1194768108]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1732367911]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(20, 1, 20)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1238235721]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
+size = Vector3(1, 2, 1)
+material = SubResource("StandardMaterial3D_bsiym")
+
+[node name="LevelTransition" type="Area3D" parent="CSGBox3D2" unique_id=1102294525]
+collision_mask = 4
+monitorable = false
+script = ExtResource("1_b481m")
+target_level = "uid://d1m2ngmuqlqgn"
+metadata/_custom_type_script = "uid://co3ihnup4mtgl"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGBox3D2/LevelTransition" unique_id=1891774503]
+shape = SubResource("BoxShape3D_bsiym")
+
+[node name="Player" parent="CSGBox3D2" unique_id=86196454 instance=ExtResource("2_k2k1l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1391883, -0.9999999, -0.10892534)
