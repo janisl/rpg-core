@@ -1,5 +1,7 @@
 extends Node
 
+const TEMP_SLOT = "temp"
+
 
 func transition_to_level(level_path: String) -> void:
 	_save_player_state()
@@ -8,8 +10,9 @@ func transition_to_level(level_path: String) -> void:
 
 	await load_new_level(level_path)
 
-	_load_player_state()
-	if get_tree().current_scene.scene_file_path == "res://levels/test.tscn":
+	if _player_state_exists(TEMP_SLOT):
+		_load_player_state()
+	if get_tree().current_scene.scene_file_path == "res://levels/test.tscn" and _level_state_exists(TEMP_SLOT, "test"):
 		await _load_level_state()
 
 
@@ -24,13 +27,11 @@ func _save_player_state() -> void:
 	state.version = 1
 	state.state = player.save_state()
 
-	var path := "user://player.tres"
-	ResourceSaver.save(state, path)
+	_write_player_state(TEMP_SLOT, state)
 
 
 func _load_player_state() -> void:
-	var path := "user://player.tres"
-	var state := ResourceLoader.load(path)
+	var state := _read_player_state(TEMP_SLOT)
 
 	var player := get_tree().get_first_node_in_group("player") as Player
 	player.load_state(state.state)
@@ -43,13 +44,11 @@ func _save_level_state() -> void:
 
 	_save_level_objects(state)
 
-	var path := "user://level.tres"
-	ResourceSaver.save(state, path)
+	_write_level_state(TEMP_SLOT, "test", state)
 
 
 func _load_level_state() -> void:
-	var path := "user://level.tres"
-	var state := ResourceLoader.load(path)
+	var state := _read_level_state(TEMP_SLOT, "test")
 
 	await _load_level_objects(state)
 
@@ -81,3 +80,45 @@ func _load_level_objects(state: LevelState) -> void:
 		var n: String = obj_state.name
 		var obj := get_tree().current_scene.get_node(obj_state.parent_path).get_node(n)
 		obj.load_state(obj_state)
+
+
+func _get_player_state_file_name(slot: String) -> String:
+	return "user://" + slot + "/player.tres"
+
+
+func _read_player_state(slot: String) -> PlayerState:
+	var path := _get_player_state_file_name(slot)
+	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+
+
+func _write_player_state(slot: String, state: PlayerState) -> void:
+	var dir := DirAccess.open("user://")
+	dir.make_dir(slot)
+	var path := _get_player_state_file_name(slot)
+	ResourceSaver.save(state, path, ResourceSaver.FLAG_CHANGE_PATH)
+
+
+func _player_state_exists(slot: String) -> bool:
+	var path := _get_player_state_file_name(slot)
+	return FileAccess.file_exists(path)
+
+
+func _get_level_state_file_name(slot: String, level_name: String) -> String:
+	return "user://" + slot + "/level_" + level_name + ".tres"
+
+
+func _read_level_state(slot: String, level_name: String) -> LevelState:
+	var path := _get_level_state_file_name(slot, level_name)
+	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+
+
+func _write_level_state(slot: String, level_name: String, state: LevelState) -> void:
+	var dir := DirAccess.open("user://")
+	dir.make_dir(slot)
+	var path := _get_level_state_file_name(slot, level_name)
+	ResourceSaver.save(state, path, ResourceSaver.FLAG_CHANGE_PATH)
+
+
+func _level_state_exists(slot: String, level_name: String) -> bool:
+	var path := _get_level_state_file_name(slot, level_name)
+	return FileAccess.file_exists(path)
