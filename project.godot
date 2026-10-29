@@ -57,6 +57,7 @@ folder_colors={
 
 player="Current player"
 interactable="Objects player can interact with."
+persist="Persisted dynamic objects."
 
 [input]
 

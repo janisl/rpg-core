@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://u5kjeyq7rd1m"]
 
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_2r7cd"]
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/pickup_component.tscn" id="1_rjam7"]
 [ext_resource type="Resource" uid="uid://c8ff3twc0mra8" path="res://items/ammo/laser_ammo.tres" id="2_2r7cd"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_5e4c8"]
@@ -23,6 +24,7 @@ metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
 [node name="LaserAmmo" type="RigidBody3D" unique_id=270468499 groups=["interactable"]]
 collision_layer = 34
 collision_mask = 45
+script = ExtResource("1_2r7cd")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=514162245]
 shape = SubResource("BoxShape3D_18xq7")

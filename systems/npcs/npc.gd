@@ -48,6 +48,7 @@ var _weapon_third_person: ThirdPersonWieldable
 
 
 func _ready() -> void:
+	add_to_group("persist")
 	_spawn_weapon()
 	_find_health_attribute()
 
