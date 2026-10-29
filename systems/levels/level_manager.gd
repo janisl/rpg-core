@@ -57,6 +57,7 @@ func _save_level_objects(state: LevelState) -> void:
 	var objects_to_persist := get_tree().get_nodes_in_group("persist")
 	for obj in objects_to_persist:
 		assert(obj.has_method("save_state"), "Missing save_state method")
+		assert(obj.scene_file_path, "Not a scene instance")
 		var obj_state: Dictionary = obj.save_state()
 		obj_state.scene_file_path = obj.scene_file_path
 		obj_state.name = obj.name
@@ -72,13 +73,15 @@ func _load_level_objects(state: LevelState) -> void:
 	await get_tree().process_frame
 
 	for obj_state in state.saved_objects:
+		var parent := get_node(obj_state.parent_path)
+		assert(parent, "Missing parent")
 		var obj: Node = load(obj_state.scene_file_path).instantiate()
-		get_tree().current_scene.get_node(obj_state.parent_path).add_child(obj)
+		parent.add_child(obj)
 		obj.name = obj_state.name
 
 	for obj_state in state.saved_objects:
-		var n: String = obj_state.name
-		var obj := get_tree().current_scene.get_node(obj_state.parent_path).get_node(n)
+		var obj := get_node(obj_state.parent_path).get_node(str(obj_state.name))
+		assert(obj, "Object disappeared")
 		obj.load_state(obj_state)
 
 
