@@ -35,6 +35,33 @@ func on_liquid_exited(area: Area3D) -> void:
 	_touching_liquids.erase(area)
 
 
+func on_ladder_area_entered(area: Area3D) -> void:
+	touching_ladder_areas.append(area)
+	ladder_entered.emit(area)
+
+
+func on_ladder_area_exited(area: Area3D) -> void:
+	touching_ladder_areas.erase(area)
+	ladder_exited.emit(area)
+
+
+func is_in_ladder_area() -> bool:
+	return touching_ladder_areas.size() > 0
+
+
+func push_away_rigid_bodies() -> void:
+	for i in get_slide_collision_count():
+		var c := get_slide_collision(i)
+		if c.get_collider() is RigidBody3D:
+			var push_dir := -c.get_normal()
+			var diff: float = velocity.dot(push_dir) - c.get_collider().linear_velocity.dot(push_dir)
+			diff = maxf(0.0, diff)
+			var mass_ratio := minf(1.0, APPROX_MASS / c.get_collider().mass)
+			push_dir.y = 0
+			var push_force := mass_ratio * 5.0
+			c.get_collider().apply_impulse(push_dir * diff * push_force, c.get_position() - c.get_collider().global_position)
+
+
 func _update_liquid_level() -> void:
 	if not _touching_liquids.size():
 		liquid_level = LiquidLevel.NONE
@@ -82,30 +109,3 @@ static func _shape_vertical_half_extent(shape: Shape3D) -> float:
 	if shape is SphereShape3D:
 		return shape.radius
 	return 0.0
-
-
-func on_ladder_area_entered(area: Area3D) -> void:
-	touching_ladder_areas.append(area)
-	ladder_entered.emit(area)
-
-
-func on_ladder_area_exited(area: Area3D) -> void:
-	touching_ladder_areas.erase(area)
-	ladder_exited.emit(area)
-
-
-func is_in_ladder_area() -> bool:
-	return touching_ladder_areas.size() > 0
-
-
-func push_away_rigid_bodies() -> void:
-	for i in get_slide_collision_count():
-		var c := get_slide_collision(i)
-		if c.get_collider() is RigidBody3D:
-			var push_dir = -c.get_normal()
-			var diff = velocity.dot(push_dir) - c.get_collider().linear_velocity.dot(push_dir)
-			diff = max(0.0, diff)
-			var mass_ratio = min(1.0, APPROX_MASS / c.get_collider().mass)
-			push_dir.y = 0
-			var push_force = mass_ratio * 5.0
-			c.get_collider().apply_impulse(push_dir * diff * push_force, c.get_position() - c.get_collider().global_position)
