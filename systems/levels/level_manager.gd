@@ -9,6 +9,8 @@ func transition_to_level(level_path: String) -> void:
 	await load_new_level(level_path)
 
 	_load_player_state()
+	if get_tree().current_scene.scene_file_path == "res://levels/test.tscn":
+		await _load_level_state()
 
 
 func load_new_level(level_path: String) -> void:
@@ -45,6 +47,13 @@ func _save_level_state() -> void:
 	ResourceSaver.save(state, path)
 
 
+func _load_level_state() -> void:
+	var path := "user://level.tres"
+	var state := ResourceLoader.load(path)
+
+	await _load_level_objects(state)
+
+
 func _save_level_objects(state: LevelState) -> void:
 	var objects_to_persist := get_tree().get_nodes_in_group("persist")
 	for obj in objects_to_persist:
@@ -54,3 +63,21 @@ func _save_level_objects(state: LevelState) -> void:
 		obj_state.name = obj.name
 		obj_state.parent_path = obj.get_parent().get_path()
 		state.saved_objects.append(obj_state)
+
+
+func _load_level_objects(state: LevelState) -> void:
+	var existing_objects := get_tree().get_nodes_in_group("persist")
+	for obj in existing_objects:
+		obj.queue_free()
+
+	await get_tree().process_frame
+
+	for obj_state in state.saved_objects:
+		var obj: Node = load(obj_state.scene_file_path).instantiate()
+		get_tree().current_scene.get_node(obj_state.parent_path).add_child(obj)
+		obj.name = obj_state.name
+
+	for obj_state in state.saved_objects:
+		var n: String = obj_state.name
+		var obj := get_tree().current_scene.get_node(obj_state.parent_path).get_node(n)
+		obj.load_state(obj_state)
