@@ -27,6 +27,20 @@ func _ready() -> void:
 	pass
 
 
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	state.position = position
+	state.rotation = rotation
+	state.velocity = velocity
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	position = state.position
+	rotation = state.rotation
+	velocity = state.velocity
+
+
 func on_liquid_entered(area: Area3D) -> void:
 	_touching_liquids.append(area)
 

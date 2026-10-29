@@ -16,4 +16,4 @@ func _on_body_entered(body: Node3D) -> void:
 
 
 func _transition_to_next_level() -> void:
-	LevelManager.load_new_level(target_level)
+	LevelManager.transition_to_level(target_level)
