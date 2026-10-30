@@ -81,7 +81,11 @@ func _physics_process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	if event.is_action_pressed("test"):
-		set_collision_layer_value(PhysicsLayers.PLAYER, not get_collision_layer_value(PhysicsLayers.PLAYER))
+		#set_collision_layer_value(PhysicsLayers.PLAYER, not get_collision_layer_value(PhysicsLayers.PLAYER))
+		if Input.is_action_pressed("sprint"):
+			LevelManager.load_game("test")
+		else:
+			LevelManager.save_game("test")
 
 	if toggle_crouch:
 		if Input.is_action_just_pressed("crouch"):

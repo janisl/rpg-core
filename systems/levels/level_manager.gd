@@ -10,6 +10,27 @@ func _ready() -> void:
 	_clear_slot(TEMP_SLOT)
 
 
+func load_game(slot: String) -> void:
+	if !_player_state_exists(slot):
+		return
+
+	_copy_slot(slot, TEMP_SLOT)
+	var state := _read_player_state(slot)
+
+	await load_new_level(state.current_scene_path)
+
+	var player := get_tree().get_first_node_in_group("player") as Player
+	await _load_level_state(TEMP_SLOT, _get_current_level_state_name())
+	_load_player_state(TEMP_SLOT, player)
+
+
+func save_game(slot: String) -> void:
+	var player := get_tree().get_first_node_in_group("player") as Player
+	_save_player_state(TEMP_SLOT, player)
+	_save_level_state(TEMP_SLOT, _get_current_level_state_name())
+	_copy_slot(TEMP_SLOT, slot)
+
+
 func transition_to_level(level_path: String) -> void:
 	var player := get_tree().get_first_node_in_group("player") as Player
 	_save_player_state(TEMP_SLOT, player)
@@ -38,6 +59,8 @@ func _load_player_state(slot: String, player: Player) -> void:
 func _save_player_state(slot: String, player: Player) -> void:
 	var state := PlayerState.new()
 	state.version = SAVE_VERSION
+	state.current_scene_path = get_tree().current_scene.scene_file_path
+	state.savetime = int(Time.get_unix_time_from_system())
 	state.state = player.save_state()
 	_write_player_state(slot, state)
 
@@ -157,3 +180,22 @@ func _clear_slot(slot: String) -> void:
 
 	if DirAccess.remove_absolute(path) != OK:
 		print("Deleting slot dir failed.")
+
+
+func _copy_slot(slot_from: String, slot_to: String) -> bool:
+	_clear_slot(slot_to)
+	_create_slot_dir(slot_to)
+
+	var from_path := _get_slot_path(slot_from)
+	var to_path := _get_slot_path(slot_to)
+	var from_dir := DirAccess.open(from_path)
+	if not from_dir:
+		return false
+	from_dir.list_dir_begin()
+	var file_name := from_dir.get_next()
+	while file_name != "":
+		if from_dir.copy(from_path + file_name, to_path + file_name, -1) != OK:
+			print("Copying file " + file_name + " failed.")
+			return false
+		file_name = from_dir.get_next()
+	return true
