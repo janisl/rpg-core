@@ -2,6 +2,12 @@ extends Node
 
 const SAVE_VERSION = 1
 const TEMP_SLOT = "temp"
+const SAVES_ROOT = "user://"
+const STATE_FILE_EXT = ".tres"
+
+
+func _ready() -> void:
+	_clear_slot(TEMP_SLOT)
 
 
 func transition_to_level(level_path: String) -> void:
@@ -85,7 +91,7 @@ func _load_level_objects(state: LevelState) -> void:
 
 
 func _get_player_state_file_name(slot: String) -> String:
-	return "user://" + slot + "/player.tres"
+	return _get_slot_path(slot) + "player" + STATE_FILE_EXT
 
 
 func _read_player_state(slot: String) -> PlayerState:
@@ -94,8 +100,7 @@ func _read_player_state(slot: String) -> PlayerState:
 
 
 func _write_player_state(slot: String, state: PlayerState) -> void:
-	var dir := DirAccess.open("user://")
-	dir.make_dir(slot)
+	_create_slot_dir(slot)
 	var path := _get_player_state_file_name(slot)
 	ResourceSaver.save(state, path, ResourceSaver.FLAG_CHANGE_PATH)
 
@@ -106,7 +111,7 @@ func _player_state_exists(slot: String) -> bool:
 
 
 func _get_level_state_file_name(slot: String, level_name: String) -> String:
-	return "user://" + slot + "/level_" + level_name + ".tres"
+	return _get_slot_path(slot) + "level_" + level_name + STATE_FILE_EXT
 
 
 func _read_level_state(slot: String, level_name: String) -> LevelState:
@@ -115,8 +120,7 @@ func _read_level_state(slot: String, level_name: String) -> LevelState:
 
 
 func _write_level_state(slot: String, level_name: String, state: LevelState) -> void:
-	var dir := DirAccess.open("user://")
-	dir.make_dir(slot)
+	_create_slot_dir(slot)
 	var path := _get_level_state_file_name(slot, level_name)
 	ResourceSaver.save(state, path, ResourceSaver.FLAG_CHANGE_PATH)
 
@@ -124,3 +128,28 @@ func _write_level_state(slot: String, level_name: String, state: LevelState) -> 
 func _level_state_exists(slot: String, level_name: String) -> bool:
 	var path := _get_level_state_file_name(slot, level_name)
 	return FileAccess.file_exists(path)
+
+
+func _get_slot_path(slot: String) -> String:
+	return SAVES_ROOT + slot + "/"
+
+
+func _create_slot_dir(slot: String) -> void:
+	var dir := DirAccess.open(SAVES_ROOT)
+	dir.make_dir(slot)
+
+
+func _clear_slot(slot: String) -> void:
+	var dir := DirAccess.open(_get_slot_path(slot))
+	if dir:
+		dir.list_dir_begin()
+		var file_name := dir.get_next()
+		while file_name != "":
+			if dir.remove(file_name) != OK:
+				print("Deleting file " + file_name + " failed.")
+			file_name = dir.get_next()
+
+	var root_dir := DirAccess.open(SAVES_ROOT)
+	if root_dir:
+		if root_dir.remove(slot) != OK:
+			print("Deleting slot dir failed.")
