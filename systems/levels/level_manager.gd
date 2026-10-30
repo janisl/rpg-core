@@ -13,16 +13,14 @@ func _ready() -> void:
 func transition_to_level(level_path: String) -> void:
 	var player := get_tree().get_first_node_in_group("player") as Player
 	_save_player_state(TEMP_SLOT, player)
-	if get_tree().current_scene.scene_file_path == "res://levels/test.tscn":
-		_save_level_state(TEMP_SLOT, get_tree().current_scene.name)
+	_save_level_state(TEMP_SLOT, get_tree().current_scene.name)
 
 	await load_new_level(level_path)
 
 	player = get_tree().get_first_node_in_group("player") as Player
 	_load_player_state(TEMP_SLOT, player)
 	player.position = Vector3.ZERO
-	if get_tree().current_scene.scene_file_path == "res://levels/test.tscn":
-		await _load_level_state(TEMP_SLOT, get_tree().current_scene.name)
+	await _load_level_state(TEMP_SLOT, get_tree().current_scene.name)
 
 
 func load_new_level(level_path: String) -> void:
