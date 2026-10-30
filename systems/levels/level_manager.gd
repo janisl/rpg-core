@@ -2,7 +2,7 @@ extends Node
 
 const SAVE_VERSION = 1
 const TEMP_SLOT = "temp"
-const SAVES_ROOT = "user://"
+const SAVES_ROOT = "user://saves/"
 const STATE_FILE_EXT = ".tres"
 
 
@@ -13,14 +13,14 @@ func _ready() -> void:
 func transition_to_level(level_path: String) -> void:
 	var player := get_tree().get_first_node_in_group("player") as Player
 	_save_player_state(TEMP_SLOT, player)
-	_save_level_state(TEMP_SLOT, get_tree().current_scene.name)
+	_save_level_state(TEMP_SLOT, _get_current_level_state_name())
 
 	await load_new_level(level_path)
 
 	player = get_tree().get_first_node_in_group("player") as Player
 	_load_player_state(TEMP_SLOT, player)
 	player.position = Vector3.ZERO
-	await _load_level_state(TEMP_SLOT, get_tree().current_scene.name)
+	await _load_level_state(TEMP_SLOT, _get_current_level_state_name())
 
 
 func load_new_level(level_path: String) -> void:
@@ -88,6 +88,11 @@ func _load_level_objects(state: LevelState) -> void:
 		obj.load_state(obj_state)
 
 
+func _get_current_level_state_name() -> String:
+	var path := get_tree().current_scene.scene_file_path
+	return path.replace("res://", "").replace(".tscn", "").replace("/", "_")
+
+
 func _get_player_state_file_name(slot: String) -> String:
 	return _get_slot_path(slot) + "player" + STATE_FILE_EXT
 
@@ -109,7 +114,7 @@ func _player_state_exists(slot: String) -> bool:
 
 
 func _get_level_state_file_name(slot: String, level_name: String) -> String:
-	return _get_slot_path(slot) + "level_" + level_name + STATE_FILE_EXT
+	return _get_slot_path(slot) + level_name + STATE_FILE_EXT
 
 
 func _read_level_state(slot: String, level_name: String) -> LevelState:
@@ -133,21 +138,22 @@ func _get_slot_path(slot: String) -> String:
 
 
 func _create_slot_dir(slot: String) -> void:
-	var dir := DirAccess.open(SAVES_ROOT)
-	dir.make_dir(slot)
+	var path := _get_slot_path(slot)
+	DirAccess.make_dir_recursive_absolute(path)
 
 
 func _clear_slot(slot: String) -> void:
-	var dir := DirAccess.open(_get_slot_path(slot))
-	if dir:
-		dir.list_dir_begin()
-		var file_name := dir.get_next()
-		while file_name != "":
-			if dir.remove(file_name) != OK:
-				print("Deleting file " + file_name + " failed.")
-			file_name = dir.get_next()
+	var path := _get_slot_path(slot)
+	var dir := DirAccess.open(path)
+	if not dir:
+		return
 
-	var root_dir := DirAccess.open(SAVES_ROOT)
-	if root_dir:
-		if root_dir.remove(slot) != OK:
-			print("Deleting slot dir failed.")
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if dir.remove(file_name) != OK:
+			print("Deleting file " + file_name + " failed.")
+		file_name = dir.get_next()
+
+	if DirAccess.remove_absolute(path) != OK:
+		print("Deleting slot dir failed.")
