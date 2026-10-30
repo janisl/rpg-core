@@ -24,10 +24,11 @@ func load_game(slot: String) -> void:
 	_load_player_state(TEMP_SLOT, player)
 
 
-func save_game(slot: String) -> void:
+func save_game(slot: String, screenshot_image: Image) -> void:
 	var player := get_tree().get_first_node_in_group("player") as Player
 	_save_player_state(TEMP_SLOT, player)
 	_save_level_state(TEMP_SLOT, _get_current_level_state_name())
+	_write_screenshot(TEMP_SLOT, screenshot_image)
 	_copy_slot(TEMP_SLOT, slot)
 
 
@@ -47,6 +48,11 @@ func transition_to_level(level_path: String) -> void:
 func load_new_level(level_path: String) -> void:
 	get_tree().change_scene_to_file(level_path)
 	await get_tree().scene_changed
+
+
+func get_slot_screenshot(slot: String) -> ImageTexture:
+	var image := _read_screenshot(slot)
+	return ImageTexture.create_from_image(image) if image else null
 
 
 func _load_player_state(slot: String, player: Player) -> void:
@@ -154,6 +160,25 @@ func _write_level_state(slot: String, level_name: String, state: LevelState) -> 
 func _level_state_exists(slot: String, level_name: String) -> bool:
 	var path := _get_level_state_file_name(slot, level_name)
 	return FileAccess.file_exists(path)
+
+
+func _get_screenshot_file_name(slot: String) -> String:
+	return _get_slot_path(slot) + "screenshot.png"
+
+
+func _read_screenshot(slot: String) -> Image:
+	var path := _get_screenshot_file_name(slot)
+	if FileAccess.file_exists(path):
+		return Image.load_from_file(path)
+	return null
+
+
+func _write_screenshot(slot: String, image: Image) -> void:
+	if not image:
+		return
+	_create_slot_dir(slot)
+	var path := _get_screenshot_file_name(slot)
+	image.save_png(path)
 
 
 func _get_slot_path(slot: String) -> String:

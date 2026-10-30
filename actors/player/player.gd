@@ -85,7 +85,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Input.is_action_pressed("sprint"):
 			LevelManager.load_game("test")
 		else:
-			LevelManager.save_game("test")
+			LevelManager.save_game("test", get_viewport().get_texture().get_image())
 
 	if toggle_crouch:
 		if Input.is_action_just_pressed("crouch"):
