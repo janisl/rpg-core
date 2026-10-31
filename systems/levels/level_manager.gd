@@ -21,14 +21,11 @@ func load_game(slot: String) -> void:
 
 	await _load_new_level(state.current_scene_path)
 
-	_load_level_state(TEMP_SLOT, _get_current_level_state_name())
-	_load_player_state(TEMP_SLOT, current_player)
+	_load_from_temp()
 
 
 func save_game(slot: String, screenshot_image: Image) -> void:
-	_save_player_state(TEMP_SLOT, current_player)
-	_save_level_state(TEMP_SLOT, _get_current_level_state_name())
-	_write_screenshot(TEMP_SLOT, screenshot_image)
+	_save_to_temp(screenshot_image)
 	_copy_slot(TEMP_SLOT, slot)
 
 
@@ -41,14 +38,12 @@ func delete_save(slot: String) -> bool:
 
 
 func transition_to_level(level_path: String) -> void:
-	_save_player_state(TEMP_SLOT, current_player)
-	_save_level_state(TEMP_SLOT, _get_current_level_state_name())
+	_save_to_temp(null)
 
 	await _load_new_level(level_path)
 
-	_load_player_state(TEMP_SLOT, current_player)
+	_load_from_temp()
 	current_player.position = Vector3.ZERO
-	_load_level_state(TEMP_SLOT, _get_current_level_state_name())
 
 
 func get_slot_screenshot(slot: String) -> ImageTexture:
@@ -59,6 +54,17 @@ func get_slot_screenshot(slot: String) -> ImageTexture:
 func _load_new_level(level_path: String) -> void:
 	get_tree().change_scene_to_file(level_path)
 	await get_tree().scene_changed
+func _load_from_temp() -> void:
+	_load_level_state(TEMP_SLOT, _get_current_level_state_name())
+	_load_player_state(TEMP_SLOT, current_player)
+
+
+func _save_to_temp(screenshot_image: Image) -> void:
+	_save_level_state(TEMP_SLOT, _get_current_level_state_name())
+	_save_player_state(TEMP_SLOT, current_player)
+	_write_screenshot(TEMP_SLOT, screenshot_image)
+
+
 
 
 func _load_player_state(slot: String, player: Player) -> void:
