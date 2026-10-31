@@ -86,6 +86,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if not health_attribute.is_alive:
 			LevelManager.start_new_game("res://levels/test.tscn")
 		elif Input.is_action_pressed("sprint"):
+			if not LevelManager.get_save_slot_info("test"):
+				print("Save is missing")
+				return
 			LevelManager.load_game("test")
 		elif Input.is_action_pressed("crouch"):
 			LevelManager.delete_save("test")

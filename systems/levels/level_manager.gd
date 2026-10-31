@@ -66,6 +66,17 @@ func transition_to_level(level_path: String, connector_name: String) -> void:
 	get_tree().paused = false
 
 
+func get_save_slot_info(slot: String) -> SaveSlotInfo:
+	if not _player_state_exists(slot):
+		return null
+	var state := _read_player_state(slot)
+	var info := SaveSlotInfo.new()
+	info.slot = slot
+	info.current_scene_path = state.current_scene_path
+	info.savetime = state.savetime
+	return info
+
+
 func get_slot_screenshot(slot: String) -> ImageTexture:
 	var image := _read_screenshot(slot)
 	return ImageTexture.create_from_image(image) if image else null
