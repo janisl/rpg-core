@@ -7,21 +7,28 @@ const STATE_FILE_EXT = ".tres"
 
 var current_player: Player
 
+var _current_loading_level: String
+
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_clear_slot(TEMP_SLOT)
+
+
+func _process(_delta: float) -> void:
+	if _current_loading_level:
+		_process_loading_level()
 
 
 func load_game(slot: String) -> void:
 	if !_player_state_exists(slot):
 		return
 
-	_copy_slot(slot, TEMP_SLOT)
-	var state := _read_player_state(slot)
+	if not _copy_slot(slot, TEMP_SLOT):
+		return
 
-	await _load_new_level(state.current_scene_path)
-
-	_load_from_temp()
+	var state := _read_player_state(TEMP_SLOT)
+	_start_loading_level(state.current_scene_path)
 
 
 func save_game(slot: String, screenshot_image: Image) -> void:
@@ -38,12 +45,14 @@ func delete_save(slot: String) -> bool:
 
 
 func transition_to_level(level_path: String) -> void:
+	get_tree().paused = true
 	_save_to_temp(null)
 
-	await _load_new_level(level_path)
+	_start_loading_level(level_path)
+	await EventBus.load_level_finished
 
-	_load_from_temp()
 	current_player.position = Vector3.ZERO
+	get_tree().paused = false
 
 
 func get_slot_screenshot(slot: String) -> ImageTexture:
@@ -51,9 +60,29 @@ func get_slot_screenshot(slot: String) -> ImageTexture:
 	return ImageTexture.create_from_image(image) if image else null
 
 
-func _load_new_level(level_path: String) -> void:
-	get_tree().change_scene_to_file(level_path)
-	await get_tree().scene_changed
+func _start_loading_level(level_path: String) -> void:
+	EventBus.load_level_started.emit()
+	_current_loading_level = level_path
+	ResourceLoader.load_threaded_request(_current_loading_level, "", false, ResourceLoader.CACHE_MODE_IGNORE)
+
+
+func _process_loading_level() -> void:
+	var progress_array: Array[float]
+	if ResourceLoader.load_threaded_get_status(_current_loading_level, progress_array) == ResourceLoader.THREAD_LOAD_LOADED:
+		var packed_scene := ResourceLoader.load_threaded_get(_current_loading_level)
+		_current_loading_level = ""
+
+		get_tree().change_scene_to_packed(packed_scene)
+		await get_tree().scene_changed
+
+		_load_from_temp()
+
+		EventBus.load_level_finished.emit()
+	else:
+		var progress_value := progress_array[0] if typeof(progress_array[0]) == TYPE_FLOAT else 0.0
+		EventBus.load_level_progress.emit(progress_value)
+
+
 func _load_from_temp() -> void:
 	_load_level_state(TEMP_SLOT, _get_current_level_state_name())
 	_load_player_state(TEMP_SLOT, current_player)
@@ -63,8 +92,6 @@ func _save_to_temp(screenshot_image: Image) -> void:
 	_save_level_state(TEMP_SLOT, _get_current_level_state_name())
 	_save_player_state(TEMP_SLOT, current_player)
 	_write_screenshot(TEMP_SLOT, screenshot_image)
-
-
 
 
 func _load_player_state(slot: String, player: Player) -> void:
