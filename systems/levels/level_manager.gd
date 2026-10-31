@@ -8,6 +8,7 @@ const STATE_FILE_EXT = ".tres"
 var current_player: Player
 
 var _current_loading_level: String
+var _current_connector_name: String
 
 
 func _ready() -> void:
@@ -44,14 +45,14 @@ func delete_save(slot: String) -> bool:
 	return true
 
 
-func transition_to_level(level_path: String) -> void:
+func transition_to_level(level_path: String, connector_name: String) -> void:
 	get_tree().paused = true
 	_save_to_temp(null)
 
+	_current_connector_name = connector_name
 	_start_loading_level(level_path)
 	await EventBus.load_level_finished
 
-	current_player.position = Vector3.ZERO
 	get_tree().paused = false
 
 
@@ -70,12 +71,16 @@ func _process_loading_level() -> void:
 	var progress_array: Array[float]
 	if ResourceLoader.load_threaded_get_status(_current_loading_level, progress_array) == ResourceLoader.THREAD_LOAD_LOADED:
 		var packed_scene := ResourceLoader.load_threaded_get(_current_loading_level)
+		var connector_name := _current_connector_name
 		_current_loading_level = ""
+		_current_connector_name = ""
 
 		get_tree().change_scene_to_packed(packed_scene)
 		await get_tree().scene_changed
 
 		_load_from_temp()
+		if connector_name:
+			get_tree().current_scene.move_player_to_connector(current_player, connector_name)
 
 		EventBus.load_level_finished.emit()
 	else:

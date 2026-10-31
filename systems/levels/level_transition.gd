@@ -2,6 +2,7 @@ class_name LevelTransition
 extends Area3D
 
 @export_file("*.tscn") var target_level: String
+@export var target_connector: String
 
 
 func _ready() -> void:
@@ -16,4 +17,4 @@ func _on_body_entered(body: Node3D) -> void:
 
 
 func _transition_to_next_level() -> void:
-	LevelManager.transition_to_level(target_level)
+	LevelManager.transition_to_level(target_level, target_connector)
