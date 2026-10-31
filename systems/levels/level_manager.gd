@@ -20,7 +20,7 @@ func load_game(slot: String) -> void:
 	await load_new_level(state.current_scene_path)
 
 	var player := get_tree().get_first_node_in_group("player") as Player
-	await _load_level_state(TEMP_SLOT, _get_current_level_state_name())
+	_load_level_state(TEMP_SLOT, _get_current_level_state_name())
 	_load_player_state(TEMP_SLOT, player)
 
 
@@ -42,7 +42,7 @@ func transition_to_level(level_path: String) -> void:
 	player = get_tree().get_first_node_in_group("player") as Player
 	_load_player_state(TEMP_SLOT, player)
 	player.position = Vector3.ZERO
-	await _load_level_state(TEMP_SLOT, _get_current_level_state_name())
+	_load_level_state(TEMP_SLOT, _get_current_level_state_name())
 
 
 func load_new_level(level_path: String) -> void:
@@ -75,7 +75,7 @@ func _load_level_state(slot: String, level_name: String) -> void:
 	if not _level_state_exists(slot, level_name):
 		return
 	var state := _read_level_state(slot, level_name)
-	await _load_level_objects(state)
+	_load_level_objects(state)
 
 
 func _save_level_state(slot: String, level_name: String) -> void:
@@ -85,36 +85,59 @@ func _save_level_state(slot: String, level_name: String) -> void:
 	_write_level_state(slot, level_name, state)
 
 
+func _load_level_objects(state: LevelState) -> void:
+	var existing_objects := _gather_existing_persist_objects()
+	_create_missing_persist_objects(existing_objects, state.saved_objects)
+	_free_deleted_persist_objects(existing_objects, state.saved_objects)
+	_load_persist_object_states(existing_objects, state.saved_objects)
+
+
+func _gather_existing_persist_objects() -> Dictionary[NodePath, Node]:
+	var existing_objects: Dictionary[NodePath, Node]
+	for obj in get_tree().get_nodes_in_group("persist"):
+		existing_objects[obj.get_path()] = obj
+	return existing_objects
+
+
+func _create_missing_persist_objects(existing_objects: Dictionary[NodePath, Node], saved_objects: Dictionary[NodePath, Dictionary]) -> void:
+	for obj_path in saved_objects:
+		if existing_objects.has(obj_path):
+			continue
+
+		var obj_state := saved_objects[obj_path]
+		var parent := get_node(obj_state.parent_path)
+		assert(parent, "Missing parent")
+		assert(obj_state.scene_file_path, "Dynamic object without a scene")
+
+		var obj: Node = load(obj_state.scene_file_path).instantiate()
+		parent.add_child(obj)
+		obj.name = obj_state.name
+		existing_objects[obj_path] = obj
+
+
+func _free_deleted_persist_objects(existing_objects: Dictionary[NodePath, Node], saved_objects: Dictionary[NodePath, Dictionary]) -> void:
+	var paths := existing_objects.keys()
+	for obj_path: NodePath in paths:
+		if saved_objects.has(obj_path):
+			continue
+		existing_objects[obj_path].queue_free()
+		existing_objects.erase(obj_path)
+
+
+func _load_persist_object_states(existing_objects: Dictionary[NodePath, Node], saved_objects: Dictionary[NodePath, Dictionary]) -> void:
+	for obj_path in saved_objects:
+		existing_objects[obj_path].load_state(saved_objects[obj_path])
+
+
 func _save_level_objects(state: LevelState) -> void:
 	var objects_to_persist := get_tree().get_nodes_in_group("persist")
 	for obj in objects_to_persist:
 		assert(obj.has_method("save_state"), "Missing save_state method")
-		assert(obj.scene_file_path, "Not a scene instance")
 		var obj_state: Dictionary = obj.save_state()
 		obj_state.scene_file_path = obj.scene_file_path
 		obj_state.name = obj.name
 		obj_state.parent_path = obj.get_parent().get_path()
-		state.saved_objects.append(obj_state)
-
-
-func _load_level_objects(state: LevelState) -> void:
-	var existing_objects := get_tree().get_nodes_in_group("persist")
-	for obj in existing_objects:
-		obj.queue_free()
-
-	await get_tree().process_frame
-
-	for obj_state in state.saved_objects:
-		var parent := get_node(obj_state.parent_path)
-		assert(parent, "Missing parent")
-		var obj: Node = load(obj_state.scene_file_path).instantiate()
-		parent.add_child(obj)
-		obj.name = obj_state.name
-
-	for obj_state in state.saved_objects:
-		var obj := get_node(obj_state.parent_path).get_node(str(obj_state.name))
-		assert(obj, "Object disappeared")
-		obj.load_state(obj_state)
+		state.saved_objects[obj.get_path()] = obj_state
 
 
 func _get_current_level_state_name() -> String:
