@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cj1cbhi5vwsb5"]
 
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_caev0"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="2_5sfkv"]
 [ext_resource type="AudioStream" uid="uid://dnnyvnppivtdp" path="res://assets/sounds/misc/853904__alexzavesa__boards-fall-4.wav" id="3_caev0"]
 
@@ -12,6 +13,7 @@ material = SubResource("StandardMaterial3D_rdqwp")
 [sub_resource type="BoxShape3D" id="BoxShape3D_awh2e"]
 
 [node name="DestructibleBox" type="StaticBody3D" unique_id=1172205483]
+script = ExtResource("1_caev0")
 
 [node name="Mesh" type="MeshInstance3D" parent="." unique_id=1386518013]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

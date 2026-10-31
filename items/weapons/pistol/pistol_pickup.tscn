@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cbtrf5bt881ri"]
 
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_5urlf"]
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/pickup_component.tscn" id="1_ctn22"]
 [ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://items/weapons/pistol/pistol.tres" id="2_5urlf"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_giplq"]
@@ -32,6 +33,7 @@ metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
 [node name="Pistol" type="RigidBody3D" unique_id=2029630907 groups=["interactable"]]
 collision_layer = 34
 collision_mask = 45
+script = ExtResource("1_5urlf")
 
 [node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
 transform = Transform3D(-4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 0, 0, 0.9999999, -0.033, 0, 0.03)

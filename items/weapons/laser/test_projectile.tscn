@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b2gscberboh83"]
 
 [ext_resource type="Script" uid="uid://bwwvm23vhe66h" path="res://systems/combat/projectile_controller.gd" id="1_ovnbp"]
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_pci4l"]
 [ext_resource type="AudioStream" uid="uid://cs5wer1x4im4a" path="res://assets/sounds/impacts/234082__211redman112__lasgun-impact.ogg" id="2_ce7y8"]
 [ext_resource type="PackedScene" uid="uid://t8msyx8wbv75" path="res://items/weapons/laser/test_projectile_impact.tscn" id="2_obxtg"]
 
@@ -23,6 +24,7 @@ height = 0.3
 collision_layer = 16
 collision_mask = 45
 mass = 0.2
+script = ExtResource("1_pci4l")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1170934724]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)

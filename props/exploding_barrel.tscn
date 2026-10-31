@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://crytf2marbeak"]
 
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_dq1yh"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="1_hspex"]
 [ext_resource type="PackedScene" uid="uid://c17xcvi36ce1i" path="res://effects/explosions/explosion_effect.tscn" id="2_qx2tc"]
 
@@ -19,6 +20,7 @@ height = 1.0
 [node name="ExplodingBarrel" type="RigidBody3D" unique_id=23067863]
 collision_layer = 32
 collision_mask = 45
+script = ExtResource("1_dq1yh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=581121016]
 shape = SubResource("CylinderShape3D_bsiym")

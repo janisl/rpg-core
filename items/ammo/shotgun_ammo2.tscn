@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://drtbte28rd2iw"]
 
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/pickup_component.tscn" id="1_hc2ej"]
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_uuryw"]
 [ext_resource type="Resource" uid="uid://cd8l0g101jh5w" path="res://items/ammo/shotgun_ammo2.tres" id="2_uuryw"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_r2y7g"]
 
@@ -23,6 +24,7 @@ metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
 [node name="ShotgunAmmo2" type="RigidBody3D" unique_id=270468499 groups=["interactable"]]
 collision_layer = 34
 collision_mask = 45
+script = ExtResource("1_uuryw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=514162245]
 shape = SubResource("BoxShape3D_18xq7")

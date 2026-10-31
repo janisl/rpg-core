@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://delu2qjrw6teu" path="res://addons/Mirror3D/Mirror3D.tscn" id="11_eudka"]
 [ext_resource type="PackedScene" uid="uid://dmm1368oglfp0" path="res://actors/player/player.tscn" id="16_08uri"]
 [ext_resource type="PackedScene" uid="uid://crytf2marbeak" path="res://props/exploding_barrel.tscn" id="16_lqn8c"]
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="17_jhlpr"]
 [ext_resource type="PackedScene" uid="uid://cbtrf5bt881ri" path="res://items/weapons/pistol/pistol_pickup.tscn" id="18_fivcu"]
 [ext_resource type="PackedScene" uid="uid://c1w5e3ieei41o" path="res://items/weapons/shotgun/shotgun_pickup.tscn" id="19_b5wip"]
 [ext_resource type="PackedScene" uid="uid://bmq87quw8icqf" path="res://items/weapons/laser/laser_pickup.tscn" id="20_70x8p"]
@@ -788,6 +789,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.8
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, -45)
 collision_layer = 32
 collision_mask = 45
+script = ExtResource("17_jhlpr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Decorations/Ball" unique_id=1167890926]
 shape = SubResource("SphereShape3D_bsiym")

@@ -1,5 +1,5 @@
 class_name DynamicObject
-extends RigidBody3D
+extends Node3D
 
 
 func _ready() -> void:
@@ -10,13 +10,17 @@ func save_state() -> Dictionary:
 	var state := Dictionary()
 	state.position = position
 	state.rotation = rotation
-	state.linear_velocity = linear_velocity
-	state.angular_velocity = angular_velocity
+	var rigid_body := self as Node3D as RigidBody3D
+	if rigid_body:
+		state.linear_velocity = rigid_body.linear_velocity
+		state.angular_velocity = rigid_body.angular_velocity
 	return state
 
 
 func load_state(state: Dictionary) -> void:
 	position = state.position
 	rotation = state.rotation
-	linear_velocity = state.linear_velocity
-	angular_velocity = state.angular_velocity
+	var rigid_body := self as Node3D as RigidBody3D
+	if rigid_body:
+		rigid_body.linear_velocity = state.linear_velocity
+		rigid_body.angular_velocity = state.angular_velocity
