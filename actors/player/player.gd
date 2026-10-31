@@ -83,7 +83,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	if event.is_action_pressed("test"):
 		#set_collision_layer_value(PhysicsLayers.PLAYER, not get_collision_layer_value(PhysicsLayers.PLAYER))
-		if Input.is_action_pressed("sprint"):
+		if not health_attribute.is_alive:
+			LevelManager.start_new_game("res://levels/test.tscn")
+		elif Input.is_action_pressed("sprint"):
 			LevelManager.load_game("test")
 		elif Input.is_action_pressed("crouch"):
 			LevelManager.delete_save("test")

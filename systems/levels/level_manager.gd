@@ -21,6 +21,16 @@ func _process(_delta: float) -> void:
 		_process_loading_level()
 
 
+func _exit_tree() -> void:
+	_clear_slot(TEMP_SLOT)
+
+
+func start_new_game(level_name: String) -> void:
+	_clear_slot(TEMP_SLOT)
+	_start_loading_level(level_name)
+	EventBus.new_game_started.emit()
+
+
 func load_game(slot: String) -> void:
 	if !_player_state_exists(slot):
 		return
