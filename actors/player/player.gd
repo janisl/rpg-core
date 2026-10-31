@@ -51,6 +51,7 @@ var visibility_attribute: BaseAttribute
 
 func _ready() -> void:
 	super()
+	LevelManager.current_player = self
 	var meshes := %GeneralSkeleton.find_children("*", "MeshInstance3D", true, false)
 	for m in meshes:
 		m.layers = mesh_layer
@@ -68,7 +69,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	var move_amount = velocity.length()
+	var move_amount := velocity.length()
 	animation_tree["parameters/LowerBody/Standing/blend_position"].y = remap(-velocity.z, -10.0, 10.0, -1.0, 1.0)
 	animation_tree["parameters/LowerBody/Crouching/blend_position"].y = remap(move_amount, -8.0, 8.0, -1.0, 1.0)
 
@@ -97,7 +98,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func increase_attribute(attribute_name: String, value: float, value_type: BaseAttribute.ValueType) -> bool:
-	var attribute = player_attributes.get(attribute_name)
+	var attribute: BaseAttribute = player_attributes.get(attribute_name)
 	if not attribute:
 		print("Increase attribute: " + attribute_name + " Attribute not found")
 		return false
@@ -115,8 +116,8 @@ func increase_attribute(attribute_name: String, value: float, value_type: BaseAt
 	return false
 
 
-func decrease_attribute(attribute_name: String, value: float):
-	var attribute = player_attributes.get(attribute_name)
+func decrease_attribute(attribute_name: String, value: float) -> void:
+	var attribute: BaseAttribute = player_attributes.get(attribute_name)
 	if not attribute:
 		print("Decrease attribute: " + attribute_name + " - Attribute not found")
 		return

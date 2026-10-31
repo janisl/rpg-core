@@ -5,6 +5,8 @@ const TEMP_SLOT = "temp"
 const SAVES_ROOT = "user://saves/"
 const STATE_FILE_EXT = ".tres"
 
+var current_player: Player
+
 
 func _ready() -> void:
 	_clear_slot(TEMP_SLOT)
@@ -19,14 +21,12 @@ func load_game(slot: String) -> void:
 
 	await _load_new_level(state.current_scene_path)
 
-	var player := get_tree().get_first_node_in_group("player") as Player
 	_load_level_state(TEMP_SLOT, _get_current_level_state_name())
-	_load_player_state(TEMP_SLOT, player)
+	_load_player_state(TEMP_SLOT, current_player)
 
 
 func save_game(slot: String, screenshot_image: Image) -> void:
-	var player := get_tree().get_first_node_in_group("player") as Player
-	_save_player_state(TEMP_SLOT, player)
+	_save_player_state(TEMP_SLOT, current_player)
 	_save_level_state(TEMP_SLOT, _get_current_level_state_name())
 	_write_screenshot(TEMP_SLOT, screenshot_image)
 	_copy_slot(TEMP_SLOT, slot)
@@ -41,15 +41,13 @@ func delete_save(slot: String) -> bool:
 
 
 func transition_to_level(level_path: String) -> void:
-	var player := get_tree().get_first_node_in_group("player") as Player
-	_save_player_state(TEMP_SLOT, player)
+	_save_player_state(TEMP_SLOT, current_player)
 	_save_level_state(TEMP_SLOT, _get_current_level_state_name())
 
 	await _load_new_level(level_path)
 
-	player = get_tree().get_first_node_in_group("player") as Player
-	_load_player_state(TEMP_SLOT, player)
-	player.position = Vector3.ZERO
+	_load_player_state(TEMP_SLOT, current_player)
+	current_player.position = Vector3.ZERO
 	_load_level_state(TEMP_SLOT, _get_current_level_state_name())
 
 
