@@ -84,6 +84,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		#set_collision_layer_value(PhysicsLayers.PLAYER, not get_collision_layer_value(PhysicsLayers.PLAYER))
 		if Input.is_action_pressed("sprint"):
 			LevelManager.load_game("test")
+		elif Input.is_action_pressed("crouch"):
+			LevelManager.delete_save("test")
 		else:
 			LevelManager.save_game("test", get_viewport().get_texture().get_image())
 

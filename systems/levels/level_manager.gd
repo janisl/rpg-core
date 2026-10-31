@@ -17,7 +17,7 @@ func load_game(slot: String) -> void:
 	_copy_slot(slot, TEMP_SLOT)
 	var state := _read_player_state(slot)
 
-	await load_new_level(state.current_scene_path)
+	await _load_new_level(state.current_scene_path)
 
 	var player := get_tree().get_first_node_in_group("player") as Player
 	_load_level_state(TEMP_SLOT, _get_current_level_state_name())
@@ -32,12 +32,20 @@ func save_game(slot: String, screenshot_image: Image) -> void:
 	_copy_slot(TEMP_SLOT, slot)
 
 
+func delete_save(slot: String) -> bool:
+	var path := _get_slot_path(slot)
+	if not DirAccess.dir_exists_absolute(path):
+		return false
+	OS.move_to_trash(ProjectSettings.globalize_path(path))
+	return true
+
+
 func transition_to_level(level_path: String) -> void:
 	var player := get_tree().get_first_node_in_group("player") as Player
 	_save_player_state(TEMP_SLOT, player)
 	_save_level_state(TEMP_SLOT, _get_current_level_state_name())
 
-	await load_new_level(level_path)
+	await _load_new_level(level_path)
 
 	player = get_tree().get_first_node_in_group("player") as Player
 	_load_player_state(TEMP_SLOT, player)
@@ -45,14 +53,14 @@ func transition_to_level(level_path: String) -> void:
 	_load_level_state(TEMP_SLOT, _get_current_level_state_name())
 
 
-func load_new_level(level_path: String) -> void:
-	get_tree().change_scene_to_file(level_path)
-	await get_tree().scene_changed
-
-
 func get_slot_screenshot(slot: String) -> ImageTexture:
 	var image := _read_screenshot(slot)
 	return ImageTexture.create_from_image(image) if image else null
+
+
+func _load_new_level(level_path: String) -> void:
+	get_tree().change_scene_to_file(level_path)
+	await get_tree().scene_changed
 
 
 func _load_player_state(slot: String, player: Player) -> void:
