@@ -20,6 +20,20 @@ func initialize(player: Player, wieldable: Wieldable, mesh_layer: int) -> void:
 	_connect_signals()
 
 
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	if animation_player && animation_player.is_playing():
+		state[&"animation_name"] = animation_player.current_animation
+		state[&"animation_position"] = animation_player.current_animation_position
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	if animation_player && state.has(&"animation_name"):
+		animation_player.play(state[&"animation_name"])
+		animation_player.seek(state.get(&"animation_position", 0.0))
+
+
 func _apply_mesh_layer(mesh_layer: int) -> void:
 	var all_visual_instances := find_children("*", "VisualInstance3D")
 	for instance in all_visual_instances:

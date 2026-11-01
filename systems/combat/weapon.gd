@@ -17,6 +17,19 @@ func initialize(own: Actor, inventory: Inventory, stack: ItemStack) -> void:
 	_weapon_data = _item_stack.item as WeaponData
 
 
+func save_state() -> Dictionary:
+	var state := super()
+	state[&"fire_rate_timer"] = _fire_rate_timer
+	state[&"reload_timer"] = _reload_timer
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	super(state)
+	_fire_rate_timer = state.get(&"_fire_rate_timer", 0.0)
+	_reload_timer = state.get(&"reload_timer", 0.0)
+
+
 func _get_magazine_ammo() -> int:
 	return _item_stack.metadata.get(MAGAZINE_KEY, 0)
 

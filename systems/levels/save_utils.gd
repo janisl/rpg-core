@@ -2,7 +2,8 @@ class_name SaveUtils
 
 
 static func save_ref(state: Dictionary, name: StringName, value: Node) -> void:
-	state[name] = value.get_path()
+	if value:
+		state[name] = value.get_path()
 
 
 static func load_ref(state: Dictionary, name: StringName) -> Node:

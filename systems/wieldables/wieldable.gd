@@ -59,6 +59,22 @@ func unequip() -> void:
 	state_chart.send_event("onUnequipping")
 
 
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
+	state[&"is_unequipping"] = is_unequipping
+	state[&"equip_timer"] = _equip_timer
+	state[&"unequip_timer"] = _unequip_timer
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
+	is_unequipping = state.get(&"is_unequipping", false)
+	_equip_timer = state.get(&"equip_timer", 0.0)
+	_unequip_timer = state.get(&"unequip_timer", 0.0)
+
+
 func _emit_primary_action_started() -> void:
 	primary_action_started.emit()
 
