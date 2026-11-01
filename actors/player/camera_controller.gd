@@ -30,6 +30,7 @@ var _offset_height : float
 func _ready() -> void:
 	_offset_height = player.standing_camera_height
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	add_to_group("persist_component")
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -84,3 +85,23 @@ func _update_camera_rotation(input: Vector2) -> void:
 
 	head.rotate_x(input.y)
 	head.rotation.x = clampf(head.rotation.x, tilt_lower_limit, tilt_upper_limit)
+
+
+func save_state() -> Dictionary:
+	return {
+		&"rotation" : rotation,
+		&"head_rotation" : head.rotation,
+		&"target_height" : _target_height,
+		&"step_smoothing" : _step_smoothing,
+		&"offset_height" : _offset_height,
+	}
+
+
+func load_state(state: Dictionary) -> void:
+	rotation = state.get(&"rotation", Vector3.ZERO)
+	head.rotation = state.get(&"head_rotation", Vector3.ZERO)
+	_target_height = state.get(&"target_height", 0.0)
+	_step_smoothing = state.get(&"step_smoothing", false)
+	_offset_height = state.get(&"offset_height", _offset_height)
+
+	position.y = _offset_height + _target_height

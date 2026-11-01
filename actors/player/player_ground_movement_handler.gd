@@ -23,6 +23,22 @@ var _snapped_to_stairs_last_frame := false
 var _was_on_floor_last_frame := false
 
 
+func save_state() -> Dictionary:
+	return {
+		&"sprint_modifier" : _sprint_modifier,
+		&"crouch_modifier" : _crouch_modifier,
+		&"snapped_to_stairs_last_frame" : _snapped_to_stairs_last_frame,
+		&"was_on_floor_last_frame" : _was_on_floor_last_frame,
+	}
+
+
+func load_state(state: Dictionary) -> void:
+	_sprint_modifier = state.get(&"sprint_modifier", 0.0)
+	_crouch_modifier = state.get(&"crouch_modifier", 0.0)
+	_snapped_to_stairs_last_frame = state.get(&"snapped_to_stairs_last_frame", false)
+	_was_on_floor_last_frame = state.get(&"was_on_floor_last_frame", false)
+
+
 func _on_movement_state_physics_processing(_delta: float) -> void:
 	player.state_chart.set_expression_property("on_ground", player.is_on_floor() or _snapped_to_stairs_last_frame)
 

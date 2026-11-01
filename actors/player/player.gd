@@ -47,6 +47,7 @@ var stamina_attribute: StaminaAttribute
 var visibility_attribute: BaseAttribute
 
 @onready var ground_movement: PlayerGroundMovementHandler = $MovementHandlers/GroundMovement
+@onready var ladder_movement: PlayerLadderMovementHandler = $MovementHandlers/LadderMovement
 
 
 func _ready() -> void:
@@ -195,6 +196,8 @@ func save_state() -> Dictionary:
 	state[&"standing_collision_disabled"] = standing_collision.disabled
 	state[&"crouching_collision_disabled"] = crouching_collision.disabled
 	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
+	state[&"ground_movement"] = ground_movement.save_state()
+	state[&"ladder_movement"] = ladder_movement.save_state()
 	return state
 
 
@@ -203,3 +206,5 @@ func load_state(state: Dictionary) -> void:
 	standing_collision.disabled = state.get(&"standing_collision_disabled", false)
 	crouching_collision.disabled = state.get(&"crouching_collision_disabled", true)
 	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
+	ground_movement.load_state(state.get(&"ground_movement", Dictionary()))
+	ladder_movement.load_state(state.get(&"ladder_movement", Dictionary()))

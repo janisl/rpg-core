@@ -12,6 +12,18 @@ var _cur_ladder_climbing: Area3D = null
 var _did_jump_off := false
 
 
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	SaveUtils.save_ref(state, &"cur_ladder_climbing", _cur_ladder_climbing)
+	state[&"did_jump_off"] = _did_jump_off
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	_cur_ladder_climbing = SaveUtils.load_ref(state, &"cur_ladder_climbing")
+	_did_jump_off = state.get(&"did_jump_off", false)
+
+
 func _on_movement_state_physics_processing(_delta: float) -> void:
 	player.state_chart.set_expression_property("climbing_ladder", _check_for_climbing_ladder())
 
