@@ -193,6 +193,9 @@ func _on_lying_dead_state_physics_processing(delta: float) -> void:
 
 func save_state() -> Dictionary:
 	var state := super()
+	state[&"try_crouch"] = try_crouch
+	state[&"is_sprinting"] = is_sprinting
+	state[&"is_crouching"] = is_crouching
 	state[&"standing_collision_disabled"] = standing_collision.disabled
 	state[&"crouching_collision_disabled"] = crouching_collision.disabled
 	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
@@ -203,6 +206,9 @@ func save_state() -> Dictionary:
 
 func load_state(state: Dictionary) -> void:
 	super(state)
+	try_crouch = state.get(&"try_crouch", false)
+	is_sprinting = state.get(&"is_sprinting", false)
+	is_crouching = state.get(&"is_crouching", false)
 	standing_collision.disabled = state.get(&"standing_collision_disabled", false)
 	crouching_collision.disabled = state.get(&"crouching_collision_disabled", true)
 	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
