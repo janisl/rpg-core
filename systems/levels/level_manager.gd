@@ -125,6 +125,7 @@ func _load_player_state(slot: String, player: Player) -> void:
 		return
 	var state := _read_player_state(slot)
 	player.load_state(state.state)
+	_load_persist_object_components(player, state.state)
 
 
 func _save_player_state(slot: String, player: Player) -> void:
@@ -133,6 +134,7 @@ func _save_player_state(slot: String, player: Player) -> void:
 	state.current_scene_path = get_tree().current_scene.scene_file_path
 	state.savetime = int(Time.get_unix_time_from_system())
 	state.state = player.save_state()
+	_save_persist_object_components(player, state.state)
 	_write_player_state(slot, state)
 
 
@@ -191,7 +193,10 @@ func _free_deleted_persist_objects(existing_objects: Dictionary[NodePath, Node],
 
 func _load_persist_object_states(existing_objects: Dictionary[NodePath, Node], saved_objects: Dictionary[NodePath, Dictionary]) -> void:
 	for obj_path in saved_objects:
-		existing_objects[obj_path].load_state(saved_objects[obj_path])
+		var obj := existing_objects[obj_path]
+		assert(obj.has_method("load_state"), "Missing load state method")
+		obj.load_state(saved_objects[obj_path])
+		_load_persist_object_components(obj, saved_objects[obj_path])
 
 
 func _save_level_objects(state: LevelState) -> void:
@@ -202,7 +207,27 @@ func _save_level_objects(state: LevelState) -> void:
 		obj_state.scene_file_path = obj.scene_file_path
 		obj_state.name = obj.name
 		obj_state.parent_path = obj.get_parent().get_path()
+		_save_persist_object_components(obj, obj_state)
 		state.saved_objects[obj.get_path()] = obj_state
+
+
+func _load_persist_object_components(object: Node, state: Dictionary) -> void:
+	for node in object.get_children():
+		if not node.is_in_group("persist_component"):
+			continue
+		var node_state := state.get(node.name, null) as Dictionary
+		if not node_state:
+			continue
+		assert(node.has_method("load_state"), "Missing load state method")
+		node.load_state(node_state)
+
+
+func _save_persist_object_components(object: Node, state: Dictionary) -> void:
+	for node in object.get_children():
+		if not node.is_in_group("persist_component"):
+			continue
+		assert(node.has_method("save_state"), "Missing load state method")
+		state[node.name] = node.save_state()
 
 
 func _get_current_level_state_name() -> String:

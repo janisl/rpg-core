@@ -29,16 +29,16 @@ func _ready() -> void:
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
-	state.position = position
-	state.rotation = rotation
-	state.velocity = velocity
+	state[&"position"] = position
+	state[&"rotation"] = rotation
+	state[&"velocity"] = velocity
 	return state
 
 
 func load_state(state: Dictionary) -> void:
-	position = state.position
-	rotation = state.rotation
-	velocity = state.velocity
+	position = state.get(&"position", position)
+	rotation = state.get(&"rotation", rotation)
+	velocity = state.get(&"velocity", Vector3.ZERO)
 
 
 func on_liquid_entered(area: Area3D) -> void:

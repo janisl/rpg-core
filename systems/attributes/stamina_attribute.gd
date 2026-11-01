@@ -69,3 +69,16 @@ func  _run_exhaustion() -> float:
 	else:
 		var downhill_run_exhaustion := lerpf(run_exhaustion_speed, downhill_run_exhaustion_max_speed, slope_factor)
 		return downhill_run_exhaustion
+
+
+func save_state() -> Dictionary:
+	var state := super()
+	state[&"is_regenerating"] = _is_regenerating
+	state[&"last_y"] = _last_y
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	super(state)
+	_is_regenerating = state.get(&"is_regenerating", false)
+	_last_y = state.get(&"last_y", 0.0)

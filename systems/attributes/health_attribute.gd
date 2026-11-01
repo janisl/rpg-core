@@ -56,3 +56,14 @@ func _handle_death() -> void:
 			get_node(nodepath).queue_free()
 
 	died.emit()
+
+
+func save_state() -> Dictionary:
+	var state := super()
+	state[&"is_alive"] = is_alive
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	super(state)
+	is_alive = state.get(&"is_alive", false)
