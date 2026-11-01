@@ -15,3 +15,16 @@ func pick_up(player: Player):
 	AudioManager.play_sound_3d(item_stack.item.pickup_sound, get_parent().global_position)
 	was_interacted_with.emit()
 	get_parent().queue_free()
+
+
+func save_state() -> Dictionary:
+	var state := super()
+	#TODO save if it was dropped
+	#state[&"item_stack"] = item_stack
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	super(state)
+	#TODO save if it was dropped
+	#item_stack = state.get(&"item_stack", item_stack)

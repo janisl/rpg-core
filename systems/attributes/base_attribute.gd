@@ -43,7 +43,6 @@ func subtract(amount: float) ->void:
 
 
 func save_state() -> Dictionary:
-	var n: StringName
 	return {
 		&"value" : value,
 		&"max_value" : max_value,
