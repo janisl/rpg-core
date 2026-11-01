@@ -7,7 +7,7 @@ signal nothing_detected()
 @export var player: Player
 @export var show_debug_shapes : bool = false
 
-var interactable:
+var interactable: Node3D:
 	set = _set_interactable
 
 var interaction_nodes : Array[Node]
@@ -16,8 +16,8 @@ var _hotspot_base_pos_z : float = -1.5
 
 @onready var shapecast : ShapeCast3D = $InteractionShapecast
 @onready var hotspot : Node3D = $ShapecastHotspot
-@onready var raycast_highlighter = $RaycastHighlighter
-@onready var target_highlighter = $TargetHighlighter
+@onready var raycast_highlighter: MeshInstance3D = $RaycastHighlighter
+@onready var target_highlighter: MeshInstance3D = $TargetHighlighter
 
 
 func _ready() -> void:
@@ -25,6 +25,8 @@ func _ready() -> void:
 	if !show_debug_shapes:
 		raycast_highlighter.visible = false
 		target_highlighter.visible = false
+
+	EventBus.interactable_changed.connect(_rebuild_interaction_prompts)
 
 
 func _process(_delta: float) -> void:
@@ -36,7 +38,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		_handle_interaction("interact")
 
 
-func _set_interactable(value) -> void:
+
+func _set_interactable(value: Node3D) -> void:
 	interactable = value
 	if interactable == null:
 		nothing_detected.emit()
@@ -53,7 +56,7 @@ func _update_interactable() -> void:
 		interactable = null
 		return
 
-	var collider
+	var collider: Node3D
 	if is_colliding():
 		collider = get_collider()
 
@@ -73,13 +76,13 @@ func _update_interactable() -> void:
 
 	if not collider:
 		if shapecast.is_colliding():
-			var closest_distance = INF
+			var closest_distance := INF
 			for i in range(shapecast.get_collision_count()):
-				var shape_collider = shapecast.get_collider(i)
+				var shape_collider := shapecast.get_collider(i)
 				if not shape_collider or not shape_collider.is_in_group("interactable"):
 					continue
-				var collision_point = shapecast.get_collision_point(i)
-				var distance = collision_point.distance_squared_to(hotspot_global_position)
+				var collision_point := shapecast.get_collision_point(i)
+				var distance := collision_point.distance_squared_to(hotspot_global_position)
 				if distance >= closest_distance:
 					continue
 				collider = shape_collider

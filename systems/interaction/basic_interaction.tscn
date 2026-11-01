@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://l61jtpfxu5x5"]
+
+[ext_resource type="Script" uid="uid://cljiy1kft5xkg" path="res://systems/interaction/basic_interaction.gd" id="1_42b7y"]
+
+[node name="BasicInteraction" type="Node3D" unique_id=14951234]
+script = ExtResource("1_42b7y")
+interaction_text = "INTERACT Open"
