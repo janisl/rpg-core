@@ -6,6 +6,10 @@ signal changed
 @export var slots: Array[ItemStack]
 
 
+func _ready() -> void:
+	add_to_group("persist_component")
+
+
 func add_item(item: ItemData, amount := 1, metadata: Dictionary[String, Variant] = {}):
 	if not item or amount <= 0:
 		return
@@ -90,3 +94,13 @@ func _is_empty(index: int) -> bool:
 func _can_stack(index: int, stack: ItemStack) -> bool:
 	var existing := slots[index]
 	return existing.item == stack.item and existing.metadata.recursive_equal(stack.metadata, 10)
+
+
+func save_state() -> Dictionary:
+	return {
+		&"slots" : slots,
+	}
+
+
+func load_state(state: Dictionary) -> void:
+	slots = state.get(&"slots", [])

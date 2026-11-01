@@ -21,7 +21,8 @@ func _ready() -> void:
 
 func _on_player_spawned(p: Player) -> void:
 	player = p
-	initialize_starting_weapon.call_deferred()
+	if not LevelManager.is_loading:
+		initialize_starting_weapon.call_deferred()
 
 
 func _unhandled_input(event: InputEvent) -> void:

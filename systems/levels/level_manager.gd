@@ -6,6 +6,7 @@ const SAVES_ROOT = "user://saves/"
 const STATE_FILE_EXT = ".tres"
 
 var current_player: Player
+var is_loading := false
 
 var _current_loading_level: String
 var _current_connector_name: String
@@ -83,6 +84,7 @@ func get_slot_screenshot(slot: String) -> ImageTexture:
 
 
 func _start_loading_level(level_path: String) -> void:
+	is_loading = true
 	EventBus.load_level_started.emit()
 	_current_loading_level = level_path
 	ResourceLoader.load_threaded_request(_current_loading_level, "", false, ResourceLoader.CACHE_MODE_IGNORE)
@@ -103,6 +105,7 @@ func _process_loading_level() -> void:
 		if connector_name:
 			get_tree().current_scene.move_player_to_connector(current_player, connector_name)
 
+		is_loading = false
 		EventBus.load_level_finished.emit()
 	else:
 		var progress_value := progress_array[0] if typeof(progress_array[0]) == TYPE_FLOAT else 0.0
