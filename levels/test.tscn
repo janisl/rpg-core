@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://u5kjeyq7rd1m" path="res://items/ammo/laser_ammo.tscn" id="21_uyurq"]
 [ext_resource type="PackedScene" uid="uid://b16alro8fspcn" path="res://items/ammo/pistol_ammo.tscn" id="22_8m07d"]
 [ext_resource type="PackedScene" uid="uid://kcm3gee3e08y" path="res://items/ammo/shotgun_ammo.tscn" id="23_mfah6"]
+[ext_resource type="PackedScene" uid="uid://8dycgw6cy5f1" path="res://props/sliding_door.tscn" id="24_b5wip"]
 [ext_resource type="PackedScene" uid="uid://drtbte28rd2iw" path="res://items/ammo/shotgun_ammo2.tscn" id="24_g8des"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_bsiym"]
@@ -850,5 +851,10 @@ shape = SubResource("BoxShape3D_6k6bt")
 
 [node name="FromTest2" type="Node3D" parent="." unique_id=673117340]
 transform = Transform3D(-0.39042774, 0, -0.92063355, 0, 1, 0, 0.92063355, 0, -0.39042774, -8.426714, 0, 0)
+
+[node name="Interactables" type="Node3D" parent="." unique_id=217436810]
+
+[node name="SlidingDoor" parent="Interactables" unique_id=228493582 instance=ExtResource("24_b5wip")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -40, 0, -5)
 
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]

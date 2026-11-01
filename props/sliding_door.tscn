@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://8dycgw6cy5f1"]
+
+[ext_resource type="Script" uid="uid://vdqct0dnf3ms" path="res://systems/objects/interactables/interactable_door.gd" id="1_r38t6"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/basic_interaction.tscn" id="2_jmeyh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
+size = Vector3(1, 2, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.5979504, 0.28370667, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(1, 2, 0.1)
+
+[node name="Node3D" type="Node3D" unique_id=226986960]
+
+[node name="SlidingDoor" type="AnimatableBody3D" parent="." unique_id=228493582]
+script = ExtResource("1_r38t6")
+open_position = Vector3(0.9, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SlidingDoor" unique_id=982076642]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_bsiym")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SlidingDoor" unique_id=255831984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_bsiym")
+
+[node name="BasicInteraction" parent="SlidingDoor" unique_id=14951234 instance=ExtResource("2_jmeyh")]
