@@ -15,15 +15,25 @@ var _spawn_position: Vector3
 @onready var lifespan: Timer = $Lifespan
 
 
+func _ready() -> void:
+	add_to_group("persist_component")
+
+
 func setup(src: CharacterBody3D, vel: Vector3, dmg: float) -> void:
 	_source = src
 	_damage = dmg
 
+	_set_up_rigid_body()
+	_rigid_body.linear_velocity = vel
+
+	fired.emit()
+
+
+func _set_up_rigid_body() -> void:
 	_rigid_body = get_parent() as RigidBody3D
 	_rigid_body.continuous_cd = true
 	_rigid_body.contact_monitor = true
 	_rigid_body.max_contacts_reported = 10
-	_rigid_body.linear_velocity = vel
 	_spawn_position = _rigid_body.global_position
 
 	_rigid_body.body_entered.connect(_on_body_entered)
@@ -31,8 +41,6 @@ func setup(src: CharacterBody3D, vel: Vector3, dmg: float) -> void:
 	if lifespan:
 		lifespan.timeout.connect(_on_lifespan_timeout)
 		lifespan.start()
-
-	fired.emit()
 
 
 func _on_body_entered(body: Node3D) -> void:
@@ -69,3 +77,20 @@ func _die() -> void:
 
 func _on_lifespan_timeout() -> void:
 	_die()
+
+
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	SaveUtils.save_ref(state, &"source", _source)
+	state[&"damage"] = _damage
+	state[&"was_fired"] = _rigid_body != null
+	SaveUtils.save_timer(state, &"lifespan", lifespan)
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	_source = SaveUtils.load_ref(state, &"source")
+	_damage = state.get(&"damage", 0)
+	if state.get(&"was_fired", false):
+		_set_up_rigid_body()
+	SaveUtils.load_timer(state, &"lifespan", lifespan)
