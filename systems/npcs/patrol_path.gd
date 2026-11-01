@@ -12,6 +12,20 @@ class_name PatrolPath
 var _current_patrol_point: PatrolPoint
 
 
+func _ready() -> void:
+	add_to_group("persist")
+
+
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	SaveUtils.save_ref(state, &"current_patrol_point", _current_patrol_point)
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	_current_patrol_point = SaveUtils.load_ref(state, &"current_patrol_point")
+
+
 func target_next_patrol_point() -> PatrolPoint:
 	if not _current_patrol_point:
 		_current_patrol_point = starting_patrol_point

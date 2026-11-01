@@ -10,6 +10,24 @@ var previous_patrol_point: PatrolPoint
 var _current_point_index := 0
 
 
+func _ready() -> void:
+	add_to_group("persist")
+
+
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	state[&"traversed"] = traversed
+	SaveUtils.save_ref(state, &"previous_patrol_point", previous_patrol_point)
+	state[&"current_point_index"] = _current_point_index
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	traversed = state.get(&"traversed", false)
+	previous_patrol_point = SaveUtils.load_ref(state, &"previous_patrol_point")
+	_current_point_index = state.get(&"_current_point_index", 0)
+
+
 func get_next_point() -> PatrolPoint:
 	if (traversed and _current_point_index == 0) or next_patrol_points.is_empty():
 		return _get_return_to_point()
