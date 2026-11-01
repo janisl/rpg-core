@@ -17,6 +17,7 @@ size = Vector3(1, 2, 0.1)
 
 [node name="SlidingDoor" type="AnimatableBody3D" parent="." unique_id=228493582]
 script = ExtResource("1_r38t6")
+door_type = 1
 open_position = Vector3(0.9, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SlidingDoor" unique_id=982076642]
