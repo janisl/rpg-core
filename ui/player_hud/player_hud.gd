@@ -78,15 +78,25 @@ func _update_ammo_label() -> void:
 
 
 func _on_interactive_object_detected(nodes: Array[Node]) -> void:
-	for n in interaction_container.get_children():
-		n.queue_free()
+	_clear_interaction_prompts()
 
-	for n: InteractionComponent in nodes:
+	if nodes.size() < 1:
+		return
+
+	for node: InteractionComponent in nodes:
+		if node.is_disabled:
+			continue
 		var control := INTERACTION_CONTROL.instantiate() as InteractionControl
 		interaction_container.add_child(control)
-		control.initialize(n)
+		control.initialize(node)
+
 	interaction_container.visible = true
 
 
 func _on_nothing_detected() -> void:
 	interaction_container.visible = false
+
+
+func _clear_interaction_prompts() -> void:
+	for n in interaction_container.get_children():
+		n.queue_free()
