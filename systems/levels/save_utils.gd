@@ -33,3 +33,17 @@ static func load_timer(state: Dictionary, name: StringName, timer: Timer) -> voi
 		timer.start(timer_state.get(&"time_left", timer.wait_time))
 	timer.wait_time = timer_state.get(&"wait_time", timer.wait_time)
 	timer.paused = timer_state.get(&"paused", false)
+
+
+static func save_state_chart(state: Dictionary, name: StringName, chart: StateChart) -> void:
+	if not chart:
+		return
+
+	state[name] = StateChartSerializer.serialize(chart)
+
+
+static func load_state_chart(state: Dictionary, name: StringName, chart: StateChart) -> void:
+	if not chart or not state.has(name):
+		return
+
+	StateChartSerializer.deserialize(state[name], chart)

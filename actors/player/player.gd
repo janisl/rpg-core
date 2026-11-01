@@ -188,3 +188,18 @@ func _should_stand_up() -> bool:
 
 func _on_lying_dead_state_physics_processing(delta: float) -> void:
 	camera_controller.update_camera_height(delta, death_camera_height)
+
+
+func save_state() -> Dictionary:
+	var state := super()
+	state[&"standing_collision_disabled"] = standing_collision.disabled
+	state[&"crouching_collision_disabled"] = crouching_collision.disabled
+	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	super(state)
+	standing_collision.disabled = state.get(&"standing_collision_disabled", false)
+	crouching_collision.disabled = state.get(&"crouching_collision_disabled", true)
+	SaveUtils.load_state_chart(state, &"state_chart", state_chart)

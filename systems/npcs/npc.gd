@@ -130,6 +130,17 @@ func is_dead() -> bool:
 	return _health and _health.value <= 0
 
 
+func save_state() -> Dictionary:
+	var state := super()
+	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	super(state)
+	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
+
+
 func _spawn_weapon() -> void:
 	if not weapon_stack:
 		return
