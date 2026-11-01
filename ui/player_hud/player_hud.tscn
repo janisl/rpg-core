@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://cw70ccc707pon" path="res://ui/player_hud/player_hud.gd" id="1_vyppb"]
 [ext_resource type="Shader" uid="uid://bd7wk8i5mqe5g" path="res://ui/player_hud/camera_water_overlay.gdshader" id="2_rtdb5"]
 [ext_resource type="Script" uid="uid://blwu7xyl5slu4" path="res://ui/player_hud/reticle_control.gd" id="3_sqrx6"]
-[ext_resource type="PackedScene" uid="uid://4f6rvd4vlm08" path="res://ui/player_hud/interaction_control.tscn" id="4_4cl3s"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sqrx6"]
 shader = ExtResource("2_rtdb5")
@@ -61,7 +60,7 @@ horizontal_alignment = 2
 [node name="AttributesContainer" type="VBoxContainer" parent="." unique_id=26385652]
 layout_mode = 0
 offset_left = 10.0
-offset_top = 950.0
+offset_top = 656.0
 offset_right = 360.0
 offset_bottom = 1058.0
 
@@ -80,5 +79,9 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 8
 
-[node name="InteractLabel" parent="InteractionContainer" unique_id=1968760033 instance=ExtResource("4_4cl3s")]
-layout_mode = 2
+[node name="NotificationsContainer" type="VBoxContainer" parent="." unique_id=101972287]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 14.0
+offset_right = 295.0
+offset_bottom = 54.0

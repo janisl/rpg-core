@@ -10,3 +10,5 @@ signal load_level_progress(value: float)
 signal load_level_finished
 
 signal interactable_changed
+
+signal show_notification(text: String)

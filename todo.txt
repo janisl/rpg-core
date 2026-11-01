@@ -8,7 +8,6 @@ UI
 - title screen
 - quest UI
 - quest notifications
-- player notifixations for pickups and whatever else needs them.
 
 Inventory
 - weight based inventory

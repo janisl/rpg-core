@@ -4,11 +4,13 @@ extends Control
 const ITEM_SLOT_CONTROL = preload("uid://d3nmme6bfak14")
 const ATTRIBUTE_CONTROL = preload("uid://dvyghe0kgmbqf")
 const INTERACTION_CONTROL = preload("uid://4f6rvd4vlm08")
+const NOTIFICATION_ITEM = preload("uid://h8tiw6y8mxk")
 
 @onready var ammo_label: Label = $AmmoLabel
 @onready var attributes_container: VBoxContainer = $AttributesContainer
 @onready var water_ripple_overlay: TextureRect = $WaterRippleOverlay
 @onready var interaction_container: VBoxContainer = $InteractionContainer
+@onready var notifications_container: VBoxContainer = $NotificationsContainer
 
 var _player: Player
 var _wieldable: Wieldable
@@ -22,6 +24,7 @@ func connect_to_player(player: Player) -> void:
 	_player.interaction_controller.interactive_object_detected.connect(_on_interactive_object_detected)
 	_player.interaction_controller.nothing_detected.connect(_on_nothing_detected)
 	_player.liquid_level_changed.connect(_on_liquid_level_changed)
+	EventBus.show_notification.connect(_on_show_notification)
 
 	interaction_container.visible = false
 
@@ -100,3 +103,9 @@ func _on_nothing_detected() -> void:
 func _clear_interaction_prompts() -> void:
 	for n in interaction_container.get_children():
 		n.queue_free()
+
+
+func _on_show_notification(text: String) -> void:
+	var item := NOTIFICATION_ITEM.instantiate()
+	notifications_container.add_child(item)
+	item.text = text
