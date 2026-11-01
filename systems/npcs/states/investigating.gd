@@ -5,6 +5,16 @@ extends NpcStateProcessor
 var _attention_spot: Sprite3D
 
 
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	SaveUtils.save_ref(state, &"attention_spot", _attention_spot)
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	_attention_spot = SaveUtils.load_ref(state, &"attention_spot")
+
+
 func _on_investigate_state_entered() -> void:
 	_enter_state()
 	state_chart.send_event("ubody_raise_weapon")

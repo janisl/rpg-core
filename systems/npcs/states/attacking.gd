@@ -13,6 +13,20 @@ var _target: Node3D
 var _count_down := 0.0
 
 
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	SaveUtils.save_ref(state, &"target", _target)
+	state[&"count_down"] = _count_down
+	state[&"attack_impact_zone_enabled"] = attack_impact_zone.monitoring
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	_target = SaveUtils.load_ref(state, &"target")
+	_count_down = state.get(&"count_down", 0.0)
+	attack_impact_zone.monitoring = state.get(&"attack_impact_zone_enabled", false)
+
+
 func _on_attacking_state_entered() -> void:
 	_enter_state()
 	_target = npc.attention_target

@@ -35,11 +35,6 @@ Environment
 - sitting
 - buttons, switches, doors
 
-Maps
-- player spawner
-- scene manager
-- load & save
-
 Systems
 - crafting
 - music manager

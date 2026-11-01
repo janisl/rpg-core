@@ -51,6 +51,32 @@ func _enter_tree() -> void:
 	_stuck_timer = _create_timer(end_search_if_stuck_for, _end_search)
 
 
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	state[&"broken_los_point"] = broken_los_point
+	state[&"last_known_player_point"] = last_known_player_point
+	SaveUtils.save_ref(state, &"player", player)
+	state[&"los_point_reached"] = _los_point_reached
+	state[&"_last_known_point_reached"] = _last_known_point_reached
+	SaveUtils.save_timer(state, &"reacquire_timer", _reacquire_timer)
+	SaveUtils.save_timer(state, &"first_wait_timer", _first_wait_timer)
+	SaveUtils.save_timer(state, &"second_wait_timer", _second_wait_timer)
+	SaveUtils.save_timer(state, &"stuck_timer", _stuck_timer)
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	broken_los_point = state.get(&"broken_los_point", Vector3.ZERO)
+	last_known_player_point = state.get(&"last_known_player_point", Vector3.ZERO)
+	player = SaveUtils.load_ref(state, &"player")
+	_los_point_reached = state.get(&"los_point_reached", false)
+	_last_known_point_reached = state.get(&"last_known_point_reached", false)
+	SaveUtils.load_timer(state, &"reacquire_timer", _reacquire_timer)
+	SaveUtils.load_timer(state, &"first_wait_timer", _first_wait_timer)
+	SaveUtils.load_timer(state, &"second_wait_timer", _second_wait_timer)
+	SaveUtils.load_timer(state, &"stuck_timer", _stuck_timer)
+
+
 func _on_searching_state_entered() -> void:
 	_enter_state()
 	if show_search_points and not _search_point_one_label.is_inside_tree():

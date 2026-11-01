@@ -46,6 +46,13 @@ var _weapon_third_person: ThirdPersonWieldable
 @onready var nav_agent: NavigationAgent3D = $NavAgent
 @onready var state_chart: StateChart = $StateChart
 
+@onready var patrolling_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Patrolling/Processor
+@onready var investigate_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Investigating/Processor
+@onready var chasing_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Chasing/Processor
+@onready var attacking_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Attacking/Processor
+@onready var searching_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Searching/Processor
+@onready var alerted_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Alerted/Processor
+
 
 func _ready() -> void:
 	add_to_group("persist")
@@ -134,11 +141,23 @@ func save_state() -> Dictionary:
 	var state := super()
 	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
 	SaveUtils.save_ref(state, &"attention_target", attention_target)
+
 	state[&"move_speed"] = move_speed
 	state[&"last_reachable_path"] = last_reachable_path
 	state[&"previous_behaviour"] = previous_behaviour
 	state[&"current_behaviour"] = current_behaviour
+
 	state[&"weapon_equiped"] = _weapon_third_person && _weapon_third_person.visible
+	if head_turner:
+		state[&"head_turner_active"] = head_turner.active
+		state[&"head_turner_target"] = head_turner.target_node
+
+	state[&"patrolling_processor"] = patrolling_processor.save_state()
+	state[&"investigate_processor"] = investigate_processor.save_state()
+	state[&"chasing_processor"] = chasing_processor.save_state()
+	state[&"attacking_processor"] = attacking_processor.save_state()
+	state[&"searching_processor"] = searching_processor.save_state()
+	state[&"alerted_processor"] = alerted_processor.save_state()
 	return state
 
 
@@ -146,12 +165,24 @@ func load_state(state: Dictionary) -> void:
 	super(state)
 	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
 	attention_target = SaveUtils.load_ref(state, &"attention_target")
+
 	move_speed = state.get(&"move_speed", move_speed)
 	last_reachable_path = state.get(&"last_reachable_path", Vector3.ZERO)
 	previous_behaviour = state.get(&"previous_behaviour", BehaviourState.None)
 	current_behaviour = state.get(&"current_behaviour", BehaviourState.None)
+
 	if _weapon_third_person:
 		_weapon_third_person.visible = state.get(&"weapon_equiped", false)
+	if head_turner:
+		head_turner.active = state.get(&"head_turner_active", false)
+		head_turner.target_node = state.get(&"head_turner_target", head_turner.target_node)
+
+	patrolling_processor.load_state(state.get(&"patrolling_processor", Dictionary()))
+	investigate_processor.load_state(state.get(&"investigate_processor", Dictionary()))
+	chasing_processor.load_state(state.get(&"chasing_processor", Dictionary()))
+	attacking_processor.load_state(state.get(&"attacking_processor", Dictionary()))
+	searching_processor.load_state(state.get(&"searching_processor", Dictionary()))
+	alerted_processor.load_state(state.get(&"alerted_processor", Dictionary()))
 
 
 func _spawn_weapon() -> void:

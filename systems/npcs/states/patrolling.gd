@@ -17,6 +17,18 @@ func _enter_tree() -> void:
 	add_child(_patrol_wait_timer)
 
 
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	state[&"current_travel_status"] = _current_travel_status
+	SaveUtils.save_timer(state, &"patrol_wait_timer", _patrol_wait_timer)
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	_current_travel_status = state.get(&"current_travel_status", TravelStatus.RUNNING)
+	SaveUtils.load_timer(state, &"patrol_wait_timer", _patrol_wait_timer)
+
+
 func _on_patrolling_state_entered() -> void:
 	assert(npc.patrol_path, "Entered patrol state without patrol path")
 

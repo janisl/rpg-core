@@ -39,6 +39,24 @@ func _enter_tree() -> void:
 	add_child(_los_broken_timer)
 
 
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	SaveUtils.save_timer(state, &"chase_wait_timer", _chase_wait_timer)
+	SaveUtils.save_timer(state, &"los_broken_timer", _los_broken_timer)
+	state[&"current_chase_status"] = _current_chase_status
+	SaveUtils.save_ref(state, &"chase_target", _chase_target)
+	state[&"can_see_player"] = _can_see_player
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	SaveUtils.load_timer(state, &"chase_wait_timer", _chase_wait_timer)
+	SaveUtils.load_timer(state, &"los_broken_timer", _los_broken_timer)
+	_current_chase_status = state.get(&"current_chase_status", ChaseStatus.CHASING)
+	_chase_target = SaveUtils.load_ref(state, &"chase_target")
+	_can_see_player = state.get(&"can_see_player", false)
+
+
 func _on_chasing_state_entered() -> void:
 	_enter_state()
 	if npc.attention_target is Player:
