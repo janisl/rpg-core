@@ -3,11 +3,12 @@ extends Control
 
 const ITEM_SLOT_CONTROL = preload("uid://d3nmme6bfak14")
 const ATTRIBUTE_CONTROL = preload("uid://dvyghe0kgmbqf")
+const INTERACTION_CONTROL = preload("uid://4f6rvd4vlm08")
 
 @onready var ammo_label: Label = $AmmoLabel
-@onready var interact_label: Label = $InteractLabel
 @onready var attributes_container: VBoxContainer = $AttributesContainer
 @onready var water_ripple_overlay: TextureRect = $WaterRippleOverlay
+@onready var interaction_container: VBoxContainer = $InteractionContainer
 
 var _player: Player
 var _wieldable: Wieldable
@@ -22,11 +23,11 @@ func connect_to_player(player: Player) -> void:
 	_player.interaction_controller.nothing_detected.connect(_on_nothing_detected)
 	_player.liquid_level_changed.connect(_on_liquid_level_changed)
 
-	interact_label.visible = false
+	interaction_container.visible = false
 
 	for c in attributes_container.get_children():
 		c.queue_free()
-	for attribute in _player.player_attributes.values():
+	for attribute: BaseAttribute in _player.player_attributes.values():
 		var control := ATTRIBUTE_CONTROL.instantiate() as AttributeControl
 		attributes_container.add_child(control)
 		control.initialize(attribute)
@@ -77,11 +78,15 @@ func _update_ammo_label() -> void:
 
 
 func _on_interactive_object_detected(nodes: Array[Node]) -> void:
-	interact_label.text = ""
+	for n in interaction_container.get_children():
+		n.queue_free()
+
 	for n: InteractionComponent in nodes:
-		interact_label.text += n.input_map_action + " - " + tr(n.interaction_text) + "\n"
-	interact_label.visible = true
+		var control := INTERACTION_CONTROL.instantiate() as InteractionControl
+		interaction_container.add_child(control)
+		control.initialize(n)
+	interaction_container.visible = true
 
 
 func _on_nothing_detected() -> void:
-	interact_label.visible = false
+	interaction_container.visible = false
