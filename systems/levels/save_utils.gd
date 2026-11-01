@@ -1,8 +1,8 @@
 class_name SaveUtils
 
 
-static func save_ref(state: Dictionary, name: StringName, value: Node) -> void:
-	if value:
+static func save_ref(state: Dictionary, name: StringName, value: Variant) -> void:
+	if value and value is Node:
 		state[name] = value.get_path()
 
 
