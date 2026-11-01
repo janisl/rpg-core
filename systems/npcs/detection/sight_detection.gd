@@ -43,6 +43,25 @@ var _is_decaying: bool = false
 func _ready() -> void:
 	_connect_detection_signals()
 	_create_decay_timer()
+	add_to_group("persist_component")
+
+
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	SaveUtils.save_ref(state, &"ref_to_player", ref_to_player)
+	state[&"player_sight_collision_point"] = player_sight_collision_point
+	state[&"current_suspicion"] = current_suspicion
+	SaveUtils.save_timer(state, &"decay_timer", _decay_timer)
+	state[&"is_decaying"] = _is_decaying
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	ref_to_player = SaveUtils.load_ref(state, &"ref_to_player")
+	player_sight_collision_point = state.get(&"player_sight_collision_point", Vector3.ZERO)
+	current_suspicion = state.get(&"current_suspicion", 0)
+	SaveUtils.load_timer(state, &"decay_timer", _decay_timer)
+	_is_decaying = state.get(&"is_decaying", false)
 
 
 func _physics_process(delta: float) -> void:

@@ -133,12 +133,25 @@ func is_dead() -> bool:
 func save_state() -> Dictionary:
 	var state := super()
 	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
+	SaveUtils.save_ref(state, &"attention_target", attention_target)
+	state[&"move_speed"] = move_speed
+	state[&"last_reachable_path"] = last_reachable_path
+	state[&"previous_behaviour"] = previous_behaviour
+	state[&"current_behaviour"] = current_behaviour
+	state[&"weapon_equiped"] = _weapon_third_person && _weapon_third_person.visible
 	return state
 
 
 func load_state(state: Dictionary) -> void:
 	super(state)
 	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
+	attention_target = SaveUtils.load_ref(state, &"attention_target")
+	move_speed = state.get(&"move_speed", move_speed)
+	last_reachable_path = state.get(&"last_reachable_path", Vector3.ZERO)
+	previous_behaviour = state.get(&"previous_behaviour", BehaviourState.None)
+	current_behaviour = state.get(&"current_behaviour", BehaviourState.None)
+	if _weapon_third_person:
+		_weapon_third_person.visible = state.get(&"weapon_equiped", false)
 
 
 func _spawn_weapon() -> void:
