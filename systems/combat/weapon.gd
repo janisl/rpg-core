@@ -175,7 +175,7 @@ func _finish_reload() -> void:
 	_set_magazine_ammo(_get_magazine_ammo() + amount)
 
 
-func _on_idle_state_processing(_delta: float) -> void:
+func _on_idle_state_physics_processing(_delta: float) -> void:
 	if not _has_ammo():
 		if not _can_reload():
 			_cycle_ammo()
@@ -198,7 +198,7 @@ func _on_firing_state_entered() -> void:
 	_fire_weapon()
 
 
-func _on_firing_state_processing(delta: float) -> void:
+func _on_firing_state_physics_processing(delta: float) -> void:
 	if _fire_rate_timer > 0.0:
 		_fire_rate_timer -= delta
 		if _fire_rate_timer > 0.0:
@@ -222,7 +222,7 @@ func _on_reloading_state_entered() -> void:
 	_emit_reload_started()
 
 
-func _on_reloading_state_processing(delta: float) -> void:
+func _on_reloading_state_physics_processing(delta: float) -> void:
 	_reload_timer -= delta
 	if _reload_timer > 0.0:
 		return
@@ -235,7 +235,7 @@ func _on_empty_state_entered() -> void:
 	print("Weapon empty!")
 
 
-func _on_empty_state_processing(_delta: float) -> void:
+func _on_empty_state_physics_processing(_delta: float) -> void:
 	if _can_reload() or _cycle_ammo():
 		state_chart.send_event("onIdle")
 

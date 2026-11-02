@@ -96,7 +96,7 @@ func _on_equipping_state_entered() -> void:
 	equip_started.emit()
 
 
-func _on_equipping_state_processing(delta: float) -> void:
+func _on_equipping_state_physics_processing(delta: float) -> void:
 	_equip_timer -= delta
 	if _equip_timer <= 0:
 		state_chart.send_event("onIdle")
@@ -107,7 +107,7 @@ func _on_unequipping_state_entered() -> void:
 	unequip_started.emit()
 
 
-func _on_unequipping_state_processing(delta: float) -> void:
+func _on_unequipping_state_physics_processing(delta: float) -> void:
 	_unequip_timer -= delta
 	if _unequip_timer <= 0:
 		_emit_unequipped()
