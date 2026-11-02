@@ -2,6 +2,9 @@
 class_name InteractableDoor
 extends DynamicObject
 
+signal object_state_updated(interaction_text: String)
+signal door_state_changed(is_open: bool)
+
 enum DoorType {
 	ROTATING,
 	SLIDING,
@@ -17,7 +20,6 @@ enum ForcedRotationAxis {
 
 @export_group("Door Settings")
 @export var is_open := false
-@export var ignore_interaction_raycast := false
 
 @export_group("Door Parameters")
 @export var door_type := DoorType.ROTATING:
@@ -41,6 +43,11 @@ enum ForcedRotationAxis {
 		reverse_opening_anim_for_close = value
 		notify_property_list_changed()
 
+@export_group("Interaction Settings")
+@export var ignore_interaction_raycast := false
+@export var interaction_text_when_closed: String = "INTERACT Open"
+@export var interaction_text_when_open: String = "INTERACT Close"
+
 @export_group("Audio")
 @export var audio_player: AudioStreamPlayer3D
 @export var open_sound: AudioStream
@@ -49,6 +56,7 @@ enum ForcedRotationAxis {
 var _is_moving := false
 var _target_rotation_vector := Vector3.ZERO
 var _anim_player: AnimationPlayer
+var _interaction_text: String
 
 
 func _ready() -> void:
@@ -63,6 +71,13 @@ func _ready() -> void:
 
 	if door_type == DoorType.ANIMATED:
 		_anim_player = get_node(animation_player)
+
+	if is_open:
+		_interaction_text = interaction_text_when_open
+	else:
+		_interaction_text = interaction_text_when_closed
+
+	object_state_updated.emit(_interaction_text)
 
 
 func _validate_property(property: Dictionary) -> void:
@@ -120,6 +135,9 @@ func open_door(player: Player) -> void:
 		tween_door.tween_property(self, "position", open_position, door_speed)
 
 	is_open = true
+	_interaction_text = interaction_text_when_open
+	object_state_updated.emit(_interaction_text)
+	door_state_changed.emit(true)
 
 
 func close_door() -> void:
@@ -138,6 +156,9 @@ func close_door() -> void:
 		tween_door.tween_property(self, "position", closed_position, door_speed)
 
 	is_open = false
+	_interaction_text = interaction_text_when_closed
+	object_state_updated.emit(_interaction_text)
+	door_state_changed.emit(false)
 
 
 func _update_rotating(delta: float) -> void:
