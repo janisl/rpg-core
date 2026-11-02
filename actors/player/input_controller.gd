@@ -21,6 +21,8 @@ var reload_pressed := false
 var reload_just_pressed := false
 var cycle_ammo_pressed := false
 var cycle_ammo_just_pressed := false
+var interact_pressed := false
+var interact_just_pressed := false
 
 
 func _ready() -> void:
@@ -93,12 +95,19 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_released("cycle_ammo"):
 		cycle_ammo_pressed = false
 
+	if event.is_action_pressed("interact"):
+		interact_pressed = true
+		interact_just_pressed = true
+	if event.is_action_released("interact"):
+		interact_pressed = false
+
 
 func _physics_process(_delta: float) -> void:
 	jump_just_pressed = false
 	crouch_just_pressed = false
 	reload_just_pressed = false
 	cycle_ammo_just_pressed = false
+	interact_just_pressed = false
 
 
 func consume_look_delta() -> Vector2:

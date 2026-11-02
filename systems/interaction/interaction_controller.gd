@@ -29,14 +29,11 @@ func _ready() -> void:
 	EventBus.interactable_changed.connect(_rebuild_interaction_prompts)
 
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	_update_interactable()
 
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("interact"):
+	if player.input_controller.interact_just_pressed:
 		_handle_interaction("interact")
-
 
 
 func _set_interactable(value: Node3D) -> void:
