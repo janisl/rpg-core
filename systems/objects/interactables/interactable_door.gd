@@ -78,7 +78,7 @@ func open_door(player: Player) -> void:
 
 		if bidirectional_swing:
 			var offset := player.global_position - global_position
-			var offset_dot_product := offset.dot(global_transform.basis.x)
+			var offset_dot_product := offset.dot(global_transform.basis.z)
 			swing_direction = -1 if offset_dot_product < 0 else 1
 
 		target_rotation_vector = open_rotation * swing_direction

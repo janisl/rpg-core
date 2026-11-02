@@ -859,10 +859,10 @@ transform = Transform3D(-0.39042774, 0, -0.92063355, 0, 1, 0, 0.92063355, 0, -0.
 [node name="SlidingDoor" parent="Interactables" unique_id=228493582 instance=ExtResource("24_b5wip")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -40, 0, -5)
 
-[node name="RotatingDoor" parent="." unique_id=1305629844 instance=ExtResource("25_70x8p")]
+[node name="RotatingDoor" parent="Interactables" unique_id=1305629844 instance=ExtResource("25_70x8p")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -40, 0, -8)
 
-[node name="BidirectionalRotatingDoor" parent="." unique_id=1255025821 instance=ExtResource("26_uyurq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0, -12)
+[node name="BidirectionalRotatingDoor" parent="Interactables" unique_id=1255025821 instance=ExtResource("26_uyurq")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -40, 0, -12)
 
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]

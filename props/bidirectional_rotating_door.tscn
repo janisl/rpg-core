@@ -4,28 +4,28 @@
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/basic_interaction.tscn" id="2_ueph5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
-size = Vector3(0.1, 2, 1)
+size = Vector3(1, 2, 0.1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
 albedo_color = Color(0.4143056, 0.22761494, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
 material = SubResource("StandardMaterial3D_rdqwp")
-size = Vector3(0.1, 2, 1)
+size = Vector3(1, 2, 0.1)
 
 [node name="BidirectionalRotatingDoor" type="Node3D" unique_id=1305629844]
 
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=426944630]
 script = ExtResource("1_n6ume")
-open_rotation = Vector3(0, -100, 0)
+open_rotation = Vector3(0, 95, 0)
 bidirectional_swing = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=942444345]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
 shape = SubResource("BoxShape3D_bsiym")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="AnimatableBody3D" unique_id=364271063]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
 mesh = SubResource("BoxMesh_bsiym")
 
 [node name="BasicInteraction" parent="AnimatableBody3D" unique_id=14951234 instance=ExtResource("2_ueph5")]
