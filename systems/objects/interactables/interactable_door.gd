@@ -21,6 +21,7 @@ enum ForcedRotationAxis {
 @export_group("Door Settings")
 @export var is_open := false
 @export var auto_close_time := 0.0
+@export var doors_to_sync_with: Array[NodePath]
 
 @export_group("Door Parameters")
 @export var door_type := DoorType.ROTATING:
@@ -112,8 +113,18 @@ func _physics_process(delta: float) -> void:
 func interact(player: Player) -> void:
 	if !is_open:
 		open_door(player)
+
+		for nodepath in doors_to_sync_with:
+			if nodepath:
+				var object := get_node(nodepath)
+				object.open_door(player)
 	else:
 		close_door()
+
+		for nodepath in doors_to_sync_with:
+			if nodepath:
+				var object := get_node(nodepath)
+				object.close_door()
 
 
 func open_door(player: Player) -> void:
