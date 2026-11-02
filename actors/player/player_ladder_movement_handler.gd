@@ -61,10 +61,14 @@ func _handle_ladder_movement(was_climbing_ladder: bool, is_test: bool) -> bool:
 	var ladder_gtransform := _cur_ladder_climbing.global_transform
 	var pos_rel_to_ladder := ladder_gtransform.affine_inverse() * player.global_position
 
-	var wish_dir := (player.transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
+	var wish_dir := (
+			player.transform.basis * Vector3(
+				player.input_controller.move_input.x,
+				0,
+				player.input_controller.move_input.y)).normalized()
 
-	var forward_move := player.input_dir.y
-	var side_move := player.input_dir.x
+	var forward_move := player.input_controller.move_input.y
+	var side_move := player.input_controller.move_input.x
 	var ladder_forward_move := ladder_gtransform.affine_inverse().basis * player.camera_effects.global_transform.basis * Vector3(0, 0, forward_move)
 	var ladder_side_move := ladder_gtransform.affine_inverse().basis * player.camera_effects.global_transform.basis * Vector3(side_move, 0, 0)
 

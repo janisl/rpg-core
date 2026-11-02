@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bsns0k0r51aap" path="res://actors/player/player.gd" id="1_nvxhs"]
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="2_lsqbn"]
+[ext_resource type="Script" uid="uid://cftq7c1n2yvn3" path="res://actors/player/input_controller.gd" id="2_nsxbo"]
 [ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="3_6p1w3"]
 [ext_resource type="Script" uid="uid://cpbru7gt1lbmj" path="res://actors/player/camera_controller.gd" id="3_12xki"]
 [ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="4_15y17"]
@@ -270,6 +271,10 @@ animation_tree = NodePath("AnimationTree")
 inventory = NodePath("Inventory")
 mesh_layer = 4
 head = NodePath("Neck/Head")
+
+[node name="InputController" type="Node" parent="." unique_id=740003786]
+script = ExtResource("2_nsxbo")
+metadata/_custom_type_script = "uid://cftq7c1n2yvn3"
 
 [node name="MovementHandlers" type="Node" parent="." unique_id=1802761061]
 

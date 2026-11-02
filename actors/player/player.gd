@@ -33,7 +33,6 @@ extends Actor
 @export_group("Render settings")
 @export_flags_3d_render var mesh_layer := 1
 
-var input_dir := Vector2.ZERO
 var try_crouch := false
 
 var is_sprinting := false
@@ -46,6 +45,7 @@ var health_attribute: HealthAttribute
 var stamina_attribute: StaminaAttribute
 var visibility_attribute: BaseAttribute
 
+@onready var input_controller: InputController = $InputController
 @onready var ground_movement: PlayerGroundMovementHandler = $MovementHandlers/GroundMovement
 @onready var ladder_movement: PlayerLadderMovementHandler = $MovementHandlers/LadderMovement
 
@@ -81,7 +81,6 @@ func _physics_process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	if event.is_action_pressed("test"):
 		#set_collision_layer_value(PhysicsLayers.PLAYER, not get_collision_layer_value(PhysicsLayers.PLAYER))
 		if not health_attribute.is_alive:

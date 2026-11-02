@@ -13,7 +13,11 @@ extends Node
 
 
 func _on_swimming_state_physics_processing(delta: float) -> void:
-	var direction := (player.camera_effects.global_transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
+	var direction := (
+			player.camera_effects.global_transform.basis * Vector3(
+				player.input_controller.move_input.x,
+				0,
+				player.input_controller.move_input.y)).normalized()
 
 	var new_velocity := player.velocity
 	if not player.is_on_floor():

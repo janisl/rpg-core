@@ -70,7 +70,11 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 	var speed := default_speed + speed_modifier
 
 	var current_velocity := Vector2(player.velocity.x, player.velocity.z)
-	var direction := (player.transform.basis * Vector3(player.input_dir.x, 0, player.input_dir.y)).normalized()
+	var direction := (
+			player.transform.basis * Vector3(
+				player.input_controller.move_input.x,
+				0,
+				player.input_controller.move_input.y)).normalized()
 	if direction:
 		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration)
 	else:
@@ -166,12 +170,12 @@ func _run_body_test_motion(from: Transform3D, motion: Vector3, result = null) ->
 
 
 func _on_idle_state_processing(_delta: float) -> void:
-	if player and player.input_dir.length() > 0:
+	if player and player.input_controller.move_input.length() > 0:
 		player.state_chart.send_event("onMoving")
 
 
 func _on_moving_state_processing(_delta: float) -> void:
-	if player.input_dir.length() == 0 and player.velocity.length() < 0.5:
+	if player.input_controller.move_input.length() == 0 and player.velocity.length() < 0.5:
 		player.state_chart.send_event("onIdle")
 
 
