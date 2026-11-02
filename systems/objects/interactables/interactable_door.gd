@@ -20,6 +20,7 @@ enum ForcedRotationAxis {
 
 @export_group("Door Settings")
 @export var is_open := false
+@export var auto_close_time := 0.0
 
 @export_group("Door Parameters")
 @export var door_type := DoorType.ROTATING:
@@ -56,6 +57,7 @@ enum ForcedRotationAxis {
 var _is_moving := false
 var _target_rotation_vector := Vector3.ZERO
 var _anim_player: AnimationPlayer
+var _close_timer: Timer
 var _interaction_text: String
 
 
@@ -139,8 +141,19 @@ func open_door(player: Player) -> void:
 	object_state_updated.emit(_interaction_text)
 	door_state_changed.emit(true)
 
+	if auto_close_time > 0:
+		_close_timer = Timer.new()
+		add_child(_close_timer)
+		_close_timer.wait_time = auto_close_time
+		_close_timer.one_shot = true
+		_close_timer.start()
+		_close_timer.timeout.connect(_on_auto_close_time)
+
 
 func close_door() -> void:
+	if _close_timer:
+		_close_timer.queue_free()
+
 	_play_sound(close_sound)
 
 	if door_type == DoorType.ANIMATED:
@@ -193,3 +206,7 @@ func _play_sound(sound: AudioStream) -> void:
 	if audio_player and sound:
 		audio_player.stream = sound
 		audio_player.play()
+
+
+func _on_auto_close_time() -> void:
+	close_door()
