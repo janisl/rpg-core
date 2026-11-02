@@ -99,7 +99,7 @@ func _handle_ladder_movement(was_climbing_ladder: bool, is_test: bool) -> bool:
 	if is_test:
 		return true
 
-	if was_climbing_ladder and Input.is_action_just_pressed("jump"):
+	if was_climbing_ladder and player.input_controller.jump_just_pressed:
 		player.velocity = _cur_ladder_climbing.global_transform.basis.z * jump_off_speed
 		_did_jump_off = true
 		return false

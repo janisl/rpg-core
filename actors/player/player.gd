@@ -79,27 +79,27 @@ func _physics_process(_delta: float) -> void:
 	_update_liquid_level()
 	state_chart.set_expression_property("in_liquid", liquid_level >= LiquidLevel.BODY)
 
+	if toggle_crouch:
+		if input_controller.crouch_just_pressed:
+			try_crouch = !try_crouch
+	else:
+		try_crouch = input_controller.crouch_pressed
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("test"):
 		#set_collision_layer_value(PhysicsLayers.PLAYER, not get_collision_layer_value(PhysicsLayers.PLAYER))
 		if not health_attribute.is_alive:
 			LevelManager.start_new_game("res://levels/test.tscn")
-		elif Input.is_action_pressed("sprint"):
+		elif input_controller.sprint_pressed:
 			if not LevelManager.get_save_slot_info("test"):
 				print("Save is missing")
 				return
 			LevelManager.load_game("test")
-		elif Input.is_action_pressed("crouch"):
+		elif input_controller.crouch_pressed:
 			LevelManager.delete_save("test")
 		else:
 			LevelManager.save_game("test", get_viewport().get_texture().get_image())
-
-	if toggle_crouch:
-		if Input.is_action_just_pressed("crouch"):
-			try_crouch = !try_crouch
-	else:
-		try_crouch = Input.is_action_pressed("crouch")
 
 
 func increase_attribute(attribute_name: String, value: float, value_type: BaseAttribute.ValueType) -> bool:

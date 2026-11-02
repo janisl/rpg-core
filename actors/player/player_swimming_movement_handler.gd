@@ -23,13 +23,13 @@ func _on_swimming_state_physics_processing(delta: float) -> void:
 	if not player.is_on_floor():
 		new_velocity += player.get_gravity() * gravity_factor * delta
 
-	var speed := swim_sprint_speed if Input.is_action_pressed("sprint") else swim_speed
+	var speed := swim_sprint_speed if player.input_controller.sprint_pressed else swim_speed
 	new_velocity += direction * speed * delta
 
-	if Input.is_action_pressed("jump"):
+	if player.input_controller.jump_pressed:
 		new_velocity.y += swim_up_speed * delta
 
-	if Input.is_action_pressed("crouch"):
+	if player.input_controller.crouch_pressed:
 		new_velocity.y += -swim_up_speed * delta
 
 	new_velocity = new_velocity.lerp(Vector3.ZERO, damped_factor * delta)

@@ -10,6 +10,15 @@ extends Node
 
 var move_input := Vector2.ZERO
 var look_delta := Vector2.ZERO
+var sprint_pressed := false
+var jump_pressed := false
+var jump_just_pressed := false
+var crouch_pressed := false
+var crouch_just_pressed := false
+
+
+func _ready() -> void:
+	process_physics_priority = 1
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -38,6 +47,28 @@ func _unhandled_input(event: InputEvent) -> void:
 			or event.is_action("move_left")
 			or event.is_action("move_right")):
 		move_input = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+
+	if event.is_action_pressed("sprint"):
+		sprint_pressed = true
+	if event.is_action_released("sprint"):
+		sprint_pressed = false
+
+	if event.is_action_pressed("jump"):
+		jump_pressed = true
+		jump_just_pressed = true
+	if event.is_action_released("jump"):
+		jump_pressed = false
+
+	if event.is_action_pressed("crouch"):
+		crouch_pressed = true
+		crouch_just_pressed = true
+	if event.is_action_released("crouch"):
+		crouch_pressed = false
+
+
+func _physics_process(_delta: float) -> void:
+	jump_just_pressed = false
+	crouch_just_pressed = false
 
 
 func consume_look_delta() -> Vector2:
