@@ -15,6 +15,12 @@ var jump_pressed := false
 var jump_just_pressed := false
 var crouch_pressed := false
 var crouch_just_pressed := false
+var primary_action_pressed := false
+var secondary_action_pressed := false
+var reload_pressed := false
+var reload_just_pressed := false
+var cycle_ammo_pressed := false
+var cycle_ammo_just_pressed := false
 
 
 func _ready() -> void:
@@ -65,10 +71,34 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_released("crouch"):
 		crouch_pressed = false
 
+	if event.is_action_pressed("primary_action"):
+		primary_action_pressed = true
+	if event.is_action_released("primary_action"):
+		primary_action_pressed = false
+
+	if event.is_action_pressed("secondary_action"):
+		secondary_action_pressed = true
+	if event.is_action_released("secondary_action"):
+		secondary_action_pressed = false
+
+	if event.is_action_pressed("reload"):
+		reload_pressed = true
+		reload_just_pressed = true
+	if event.is_action_released("reload"):
+		reload_pressed = false
+
+	if event.is_action_pressed("cycle_ammo"):
+		cycle_ammo_pressed = true
+		cycle_ammo_just_pressed = true
+	if event.is_action_released("cycle_ammo"):
+		cycle_ammo_pressed = false
+
 
 func _physics_process(_delta: float) -> void:
 	jump_just_pressed = false
 	crouch_just_pressed = false
+	reload_just_pressed = false
+	cycle_ammo_just_pressed = false
 
 
 func consume_look_delta() -> Vector2:

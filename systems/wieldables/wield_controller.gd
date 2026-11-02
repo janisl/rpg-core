@@ -26,14 +26,14 @@ func _ready() -> void:
 	add_to_group("persist_component")
 
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if wieldable:
 		wieldable.update(
 				camera.global_position,
 				-camera.global_transform.basis.z,
-				Input.is_action_pressed("primary_fire"),
-				Input.is_action_just_pressed("reload"),
-				Input.is_action_just_pressed("cycle_ammo"))
+				player.input_controller.primary_action_pressed,
+				player.input_controller.reload_just_pressed,
+				player.input_controller.cycle_ammo_just_pressed)
 
 
 func switch_wieldable(item_stack: ItemStack) -> void:
