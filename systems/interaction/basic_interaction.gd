@@ -9,6 +9,17 @@ func _ready() -> void:
 		parent_node.object_state_updated.connect(_on_object_state_change)
 
 
+func save_state() -> Dictionary:
+	var state := super()
+	state[&"interaction_text"] = interaction_text
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	super(state)
+	interaction_text = state.get(&"interaction_text", interaction_text)
+
+
 func interact(player: Player) -> void:
 	if parent_node.has_method("interact"):
 		parent_node.interact(player)
