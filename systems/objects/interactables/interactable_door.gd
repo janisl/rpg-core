@@ -41,6 +41,11 @@ enum ForcedRotationAxis {
 		reverse_opening_anim_for_close = value
 		notify_property_list_changed()
 
+@export_group("Audio")
+@export var audio_player: AudioStreamPlayer3D
+@export var open_sound: AudioStream
+@export var close_sound: AudioStream
+
 var _is_moving := false
 var _target_rotation_vector := Vector3.ZERO
 var _anim_player: AnimationPlayer
@@ -50,6 +55,11 @@ func _ready() -> void:
 	super()
 	if !ignore_interaction_raycast:
 		add_to_group("interactable")
+
+	if !audio_player:
+		var players := find_children("", "AudioStreamPlayer3D")
+		if len(players):
+			audio_player = players[0]
 
 	if door_type == DoorType.ANIMATED:
 		_anim_player = get_node(animation_player)
@@ -90,6 +100,8 @@ func interact(player: Player) -> void:
 
 
 func open_door(player: Player) -> void:
+	_play_sound(open_sound)
+
 	if door_type == DoorType.ANIMATED:
 		_anim_player.play(opening_animation)
 	elif door_type == DoorType.ROTATING:
@@ -111,6 +123,8 @@ func open_door(player: Player) -> void:
 
 
 func close_door() -> void:
+	_play_sound(close_sound)
+
 	if door_type == DoorType.ANIMATED:
 		if reverse_opening_anim_for_close:
 			_anim_player.play_backwards(opening_animation)
@@ -152,3 +166,9 @@ func _update_rotating(delta: float) -> void:
 func _vectors_approx_equal(v1 : Vector3, v2 : Vector3, epsilon : float) -> bool:
 	var diff := v1 - v2
 	return abs(diff.x) < epsilon and abs(diff.y) < epsilon and abs(diff.z) < epsilon
+
+
+func _play_sound(sound: AudioStream) -> void:
+	if audio_player and sound:
+		audio_player.stream = sound
+		audio_player.play()

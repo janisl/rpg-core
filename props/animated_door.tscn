@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://vdqct0dnf3ms" path="res://systems/objects/interactables/interactable_door.gd" id="1_yd5k2"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/basic_interaction.tscn" id="2_41l1k"]
+[ext_resource type="AudioStream" uid="uid://b583f3y65t06b" path="res://assets/sounds/kenney_rpg-audio/door_open_1.ogg" id="2_413fo"]
+[ext_resource type="AudioStream" uid="uid://dhkoyfbxeru1y" path="res://assets/sounds/kenney_rpg-audio/door_close_3.ogg" id="3_bt7tr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
 size = Vector3(1, 2, 0.1)
@@ -67,7 +69,7 @@ _data = {
 
 [node name="AnimatedDoor" type="Node3D" unique_id=226986960]
 
-[node name="SlidingDoor" type="AnimatableBody3D" parent="." unique_id=228493582]
+[node name="SlidingDoor" type="AnimatableBody3D" parent="." unique_id=228493582 node_paths=PackedStringArray("audio_player")]
 script = ExtResource("1_yd5k2")
 door_type = 2
 open_position = Vector3(0.9, 0, 0)
@@ -75,6 +77,9 @@ animation_player = NodePath("../AnimationPlayer")
 opening_animation = "open"
 closing_animation = "close"
 reverse_opening_anim_for_close = false
+audio_player = NodePath("../AudioStreamPlayer3D")
+open_sound = ExtResource("2_413fo")
+close_sound = ExtResource("3_bt7tr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SlidingDoor" unique_id=982076642]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -88,3 +93,5 @@ mesh = SubResource("BoxMesh_bsiym")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1405932555]
 libraries/ = SubResource("AnimationLibrary_bt7tr")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2068030800]
