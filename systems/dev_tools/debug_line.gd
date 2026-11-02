@@ -15,6 +15,9 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	var cam := get_viewport().get_camera_3d()
+	if not cam:
+		return
+
 	for i in range(len(lines)):
 		if(cam.is_position_behind(lines[i].start) ||
 			cam.is_position_behind(lines[i].end)):
