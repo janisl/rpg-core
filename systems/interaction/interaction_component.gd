@@ -13,7 +13,7 @@ func _ready() -> void:
 
 
 @warning_ignore("unused_parameter")
-func interact(player: Player):
+func interact(player: Player) -> void:
 	pass
 
 

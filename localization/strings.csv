@@ -16,6 +16,10 @@ ITEM NAME Laser ammo,Laser ammo
 ITEM DESCRIPTION Laser ammo,Laser ammo
 INTERACT Pick up,Pick up
 INTERACT Open,Open
+INTERACT Close,Close
+INTERACT Unlock,Unlock
+INTERACT Lock,Lock
 ATTRIBUTE Health,Health
 ATTRIBUTE Stamina,Stamina
 ATTRIBUTE Visibility,Visibility
+DOOR Locked,Locked
