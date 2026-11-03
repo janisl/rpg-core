@@ -57,6 +57,7 @@ enum ForcedRotationAxis {
 
 var _is_moving := false
 var _target_rotation_vector := Vector3.ZERO
+var _target_position := Vector3.ZERO
 var _anim_player: AnimationPlayer
 var _close_timer: Timer
 var _interaction_text: String
@@ -88,6 +89,7 @@ func save_state() -> Dictionary:
 	state[&"is_open"] = is_open
 	state[&"is_moving"] = _is_moving
 	state[&"target_rotation_vector"] = _target_rotation_vector
+	state[&"target_position"] = _target_position
 	if _close_timer and !_close_timer.is_queued_for_deletion():
 		state[&"close_time_left"] = _close_timer.time_left
 	return state
@@ -98,10 +100,9 @@ func load_state(state: Dictionary) -> void:
 	is_open = state.get(&"is_open", is_open)
 	_is_moving = state.get(&"is_moving", false)
 	_target_rotation_vector = state.get(&"target_rotation_vector", _target_rotation_vector)
+	_target_position = state.get(&"target_position", _target_position)
 
-	if door_type == DoorType.SLIDING:
-		position = open_position if is_open else closed_position
-	elif door_type == DoorType.ANIMATED:
+	if door_type == DoorType.ANIMATED:
 		_snap_animation()
 
 	if _close_timer:
@@ -141,6 +142,8 @@ func _validate_property(property: Dictionary) -> void:
 func _physics_process(delta: float) -> void:
 	if door_type == DoorType.ROTATING and _is_moving:
 		_update_rotating(delta)
+	elif door_type == DoorType.SLIDING and _is_moving:
+		_update_sliding(delta)
 
 
 func interact(player: Player) -> void:
@@ -177,8 +180,8 @@ func open_door(player: Player) -> void:
 		_target_rotation_vector = open_rotation * swing_direction
 		_is_moving = true
 	else:
-		var tween_door := get_tree().create_tween()
-		tween_door.tween_property(self, "position", open_position, door_speed)
+		_target_position = open_position
+		_is_moving = true
 
 	is_open = true
 	_interaction_text = interaction_text_when_open
@@ -204,8 +207,8 @@ func close_door() -> void:
 		_target_rotation_vector = closed_rotation
 		_is_moving = true
 	else:
-		var tween_door := get_tree().create_tween()
-		tween_door.tween_property(self, "position", closed_position, door_speed)
+		_target_position = closed_position
+		_is_moving = true
 
 	is_open = false
 	_interaction_text = interaction_text_when_closed
@@ -234,6 +237,12 @@ func _update_rotating(delta: float) -> void:
 			rotation.x = lerp_angle(deg_to_rad(rotation_degrees.z), deg_to_rad(_target_rotation_vector.z), clampf(delta * door_speed, 0.0, 1.0))
 			if rotation_degrees.z == _target_rotation_vector.z:
 				_is_moving = false
+
+
+func _update_sliding(delta: float) -> void:
+	position = position.move_toward(_target_position, door_speed * delta)
+	if position.is_equal_approx(_target_position):
+		_is_moving = false
 
 
 func _vectors_approx_equal(v1 : Vector3, v2 : Vector3, epsilon : float) -> bool:
