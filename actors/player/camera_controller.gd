@@ -26,14 +26,6 @@ func _ready() -> void:
 	add_to_group("persist_component")
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause"):
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		else:
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
-
 func _process(delta: float) -> void:
 	if _step_smoothing:
 		_target_height = lerp(_target_height, 0.0, step_speed * delta)
