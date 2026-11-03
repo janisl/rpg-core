@@ -35,6 +35,9 @@ func _physics_process(_delta: float) -> void:
 	if player.input_controller.interact_just_pressed:
 		_handle_interaction("interact")
 
+	if player.input_controller.interact2_just_pressed:
+		_handle_interaction("interact2")
+
 
 func _set_interactable(value: Node3D) -> void:
 	interactable = value
