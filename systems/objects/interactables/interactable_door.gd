@@ -83,6 +83,39 @@ func _ready() -> void:
 	object_state_updated.emit(_interaction_text)
 
 
+func save_state() -> Dictionary:
+	var state := super()
+	state[&"is_open"] = is_open
+	state[&"is_moving"] = _is_moving
+	state[&"target_rotation_vector"] = _target_rotation_vector
+	if _close_timer and !_close_timer.is_queued_for_deletion():
+		state[&"close_time_left"] = _close_timer.time_left
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	super(state)
+	is_open = state.get(&"is_open", is_open)
+	_is_moving = state.get(&"is_moving", false)
+	_target_rotation_vector = state.get(&"target_rotation_vector", _target_rotation_vector)
+
+	if door_type == DoorType.SLIDING:
+		position = open_position if is_open else closed_position
+	elif door_type == DoorType.ANIMATED:
+		_snap_animation()
+
+	if _close_timer:
+		_close_timer.queue_free()
+		_close_timer = null
+	var close_time_left: float = state.get(&"close_time_left", 0.0)
+	if is_open and close_time_left > 0:
+		_start_close_timer(close_time_left)
+
+	_interaction_text = interaction_text_when_open if is_open else interaction_text_when_closed
+	object_state_updated.emit(_interaction_text)
+	door_state_changed.emit(is_open)
+
+
 func _validate_property(property: Dictionary) -> void:
 	if property.name in [
 			"open_rotation",
@@ -153,12 +186,7 @@ func open_door(player: Player) -> void:
 	door_state_changed.emit(true)
 
 	if auto_close_time > 0:
-		_close_timer = Timer.new()
-		add_child(_close_timer)
-		_close_timer.wait_time = auto_close_time
-		_close_timer.one_shot = true
-		_close_timer.start()
-		_close_timer.timeout.connect(_on_auto_close_time)
+		_start_close_timer(auto_close_time)
 
 
 func close_door() -> void:
@@ -217,6 +245,28 @@ func _play_sound(sound: AudioStream) -> void:
 	if audio_player and sound:
 		audio_player.stream = sound
 		audio_player.play()
+
+
+func _start_close_timer(time: float) -> void:
+	_close_timer = Timer.new()
+	add_child(_close_timer)
+	_close_timer.wait_time = time
+	_close_timer.one_shot = true
+	_close_timer.start()
+	_close_timer.timeout.connect(_on_auto_close_time)
+
+
+func _snap_animation() -> void:
+	if is_open:
+		_anim_player.play(opening_animation)
+		_anim_player.seek(_anim_player.current_animation_length, true)
+	elif reverse_opening_anim_for_close:
+		_anim_player.play(opening_animation)
+		_anim_player.seek(0.0, true)
+		_anim_player.stop(true)
+	else:
+		_anim_player.play(closing_animation)
+		_anim_player.seek(_anim_player.current_animation_length, true)
 
 
 func _on_auto_close_time() -> void:
