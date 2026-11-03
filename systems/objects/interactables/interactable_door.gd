@@ -25,6 +25,8 @@ enum ForcedRotationAxis {
 @export var auto_close_time := 0.0
 @export var doors_to_sync_with: Array[NodePath]
 @export var is_locked := false
+@export var key: ItemData
+@export var key_hint: String
 
 @export_group("Door Parameters")
 @export var door_type := DoorType.ROTATING:
