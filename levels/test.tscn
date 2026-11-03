@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://delu2qjrw6teu" path="res://addons/Mirror3D/Mirror3D.tscn" id="11_eudka"]
 [ext_resource type="PackedScene" uid="uid://dmm1368oglfp0" path="res://actors/player/player.tscn" id="16_08uri"]
 [ext_resource type="PackedScene" uid="uid://crytf2marbeak" path="res://props/exploding_barrel.tscn" id="16_lqn8c"]
+[ext_resource type="PackedScene" uid="uid://cck223f36japb" path="res://items/keys/key1.tscn" id="17_2xn4c"]
 [ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="17_jhlpr"]
 [ext_resource type="PackedScene" uid="uid://cbtrf5bt881ri" path="res://items/weapons/pistol/pistol_pickup.tscn" id="18_fivcu"]
 [ext_resource type="PackedScene" uid="uid://c1w5e3ieei41o" path="res://items/weapons/shotgun/shotgun_pickup.tscn" id="19_b5wip"]
@@ -25,7 +26,9 @@
 [ext_resource type="PackedScene" uid="uid://8dycgw6cy5f1" path="res://props/sliding_door.tscn" id="24_b5wip"]
 [ext_resource type="PackedScene" uid="uid://drtbte28rd2iw" path="res://items/ammo/shotgun_ammo2.tscn" id="24_g8des"]
 [ext_resource type="PackedScene" uid="uid://cil4m5x6emyl8" path="res://props/rotating_door.tscn" id="25_70x8p"]
+[ext_resource type="Resource" uid="uid://bymetjlxxl0j5" path="res://items/keys/key1.tres" id="26_kyecp"]
 [ext_resource type="PackedScene" uid="uid://bod2n8vaas8wj" path="res://props/bidirectional_rotating_door.tscn" id="26_uyurq"]
+[ext_resource type="PackedScene" uid="uid://bbt5twbnrlcfj" path="res://systems/interaction/lock_interaction.tscn" id="27_2xn4c"]
 [ext_resource type="PackedScene" uid="uid://cjaa0sbur8iiu" path="res://props/animated_door.tscn" id="27_8m07d"]
 [ext_resource type="PackedScene" uid="uid://cuyd6ulofkduf" path="res://props/dual_rotating_door.tscn" id="28_mfah6"]
 
@@ -788,6 +791,9 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.7
 [node name="LaserAmmo10" parent="Pickups" unique_id=9996306 instance=ExtResource("21_uyurq")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.8, 1.005, 5.9)
 
+[node name="Key1" parent="Pickups" unique_id=467026091 instance=ExtResource("17_2xn4c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.406815, 0, -5.4630833)
+
 [node name="Decorations" type="Node3D" parent="." unique_id=211340265]
 
 [node name="Ball" type="RigidBody3D" parent="Decorations" unique_id=589787673]
@@ -864,6 +870,16 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -40,
 [node name="RotatingDoor" parent="Interactables" unique_id=1305629844 instance=ExtResource("25_70x8p")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -40, 0, -8)
 
+[node name="RotatingDoor2" parent="Interactables" unique_id=598615401 instance=ExtResource("25_70x8p")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -37, 0, -5)
+
+[node name="AnimatableBody3D" parent="Interactables/RotatingDoor2" index="0" unique_id=426944630]
+is_locked = true
+key = ExtResource("26_kyecp")
+key_hint = "DOOR HINT Key1"
+
+[node name="LockInteraction" parent="Interactables/RotatingDoor2/AnimatableBody3D" index="3" unique_id=345345686 instance=ExtResource("27_2xn4c")]
+
 [node name="BidirectionalRotatingDoor" parent="Interactables" unique_id=1255025821 instance=ExtResource("26_uyurq")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -40, 0, -12)
 
@@ -874,3 +890,5 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -40,
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -40, 0, -20)
 
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]
+
+[editable path="Interactables/RotatingDoor2"]

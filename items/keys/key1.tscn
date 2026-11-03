@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://cck223f36japb"]
+
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_vfb62"]
+[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/pickup_component.tscn" id="1_yyn27"]
+[ext_resource type="Resource" uid="uid://bymetjlxxl0j5" path="res://items/keys/key1.tres" id="2_vfb62"]
+[ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_4jctu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f2mlb"]
+size = Vector3(0.07, 0.005, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.66831774, 0, 0.30518335, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.005
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(0.05, 0.005, 0.01)
+
+[sub_resource type="PrismMesh" id="PrismMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(0.01, 0.01, 0.005)
+
+[sub_resource type="Resource" id="Resource_2xn4c"]
+script = ExtResource("3_4jctu")
+item = ExtResource("2_vfb62")
+metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
+
+[node name="Key1" type="RigidBody3D" unique_id=467026091 groups=["interactable"]]
+collision_layer = 34
+collision_mask = 45
+script = ExtResource("1_vfb62")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=784253687]
+shape = SubResource("BoxShape3D_f2mlb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=143138387]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.021918358, 0, 0)
+mesh = SubResource("CylinderMesh_bsiym")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=303561506]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008826818, 0, 0)
+mesh = SubResource("BoxMesh_bsiym")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1980017323]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.027764652, 0, 0.00928529)
+mesh = SubResource("PrismMesh_bsiym")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1400512616]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.0007134527, 0, 0.00928529)
+mesh = SubResource("PrismMesh_bsiym")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1927520271]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.01347439, 0, 0.00928529)
+mesh = SubResource("PrismMesh_bsiym")
+
+[node name="PickupComponent" parent="." unique_id=2017310821 instance=ExtResource("1_yyn27")]
+item_stack = SubResource("Resource_2xn4c")

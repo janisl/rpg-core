@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="KeyData" format=3 uid="uid://bymetjlxxl0j5"]
+
+[ext_resource type="AudioStream" uid="uid://2mgtgtbslunh" path="res://assets/sounds/kenney_ui-audio/click1.ogg" id="1_48h0q"]
+[ext_resource type="Script" uid="uid://cywdj5hfg23ij" path="res://systems/objects/interactables/key_data.gd" id="1_bjqcf"]
+
+[sub_resource type="Gradient" id="Gradient_bjqcf"]
+offsets = PackedFloat32Array(0.47960848, 0.53996736, 0.685155, 0.7487765)
+colors = PackedColorArray(0.7647059, 0, 0.627451, 0, 0.76294965, 9.2603565e-05, 0.62883043, 1, 0.76294965, 9.2603565e-05, 0.62883043, 1, 0.7647059, 0, 0.627451, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_48h0q"]
+gradient = SubResource("Gradient_bjqcf")
+
+[resource]
+script = ExtResource("1_bjqcf")
+discard_after_use = true
+display_name = "ITEM NAME Key1"
+description = "ITEM DESCRIPTION Key1"
+icon = SubResource("GradientTexture2D_48h0q")
+weight = 0.05
+pickup_scene = "uid://cck223f36japb"
+pickup_sound = ExtResource("1_48h0q")
+metadata/_custom_type_script = "uid://cywdj5hfg23ij"

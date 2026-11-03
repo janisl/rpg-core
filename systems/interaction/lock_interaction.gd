@@ -11,14 +11,14 @@ func _ready() -> void:
 
 func interact(player: Player) -> void:
 	if door.is_open:
-		EventBus.show_notification.emit("Can't lock an open door")
+		EventBus.show_notification.emit(tr("DOOR HINT Already open"))
 		return
 
 	if _check_for_item(player, door.key):
 		door.lock_unlock_switch()
 		was_interacted_with.emit()
 	elif door.is_locked:
-		EventBus.show_notification.emit(door.key_hint)
+		EventBus.show_notification.emit(tr(door.key_hint))
 
 
 func start_hold_check(player: Player) -> bool:
