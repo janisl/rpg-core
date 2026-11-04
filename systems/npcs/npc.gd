@@ -27,7 +27,12 @@ enum BehaviourState {
 @export_group("Head LookAt")
 @export var head_turner: LookAtModifier3D
 
-var attention_target: Node3D
+var attention_target: Node3D:
+	set(value):
+		if attention_target and attention_target is AttentionPoint:
+			attention_target.queue_free()
+		attention_target = value
+
 var move_speed := 2.0
 var last_reachable_path: Vector3
 
