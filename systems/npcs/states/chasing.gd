@@ -112,9 +112,7 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 			return
 
 		ChaseStatus.WAITING:
-			npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
-			npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
-			npc.move_and_slide()
+			npc.stop_moving(delta)
 
 			if face_target_while_waiting:
 				npc.face_direction(_chase_target.global_position)

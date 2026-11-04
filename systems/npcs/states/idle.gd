@@ -14,6 +14,4 @@ func _on_idle_state_exited() -> void:
 
 
 func _on_idle_state_physics_processing(delta: float) -> void:
-	npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
-	npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
-	npc.move_and_slide()
+	npc.stop_moving(delta)

@@ -122,8 +122,7 @@ func _on_searching_state_physics_processing(delta: float) -> void:
 
 	_sight_detection_check()
 	if npc.nav_agent.is_target_reached():
-		npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
-		npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
+		npc.stop_moving(delta)
 	else:
 		if _reacquire_timer.is_stopped():
 			_turn_head(delta)

@@ -133,6 +133,12 @@ func move_npc_to_next_position(_delta: float) -> void:
 	move_and_slide()
 
 
+func stop_moving(delta: float) -> void:
+	velocity.x = move_toward(velocity.x, 0, delta * move_speed)
+	velocity.z = move_toward(velocity.z, 0, delta * move_speed)
+	move_and_slide()
+
+
 func try_end_investigation() -> void:
 	if sight_detection.current_suspicion <= 0:
 		state_chart.send_event("idle")

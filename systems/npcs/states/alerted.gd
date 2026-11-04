@@ -51,9 +51,7 @@ func _on_alerted_state_physics_processing(delta: float) -> void:
 	if npc.nav_agent.target_position == npc.attention_target.global_position and not npc.nav_agent.is_target_reached():
 		npc.move_npc_to_next_position(delta)
 	else:
-		npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
-		npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
-		npc.move_and_slide()
+		npc.stop_moving(delta)
 
 	if (npc.nav_agent.is_target_reached() or not npc.nav_agent.is_target_reachable()) and _return_to_patrol_timer.is_stopped():
 		_return_to_patrol_timer.start()

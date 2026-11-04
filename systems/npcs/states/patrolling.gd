@@ -51,9 +51,7 @@ func _on_patrolling_state_physics_processing(delta: float) -> void:
 
 	match _current_travel_status:
 		TravelStatus.WAITING:
-			npc.velocity.x = move_toward(npc.velocity.x, 0, delta * npc.move_speed)
-			npc.velocity.z = move_toward(npc.velocity.z, 0, delta * npc.move_speed)
-			npc.move_and_slide()
+			npc.stop_moving(delta)
 			return
 		TravelStatus.RUNNING:
 			_running(delta)
