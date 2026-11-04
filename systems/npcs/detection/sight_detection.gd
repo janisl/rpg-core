@@ -1,6 +1,8 @@
 class_name SightDetection
 extends Node3D
 
+const SIGHT_POINT = preload("uid://de4wqr4onwgie")
+
 @export_group("References")
 @export var detection_area: Area3D
 @export var npc: Npc
@@ -27,8 +29,6 @@ extends Node3D
 
 @export_group("Debug")
 @export var show_detection_line := false
-@export var show_debug_info := false
-@export var attention_target_sprite_texture: Texture2D
 
 var ref_to_player: Player
 var player_sight_collision_point := Vector3.ZERO
@@ -204,7 +204,7 @@ func _state_trigger_checks() -> void:
 
 
 func generate_attention_target(pos: Vector3) -> void:
-	var attention_point := AttentionPoint.new(attention_target_sprite_texture, show_debug_info)
+	var attention_point := SIGHT_POINT.instantiate()
 	get_tree().current_scene.add_child(attention_point)
 	attention_point.global_position = pos
 	npc.attention_target = attention_point

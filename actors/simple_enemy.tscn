@@ -234,18 +234,6 @@ height = 0.1
 radial_segments = 8
 rings = 4
 
-[sub_resource type="Gradient" id="Gradient_mq1g2"]
-offsets = PackedFloat32Array(0.48811412, 0.6244057, 0.8415214, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_dqk6m"]
-gradient = SubResource("Gradient_mq1g2")
-width = 16
-height = 16
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.5)
-
 [node name="SimpleEnemy" type="CharacterBody3D" unique_id=1330723701 node_paths=PackedStringArray("head_turner", "head")]
 collision_layer = 8
 collision_mask = 45
@@ -1031,7 +1019,6 @@ script = ExtResource("22_gbejp")
 detection_area = NodePath("../Rig/GeneralSkeleton/HeadAttachment/DetectionArea")
 npc = NodePath("..")
 sight_suspicion_indicator = NodePath("../Rig/GeneralSkeleton/HeadAttachment/SightIndicator")
-attention_target_sprite_texture = SubResource("GradientTexture2D_dqk6m")
 metadata/_custom_type_script = "uid://crvmh56qwb83k"
 
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_entered"]

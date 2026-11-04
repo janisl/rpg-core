@@ -4,6 +4,8 @@ extends Node
 @onready var developer_overlay: CanvasLayer = $DeveloperOverlay
 @onready var developer_console: CanvasLayer = $DeveloperConsole
 
+var show_attention_points := false
+
 
 func _ready() -> void:
 	developer_console.developer_overlay_visibility_changed.connect(_on_developer_overlay_visibility_changed)

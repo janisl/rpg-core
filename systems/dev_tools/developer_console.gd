@@ -3,6 +3,7 @@ extends CanvasLayer
 signal developer_overlay_visibility_changed(is_visible: bool)
 
 @onready var overlay_check_button: CheckButton = $InputBlocker/CenterContainer/PanelContainer/VBoxContainer/OverlayCheckButton
+@onready var show_attention_points_check_button: CheckButton = $InputBlocker/CenterContainer/PanelContainer/VBoxContainer/ShowAttentionPointsCheckButton
 
 var _previous_mouse_mode: Input.MouseMode
 var _was_paused_before_open := false
@@ -10,6 +11,7 @@ var _was_paused_before_open := false
 
 func _ready() -> void:
 	overlay_check_button.toggled.connect(_on_overlay_check_button_toggled)
+	show_attention_points_check_button.toggled.connect(_on_show_attention_points_check_button_toggled)
 
 
 func _input(event: InputEvent) -> void:
@@ -38,5 +40,9 @@ func _set_console_visible(should_show: bool) -> void:
 		get_tree().paused = _was_paused_before_open
 
 
-func _on_overlay_check_button_toggled(is_visible: bool) -> void:
-	developer_overlay_visibility_changed.emit(is_visible)
+func _on_overlay_check_button_toggled(value: bool) -> void:
+	developer_overlay_visibility_changed.emit(value)
+
+
+func _on_show_attention_points_check_button_toggled(value: bool) -> void:
+	DevTools.show_attention_points = value

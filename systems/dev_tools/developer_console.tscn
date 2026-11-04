@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://bcmn7ego4tp1e"]
 
-[ext_resource type="Script" path="res://systems/dev_tools/developer_console.gd" id="1_console"]
+[ext_resource type="Script" uid="uid://byki74g7d6gnq" path="res://systems/dev_tools/developer_console.gd" id="1_console"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_console"]
 content_margin_left = 24.0
@@ -18,13 +18,13 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[node name="DeveloperConsole" type="CanvasLayer"]
+[node name="DeveloperConsole" type="CanvasLayer" unique_id=1362881022]
 process_mode = 3
 layer = 11
 visible = false
 script = ExtResource("1_console")
 
-[node name="InputBlocker" type="Control" parent="."]
+[node name="InputBlocker" type="Control" parent="." unique_id=255775415]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,7 +32,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="ColorRect" parent="InputBlocker"]
+[node name="Background" type="ColorRect" parent="InputBlocker" unique_id=1484128803]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,7 +42,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.5)
 
-[node name="CenterContainer" type="CenterContainer" parent="InputBlocker"]
+[node name="CenterContainer" type="CenterContainer" parent="InputBlocker" unique_id=156752472]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,31 +51,37 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="InputBlocker/CenterContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="InputBlocker/CenterContainer" unique_id=1699785778]
 custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_console")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="InputBlocker/CenterContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="InputBlocker/CenterContainer/PanelContainer" unique_id=1004371550]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="TitleLabel" type="Label" parent="InputBlocker/CenterContainer/PanelContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="InputBlocker/CenterContainer/PanelContainer/VBoxContainer" unique_id=1478660010]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Developer Tools"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="InputBlocker/CenterContainer/PanelContainer/VBoxContainer"]
+[node name="Separator" type="HSeparator" parent="InputBlocker/CenterContainer/PanelContainer/VBoxContainer" unique_id=664943841]
 layout_mode = 2
 
-[node name="OverlayCheckButton" type="CheckButton" parent="InputBlocker/CenterContainer/PanelContainer/VBoxContainer"]
+[node name="OverlayCheckButton" type="CheckButton" parent="InputBlocker/CenterContainer/PanelContainer/VBoxContainer" unique_id=670575177]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 button_pressed = true
 text = "Show FPS overlay"
 
-[node name="CloseHint" type="Label" parent="InputBlocker/CenterContainer/PanelContainer/VBoxContainer"]
+[node name="ShowAttentionPointsCheckButton" type="CheckButton" parent="InputBlocker/CenterContainer/PanelContainer/VBoxContainer" unique_id=684203185]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+button_pressed = true
+text = "Show attention points"
+
+[node name="CloseHint" type="Label" parent="InputBlocker/CenterContainer/PanelContainer/VBoxContainer" unique_id=380236524]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
 theme_override_font_sizes/font_size = 14
