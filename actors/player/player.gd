@@ -40,6 +40,15 @@ extends Actor
 @export var sprint_volume_db := -30.0
 @export var crouch_volume_db := -60.0
 
+@export_subgroup ("Landing Audio")
+@export var landing_threshold := -2.0
+@export var max_landing_velocity := -8.0
+@export var min_landing_velocity := -2.0
+@export var max_volume_db := 0.0
+@export var min_volume_db := -40.0
+@export var max_pitch := 0.8
+@export var min_pitch := 0.7
+
 var try_crouch := false
 
 var is_sprinting := false
@@ -174,6 +183,14 @@ func jump() -> void:
 func handle_movement_sound() -> void:
 	if is_on_floor() and velocity.length() >= 0.2:
 		_play_footstep_sound()
+
+
+func handle_landing(current_fall_velocity: float) -> void:
+	if current_fall_velocity < landing_threshold:
+		var velocity_ratio := clampf((current_fall_velocity - min_landing_velocity) / (max_landing_velocity - min_landing_velocity), 0.0, 1.0)
+		var volume := lerpf(min_volume_db, max_volume_db, velocity_ratio)
+		var pitch := lerpf(max_pitch, min_pitch, velocity_ratio)
+		footstep_player.play_landing(volume, pitch)
 
 
 func _on_standing_state_entered() -> void:

@@ -44,6 +44,7 @@ func _on_airborne_state_physics_processing(delta: float) -> void:
 	if player.is_on_floor():
 		if current_fall_velocity < fall_velocity_threshold:
 			player.camera_effects.add_fall_kick(fall_kick)
+		player.handle_landing(current_fall_velocity)
 
 
 func _on_jumping_state_processing(_delta: float) -> void:
