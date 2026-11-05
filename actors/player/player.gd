@@ -33,6 +33,13 @@ extends Actor
 @export_group("Render settings")
 @export_flags_3d_render var mesh_layer := 1
 
+@export_group("Audio")
+
+@export_subgroup("Footstep Audio")
+@export var walk_volume_db := -38.0
+@export var sprint_volume_db := -30.0
+@export var crouch_volume_db := -60.0
+
 var try_crouch := false
 
 var is_sprinting := false
@@ -45,9 +52,12 @@ var health_attribute: HealthAttribute
 var stamina_attribute: StaminaAttribute
 var visibility_attribute: BaseAttribute
 
+var _can_play_footstep := true
+
 @onready var input_controller: InputController = $InputController
 @onready var ground_movement: PlayerGroundMovementHandler = $MovementHandlers/GroundMovement
 @onready var ladder_movement: PlayerLadderMovementHandler = $MovementHandlers/LadderMovement
+@onready var footstep_player: FootstepPlayer = $FootstepPlayer
 
 
 func _ready() -> void:
@@ -161,6 +171,11 @@ func jump() -> void:
 	state_chart.set_expression_property(&"is_jumping", true)
 
 
+func handle_movement_sound() -> void:
+	if is_on_floor() and velocity.length() >= 0.2:
+		_play_footstep_sound()
+
+
 func _on_standing_state_entered() -> void:
 	is_crouching = false
 	standing_collision.disabled = false
@@ -216,5 +231,18 @@ func _on_lying_dead_state_physics_processing(delta: float) -> void:
 	camera_controller.update_camera_height(delta, death_camera_height)
 
 
+func _play_footstep_sound() -> void:
+	var step_sin := sin(camera_effects.step_timer * 6.0 * PI)
+	if _can_play_footstep && step_sin > 0.9:
+		var volume: float
+		if is_crouching:
+			volume = crouch_volume_db
+		elif is_sprinting:
+			volume = sprint_volume_db
+		else:
+			volume = walk_volume_db
+		footstep_player.play_footstep(volume)
+		_can_play_footstep = false
 
-
+	if !_can_play_footstep && step_sin < 0.9:
+		_can_play_footstep = true

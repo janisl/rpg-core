@@ -27,6 +27,7 @@ func _on_airborne_state_physics_processing(delta: float) -> void:
 				player.input_controller.move_input.x,
 				0,
 				player.input_controller.move_input.y)).normalized()
+
 	if direction:
 		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration)
 	else:
@@ -37,6 +38,8 @@ func _on_airborne_state_physics_processing(delta: float) -> void:
 
 	player.push_away_rigid_bodies()
 	player.move_and_slide()
+
+	player.handle_movement_sound()
 
 	if player.is_on_floor():
 		if current_fall_velocity < fall_velocity_threshold:

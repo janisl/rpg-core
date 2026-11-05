@@ -99,6 +99,8 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 
 	_was_on_floor_last_frame = true
 
+	player.handle_movement_sound()
+
 	var has_stamina := player.stamina_attribute.value >= player.stamina_attribute.jump_exhaustion
 	if player.input_controller.jump_just_pressed and player.is_on_floor() and has_stamina:
 		player.jump()
