@@ -21,7 +21,7 @@ item = ExtResource("2_uuryw")
 amount = 16
 metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
 
-[node name="ShotgunAmmo2" type="RigidBody3D" unique_id=270468499 groups=["interactable"]]
+[node name="ShotgunAmmo2" type="RigidBody3D" unique_id=270468499]
 collision_layer = 34
 collision_mask = 45
 script = ExtResource("1_uuryw")

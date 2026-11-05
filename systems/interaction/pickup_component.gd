@@ -6,6 +6,7 @@ class_name PickupComponent
 
 
 func _ready() -> void:
+	super()
 	if display_item_name:
 		var owner_object : DynamicObject = get_parent()
 		owner_object.display_name = item_stack.item.display_name

@@ -18,6 +18,7 @@ var _is_holding := false
 
 
 func _ready() -> void:
+	super()
 	if parent_node.has_signal("object_state_updated"):
 		parent_node.object_state_updated.connect(_on_object_state_change)
 

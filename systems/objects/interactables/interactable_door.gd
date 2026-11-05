@@ -51,7 +51,6 @@ enum ForcedRotationAxis {
 		notify_property_list_changed()
 
 @export_group("Interaction Settings")
-@export var ignore_interaction_raycast := false
 @export var interaction_text_when_closed := "INTERACT Open"
 @export var interaction_text_when_open := "INTERACT Close"
 @export var interaction_text_when_locked := "INTERACT Unlock"
@@ -76,9 +75,6 @@ func _ready() -> void:
 	super()
 	if Engine.is_editor_hint():
 		return
-
-	if !ignore_interaction_raycast:
-		add_to_group("interactable")
 
 	if !audio_player:
 		var players := find_children("", "AudioStreamPlayer3D")

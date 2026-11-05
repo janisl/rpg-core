@@ -5,6 +5,7 @@ extends InteractionComponent
 
 
 func _ready() -> void:
+	super()
 	assert(door, "Parent must be a door")
 	door.lock_state_updated.connect(_lock_state_updated)
 

@@ -13,7 +13,6 @@ var has_been_turned := false
 
 func _ready() -> void:
 	super()
-	self.add_to_group("interactable")
 
 	if !audio_stream_player:
 		var players := find_children("", "AudioStreamPlayer3D")
