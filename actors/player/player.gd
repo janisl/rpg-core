@@ -102,6 +102,31 @@ func _unhandled_input(event: InputEvent) -> void:
 			LevelManager.save_game("test", get_viewport().get_texture().get_image())
 
 
+func save_state() -> Dictionary:
+	var state := super()
+	state[&"try_crouch"] = try_crouch
+	state[&"is_sprinting"] = is_sprinting
+	state[&"is_crouching"] = is_crouching
+	state[&"standing_collision_disabled"] = standing_collision.disabled
+	state[&"crouching_collision_disabled"] = crouching_collision.disabled
+	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
+	state[&"ground_movement"] = ground_movement.save_state()
+	state[&"ladder_movement"] = ladder_movement.save_state()
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	super(state)
+	try_crouch = state.get(&"try_crouch", false)
+	is_sprinting = state.get(&"is_sprinting", false)
+	is_crouching = state.get(&"is_crouching", false)
+	standing_collision.disabled = state.get(&"standing_collision_disabled", false)
+	crouching_collision.disabled = state.get(&"crouching_collision_disabled", true)
+	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
+	ground_movement.load_state(state.get(&"ground_movement", Dictionary()))
+	ladder_movement.load_state(state.get(&"ladder_movement", Dictionary()))
+
+
 func increase_attribute(attribute_name: String, value: float, value_type: BaseAttribute.ValueType) -> bool:
 	var attribute: BaseAttribute = player_attributes.get(attribute_name)
 	if not attribute:
@@ -191,26 +216,5 @@ func _on_lying_dead_state_physics_processing(delta: float) -> void:
 	camera_controller.update_camera_height(delta, death_camera_height)
 
 
-func save_state() -> Dictionary:
-	var state := super()
-	state[&"try_crouch"] = try_crouch
-	state[&"is_sprinting"] = is_sprinting
-	state[&"is_crouching"] = is_crouching
-	state[&"standing_collision_disabled"] = standing_collision.disabled
-	state[&"crouching_collision_disabled"] = crouching_collision.disabled
-	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
-	state[&"ground_movement"] = ground_movement.save_state()
-	state[&"ladder_movement"] = ladder_movement.save_state()
-	return state
 
 
-func load_state(state: Dictionary) -> void:
-	super(state)
-	try_crouch = state.get(&"try_crouch", false)
-	is_sprinting = state.get(&"is_sprinting", false)
-	is_crouching = state.get(&"is_crouching", false)
-	standing_collision.disabled = state.get(&"standing_collision_disabled", false)
-	crouching_collision.disabled = state.get(&"crouching_collision_disabled", true)
-	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
-	ground_movement.load_state(state.get(&"ground_movement", Dictionary()))
-	ladder_movement.load_state(state.get(&"ladder_movement", Dictionary()))
