@@ -1,11 +1,13 @@
+@tool
 class_name SightDetection
 extends Node3D
 
 const SIGHT_POINT = preload("uid://de4wqr4onwgie")
 
 @export_group("References")
-@export var detection_area: Area3D
 @export var npc: Npc
+@export var detection_area: Area3D
+@export var cone_collider: CollisionShape3D
 
 @export_group("Suspicion Build-Up")
 @export var sight_suspicion_indicator: DetectionIndicator
@@ -30,6 +32,8 @@ const SIGHT_POINT = preload("uid://de4wqr4onwgie")
 @export_group("Debug")
 @export var show_detection_line := false
 
+@export_tool_button("Generate Sight Cone") var button := _generate_sight_range_collider
+
 var ref_to_player: Player
 var player_sight_collision_point := Vector3.ZERO
 var current_suspicion := 0.0
@@ -41,30 +45,18 @@ var _is_decaying: bool = false
 
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
+
 	_connect_detection_signals()
 	_create_decay_timer()
 	add_to_group("persist_component")
 
 
-func save_state() -> Dictionary:
-	var state := Dictionary()
-	SaveUtils.save_ref(state, &"ref_to_player", ref_to_player)
-	state[&"player_sight_collision_point"] = player_sight_collision_point
-	state[&"current_suspicion"] = current_suspicion
-	SaveUtils.save_timer(state, &"decay_timer", _decay_timer)
-	state[&"is_decaying"] = _is_decaying
-	return state
-
-
-func load_state(state: Dictionary) -> void:
-	ref_to_player = SaveUtils.load_ref(state, &"ref_to_player")
-	player_sight_collision_point = state.get(&"player_sight_collision_point", Vector3.ZERO)
-	current_suspicion = state.get(&"current_suspicion", 0)
-	SaveUtils.load_timer(state, &"decay_timer", _decay_timer)
-	_is_decaying = state.get(&"is_decaying", false)
-
-
 func _physics_process(delta: float) -> void:
+	if Engine.is_editor_hint():
+		return
+
 	if npc.in_state([Npc.BehaviourState.Chasing, Npc.BehaviourState.Attacking]):
 		return
 
@@ -83,6 +75,24 @@ func _physics_process(delta: float) -> void:
 	_decay_suspicion(delta)
 
 	_state_trigger_checks()
+
+
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	SaveUtils.save_ref(state, &"ref_to_player", ref_to_player)
+	state[&"player_sight_collision_point"] = player_sight_collision_point
+	state[&"current_suspicion"] = current_suspicion
+	SaveUtils.save_timer(state, &"decay_timer", _decay_timer)
+	state[&"is_decaying"] = _is_decaying
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	ref_to_player = SaveUtils.load_ref(state, &"ref_to_player")
+	player_sight_collision_point = state.get(&"player_sight_collision_point", Vector3.ZERO)
+	current_suspicion = state.get(&"current_suspicion", 0)
+	SaveUtils.load_timer(state, &"decay_timer", _decay_timer)
+	_is_decaying = state.get(&"is_decaying", false)
 
 
 func check_if_player_in_los() -> bool:
@@ -208,3 +218,15 @@ func generate_attention_target(pos: Vector3) -> void:
 	get_tree().current_scene.add_child(attention_point)
 	attention_point.global_position = pos
 	npc.attention_target = attention_point
+
+
+func _generate_sight_range_collider() -> void:
+	var sight_cone := ConvexPolygonShape3D.new()
+	var points: PackedVector3Array
+	points.append(Vector3(0, 0, 0))
+	points.append(Vector3(-sight_range_cone.x, sight_range_cone.y, sight_range_cone.z))
+	points.append(Vector3(sight_range_cone.x, sight_range_cone.y, sight_range_cone.z))
+	points.append(Vector3(sight_range_cone.x, -sight_range_cone.y, sight_range_cone.z))
+	points.append(Vector3(-sight_range_cone.x, -sight_range_cone.y, sight_range_cone.z))
+	sight_cone.points = points
+	cone_collider.shape = sight_cone
