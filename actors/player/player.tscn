@@ -123,6 +123,16 @@ script = ExtResource("30_j5me0")
 expression = "is_dead"
 metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 
+[sub_resource type="Resource" id="Resource_i0btr"]
+script = ExtResource("30_j5me0")
+expression = "is_sliding"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_rfvym"]
+script = ExtResource("30_j5me0")
+expression = "not is_sliding"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
 [sub_resource type="Skin" id="Skin_3bqo7"]
 resource_name = "Skin"
 bind_count = 53
@@ -394,6 +404,7 @@ initial_expression_properties = {
 &"is_dead": false,
 &"is_jumping": false,
 &"is_moving": false,
+&"is_sliding": false,
 &"on_ground": false,
 &"try_sprint": false
 }
@@ -622,6 +633,28 @@ script = ExtResource("5_15y17")
 script = ExtResource("6_bop6h")
 to = NodePath("../LyingDead")
 guard = SubResource("Resource_4ihbh")
+delay_in_seconds = "0.0"
+
+[node name="HeadMovement" type="Node" parent="StateChart/Root" unique_id=2003017819]
+script = ExtResource("4_15y17")
+initial_state = NodePath("Default")
+
+[node name="Default" type="Node" parent="StateChart/Root/HeadMovement" unique_id=2129146143]
+script = ExtResource("5_15y17")
+
+[node name="ToSliding" type="Node" parent="StateChart/Root/HeadMovement/Default" unique_id=1585746369]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Sliding")
+guard = SubResource("Resource_i0btr")
+delay_in_seconds = "0.0"
+
+[node name="Sliding" type="Node" parent="StateChart/Root/HeadMovement" unique_id=1415104844]
+script = ExtResource("5_15y17")
+
+[node name="ToDefault" type="Node" parent="StateChart/Root/HeadMovement/Sliding" unique_id=1054028894]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Default")
+guard = SubResource("Resource_rfvym")
 delay_in_seconds = "0.0"
 
 [node name="StairsAheadRayCast" type="RayCast3D" parent="." unique_id=2077641786]
@@ -1082,6 +1115,10 @@ one_shot = true
 [connection signal="state_entered" from="StateChart/Root/Stance/Crouching" to="MovementHandlers/GroundMovement" method="_on_crouching_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Stance/Crouching" to="." method="_on_crouching_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Stance/LyingDead" to="." method="_on_lying_dead_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/HeadMovement/Default" to="Neck" method="_on_default_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/HeadMovement/Sliding" to="Neck" method="_on_sliding_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/HeadMovement/Sliding" to="Neck" method="_on_sliding_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/HeadMovement/Sliding" to="Neck" method="_on_sliding_state_physics_processing"]
 [connection signal="timeout" from="SlidingTimer" to="." method="stop_sliding"]
 [connection signal="damage_taken" from="HealthAttribute" to="." method="_on_health_attribute_damage_taken"]
 [connection signal="died" from="HealthAttribute" to="." method="_on_health_attribute_died"]

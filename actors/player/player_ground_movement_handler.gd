@@ -78,6 +78,7 @@ func _on_crouching_state_entered() -> void:
 	if player.is_sprinting and player.input_controller.move_input != Vector2.ZERO:
 		player.sliding_timer.start()
 		_slide_vector = player.input_controller.move_input
+		player.state_chart.set_expression_property(&"is_sliding", true)
 
 
 func _on_grounded_state_physics_processing(delta: float) -> void:

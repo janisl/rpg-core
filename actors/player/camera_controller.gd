@@ -7,6 +7,7 @@ extends Node3D
 @export_group("Camera settings")
 @export_range(-90, -60, 0.1, "radians_as_degrees") var tilt_lower_limit := -PI / 2
 @export_range(60, 90, 0.1, "radians_as_degrees") var tilt_upper_limit := PI / 2
+@export_range(0, 180, 0.1, "radians_as_degrees") var free_look_limit := deg_to_rad(120)
 
 @export_group("Smoothing")
 @export var crouch_speed: float = 3.0
@@ -34,10 +35,6 @@ func _process(delta: float) -> void:
 			_step_smoothing = false
 
 	position.y = _offset_height + _target_height
-
-
-func _physics_process(_delta: float) -> void:
-	_update_camera_rotation(player.input_controller.consume_look_delta())
 
 
 func save_state() -> Dictionary:
@@ -68,8 +65,31 @@ func smooth_step(height_change: float) -> void:
 	_target_height -= height_change
 	_step_smoothing = true
 
-func _update_camera_rotation(input: Vector2) -> void:
-	player.rotate_y(input.x)
+
+func _update_camera_rotation(input: Vector2, free_looking: bool) -> void:
+	if free_looking:
+		rotate_y(input.x)
+		rotation.y = clamp(rotation.y, -free_look_limit, free_look_limit)
+	else:
+		player.rotate_y(input.x)
 
 	head.rotate_x(input.y)
 	head.rotation.x = clampf(head.rotation.x, tilt_lower_limit, tilt_upper_limit)
+
+
+func _on_default_state_physics_processing(_delta: float) -> void:
+	_update_camera_rotation(player.input_controller.consume_look_delta(), false)
+
+
+func _on_sliding_state_physics_processing(_delta: float) -> void:
+	_update_camera_rotation(player.input_controller.consume_look_delta(), true)
+
+
+func _on_sliding_state_entered() -> void:
+	player.camera_effects.set_slide_tilt(deg_to_rad(4.0))
+
+
+func _on_sliding_state_exited() -> void:
+	player.rotation.y += rotation.y
+	rotation.y = 0
+	player.camera_effects.set_slide_tilt(0.0)

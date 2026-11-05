@@ -37,6 +37,9 @@ extends Camera3D
 @export_range(0.0, 0.04, 0.001) var bob_up := 0.005
 @export_range(3.0, 8.0, 0.1) var bob_frequency := 6.0
 
+@export_group("Slide tilt")
+@export var enable_slide_tilt := true
+@export_range(0, 90, 0.1, "radians_as_degrees") var slide_tilt_speed := deg_to_rad(10.0)
 
 var _fall_value := 0.0
 var _fall_timer := 0.0
@@ -52,6 +55,8 @@ var _screen_shake_tween: Tween
 
 var step_timer := 0.0
 
+var _slide_tilt := 0.0
+var _slide_tilt_target := 0.0
 
 
 func _process(delta: float) -> void:
@@ -86,6 +91,10 @@ func add_screen_shake(amount: float, seconds: float) -> void:
 
 	_screen_shake_tween = create_tween()
 	_screen_shake_tween.tween_method(_update_screen_shake.bind(amount), 0.0, 1.1, seconds).set_ease(Tween.EASE_OUT)
+
+
+func set_slide_tilt(amount: float) -> void:
+	_slide_tilt_target = amount
 
 
 func _calcuate_view_offset(delta: float) -> void:
@@ -155,6 +164,10 @@ func _calcuate_view_offset(delta: float) -> void:
 
 		var bob_height = bob_sin * speed * bob_up
 		offset.y += bob_height
+
+	if enable_slide_tilt:
+		_slide_tilt = move_toward(_slide_tilt, _slide_tilt_target, delta * slide_tilt_speed)
+		angles.z += _slide_tilt
 
 	position = offset
 	rotation = angles

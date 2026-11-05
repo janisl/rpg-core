@@ -196,6 +196,7 @@ func handle_landing(current_fall_velocity: float) -> void:
 
 func stop_sliding() -> void:
 	sliding_timer.stop()
+	state_chart.set_expression_property(&"is_sliding", false)
 
 
 func _on_standing_state_entered() -> void:
