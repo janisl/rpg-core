@@ -253,7 +253,7 @@ func _npc_footsteps(delta: float) -> void:
 		_wiggle_index += wiggle_on_walking_speed * delta
 
 		if _can_play_footstep and _wiggle_vector.y > 0.9:
-			footstep_player.play_footstep(sprint_volume_db)
+			footstep_player.play_footstep(sprint_volume_db, 1)
 			_can_play_footstep = false
 
 		if !_can_play_footstep and _wiggle_vector.y < 0.9:
@@ -264,7 +264,7 @@ func _npc_footsteps(delta: float) -> void:
 		_wiggle_index += wiggle_on_sprinting_speed * delta
 
 		if _can_play_footstep and _wiggle_vector.y > 0.9:
-			footstep_player.play_footstep(walk_volume_db)
+			footstep_player.play_footstep(walk_volume_db, 1)
 			_can_play_footstep = false
 
 		if !_can_play_footstep and _wiggle_vector.y < 0.9:

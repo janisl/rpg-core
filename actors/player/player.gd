@@ -190,7 +190,7 @@ func handle_landing(current_fall_velocity: float) -> void:
 		var velocity_ratio := clampf((current_fall_velocity - min_landing_velocity) / (max_landing_velocity - min_landing_velocity), 0.0, 1.0)
 		var volume := lerpf(min_volume_db, max_volume_db, velocity_ratio)
 		var pitch := lerpf(max_pitch, min_pitch, velocity_ratio)
-		footstep_player.play_landing(volume, pitch)
+		footstep_player.play_landing(volume, pitch, current_fall_velocity)
 
 
 func _on_standing_state_entered() -> void:
@@ -258,7 +258,7 @@ func _play_footstep_sound() -> void:
 			volume = sprint_volume_db
 		else:
 			volume = walk_volume_db
-		footstep_player.play_footstep(volume)
+		footstep_player.play_footstep(volume, velocity.length())
 		_can_play_footstep = false
 
 	if !_can_play_footstep && step_sin < 0.9:
