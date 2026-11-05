@@ -40,7 +40,15 @@ func load_state(state: Dictionary) -> void:
 
 
 func _on_movement_state_physics_processing(_delta: float) -> void:
-	player.state_chart.set_expression_property("on_ground", player.is_on_floor() or _snapped_to_stairs_last_frame)
+	player.state_chart.set_expression_property(
+		&"on_ground",
+		player.is_on_floor() or _snapped_to_stairs_last_frame)
+	player.state_chart.set_expression_property(
+		&"try_sprint",
+		player.input_controller.sprint_pressed and player.stamina_attribute.value > 0)
+	player.state_chart.set_expression_property(
+		&"is_moving",
+		player.input_controller.move_input.length() > 0 or player.velocity.length() >= 0.5)
 
 
 func _on_grounded_state_entered() -> void:
@@ -71,7 +79,7 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 
 	var current_velocity := Vector2(player.velocity.x, player.velocity.z)
 	var direction := (
-			player.transform.basis * Vector3(
+			player.global_transform.basis * Vector3(
 				player.input_controller.move_input.x,
 				0,
 				player.input_controller.move_input.y)).normalized()
@@ -167,23 +175,3 @@ func _run_body_test_motion(from: Transform3D, motion: Vector3, result = null) ->
 	params.motion = motion
 
 	return PhysicsServer3D.body_test_motion(player.get_rid(), params, result)
-
-
-func _on_idle_state_processing(_delta: float) -> void:
-	if player and player.input_controller.move_input.length() > 0:
-		player.state_chart.send_event("onMoving")
-
-
-func _on_moving_state_processing(_delta: float) -> void:
-	if player.input_controller.move_input.length() == 0 and player.velocity.length() < 0.5:
-		player.state_chart.send_event("onIdle")
-
-
-func _on_walking_state_processing(_delta: float) -> void:
-	if player.input_controller.sprint_pressed and player.stamina_attribute.value > 0:
-		player.state_chart.send_event("onSprinting")
-
-
-func _on_sprinting_state_processing(_delta: float) -> void:
-	if not (player.input_controller.sprint_pressed and player.stamina_attribute.value > 0):
-		player.state_chart.send_event("onWalking")

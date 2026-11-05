@@ -23,7 +23,7 @@ func _on_airborne_state_physics_processing(delta: float) -> void:
 
 	var current_velocity := Vector2(player.velocity.x, player.velocity.z)
 	var direction := (
-			player.transform.basis * Vector3(
+			player.global_transform.basis * Vector3(
 				player.input_controller.move_input.x,
 				0,
 				player.input_controller.move_input.y)).normalized()
@@ -45,4 +45,4 @@ func _on_airborne_state_physics_processing(delta: float) -> void:
 
 func _on_jumping_state_processing(_delta: float) -> void:
 	if player.velocity.y < 0:
-		player.state_chart.send_event("onFalling")
+		player.state_chart.set_expression_property(&"is_jumping", false)
