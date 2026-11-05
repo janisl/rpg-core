@@ -35,6 +35,7 @@
 [ext_resource type="Script" uid="uid://ccwu2fc84l1rx" path="res://systems/footsteps/footstep_player.gd" id="31_gxn4h"]
 [ext_resource type="AudioStream" uid="uid://c5etqcpobd0u" path="res://systems/footsteps/generic_footstep_profile.tres" id="32_dqwjh"]
 [ext_resource type="PackedScene" uid="uid://essuiwcp63ni" path="res://systems/npcs/detection/hearing_indicator.tscn" id="34_ol0oh"]
+[ext_resource type="Script" uid="uid://c0wkbigr3oabl" path="res://systems/npcs/detection/hearing_detection.gd" id="35_bqx5n"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -236,6 +237,15 @@ radius = 0.05
 height = 0.1
 radial_segments = 8
 rings = 4
+
+[sub_resource type="Curve" id="Curve_f3ltb"]
+_limits = [0.0, 10.0, 0.0, 10.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(5.47046, 1.4973259), 0.0, 0.0, 0, 0, Vector2(10, 10), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tgfp8"]
+height = 3.0
+radius = 8.0
 
 [node name="SimpleEnemy" type="CharacterBody3D" unique_id=1330723701 node_paths=PackedStringArray("head_turner", "head")]
 collision_layer = 8
@@ -1033,6 +1043,27 @@ metadata/_custom_type_script = "uid://crvmh56qwb83k"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30965692, 1.6807568, 0)
 visible = false
 
+[node name="HearingDetection" type="Node3D" parent="." unique_id=17248361 node_paths=PackedStringArray("collision_shape", "npc", "noise_suspicion_indicator")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7172368, 0)
+script = ExtResource("35_bqx5n")
+collision_shape = NodePath("HearingRadius/HearingCylinder")
+npc = NodePath("..")
+hearing_radius = 8.0
+ignore_sounds_under_x_magnitude = 1.6
+noise_suspicion_indicator = NodePath("../HearingIndicator")
+noise_suspicion_curve = SubResource("Curve_f3ltb")
+
+[node name="HearingRadius" type="Area3D" parent="HearingDetection" unique_id=644967977]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+collision_layer = 0
+collision_mask = 1024
+monitorable = false
+
+[node name="HearingCylinder" type="CollisionShape3D" parent="HearingDetection/HearingRadius" unique_id=971718117]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_tgfp8")
+debug_color = Color(0.89396733, 0.28965023, 0.35837063, 1)
+
 [node name="HealthAttribute" parent="." unique_id=167552575 instance=ExtResource("6_4s1oe")]
 free_on_death = Array[NodePath]([NodePath("..")])
 max_value = 50.0
@@ -1065,5 +1096,6 @@ initial_value = 50.0
 [connection signal="state_physics_processing" from="StateChart/Root/Posture/UpperBody/Attack" to="StateChart/Root/Posture/Processor" method="_on_attack_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Posture/LowerBody/Walking" to="StateChart/Root/Posture/Processor" method="_on_walking_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Posture/LowerBody/Running" to="StateChart/Root/Posture/Processor" method="_on_running_state_physics_processing"]
+[connection signal="area_entered" from="HearingDetection/HearingRadius" to="HearingDetection" method="_on_hearing_radius_area_entered"]
 [connection signal="damage_taken" from="HealthAttribute" to="." method="_on_health_attribute_damage_taken"]
 [connection signal="damage_taken" from="HealthAttribute" to="StateChart/Root/Posture/Processor" method="_on_health_attribute_damage_taken"]

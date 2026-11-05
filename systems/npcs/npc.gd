@@ -60,6 +60,7 @@ var _wiggle_index := 0.0
 
 @onready var velocity_debug_shape: MeshInstance3D = $VelocityDebugShape
 @onready var sight_detection: SightDetection = $SightDetection
+@onready var hearing_detection: HearingDetection = $HearingDetection
 @onready var hand_slot: Node3D = %HandSlot
 @onready var nav_agent: NavigationAgent3D = $NavAgent
 @onready var state_chart: StateChart = $StateChart
@@ -157,7 +158,7 @@ func stop_moving(delta: float) -> void:
 
 
 func try_end_investigation() -> void:
-	if sight_detection.current_suspicion <= 0:
+	if sight_detection.current_suspicion <= 0 and hearing_detection.current_suspicion <= 0:
 		state_chart.send_event("idle")
 
 

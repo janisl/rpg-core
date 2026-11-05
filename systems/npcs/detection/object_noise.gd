@@ -1,5 +1,5 @@
-extends Area3D
 class_name ObjectNoise
+extends Area3D
 
 enum NoiseType {
 	Impact,

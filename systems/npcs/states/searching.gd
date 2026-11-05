@@ -165,6 +165,8 @@ func _search_next_point() -> void:
 func _end_search() -> void:
 	play_sound(end_search_sound)
 	if reset_suspicion_when_search_ends:
+		if npc.hearing_detection:
+			npc.hearing_detection.reset()
 		if npc.sight_detection:
 			npc.sight_detection.reset()
 	state_chart.send_event("idle")
