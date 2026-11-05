@@ -1,7 +1,14 @@
 extends InteractionComponent
 class_name PickupComponent
 
-@export var item_stack : ItemStack
+@export var item_stack: ItemStack
+@export var display_item_name := false
+
+
+func _ready() -> void:
+	if display_item_name:
+		var owner_object : DynamicObject = get_parent()
+		owner_object.display_name = item_stack.item.display_name
 
 
 func interact(player: Player) -> void:

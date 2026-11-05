@@ -12,7 +12,9 @@ enum BehaviourState {
 	Searching,
 }
 
-@export var patrol_path : PatrolPath
+@export var display_name: String
+
+@export var patrol_path: PatrolPath
 
 @export_group("Movement")
 @export var walk_speed := 2.0

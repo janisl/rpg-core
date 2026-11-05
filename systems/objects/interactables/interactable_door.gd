@@ -74,6 +74,9 @@ var _close_timer: Timer
 
 func _ready() -> void:
 	super()
+	if Engine.is_editor_hint():
+		return
+
 	if !ignore_interaction_raycast:
 		add_to_group("interactable")
 
@@ -112,6 +115,9 @@ func _validate_property(property: Dictionary) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if Engine.is_editor_hint():
+		return
+
 	if door_type == DoorType.ROTATING and _is_moving:
 		_update_rotating(delta)
 	elif door_type == DoorType.SLIDING and _is_moving:

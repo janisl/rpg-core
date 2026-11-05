@@ -1,8 +1,14 @@
+@tool
 class_name DynamicObject
 extends Node3D
 
+@export var display_name: String
+
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
+
 	add_to_group("persist")
 
 

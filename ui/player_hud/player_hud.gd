@@ -5,6 +5,7 @@ const ITEM_SLOT_CONTROL = preload("uid://d3nmme6bfak14")
 const ATTRIBUTE_CONTROL = preload("uid://dvyghe0kgmbqf")
 const INTERACTION_CONTROL = preload("uid://4f6rvd4vlm08")
 const NOTIFICATION_ITEM = preload("uid://h8tiw6y8mxk")
+const OBJECT_NAME_CONTROL = preload("uid://c4twshu73fcms")
 
 @onready var ammo_label: Label = $AmmoLabel
 @onready var attributes_container: VBoxContainer = $AttributesContainer
@@ -85,6 +86,13 @@ func _on_interactive_object_detected(nodes: Array[Node]) -> void:
 
 	if nodes.size() < 1:
 		return
+
+	var interactive_object := nodes[0].get_parent()
+	var display_name: String = interactive_object.display_name
+	if display_name:
+		var instanced_object_name : ObjectNameControl = OBJECT_NAME_CONTROL.instantiate()
+		interaction_container.add_child(instanced_object_name)
+		instanced_object_name.set_object_name(display_name)
 
 	for node: InteractionComponent in nodes:
 		if node.is_disabled:

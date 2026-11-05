@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://c4twshu73fcms"]
+
+[ext_resource type="Script" uid="uid://b281k6qhdrviw" path="res://ui/player_hud/object_name_control.gd" id="1_wym4d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64p1l"]
+bg_color = Color(0, 0.21168366, 0.33550602, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="ObjectNameControl" type="PanelContainer" unique_id=186716709]
+offset_right = 85.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_64p1l")
+script = ExtResource("1_wym4d")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1789110693]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="NameLabel" type="Label" parent="MarginContainer" unique_id=1246601308]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98917395, 0.6374263, 1.540184e-06, 1)
+theme_override_font_sizes/font_size = 32
+text = "Big box of goods"
