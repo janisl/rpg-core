@@ -31,10 +31,10 @@ enum BehaviourState {
 
 @export_group("Footstep Player")
 @export var footsteps_enabled := true
-@export var walk_volume_db := -12
-@export var sprint_volume_db := -4
-@export var wiggle_on_walking_speed := 12.0
-@export var wiggle_on_sprinting_speed := 16.0
+@export var walk_volume_db := -38.0
+@export var sprint_volume_db := -30.0
+@export var wiggle_on_walking_speed := 8.0
+@export var wiggle_on_sprinting_speed := 12.0
 
 var attention_target: Node3D:
 	set(value):

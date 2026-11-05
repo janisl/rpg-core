@@ -1006,6 +1006,9 @@ avoidance_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5638493, -0.16451624)
 
 [node name="FootstepPlayer" type="AudioStreamPlayer3D" parent="." unique_id=1453074495]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+max_polyphony = 2
+bus = &"SFX"
 script = ExtResource("31_gxn4h")
 generic_footstep_profile = ExtResource("32_dqwjh")
 generic_landing_profile = ExtResource("32_dqwjh")

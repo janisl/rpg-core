@@ -1045,6 +1045,9 @@ parameters/hurt/internal_active = false
 parameters/hurt/request = 0
 
 [node name="FootstepPlayer" type="AudioStreamPlayer3D" parent="." unique_id=2101153626]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+max_polyphony = 2
+bus = &"SFX"
 script = ExtResource("25_qct7d")
 generic_footstep_profile = ExtResource("40_ifggu")
 generic_landing_profile = ExtResource("40_ifggu")
