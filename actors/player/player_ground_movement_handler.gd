@@ -12,6 +12,7 @@ const MIN_STEP_HEIGHT := 0.03
 @export var default_speed := 7.0
 @export var sprint_speed := 3.0
 @export var crouch_speed := -5.0
+@export var sliding_speed := 5.0
 
 @export_group("Step settings")
 @export var step_height := 0.5
@@ -21,6 +22,8 @@ var _crouch_modifier := 0.0
 
 var _snapped_to_stairs_last_frame := false
 var _was_on_floor_last_frame := false
+
+var _slide_vector := Vector2.ZERO
 
 
 func save_state() -> Dictionary:
@@ -67,22 +70,33 @@ func _on_sprinting_state_exited() -> void:
 
 func _on_standing_state_entered() -> void:
 	_crouch_modifier = 0
+	player.stop_sliding()
 
 
 func _on_crouching_state_entered() -> void:
 	_crouch_modifier = crouch_speed
+	if player.is_sprinting and player.input_controller.move_input != Vector2.ZERO:
+		player.sliding_timer.start()
+		_slide_vector = player.input_controller.move_input
 
 
 func _on_grounded_state_physics_processing(delta: float) -> void:
-	var speed_modifier := _sprint_modifier + _crouch_modifier
-	var speed := default_speed + speed_modifier
-
+	var speed: float
+	var direction: Vector3
 	var current_velocity := Vector2(player.velocity.x, player.velocity.z)
-	var direction := (
-			player.global_transform.basis * Vector3(
-				player.input_controller.move_input.x,
-				0,
-				player.input_controller.move_input.y)).normalized()
+
+	if player.sliding_timer.is_stopped():
+		direction = (
+				player.transform.basis * Vector3(
+					player.input_controller.move_input.x,
+					0,
+					player.input_controller.move_input.y)).normalized()
+		var speed_modifier := _sprint_modifier + _crouch_modifier
+		speed = default_speed + speed_modifier
+	else:
+		direction = (player.global_transform.basis * Vector3(_slide_vector.x, 0.0, _slide_vector.y)).normalized()
+		speed = (player.sliding_timer.time_left / player.sliding_timer.wait_time + 0.5) * sliding_speed
+
 	if direction:
 		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration)
 	else:
@@ -106,7 +120,7 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 		player.jump()
 
 
-func _snap_up_stairs_check(delta) -> bool:
+func _snap_up_stairs_check(delta: float) -> bool:
 	if not player.is_on_floor() and not _snapped_to_stairs_last_frame:
 		return false
 
@@ -168,7 +182,7 @@ func _is_surface_too_steep(normal: Vector3) -> bool:
 	return normal.angle_to(Vector3.UP) > player.floor_max_angle
 
 
-func _run_body_test_motion(from: Transform3D, motion: Vector3, result = null) -> bool:
+func _run_body_test_motion(from: Transform3D, motion: Vector3, result: PhysicsTestMotionResult3D = null) -> bool:
 	if not result:
 		result = PhysicsTestMotionResult3D.new()
 

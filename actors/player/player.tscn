@@ -1053,6 +1053,10 @@ generic_footstep_profile = ExtResource("40_ifggu")
 generic_landing_profile = ExtResource("40_ifggu")
 metadata/_custom_type_script = "uid://ccwu2fc84l1rx"
 
+[node name="SlidingTimer" type="Timer" parent="." unique_id=1133075919]
+wait_time = 1.5
+one_shot = true
+
 [node name="HealthAttribute" parent="." unique_id=213689897 instance=ExtResource("35_qls60")]
 
 [node name="StaminaAttribute" parent="." unique_id=1020555911 instance=ExtResource("44_a13rm")]
@@ -1078,5 +1082,6 @@ metadata/_custom_type_script = "uid://ccwu2fc84l1rx"
 [connection signal="state_entered" from="StateChart/Root/Stance/Crouching" to="MovementHandlers/GroundMovement" method="_on_crouching_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Stance/Crouching" to="." method="_on_crouching_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Stance/LyingDead" to="." method="_on_lying_dead_state_physics_processing"]
+[connection signal="timeout" from="SlidingTimer" to="." method="stop_sliding"]
 [connection signal="damage_taken" from="HealthAttribute" to="." method="_on_health_attribute_damage_taken"]
 [connection signal="died" from="HealthAttribute" to="." method="_on_health_attribute_died"]

@@ -67,6 +67,7 @@ var _can_play_footstep := true
 @onready var ground_movement: PlayerGroundMovementHandler = $MovementHandlers/GroundMovement
 @onready var ladder_movement: PlayerLadderMovementHandler = $MovementHandlers/LadderMovement
 @onready var footstep_player: FootstepPlayer = $FootstepPlayer
+@onready var sliding_timer: Timer = $SlidingTimer
 
 
 func _ready() -> void:
@@ -193,6 +194,10 @@ func handle_landing(current_fall_velocity: float) -> void:
 		footstep_player.play_landing(volume, pitch, current_fall_velocity)
 
 
+func stop_sliding() -> void:
+	sliding_timer.stop()
+
+
 func _on_standing_state_entered() -> void:
 	is_crouching = false
 	standing_collision.disabled = false
@@ -232,6 +237,9 @@ func _on_crouching_state_physics_processing(delta: float) -> void:
 	if _should_stand_up():
 		state_chart.send_event("onStanding")
 	camera_controller.update_camera_height(delta, crouch_camera_height)
+
+	if !Input.is_action_pressed("sprint"):
+		stop_sliding()
 
 
 func _should_stand_up() -> bool:
