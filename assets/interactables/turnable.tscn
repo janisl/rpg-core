@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://dm06jg7n1hf00"]
+
+[ext_resource type="Script" uid="uid://y17pmal88rs7" path="res://systems/objects/interactables/interactable_turnwheel.gd" id="1_u1fei"]
+[ext_resource type="AudioStream" uid="uid://63utb30c5d2p" path="res://assets/sounds/misc/846434__nikoletb__low-stone-rubbing-deep-rock-scrape.wav" id="2_omrbx"]
+[ext_resource type="PackedScene" uid="uid://poem1yjtmt3n" path="res://systems/interaction/hold_interaction.tscn" id="3_77xno"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_bsiym"]
+inner_radius = 0.2
+outer_radius = 0.3
+rings = 8
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bsiym"]
+height = 0.1
+radius = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bsiym"]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.02
+
+[node name="Turnable" type="Node3D" unique_id=808570492]
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=1651636666]
+script = ExtResource("1_u1fei")
+hold_audio_stream = ExtResource("2_omrbx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimatableBody3D" unique_id=102372612]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("TorusMesh_bsiym")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=579308869]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_bsiym")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="AnimatableBody3D" unique_id=90570200]
+
+[node name="HoldInteraction" parent="AnimatableBody3D" unique_id=1077503743 instance=ExtResource("3_77xno")]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="AnimatableBody3D" unique_id=2073359511]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.25, -0.06)
+mesh = SubResource("CylinderMesh_bsiym")

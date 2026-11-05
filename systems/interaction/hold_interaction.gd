@@ -1,7 +1,7 @@
 class_name HoldInteraction
 extends InteractionComponent
 
-signal is_being_held(time_left: float)
+signal is_being_held(time_left: float, delta: float)
 signal hold_progress_changed
 
 @export var hold_time := 3.0
@@ -14,7 +14,7 @@ var _player: Player
 var _hold_timer: Timer
 var _is_holding := false
 
-@onready var parent_node = get_parent()
+@onready var parent_node := get_parent()
 
 
 func _ready() -> void:
@@ -27,7 +27,7 @@ func _ready() -> void:
 	_hold_timer.timeout.connect(_on_hold_complete)
 
 
-func _process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not _is_holding:
 		return
 
@@ -41,7 +41,7 @@ func _process(_delta: float) -> void:
 		return
 
 	show_hold_progress = _hold_timer.time_left  < _hold_timer.wait_time - buffer_time
-	is_being_held.emit(_hold_timer.time_left)
+	is_being_held.emit(_hold_timer.time_left, delta)
 	hold_progress = 1 - (_hold_timer.time_left / hold_time)
 	hold_progress_changed.emit()
 
@@ -57,7 +57,7 @@ func load_state(state: Dictionary) -> void:
 	interaction_text = state.get(&"interaction_text", interaction_text)
 
 
-func interact(player: Player):
+func interact(player: Player) -> void:
 	was_interacted_with.emit()
 	_player = player
 	if !_is_holding:
@@ -80,12 +80,12 @@ func _stop_holding() -> void:
 	hold_progress_changed.emit()
 
 
-func _on_object_state_change(_interaction_text: String):
+func _on_object_state_change(_interaction_text: String) -> void:
 	interaction_text = _interaction_text
 	EventBus.interactable_changed.emit()
 
 
-func _on_hold_complete():
+func _on_hold_complete() -> void:
 	_complete()
 	_stop_holding()
 
