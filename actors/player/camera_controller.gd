@@ -40,21 +40,6 @@ func _physics_process(_delta: float) -> void:
 	_update_camera_rotation(player.input_controller.consume_look_delta())
 
 
-func update_camera_height(delta: float, target_height: float) -> void:
-	_offset_height = move_toward(_offset_height, target_height, crouch_speed * delta)
-
-
-func smooth_step(height_change: float) -> void:
-	_target_height -= height_change
-	_step_smoothing = true
-
-func _update_camera_rotation(input: Vector2) -> void:
-	player.rotate_y(input.x)
-
-	head.rotate_x(input.y)
-	head.rotation.x = clampf(head.rotation.x, tilt_lower_limit, tilt_upper_limit)
-
-
 func save_state() -> Dictionary:
 	return {
 		&"rotation" : rotation,
@@ -73,3 +58,18 @@ func load_state(state: Dictionary) -> void:
 	_offset_height = state.get(&"offset_height", _offset_height)
 
 	position.y = _offset_height + _target_height
+
+
+func update_camera_height(delta: float, target_height: float) -> void:
+	_offset_height = move_toward(_offset_height, target_height, crouch_speed * delta)
+
+
+func smooth_step(height_change: float) -> void:
+	_target_height -= height_change
+	_step_smoothing = true
+
+func _update_camera_rotation(input: Vector2) -> void:
+	player.rotate_y(input.x)
+
+	head.rotate_x(input.y)
+	head.rotation.x = clampf(head.rotation.x, tilt_lower_limit, tilt_upper_limit)
