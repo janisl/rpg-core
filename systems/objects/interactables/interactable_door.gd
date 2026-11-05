@@ -283,7 +283,7 @@ func _vectors_approx_equal(v1 : Vector3, v2 : Vector3, epsilon : float) -> bool:
 
 func _door_rattle() -> void:
 	_play_sound(rattle_sound)
-	EventBus.show_notification.emit(tr("DOOR Locked"))
+	EventBus.show_notification.emit(tr("DOOR HINT Locked"))
 
 
 func _play_sound(sound: AudioStream) -> void:

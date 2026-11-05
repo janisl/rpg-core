@@ -23,10 +23,11 @@ INTERACT Open,Open
 INTERACT Close,Close
 INTERACT Unlock,Unlock
 INTERACT Lock,Lock
+INTERACT Hold,Hold
 ATTRIBUTE Health,Health
 ATTRIBUTE Stamina,Stamina
 ATTRIBUTE Visibility,Visibility
-DOOR Locked,Locked
+DOOR HINT Locked,Locked
 DOOR HINT Already open,Can't lock an open door
 DOOR HINT Key1,You need a magenta key to open this door
 DOOR HINT Key2,You need a blue key to open this door
