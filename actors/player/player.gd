@@ -18,6 +18,7 @@ extends Actor
 @export_group("Movement settings")
 @export var jump_velocity := 5.0
 @export var crouch_jump_velocity := 3.0
+@export var slide_jump_velocity := 4.0
 @export var toggle_crouch := false
 
 @export_group("Camera height")
@@ -53,6 +54,8 @@ var try_crouch := false
 
 var is_sprinting := false
 var is_crouching := false
+
+var jumped_from_slide := false
 
 var anim_tree_state: AnimationNodeStateMachinePlayback
 
@@ -177,7 +180,12 @@ func decrease_attribute(attribute_name: String, value: float) -> void:
 func jump() -> void:
 	decrease_attribute("stamina", stamina_attribute.jump_exhaustion)
 
-	velocity.y += crouch_jump_velocity if is_crouching else jump_velocity
+	if !sliding_timer.is_stopped():
+		velocity.y += slide_jump_velocity
+		jumped_from_slide = true
+		stop_sliding()
+	else:
+		velocity.y += crouch_jump_velocity if is_crouching else jump_velocity
 	state_chart.set_expression_property(&"is_jumping", true)
 
 
@@ -250,7 +258,7 @@ func _should_stand_up() -> bool:
 	if is_on_floor():
 		return not try_crouch
 	else:
-		return false
+		return jumped_from_slide
 
 
 func _on_lying_dead_state_physics_processing(delta: float) -> void:

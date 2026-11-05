@@ -56,6 +56,7 @@ func _on_movement_state_physics_processing(_delta: float) -> void:
 
 func _on_grounded_state_entered() -> void:
 	_was_on_floor_last_frame = false
+	player.jumped_from_slide = false
 
 
 func _on_sprinting_state_entered() -> void:
