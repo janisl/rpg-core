@@ -23,14 +23,15 @@
 [ext_resource type="PackedScene" uid="uid://u5kjeyq7rd1m" path="res://items/ammo/laser_ammo.tscn" id="21_uyurq"]
 [ext_resource type="PackedScene" uid="uid://b16alro8fspcn" path="res://items/ammo/pistol_ammo.tscn" id="22_8m07d"]
 [ext_resource type="PackedScene" uid="uid://kcm3gee3e08y" path="res://items/ammo/shotgun_ammo.tscn" id="23_mfah6"]
-[ext_resource type="PackedScene" uid="uid://8dycgw6cy5f1" path="res://props/sliding_door.tscn" id="24_b5wip"]
+[ext_resource type="PackedScene" uid="uid://8dycgw6cy5f1" path="res://assets/interactables/sliding_door.tscn" id="24_b5wip"]
 [ext_resource type="PackedScene" uid="uid://drtbte28rd2iw" path="res://items/ammo/shotgun_ammo2.tscn" id="24_g8des"]
-[ext_resource type="PackedScene" uid="uid://cil4m5x6emyl8" path="res://props/rotating_door.tscn" id="25_70x8p"]
+[ext_resource type="PackedScene" uid="uid://cil4m5x6emyl8" path="res://assets/interactables/rotating_door.tscn" id="25_70x8p"]
 [ext_resource type="Resource" uid="uid://bymetjlxxl0j5" path="res://items/keys/key1.tres" id="26_kyecp"]
-[ext_resource type="PackedScene" uid="uid://bod2n8vaas8wj" path="res://props/bidirectional_rotating_door.tscn" id="26_uyurq"]
+[ext_resource type="PackedScene" uid="uid://bod2n8vaas8wj" path="res://assets/interactables/bidirectional_rotating_door.tscn" id="26_uyurq"]
 [ext_resource type="PackedScene" uid="uid://bbt5twbnrlcfj" path="res://systems/interaction/lock_interaction.tscn" id="27_2xn4c"]
-[ext_resource type="PackedScene" uid="uid://cjaa0sbur8iiu" path="res://props/animated_door.tscn" id="27_8m07d"]
-[ext_resource type="PackedScene" uid="uid://cuyd6ulofkduf" path="res://props/dual_rotating_door.tscn" id="28_mfah6"]
+[ext_resource type="PackedScene" uid="uid://cjaa0sbur8iiu" path="res://assets/interactables/animated_door.tscn" id="27_8m07d"]
+[ext_resource type="PackedScene" uid="uid://cuyd6ulofkduf" path="res://assets/interactables/dual_rotating_door.tscn" id="28_mfah6"]
+[ext_resource type="PackedScene" uid="uid://dm06jg7n1hf00" path="res://assets/interactables/turnable.tscn" id="32_mjxbh"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_bsiym"]
 vertices = PackedVector3Array(-45.250004, 0.5, -46, -43.750004, 0.5, -46, -44.000004, 0.5, -49.25, -46.000004, 0.5, -45.25, -49.250004, 0.5, -49.25, -49.250004, 0.5, -35.75, -46.000004, 0.5, -36, -36.000004, 0.5, -46, -35.750004, 0.5, -49.25, -15.000004, 0.5, -46, -13.750004, 0.5, -46, -13.750004, 0.5, -49.25, -34.500004, 0.5, -46, -33.750004, 0.5, -45.25, -40.000004, 0.75, -26.25, -40.750004, 0.5, -26.25, -43.250004, 0.5, -20.75, -39.750004, 0.75, -26.25, -39.500004, 5.5, -35, -40.250004, 5.5, -35, -39.625004, 3.25, -30.625, -39.583336, 0.5, -32.083336, -39.54167, 0.5, -33.541664, -40.208336, 5, -33.541664, -38.750004, 0.5, -31.25, -38.750004, 0.5, -26.25, -34.500004, 0.5, -33.75, -43.250004, 0.5, -10, -13.000004, 0.5, -43.75, -15.250004, 0.5, -44, -11.500004, 0.5, -7.5, -33.750004, 0.5, -34.5, -39.750004, 0.5, -33.75, -39.750004, 0.5, -31.5, -0.5000038, 0.5, 3, -1.7500038, 0.5, 3, -1.7500038, 0.5, 3.25, -0.5000038, 0.5, 3.25, -3.7500038, 0.5, 0, -0.2500038, 0.5, 1.5, 2.4999962, 0.5, 2.5, -0.2500038, 0.5, 3.75, 1.2499962, 0.5, 3.75, 1.2499962, 0.5, 2.75, -3.0000038, 0.5, 1.25, -12.500004, 0.5, -45.75, -12.500004, 0.5, -44.25, 49.499996, 0.5, 4, 49.499996, 0.5, -49.25, 2.7499962, 0.5, 4.25, -43.750004, 0.5, -43.75, -43.750004, 0.5, -36, -36.000004, 0.5, -36, -36.000004, 0.5, -43.75, -41.000004, 0.5, -31.25, -45.250004, 0.5, -33.75, -49.250004, 0.5, -19.75, -46.500004, 0.5, -19.5, -46.500004, 0.5, -21, -46.000004, 0.5, -34.5, -45.500004, 0.75, -21, -44.250004, 0.75, -21, -45.500004, 1.5, -10.75, -44.250004, 1.5, -10.75, -45.500004, 1.5, -19.535715, -44.250004, 1.5, -19.535715, -49.250004, 0.5, -10.25, -46.500004, 0.5, -10.5, -3.2500038, 0.5, 5.25, -2.0000038, 0.5, 5.25, -2.0000038, 0.5, 5, -3.5000038, 0.5, 4.75, -45.500004, 0.75, -9, -46.500004, 0.5, -9, -49.250004, 0.5, 5.5, -3.5000038, 0.5, 5.75, -3.5000038, 0.5, 1.5, -3.5000038, 0.5, 3.5, -3.5000038, 0.5, 2.75, -44.250004, 0.75, -9, -44.250004, 1.5, -9.875, -45.500004, 1.5, -9.875, -43.250004, 0.5, -9, -0.5000038, 0.5, 5.25, -0.5000038, 0.5, 5, 1.9999962, 0.5, 7.75, 1.2499962, 0.5, 7.5, -3.0000038, 0.5, 7, -3.0000038, 0.5, 49.5, 1.9999962, 0.5, 49.5, -0.2500038, 0.5, 6.75, 2.7499962, 0.5, 6, 49.499996, 0.5, 6.25, -3.5000038, 0.5, 6.75, -49.250004, 0.5, 49.5, 2.7499962, 0.5, 7.5, 49.499996, 0.5, 49.5)
@@ -889,6 +890,17 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -40,
 [node name="DualRotatingDoor" parent="Interactables" unique_id=2018749123 instance=ExtResource("28_mfah6")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -40, 0, -20)
 
+[node name="RotatingDoor3" parent="Interactables" unique_id=1841273296 instance=ExtResource("25_70x8p")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -37, 0, -8)
+
+[node name="Turnable" parent="Interactables" unique_id=808570492 instance=ExtResource("32_mjxbh")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -37, 1, -7.5)
+
+[node name="AnimatableBody3D" parent="Interactables/Turnable" index="0" unique_id=1651636666 node_paths=PackedStringArray("nodes_to_trigger")]
+nodes_to_trigger = [NodePath("../../RotatingDoor3/AnimatableBody3D")]
+
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]
 
 [editable path="Interactables/RotatingDoor2"]
+[editable path="Interactables/RotatingDoor3"]
+[editable path="Interactables/Turnable"]
