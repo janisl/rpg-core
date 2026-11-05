@@ -1,7 +1,6 @@
 Player
 - stats, leveling
 - equipment
-- footsteps
 
 UI
 - pause menu

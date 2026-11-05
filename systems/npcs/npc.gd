@@ -29,6 +29,13 @@ enum BehaviourState {
 @export_group("Head LookAt")
 @export var head_turner: LookAtModifier3D
 
+@export_group("Footstep Player")
+@export var footsteps_enabled := true
+@export var walk_volume_db := -12
+@export var sprint_volume_db := -4
+@export var wiggle_on_walking_speed := 12.0
+@export var wiggle_on_sprinting_speed := 16.0
+
 var attention_target: Node3D:
 	set(value):
 		if attention_target and attention_target is AttentionPoint:
@@ -47,11 +54,16 @@ var _weapon_data: WeaponData
 var _weapon: Weapon
 var _weapon_third_person: ThirdPersonWieldable
 
+var _can_play_footstep := true
+var _wiggle_vector := Vector2.ZERO
+var _wiggle_index := 0.0
+
 @onready var velocity_debug_shape: MeshInstance3D = $VelocityDebugShape
 @onready var sight_detection: SightDetection = $SightDetection
 @onready var hand_slot: Node3D = %HandSlot
 @onready var nav_agent: NavigationAgent3D = $NavAgent
 @onready var state_chart: StateChart = $StateChart
+@onready var footstep_player: FootstepPlayer = $FootstepPlayer
 
 @onready var patrolling_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Patrolling/Processor
 @onready var investigate_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Investigating/Processor
@@ -70,6 +82,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+
+	if footsteps_enabled:
+		_npc_footsteps(delta)
 
 
 func face_direction(target_position: Vector3) -> void:
@@ -230,3 +245,27 @@ func _on_health_attribute_damage_taken(hit_info: HitInfo) -> void:
 	if not hit_info.direction.is_zero_approx():
 		sight_detection.generate_attention_target(hit_info.source_position)
 	state_chart.send_event("alerted")
+
+
+func _npc_footsteps(delta: float) -> void:
+	if round(velocity.length()) >= sprint_speed:
+		_wiggle_vector.y = sin(_wiggle_index)
+		_wiggle_index += wiggle_on_walking_speed * delta
+
+		if _can_play_footstep and _wiggle_vector.y > 0.9:
+			footstep_player.play_footstep(sprint_volume_db)
+			_can_play_footstep = false
+
+		if !_can_play_footstep and _wiggle_vector.y < 0.9:
+			_can_play_footstep = true
+
+	elif velocity.length() >= 0.2:
+		_wiggle_vector.y = sin(_wiggle_index)
+		_wiggle_index += wiggle_on_sprinting_speed * delta
+
+		if _can_play_footstep and _wiggle_vector.y > 0.9:
+			footstep_player.play_footstep(walk_volume_db)
+			_can_play_footstep = false
+
+		if !_can_play_footstep and _wiggle_vector.y < 0.9:
+			_can_play_footstep = true
