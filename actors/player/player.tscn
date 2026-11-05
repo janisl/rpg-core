@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://dek1hlgqh6p45" path="res://actors/player/player_ground_movement_handler.gd" id="20_otn2r"]
 [ext_resource type="Script" uid="uid://dte1dx7wmo5ca" path="res://actors/player/player_airborne_movement_handler.gd" id="21_ctwkf"]
 [ext_resource type="Script" uid="uid://v3eyncouit2i" path="res://actors/player/player_swimming_movement_handler.gd" id="23_lj3dd"]
+[ext_resource type="Script" uid="uid://ccwu2fc84l1rx" path="res://systems/footsteps/footstep_player.gd" id="25_qct7d"]
 [ext_resource type="Script" uid="uid://cqmmur7bbutym" path="res://actors/player/player_ladder_movement_handler.gd" id="25_yeioo"]
 [ext_resource type="PackedScene" uid="uid://wtf1fqndii2p" path="res://systems/attributes/visibility_attribute.tscn" id="27_s7w8x"]
 [ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="30_j5me0"]
@@ -1041,6 +1042,10 @@ parameters/LowerBody/Standing/BlendTree/TimeSeek/seek_request = -1.0
 parameters/hurt/active = false
 parameters/hurt/internal_active = false
 parameters/hurt/request = 0
+
+[node name="FootstepPlayer" type="AudioStreamPlayer3D" parent="." unique_id=2101153626]
+script = ExtResource("25_qct7d")
+metadata/_custom_type_script = "uid://ccwu2fc84l1rx"
 
 [node name="HealthAttribute" parent="." unique_id=213689897 instance=ExtResource("35_qls60")]
 

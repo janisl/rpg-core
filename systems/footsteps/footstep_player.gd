@@ -1,0 +1,2 @@
+class_name FootstepPlayer
+extends AudioStreamPlayer3D
