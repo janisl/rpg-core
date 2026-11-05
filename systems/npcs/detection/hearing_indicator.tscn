@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://essuiwcp63ni"]
+
+[ext_resource type="Script" uid="uid://fyibfx7mbmsu" path="res://systems/npcs/detection/hearing_indicator.gd" id="1_jf68r"]
+
+[sub_resource type="Gradient" id="Gradient_20i5y"]
+offsets = PackedFloat32Array(0.2836767, 0.6671949, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yiopj"]
+gradient = SubResource("Gradient_20i5y")
+fill = 2
+fill_from = Vector2(0, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="HearingIndicator" type="Node3D" unique_id=1075551061 node_paths=PackedStringArray("indicator")]
+script = ExtResource("1_jf68r")
+indicator = NodePath("Hearing")
+
+[node name="Hearing" type="Sprite3D" parent="." unique_id=1383914284]
+billboard = 2
+texture = SubResource("GradientTexture2D_yiopj")
