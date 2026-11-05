@@ -71,6 +71,7 @@ var _can_play_footstep := true
 @onready var ladder_movement: PlayerLadderMovementHandler = $MovementHandlers/LadderMovement
 @onready var footstep_player: FootstepPlayer = $FootstepPlayer
 @onready var sliding_timer: Timer = $SlidingTimer
+@onready var sliding_audio_player: AudioStreamPlayer3D = $SlidingAudioPlayer
 
 
 func _ready() -> void:
@@ -190,7 +191,7 @@ func jump() -> void:
 
 
 func handle_movement_sound() -> void:
-	if is_on_floor() and velocity.length() >= 0.2:
+	if velocity.length() >= 0.2 and sliding_timer.is_stopped():
 		_play_footstep_sound()
 
 
@@ -205,6 +206,7 @@ func handle_landing(current_fall_velocity: float) -> void:
 func stop_sliding() -> void:
 	sliding_timer.stop()
 	state_chart.set_expression_property(&"is_sliding", false)
+	sliding_audio_player.stop()
 
 
 func _on_standing_state_entered() -> void:

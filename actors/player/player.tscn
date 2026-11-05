@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://ccwu2fc84l1rx" path="res://systems/footsteps/footstep_player.gd" id="25_qct7d"]
 [ext_resource type="Script" uid="uid://cqmmur7bbutym" path="res://actors/player/player_ladder_movement_handler.gd" id="25_yeioo"]
 [ext_resource type="PackedScene" uid="uid://wtf1fqndii2p" path="res://systems/attributes/visibility_attribute.tscn" id="27_s7w8x"]
+[ext_resource type="AudioStream" uid="uid://dxo7lgyv6y01" path="res://assets/sounds/misc/504383__joao_janz__boots-gravel-feet-slide-1_5.wav" id="29_ivjma"]
 [ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="30_j5me0"]
 [ext_resource type="Script" uid="uid://bk8ufns0cjpgj" path="res://systems/inventory/inventory.gd" id="31_4ihbh"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="35_qls60"]
@@ -1085,6 +1086,9 @@ script = ExtResource("25_qct7d")
 generic_footstep_profile = ExtResource("40_ifggu")
 generic_landing_profile = ExtResource("40_ifggu")
 metadata/_custom_type_script = "uid://ccwu2fc84l1rx"
+
+[node name="SlidingAudioPlayer" type="AudioStreamPlayer3D" parent="." unique_id=2075284362]
+stream = ExtResource("29_ivjma")
 
 [node name="SlidingTimer" type="Timer" parent="." unique_id=1133075919]
 wait_time = 1.5

@@ -39,8 +39,6 @@ func _on_airborne_state_physics_processing(delta: float) -> void:
 	player.push_away_rigid_bodies()
 	player.move_and_slide()
 
-	player.handle_movement_sound()
-
 	if player.is_on_floor():
 		if current_fall_velocity < fall_velocity_threshold:
 			player.camera_effects.add_fall_kick(fall_kick)

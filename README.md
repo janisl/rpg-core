@@ -36,4 +36,5 @@ CC4  https://freesound.org/people/PixelProphecy/sounds/497033/
 CC0  https://freesound.org/people/BenjaminNelan/sounds/321087/
 CC0  https://freesound.org/people/Deela/sounds/487614/
 CC0  https://freesound.org/people/NikoletB/sounds/846434/
+CC0  https://freesound.org/people/Joao_Janz/sounds/504383/
 CC0  https://opengameart.org/content/rpg-sound-pack
