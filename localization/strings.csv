@@ -24,6 +24,7 @@ INTERACT Close,Close
 INTERACT Unlock,Unlock
 INTERACT Lock,Lock
 INTERACT Hold,Hold
+INTERACT hold joiner," | (HOLD) "
 ATTRIBUTE Health,Health
 ATTRIBUTE Stamina,Stamina
 ATTRIBUTE Visibility,Visibility

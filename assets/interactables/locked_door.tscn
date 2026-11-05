@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://c80yp33psmaru"]
+
+[ext_resource type="Script" uid="uid://vdqct0dnf3ms" path="res://systems/objects/interactables/interactable_door.gd" id="1_1qmk1"]
+[ext_resource type="Resource" uid="uid://pdxuupchn4xf" path="res://items/keys/key2.tres" id="2_2idl7"]
+[ext_resource type="AudioStream" uid="uid://es54vl54g4k6" path="res://assets/sounds/kenney_rpg-audio/door_open_2.ogg" id="2_cc4a8"]
+[ext_resource type="AudioStream" uid="uid://btq2grvad7a4v" path="res://assets/sounds/kenney_rpg-audio/door_close_2.ogg" id="3_fqk0p"]
+[ext_resource type="AudioStream" uid="uid://phe1iao2dra6" path="res://assets/sounds/misc/321087__benjaminnelan__door-locked.wav" id="4_2idl7"]
+[ext_resource type="AudioStream" uid="uid://dj3g4va0g585j" path="res://assets/sounds/misc/497033__pixelprophecy__large-modern-door-close.wav" id="5_je61g"]
+[ext_resource type="AudioStream" uid="uid://c8ca2846b2sbp" path="res://assets/sounds/misc/487614__deela__lock-a-door.wav" id="6_e5iap"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/basic_interaction.tscn" id="7_dt1ys"]
+[ext_resource type="PackedScene" uid="uid://bbt5twbnrlcfj" path="res://systems/interaction/lock_interaction.tscn" id="8_fqk0p"]
+[ext_resource type="PackedScene" uid="uid://bqp8nl7x2c37m" path="res://systems/interaction/dual_interaction.tscn" id="9_2idl7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
+size = Vector3(1, 2, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.4143056, 0.22761494, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(1, 2, 0.1)
+
+[node name="LockedDoor" type="Node3D" unique_id=1305629844]
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=426944630 node_paths=PackedStringArray("audio_player")]
+script = ExtResource("1_1qmk1")
+is_locked = true
+key = ExtResource("2_2idl7")
+key_hint = "DOOR HINT Key2"
+open_rotation = Vector3(0, 100, 0)
+audio_player = NodePath("../AudioStreamPlayer3D")
+open_sound = ExtResource("2_cc4a8")
+close_sound = ExtResource("3_fqk0p")
+rattle_sound = ExtResource("4_2idl7")
+unlock_sound = ExtResource("5_je61g")
+lock_sound = ExtResource("6_e5iap")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=942444345]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+shape = SubResource("BoxShape3D_bsiym")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimatableBody3D" unique_id=364271063]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+mesh = SubResource("BoxMesh_bsiym")
+
+[node name="BasicInteraction" parent="AnimatableBody3D" unique_id=14951234 instance=ExtResource("7_dt1ys")]
+is_disabled = true
+
+[node name="LockInteraction" parent="AnimatableBody3D" unique_id=345345686 instance=ExtResource("8_fqk0p")]
+is_disabled = true
+
+[node name="DualInteraction" parent="AnimatableBody3D" unique_id=1092888406 node_paths=PackedStringArray("hold_node") instance=ExtResource("9_2idl7")]
+hold_node = NodePath("../LockInteraction")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=669111478]
+
+[connection signal="on_hold_complete" from="AnimatableBody3D/DualInteraction" to="AnimatableBody3D/LockInteraction" method="interact"]
+[connection signal="on_quick_press" from="AnimatableBody3D/DualInteraction" to="AnimatableBody3D/BasicInteraction" method="interact"]
