@@ -1,0 +1,25 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://c5etqcpobd0u"]
+
+[ext_resource type="AudioStream" uid="uid://chwfcsepvs24v" path="res://assets/sounds/kenney_rpg-audio/footstep00.ogg" id="1_ro60e"]
+[ext_resource type="AudioStream" uid="uid://ce5nyik7gscyn" path="res://assets/sounds/kenney_rpg-audio/footstep01.ogg" id="2_vekdf"]
+[ext_resource type="AudioStream" uid="uid://ckpufurvm6mml" path="res://assets/sounds/kenney_rpg-audio/footstep02.ogg" id="3_rvgl2"]
+[ext_resource type="AudioStream" uid="uid://bmdqqofk50wij" path="res://assets/sounds/kenney_rpg-audio/footstep03.ogg" id="4_57dk4"]
+[ext_resource type="AudioStream" uid="uid://up8o5tguo6j5" path="res://assets/sounds/kenney_rpg-audio/footstep04.ogg" id="5_r1aj4"]
+[ext_resource type="AudioStream" uid="uid://lf6xr4nfg7jv" path="res://assets/sounds/kenney_rpg-audio/footstep05.ogg" id="6_6udsf"]
+[ext_resource type="AudioStream" uid="uid://ct0tn7v7sd35f" path="res://assets/sounds/kenney_rpg-audio/footstep06.ogg" id="7_peuhd"]
+[ext_resource type="AudioStream" uid="uid://c6tp5h0kdkkhm" path="res://assets/sounds/kenney_rpg-audio/footstep07.ogg" id="8_tuh31"]
+[ext_resource type="AudioStream" uid="uid://c228ubjsbgh87" path="res://assets/sounds/kenney_rpg-audio/footstep08.ogg" id="9_mf824"]
+[ext_resource type="AudioStream" uid="uid://d3exu5jb7im3t" path="res://assets/sounds/kenney_rpg-audio/footstep09.ogg" id="10_mhon6"]
+
+[resource]
+streams_count = 10
+stream_0/stream = ExtResource("1_ro60e")
+stream_1/stream = ExtResource("2_vekdf")
+stream_2/stream = ExtResource("3_rvgl2")
+stream_3/stream = ExtResource("4_57dk4")
+stream_4/stream = ExtResource("5_r1aj4")
+stream_5/stream = ExtResource("6_6udsf")
+stream_6/stream = ExtResource("7_peuhd")
+stream_7/stream = ExtResource("8_tuh31")
+stream_8/stream = ExtResource("9_mf824")
+stream_9/stream = ExtResource("10_mhon6")

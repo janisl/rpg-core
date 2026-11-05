@@ -33,6 +33,7 @@
 [ext_resource type="AnimationNodeBlendTree" uid="uid://bbe1e835q82bc" path="res://systems/actors/humanoid_animation_tree.tres" id="19_thjgf"]
 [ext_resource type="Script" uid="uid://crvmh56qwb83k" path="res://systems/npcs/detection/sight_detection.gd" id="22_gbejp"]
 [ext_resource type="Script" uid="uid://ccwu2fc84l1rx" path="res://systems/footsteps/footstep_player.gd" id="31_gxn4h"]
+[ext_resource type="AudioStream" uid="uid://c5etqcpobd0u" path="res://systems/footsteps/generic_footstep_profile.tres" id="32_dqwjh"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -1006,6 +1007,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5638493, -0.16451624)
 
 [node name="FootstepPlayer" type="AudioStreamPlayer3D" parent="." unique_id=1453074495]
 script = ExtResource("31_gxn4h")
+generic_footstep_profile = ExtResource("32_dqwjh")
+generic_landing_profile = ExtResource("32_dqwjh")
 metadata/_custom_type_script = "uid://ccwu2fc84l1rx"
 
 [node name="VelocityDebugShape" type="MeshInstance3D" parent="." unique_id=108628966]

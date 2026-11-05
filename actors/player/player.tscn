@@ -24,6 +24,7 @@
 [ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="30_j5me0"]
 [ext_resource type="Script" uid="uid://bk8ufns0cjpgj" path="res://systems/inventory/inventory.gd" id="31_4ihbh"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="35_qls60"]
+[ext_resource type="AudioStream" uid="uid://c5etqcpobd0u" path="res://systems/footsteps/generic_footstep_profile.tres" id="40_ifggu"]
 [ext_resource type="PackedScene" uid="uid://ce7bjv28uakxl" path="res://systems/attributes/stamina_attribute.tscn" id="44_a13rm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
@@ -1045,6 +1046,8 @@ parameters/hurt/request = 0
 
 [node name="FootstepPlayer" type="AudioStreamPlayer3D" parent="." unique_id=2101153626]
 script = ExtResource("25_qct7d")
+generic_footstep_profile = ExtResource("40_ifggu")
+generic_landing_profile = ExtResource("40_ifggu")
 metadata/_custom_type_script = "uid://ccwu2fc84l1rx"
 
 [node name="HealthAttribute" parent="." unique_id=213689897 instance=ExtResource("35_qls60")]
