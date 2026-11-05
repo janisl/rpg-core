@@ -35,6 +35,7 @@ extends Actor
 @export_flags_3d_render var mesh_layer := 1
 
 @export_group("Audio")
+@export var jump_sound: AudioStream
 
 @export_subgroup("Footstep Audio")
 @export var walk_volume_db := -38.0
@@ -179,6 +180,7 @@ func decrease_attribute(attribute_name: String, value: float) -> void:
 
 
 func jump() -> void:
+	AudioManager.play_sound_3d(jump_sound, global_position)
 	decrease_attribute("stamina", stamina_attribute.jump_exhaustion)
 
 	if !sliding_timer.is_stopped():
