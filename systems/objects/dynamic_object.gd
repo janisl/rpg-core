@@ -20,6 +20,7 @@ func save_state() -> Dictionary:
 	if rigid_body:
 		state[&"linear_velocity"] = rigid_body.linear_velocity
 		state[&"angular_velocity"] = rigid_body.angular_velocity
+	state[&"display_name"] = display_name
 	return state
 
 
@@ -30,3 +31,4 @@ func load_state(state: Dictionary) -> void:
 	if rigid_body:
 		rigid_body.linear_velocity = state.get(&"linear_velocity", Vector3.ZERO)
 		rigid_body.angular_velocity = state.get(&"angular_velocity", Vector3.ZERO)
+	display_name = state.get(&"display_name", "")

@@ -132,11 +132,13 @@ func save_state() -> Dictionary:
 	state[&"try_crouch"] = try_crouch
 	state[&"is_sprinting"] = is_sprinting
 	state[&"is_crouching"] = is_crouching
+	state[&"jumped_from_slide"] = jumped_from_slide
 	state[&"standing_collision_disabled"] = standing_collision.disabled
 	state[&"crouching_collision_disabled"] = crouching_collision.disabled
 	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
 	state[&"ground_movement"] = ground_movement.save_state()
 	state[&"ladder_movement"] = ladder_movement.save_state()
+	SaveUtils.save_timer(state, &"sliding_timer", sliding_timer)
 	return state
 
 
@@ -145,11 +147,13 @@ func load_state(state: Dictionary) -> void:
 	try_crouch = state.get(&"try_crouch", false)
 	is_sprinting = state.get(&"is_sprinting", false)
 	is_crouching = state.get(&"is_crouching", false)
+	jumped_from_slide = state.get(&"jumped_from_slide", false)
 	standing_collision.disabled = state.get(&"standing_collision_disabled", false)
 	crouching_collision.disabled = state.get(&"crouching_collision_disabled", true)
 	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
 	ground_movement.load_state(state.get(&"ground_movement", Dictionary()))
 	ladder_movement.load_state(state.get(&"ladder_movement", Dictionary()))
+	SaveUtils.load_timer(state, &"sliding_timer", sliding_timer)
 
 
 func increase_attribute(attribute_name: String, value: float, value_type: BaseAttribute.ValueType) -> bool:

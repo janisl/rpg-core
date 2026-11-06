@@ -32,6 +32,7 @@ func save_state() -> Dictionary:
 		&"crouch_modifier" : _crouch_modifier,
 		&"snapped_to_stairs_last_frame" : _snapped_to_stairs_last_frame,
 		&"was_on_floor_last_frame" : _was_on_floor_last_frame,
+		&"slide_vector" : _slide_vector,
 	}
 
 
@@ -40,6 +41,7 @@ func load_state(state: Dictionary) -> void:
 	_crouch_modifier = state.get(&"crouch_modifier", 0.0)
 	_snapped_to_stairs_last_frame = state.get(&"snapped_to_stairs_last_frame", false)
 	_was_on_floor_last_frame = state.get(&"was_on_floor_last_frame", false)
+	_slide_vector = state.get(&"slide_vector", Vector3.ZERO)
 
 
 func _on_movement_state_physics_processing(_delta: float) -> void:
