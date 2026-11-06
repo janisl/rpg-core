@@ -190,7 +190,6 @@ func jump() -> void:
 	if !sliding_timer.is_stopped():
 		velocity.y += slide_jump_velocity
 		jumped_from_slide = true
-		stop_sliding()
 	else:
 		velocity.y += crouch_jump_velocity if is_crouching else jump_velocity
 	state_chart.set_expression_property(&"is_jumping", true)
@@ -207,12 +206,6 @@ func handle_landing(current_fall_velocity: float) -> void:
 		var volume := lerpf(min_volume_db, max_volume_db, velocity_ratio)
 		var pitch := lerpf(max_pitch, min_pitch, velocity_ratio)
 		footstep_player.play_landing(volume, pitch, current_fall_velocity)
-
-
-func stop_sliding() -> void:
-	sliding_timer.stop()
-	state_chart.set_expression_property(&"is_sliding", false)
-	sliding_audio_player.stop()
 
 
 func _on_standing_state_entered() -> void:
@@ -257,18 +250,12 @@ func _on_crouching_state_physics_processing(delta: float) -> void:
 		state_chart.send_event("onStanding")
 	camera_controller.update_camera_height(delta, crouch_camera_height)
 
-	if !Input.is_action_pressed("sprint"):
-		stop_sliding()
-
 
 func _should_stand_up() -> bool:
 	if crouch_check.is_colliding():
 		return false
 
-	if is_on_floor():
-		return not try_crouch
-	else:
-		return jumped_from_slide
+	return jumped_from_slide or (is_on_floor() and not try_crouch)
 
 
 func _on_lying_dead_state_physics_processing(delta: float) -> void:

@@ -52,6 +52,9 @@ func _on_movement_state_physics_processing(_delta: float) -> void:
 		&"try_sprint",
 		player.input_controller.sprint_pressed and player.stamina_attribute.value > 0)
 	player.state_chart.set_expression_property(
+		&"have_move_input",
+		player.input_controller.move_input.length() > 0)
+	player.state_chart.set_expression_property(
 		&"is_moving",
 		player.input_controller.move_input.length() > 0 or player.velocity.length() >= 0.5)
 
@@ -73,16 +76,23 @@ func _on_sprinting_state_exited() -> void:
 
 func _on_standing_state_entered() -> void:
 	_crouch_modifier = 0
-	player.stop_sliding()
 
 
 func _on_crouching_state_entered() -> void:
 	_crouch_modifier = crouch_speed
-	if player.is_sprinting and player.input_controller.move_input != Vector2.ZERO:
-		player.sliding_timer.start()
-		_slide_vector = player.input_controller.move_input
-		player.state_chart.set_expression_property(&"is_sliding", true)
-		player.sliding_audio_player.play()
+
+
+func _on_sliding_state_entered() -> void:
+	player.sliding_timer.start()
+	_slide_vector = player.input_controller.move_input
+	player.state_chart.set_expression_property(&"is_sliding", true)
+	player.sliding_audio_player.play()
+
+
+func _on_sliding_state_exited() -> void:
+	player.sliding_timer.stop()
+	player.state_chart.set_expression_property(&"is_sliding", false)
+	player.sliding_audio_player.stop()
 
 
 func _on_grounded_state_physics_processing(delta: float) -> void:
