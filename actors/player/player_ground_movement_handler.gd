@@ -9,16 +9,15 @@ const MIN_STEP_HEIGHT := 0.03
 @export_group("Movement settings")
 @export var acceleration := 0.2
 @export var deceleration := 0.5
-@export var default_speed := 7.0
-@export var sprint_speed := 3.0
-@export var crouch_speed := -5.0
+@export var walking_speed := 4.0
+@export var sprint_speed := 7.0
+@export var crouch_speed := 2.0
 @export var sliding_speed := 5.0
 
 @export_group("Step settings")
 @export var step_height := 0.5
 
-var _sprint_modifier := 0.0
-var _crouch_modifier := 0.0
+var _speed := 0.0
 
 var _snapped_to_stairs_last_frame := false
 var _was_on_floor_last_frame := false
@@ -28,8 +27,7 @@ var _slide_vector := Vector2.ZERO
 
 func save_state() -> Dictionary:
 	return {
-		&"sprint_modifier" : _sprint_modifier,
-		&"crouch_modifier" : _crouch_modifier,
+		&"speed" : _speed,
 		&"snapped_to_stairs_last_frame" : _snapped_to_stairs_last_frame,
 		&"was_on_floor_last_frame" : _was_on_floor_last_frame,
 		&"slide_vector" : _slide_vector,
@@ -37,8 +35,7 @@ func save_state() -> Dictionary:
 
 
 func load_state(state: Dictionary) -> void:
-	_sprint_modifier = state.get(&"sprint_modifier", 0.0)
-	_crouch_modifier = state.get(&"crouch_modifier", 0.0)
+	_speed = state.get(&"speed", 0.0)
 	_snapped_to_stairs_last_frame = state.get(&"snapped_to_stairs_last_frame", false)
 	_was_on_floor_last_frame = state.get(&"was_on_floor_last_frame", false)
 	_slide_vector = state.get(&"slide_vector", Vector3.ZERO)
@@ -64,22 +61,21 @@ func _on_grounded_state_entered() -> void:
 	player.jumped_from_slide = false
 
 
+func _on_walking_state_entered() -> void:
+	_speed = walking_speed
+
+
 func _on_sprinting_state_entered() -> void:
-	_sprint_modifier = sprint_speed
+	_speed = sprint_speed
 	player.is_sprinting = true
 
 
 func _on_sprinting_state_exited() -> void:
-	_sprint_modifier = 0
 	player.is_sprinting = false
 
 
-func _on_standing_state_entered() -> void:
-	_crouch_modifier = 0
-
-
-func _on_crouching_state_entered() -> void:
-	_crouch_modifier = crouch_speed
+func _on_sneaking_state_entered() -> void:
+	_speed = crouch_speed
 
 
 func _on_sliding_state_entered() -> void:
@@ -106,8 +102,7 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 					player.input_controller.move_input.x,
 					0,
 					player.input_controller.move_input.y)).normalized()
-		var speed_modifier := _sprint_modifier + _crouch_modifier
-		speed = default_speed + speed_modifier
+		speed = _speed
 	else:
 		direction = (player.global_transform.basis * Vector3(_slide_vector.x, 0.0, _slide_vector.y)).normalized()
 		speed = (player.sliding_timer.time_left / player.sliding_timer.wait_time + 0.5) * sliding_speed
