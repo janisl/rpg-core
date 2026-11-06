@@ -40,6 +40,11 @@ height = 0.8
 [sub_resource type="SphereShape3D" id="SphereShape3D_rghg7"]
 radius = 0.3
 
+[sub_resource type="Resource" id="Resource_dbtiq"]
+script = ExtResource("30_j5me0")
+expression = "is_crouching"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
 [sub_resource type="Resource" id="Resource_2vokq"]
 script = ExtResource("30_j5me0")
 expression = "is_moving and try_sprint"
@@ -60,9 +65,34 @@ script = ExtResource("30_j5me0")
 expression = "try_sprint"
 metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 
+[sub_resource type="Resource" id="Resource_vcto8"]
+script = ExtResource("30_j5me0")
+expression = "is_crouching"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
 [sub_resource type="Resource" id="Resource_nsxbo"]
 script = ExtResource("30_j5me0")
 expression = "not try_sprint"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_myoqk"]
+script = ExtResource("30_j5me0")
+expression = "not is_crouching and not is_moving"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_pveis"]
+script = ExtResource("30_j5me0")
+expression = "not is_crouching"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_i61ap"]
+script = ExtResource("30_j5me0")
+expression = "not is_crouching"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_mv13o"]
+script = ExtResource("30_j5me0")
+expression = "not is_sliding"
 metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 
 [sub_resource type="Resource" id="Resource_et2yc"]
@@ -404,6 +434,7 @@ script = ExtResource("2_lsqbn")
 initial_expression_properties = {
 &"climbing_ladder": false,
 &"in_liquid": false,
+&"is_crouching": false,
 &"is_dead": false,
 &"is_jumping": false,
 &"is_moving": false,
@@ -431,6 +462,13 @@ metadata/_custom_type_script = "uid://jk2jm1g6q853"
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 
+[node name="ToSneaking" type="Node" parent="StateChart/Root/Movement/Grounded/Idle" unique_id=392196027]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Sneaking")
+guard = SubResource("Resource_dbtiq")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
 [node name="ToSprinting" type="Node" parent="StateChart/Root/Movement/Grounded/Idle" unique_id=493507331]
 script = ExtResource("6_bop6h")
 to = NodePath("../../Sprinting")
@@ -448,6 +486,13 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="Walking" type="Node" parent="StateChart/Root/Movement/Grounded" unique_id=159433758]
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="ToSneaking" type="Node" parent="StateChart/Root/Movement/Grounded/Walking" unique_id=45114057]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Sneaking")
+guard = SubResource("Resource_dbtiq")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="ToIdle" type="Node" parent="StateChart/Root/Movement/Grounded/Walking" unique_id=860158683]
 script = ExtResource("6_bop6h")
@@ -467,6 +512,13 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 
+[node name="ToSliding" type="Node" parent="StateChart/Root/Movement/Grounded/Sprinting" unique_id=1116814872]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Sliding")
+guard = SubResource("Resource_vcto8")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
 [node name="ToIdle" type="Node" parent="StateChart/Root/Movement/Grounded/Sprinting" unique_id=990829216]
 script = ExtResource("6_bop6h")
 to = NodePath("../../Idle")
@@ -478,6 +530,42 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 script = ExtResource("6_bop6h")
 to = NodePath("../../Walking")
 guard = SubResource("Resource_nsxbo")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Sneaking" type="Node" parent="StateChart/Root/Movement/Grounded" unique_id=2091743854]
+script = ExtResource("5_15y17")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="ToIdle" type="Node" parent="StateChart/Root/Movement/Grounded/Sneaking" unique_id=1631324092]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Idle")
+guard = SubResource("Resource_myoqk")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="ToWalking" type="Node" parent="StateChart/Root/Movement/Grounded/Sneaking" unique_id=1899420315]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Walking")
+guard = SubResource("Resource_pveis")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Sliding" type="Node" parent="StateChart/Root/Movement/Grounded" unique_id=2091743861]
+script = ExtResource("5_15y17")
+metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="ToWalking" type="Node" parent="StateChart/Root/Movement/Grounded/Sliding" unique_id=298789296]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Walking")
+guard = SubResource("Resource_i61ap")
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="ToSneaking" type="Node" parent="StateChart/Root/Movement/Grounded/Sliding" unique_id=525057991]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Sneaking")
+guard = SubResource("Resource_mv13o")
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 

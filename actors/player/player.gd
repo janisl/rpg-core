@@ -213,6 +213,7 @@ func stop_sliding() -> void:
 
 func _on_standing_state_entered() -> void:
 	is_crouching = false
+	state_chart.set_expression_property(&"is_crouching", false)
 	standing_collision.disabled = false
 	crouching_collision.disabled = true
 	anim_tree_state.travel("Standing")
@@ -221,6 +222,7 @@ func _on_standing_state_entered() -> void:
 
 func _on_crouching_state_entered() -> void:
 	is_crouching = true
+	state_chart.set_expression_property(&"is_crouching", true)
 	standing_collision.disabled = true
 	crouching_collision.disabled = false
 	anim_tree_state.travel("Crouching")
