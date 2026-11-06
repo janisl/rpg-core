@@ -100,11 +100,6 @@ script = ExtResource("30_j5me0")
 expression = "not try_sprint"
 metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 
-[sub_resource type="Resource" id="Resource_v3s8r"]
-script = ExtResource("30_j5me0")
-expression = "not is_sliding"
-metadata/_custom_type_script = "uid://le5w1cm0ul8p"
-
 [sub_resource type="Resource" id="Resource_et2yc"]
 script = ExtResource("30_j5me0")
 expression = "climbing_ladder"
@@ -590,8 +585,7 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="ToSneakingOnTimeout" type="Node" parent="StateChart/Root/Movement/Grounded/Sliding" unique_id=1897039501]
 script = ExtResource("6_bop6h")
 to = NodePath("../../Sneaking")
-guard = SubResource("Resource_v3s8r")
-delay_in_seconds = "0.0"
+delay_in_seconds = "1.5"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="ToClimbingLadder" type="Node" parent="StateChart/Root/Movement/Grounded" unique_id=453972516]
@@ -1205,10 +1199,6 @@ metadata/_custom_type_script = "uid://ccwu2fc84l1rx"
 [node name="SlidingAudioPlayer" type="AudioStreamPlayer3D" parent="." unique_id=2075284362]
 stream = ExtResource("29_ivjma")
 
-[node name="SlidingTimer" type="Timer" parent="." unique_id=1133075919]
-wait_time = 1.5
-one_shot = true
-
 [node name="HealthAttribute" parent="." unique_id=213689897 instance=ExtResource("35_qls60")]
 
 [node name="StaminaAttribute" parent="." unique_id=1020555911 instance=ExtResource("44_a13rm")]
@@ -1240,6 +1230,5 @@ one_shot = true
 [connection signal="state_entered" from="StateChart/Root/HeadMovement/Sliding" to="Neck" method="_on_sliding_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/HeadMovement/Sliding" to="Neck" method="_on_sliding_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/HeadMovement/Sliding" to="Neck" method="_on_sliding_state_physics_processing"]
-[connection signal="timeout" from="SlidingTimer" to="MovementHandlers/GroundMovement" method="_on_sliding_state_exited"]
 [connection signal="damage_taken" from="HealthAttribute" to="." method="_on_health_attribute_damage_taken"]
 [connection signal="died" from="HealthAttribute" to="." method="_on_health_attribute_died"]

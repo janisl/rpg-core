@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 		if value >= max_value:
 			_is_regenerating = false
 
-	if _player.is_sprinting and _player.velocity.length() > _player.ground_movement.default_speed and _player.velocity.length() > 0.1:
+	if _player.is_sprinting and _player.velocity.length() > _player.ground_movement.walking_speed and _player.velocity.length() > 0.1:
 		regen_timer.stop()
 		_is_regenerating = false
 		var exhaustion := _run_exhaustion()

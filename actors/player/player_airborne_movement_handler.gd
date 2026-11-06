@@ -7,7 +7,7 @@ extends Node
 @export_group("Movement settings")
 @export var acceleration := 0.02
 @export var deceleration := 0.05
-@export var default_speed := 7.0
+@export var air_control_speed := 4.0
 
 @export_group("Effect settings")
 @export var fall_velocity_threshold := -5.0
@@ -19,7 +19,7 @@ func _on_airborne_state_physics_processing(delta: float) -> void:
 
 	player.velocity += player.get_gravity() * delta
 
-	var speed := default_speed
+	var speed := air_control_speed
 
 	var current_velocity := Vector2(player.velocity.x, player.velocity.z)
 	var direction := (

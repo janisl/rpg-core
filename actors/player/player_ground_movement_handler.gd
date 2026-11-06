@@ -12,7 +12,8 @@ const MIN_STEP_HEIGHT := 0.03
 @export var walking_speed := 4.0
 @export var sprint_speed := 7.0
 @export var crouch_speed := 2.0
-@export var sliding_speed := 5.0
+@export var sliding_speed := 5.0 * 1.5
+@export var sliding_decelation := 5.0 / 1.5
 
 @export_group("Step settings")
 @export var step_height := 0.5
@@ -79,35 +80,32 @@ func _on_sneaking_state_entered() -> void:
 
 
 func _on_sliding_state_entered() -> void:
-	player.sliding_timer.start()
+	_speed = sliding_speed
 	_slide_vector = player.input_controller.move_input
+	player.is_sliding = true
 	player.state_chart.set_expression_property(&"is_sliding", true)
 	player.sliding_audio_player.play()
 
 
 func _on_sliding_state_exited() -> void:
-	player.sliding_timer.stop()
+	player.is_sliding = false
 	player.state_chart.set_expression_property(&"is_sliding", false)
 	player.sliding_audio_player.stop()
 
 
 func _on_grounded_state_physics_processing(delta: float) -> void:
-	var speed: float
-	var direction: Vector3
-	var current_velocity := Vector2(player.velocity.x, player.velocity.z)
-
-	if player.sliding_timer.is_stopped():
-		direction = (
-				player.transform.basis * Vector3(
-					player.input_controller.move_input.x,
-					0,
-					player.input_controller.move_input.y)).normalized()
-		speed = _speed
+	var speed := _speed
+	var direction_2d: Vector2
+	if player.is_sliding:
+		direction_2d = _slide_vector
+		_speed -= sliding_decelation * delta
 	else:
-		direction = (player.global_transform.basis * Vector3(_slide_vector.x, 0.0, _slide_vector.y)).normalized()
-		speed = (player.sliding_timer.time_left / player.sliding_timer.wait_time + 0.5) * sliding_speed
+		direction_2d = player.input_controller.move_input
 
-	if direction:
+	var current_velocity := Vector2(player.velocity.x, player.velocity.z)
+	if direction_2d:
+		var direction := Vector3(direction_2d.x, 0, direction_2d.y)
+		direction = (player.global_transform.basis * direction).normalized()
 		current_velocity = lerp(current_velocity, Vector2(direction.x, direction.z) * speed, acceleration)
 	else:
 		current_velocity = current_velocity.move_toward(Vector2.ZERO, deceleration)

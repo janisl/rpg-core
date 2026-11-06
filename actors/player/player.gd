@@ -55,6 +55,7 @@ var try_crouch := false
 
 var is_sprinting := false
 var is_crouching := false
+var is_sliding := false
 
 var jumped_from_slide := false
 
@@ -71,7 +72,6 @@ var _can_play_footstep := true
 @onready var ground_movement: PlayerGroundMovementHandler = $MovementHandlers/GroundMovement
 @onready var ladder_movement: PlayerLadderMovementHandler = $MovementHandlers/LadderMovement
 @onready var footstep_player: FootstepPlayer = $FootstepPlayer
-@onready var sliding_timer: Timer = $SlidingTimer
 @onready var sliding_audio_player: AudioStreamPlayer3D = $SlidingAudioPlayer
 
 
@@ -106,7 +106,7 @@ func _physics_process(_delta: float) -> void:
 
 	if toggle_crouch:
 		if input_controller.crouch_just_pressed:
-			try_crouch = !try_crouch
+			try_crouch = not try_crouch
 	else:
 		try_crouch = input_controller.crouch_pressed
 
@@ -138,7 +138,6 @@ func save_state() -> Dictionary:
 	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
 	state[&"ground_movement"] = ground_movement.save_state()
 	state[&"ladder_movement"] = ladder_movement.save_state()
-	SaveUtils.save_timer(state, &"sliding_timer", sliding_timer)
 	return state
 
 
@@ -153,7 +152,6 @@ func load_state(state: Dictionary) -> void:
 	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
 	ground_movement.load_state(state.get(&"ground_movement", Dictionary()))
 	ladder_movement.load_state(state.get(&"ladder_movement", Dictionary()))
-	SaveUtils.load_timer(state, &"sliding_timer", sliding_timer)
 
 
 func increase_attribute(attribute_name: String, value: float, value_type: BaseAttribute.ValueType) -> bool:
@@ -187,7 +185,7 @@ func jump() -> void:
 	AudioManager.play_sound_3d(jump_sound, global_position)
 	decrease_attribute("stamina", stamina_attribute.jump_exhaustion)
 
-	if !sliding_timer.is_stopped():
+	if is_sliding:
 		velocity.y += slide_jump_velocity
 		jumped_from_slide = true
 	else:
@@ -196,7 +194,7 @@ func jump() -> void:
 
 
 func handle_movement_sound() -> void:
-	if velocity.length() >= 0.2 and sliding_timer.is_stopped():
+	if velocity.length() >= 0.2 and not is_sliding:
 		_play_footstep_sound()
 
 
