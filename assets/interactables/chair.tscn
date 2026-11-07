@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://br6xkoxkudf5x"]
+
+[ext_resource type="Script" uid="uid://bc7b3lo5omcua" path="res://systems/objects/interactables/seat.gd" id="1_m4w0d"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/basic_interaction.tscn" id="2_4t67g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.99999994, 0.24350214, 0.594704, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(0.6, 0.6, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vbuqk"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(0.6, 0.8, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m4w0d"]
+size = Vector3(0.6, 0.8, 0.05)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
+size = Vector3(0.6, 0.6, 0.6)
+
+[node name="Chair" type="Node3D" unique_id=1326040903]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1033924377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_bsiym")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1926244606]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.275)
+mesh = SubResource("BoxMesh_vbuqk")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="MeshInstance3D2" unique_id=422737505]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D2" unique_id=1307229155]
+shape = SubResource("BoxShape3D_m4w0d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1322540823]
+script = ExtResource("1_m4w0d")
+sit_position_node_path = NodePath("Node3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1116977705]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("BoxShape3D_bsiym")
+
+[node name="Node3D" type="Node3D" parent="StaticBody3D" unique_id=1720928553]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="BasicInteraction" parent="StaticBody3D" unique_id=14951234 instance=ExtResource("2_4t67g")]
+interaction_text = "INTERACT Sit"
