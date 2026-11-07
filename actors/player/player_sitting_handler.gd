@@ -64,6 +64,15 @@ func _on_sitting_state_head_physics_processing(_delta: float) -> void:
 	if _currently_tweening:
 		return
 
+	_handle_horizontal_look(input)
+	_handle_vertical_look(input)
+
+
+func _handle_horizontal_look(input: Vector2) -> void:
+	if not current_seat.look_marker_node:
+		player.rotate_y(input.x)
+		return
+
 	player.camera_controller.rotate_y(input.x)
 
 	var neck_position := player.camera_controller.global_transform.origin
@@ -80,6 +89,8 @@ func _on_sitting_state_head_physics_processing(_delta: float) -> void:
 			new_angle_to_marker < current_seat.horizontal_look_angle):
 		player.camera_controller.rotation.y -= input.x
 
+
+func _handle_vertical_look(input: Vector2) -> void:
 	player.camera_controller.head.rotate_x(input.y)
 	player.camera_controller.head.rotation.x = clamp(player.camera_controller.head.rotation.x,
 			-current_seat.vertical_look_angle, current_seat.vertical_look_angle)
@@ -87,8 +98,6 @@ func _on_sitting_state_head_physics_processing(_delta: float) -> void:
 
 func _sit_down(seat: Seat, is_changing_seats: bool) -> void:
 	current_seat = seat
-	player.standing_collision.disabled = true
-	player.crouching_collision.disabled = true
 	_is_ejected = false
 
 	player.state_chart.set_expression_property(&"is_sitting", true)
@@ -104,13 +113,12 @@ func _sit_down(seat: Seat, is_changing_seats: bool) -> void:
 
 
 func _sit_down_finished() -> void:
-	player.standing_collision.disabled = true
-	player.crouching_collision.disabled = true
 	_currently_tweening = false
-	var tween := create_tween()
-	var target_transform := player.camera_controller.global_transform.looking_at(
-			current_seat.look_marker_node.global_transform.origin, Vector3.UP)
-	tween.tween_property(player.camera_controller, "global_transform:basis", target_transform.basis, current_seat.rotation_tween_duration)
+	if current_seat.look_marker_node:
+		var tween := create_tween()
+		var target_transform := player.camera_controller.global_transform.looking_at(
+				current_seat.look_marker_node.global_transform.origin, Vector3.UP)
+		tween.tween_property(player.camera_controller, "global_transform:basis", target_transform.basis, current_seat.rotation_tween_duration)
 
 
 func _stand_up() -> void:
@@ -195,7 +203,6 @@ func _move_to_nearby_location() -> void:
 
 
 func _stand_up_finished() -> void:
-	player.standing_collision.disabled = false
 	player.camera_controller.transform.basis = _original_neck_basis
 	_currently_tweening = false
 	player.state_chart.set_expression_property(&"is_sitting", false)

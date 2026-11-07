@@ -46,7 +46,6 @@ func _ready() -> void:
 	_displace_sit_marker()
 
 	look_marker_node = get_node_or_null(look_marker_node_path)
-	assert(look_marker_node, "Look marker node not found.")
 
 
 func save_state() -> Dictionary:
