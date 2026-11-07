@@ -75,6 +75,7 @@ var _can_play_footstep := true
 @onready var footstep_player: FootstepPlayer = $FootstepPlayer
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent
 @onready var sliding_audio_player: AudioStreamPlayer3D = $SlidingAudioPlayer
+@onready var carry_controller: CarryController = %CarryablePosition
 
 
 func _ready() -> void:
@@ -141,6 +142,7 @@ func save_state() -> Dictionary:
 	state[&"ground_movement"] = ground_movement.save_state()
 	state[&"ladder_movement"] = ladder_movement.save_state()
 	state[&"sitting_handler"] = sitting_handler.save_state()
+	state[&"carry_controller"] = carry_controller.save_state()
 	return state
 
 
@@ -156,6 +158,7 @@ func load_state(state: Dictionary) -> void:
 	ground_movement.load_state(state.get(&"ground_movement", Dictionary()))
 	ladder_movement.load_state(state.get(&"ladder_movement", Dictionary()))
 	sitting_handler.load_state(state.get(&"sitting_handler", Dictionary()))
+	carry_controller.load_state(state.get(&"carry_controller", Dictionary()))
 
 
 func increase_attribute(attribute_name: String, value: float, value_type: BaseAttribute.ValueType) -> bool:

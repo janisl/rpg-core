@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://bssifbouhjhmf" path="res://systems/wieldables/wield_controller.gd" id="6_2vokq"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="6_bop6h"]
 [ext_resource type="Script" uid="uid://f33qdes54r4j" path="res://actors/player/player_sitting_handler.gd" id="8_0nck3"]
+[ext_resource type="Script" uid="uid://lr4vrx7811ag" path="res://actors/player/carry_controller.gd" id="14_ivjma"]
 [ext_resource type="Script" uid="uid://buoxos72xs1dx" path="res://systems/wieldables/wieldable_effects.gd" id="14_v3s8r"]
 [ext_resource type="PackedScene" uid="uid://cbd2ojah4nun6" path="res://systems/interaction/interaction_controller.tscn" id="15_jjb1w"]
 [ext_resource type="ArrayMesh" uid="uid://caxjp2wqc7o7n" path="res://assets/models/mannequin.mesh" id="19_otn2r"]
@@ -465,6 +466,11 @@ player = NodePath("../../..")
 [node name="InteractionRayCast" parent="Neck/Head/Camera" unique_id=327387966 node_paths=PackedStringArray("player") instance=ExtResource("15_jjb1w")]
 collision_mask = 47
 player = NodePath("../../../..")
+
+[node name="CarryablePosition" type="Marker3D" parent="Neck/Head/Camera" unique_id=1743504561]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.8)
+script = ExtResource("14_ivjma")
 
 [node name="Wieldables" type="Node3D" parent="Neck/Head/Camera" unique_id=1901824401]
 script = ExtResource("14_v3s8r")

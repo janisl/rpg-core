@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cio4x05ipvslu"]
+
+[ext_resource type="Script" uid="uid://6lur77bxh30y" path="res://systems/interaction/components/carry_interaction.gd" id="1_c5ir3"]
+
+[node name="CarryInteraction" type="Node3D" unique_id=1412771906]
+script = ExtResource("1_c5ir3")
+input_map_action = "interact2"
+interaction_text = "INTERACT Carry"
