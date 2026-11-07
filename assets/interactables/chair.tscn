@@ -38,14 +38,18 @@ shape = SubResource("BoxShape3D_m4w0d")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1322540823]
 script = ExtResource("1_m4w0d")
-sit_position_node_path = NodePath("Node3D")
+sit_position_node_path = NodePath("SitPositionMarker")
+leave_node_path = NodePath("../LeavePositionMarker")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1116977705]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 shape = SubResource("BoxShape3D_bsiym")
 
-[node name="Node3D" type="Node3D" parent="StaticBody3D" unique_id=1720928553]
+[node name="SitPositionMarker" type="Node3D" parent="StaticBody3D" unique_id=1720928553]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 
 [node name="BasicInteraction" parent="StaticBody3D" unique_id=14951234 instance=ExtResource("2_4t67g")]
 interaction_text = "INTERACT Sit"
+
+[node name="LeavePositionMarker" type="Node3D" parent="." unique_id=609962230]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.5)

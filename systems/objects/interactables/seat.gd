@@ -5,6 +5,7 @@ extends DynamicObject
 enum PlacementOnLeave {
 	ORIGINAL,
 	DISPLACEMENT,
+	TRANSFORM,
 }
 
 signal object_state_updated(interaction_text: String)
@@ -20,6 +21,7 @@ signal object_state_updated(interaction_text: String)
 
 @export_group("Nodes")
 @export var sit_position_node_path: NodePath
+@export var leave_node_path: NodePath
 
 @export_group("Interaction")
 @export var interaction_text_when_on := "INTERACT Stand Up"

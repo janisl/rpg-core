@@ -65,6 +65,8 @@ func _stand_up() -> void:
 			_move_to_original_position()
 		Seat.PlacementOnLeave.DISPLACEMENT:
 			_move_to_displacement_position()
+		Seat.PlacementOnLeave.TRANSFORM:
+			_move_to_leave_node()
 
 
 func _move_to_original_position() -> void:
@@ -81,6 +83,18 @@ func _move_to_displacement_position() -> void:
 	var tween := create_tween()
 	tween.tween_property(player, "global_transform", new_transform, current_seat.tween_duration)
 	tween.tween_callback(_stand_up_finished)
+
+
+func _move_to_leave_node() -> void:
+	_currently_tweening = true
+	assert(current_seat.leave_node_path)
+	var leave_node := current_seat.get_node(current_seat.leave_node_path)
+	if leave_node:
+		var tween := create_tween()
+		tween.tween_property(player, "global_transform", leave_node.global_transform, current_seat.tween_duration)
+		tween.tween_callback(_stand_up_finished)
+	else:
+		_move_to_original_position()
 
 
 func _stand_up_finished() -> void:
