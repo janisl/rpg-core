@@ -40,6 +40,10 @@ func load_state(state: Dictionary) -> void:
 
 
 func interact(player: Player) -> void:
+	if player.sitting_handler.current_seat:
+			player.sitting_handler.stand_requested()
+			_stand_up()
+	else:
 		player.sitting_handler.sit_requested(self)
 		_sit_down()
 
@@ -52,3 +56,7 @@ func _displace_sit_marker() -> void:
 
 func _sit_down(play_sound: bool = true) -> void:
 	object_state_updated.emit(interaction_text_when_on)
+
+
+func _stand_up(play_sound: bool = true) -> void:
+	object_state_updated.emit(interaction_text_when_off)
