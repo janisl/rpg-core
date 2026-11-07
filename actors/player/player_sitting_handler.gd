@@ -134,32 +134,21 @@ func _stand_up() -> void:
 
 
 func _move_to_original_position() -> void:
-	_currently_tweening = true
-	var tween := create_tween()
-	tween.tween_property(player, "global_transform", _original_position, current_seat.tween_duration)
-	tween.tween_property(player.camera_controller, "transform:basis", _original_neck_basis, current_seat.rotation_tween_duration)
-	tween.tween_callback(_stand_up_finished)
+	_tween_stant_up(_original_position)
 
 
 func _move_to_displacement_position() -> void:
 	var new_position := current_seat.global_transform.origin - _displacement_position
 	var new_transform := player.global_transform
 	new_transform.origin = new_position
-	var tween := create_tween()
-	tween.tween_property(player, "global_transform", new_transform, current_seat.tween_duration)
-	tween.tween_property(player.camera_controller, "transform:basis", _original_neck_basis, current_seat.rotation_tween_duration)
-	tween.tween_callback(_stand_up_finished)
+	_tween_stant_up(new_transform)
 
 
 func _move_to_leave_node() -> void:
-	_currently_tweening = true
 	assert(current_seat.leave_node_path)
 	var leave_node := current_seat.get_node(current_seat.leave_node_path)
 	if leave_node:
-		var tween := create_tween()
-		tween.tween_property(player, "global_transform", leave_node.global_transform, current_seat.tween_duration)
-		tween.tween_property(player.camera_controller, "transform:basis", _original_neck_basis, current_seat.rotation_tween_duration)
-		tween.tween_callback(_stand_up_finished)
+		_tween_stant_up(leave_node.global_transform)
 	else:
 		_move_to_original_position()
 
@@ -186,11 +175,9 @@ func _move_to_nearby_location() -> void:
 		player.navigation_agent.target_position = candidate_pos
 
 		if player.navigation_agent.is_navigation_finished():
-			_currently_tweening = true
-			var tween := create_tween()
-			tween.tween_property(player, "global_transform:origin", player.navigation_agent.target_position, current_seat.tween_duration)
-			tween.tween_property(player.camera_controller, "transform:basis", _original_neck_basis, current_seat.rotation_tween_duration)
-			tween.tween_callback(_stand_up_finished)
+			var new_transform := player.global_transform
+			new_transform.origin = player.navigation_agent.target_position
+			_tween_stant_up(new_transform)
 			return
 
 		exit_distance += step_increase
@@ -200,6 +187,14 @@ func _move_to_nearby_location() -> void:
 			exit_distance = 1
 
 	_move_to_leave_node()
+
+
+func _tween_stant_up(target_transform: Transform3D) -> void:
+	_currently_tweening = true
+	var tween := create_tween()
+	tween.tween_property(player, "global_transform", target_transform, current_seat.tween_duration)
+	tween.tween_property(player.camera_controller, "transform:basis", _original_neck_basis, current_seat.rotation_tween_duration)
+	tween.tween_callback(_stand_up_finished)
 
 
 func _stand_up_finished() -> void:
