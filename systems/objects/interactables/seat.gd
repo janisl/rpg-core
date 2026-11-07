@@ -48,6 +48,8 @@ var sit_position_node: Node3D
 var look_marker_node: Node3D
 var animation_player: AnimationPlayer
 
+var _is_occupied := false
+
 
 func _ready() -> void:
 	super()
@@ -69,17 +71,21 @@ func _ready() -> void:
 func save_state() -> Dictionary:
 	var state := super()
 	SaveUtils.save_animation_player(state, &"animation_player", animation_player)
-	#state[&"has_been_turned"] = has_been_turned
+	state[&"is_occupied"] = _is_occupied
 	return state
 
 
 func load_state(state: Dictionary) -> void:
 	super(state)
 	SaveUtils.load_animation_player(state, &"animation_player", animation_player)
-	#has_been_turned = state.get(&"has_been_turned", false)
+	_is_occupied = state.get(&"is_occupied", false)
 
 
 func interact(player: Player) -> void:
+	if !_is_occupied and _is_fallen():
+		EventBus.show_notification.emit("I can't sit there!")
+		return
+
 	if player.sitting_handler.current_seat:
 		if player.sitting_handler.current_seat == self:
 			player.sitting_handler.stand_requested()
@@ -108,6 +114,8 @@ func _sit_down() -> void:
 
 	object_state_updated.emit(interaction_text_when_on)
 
+	_is_occupied = true
+
 
 func _stand_up() -> void:
 	_play_sound(stand_sound, stand_pitch)
@@ -117,9 +125,18 @@ func _stand_up() -> void:
 
 	object_state_updated.emit(interaction_text_when_off)
 
+	_is_occupied = false
+
 
 func _play_sound(sound: AudioStream, pitch: float) -> void:
 	if audio_stream_player_3d and sound:
 		audio_stream_player_3d.stream = sound
 		audio_stream_player_3d.pitch_scale = pitch
 		audio_stream_player_3d.play()
+
+
+func _is_fallen() -> bool:
+	var current_rotation := global_transform.basis.get_euler()
+	var pitch_angle := absf(current_rotation.x)
+	var roll_angle := absf(current_rotation.z)
+	return pitch_angle > eject_angle or roll_angle > eject_angle
