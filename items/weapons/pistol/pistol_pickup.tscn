@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cbtrf5bt881ri"]
 
 [ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_5urlf"]
-[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/components/pickup_component.tscn" id="1_ctn22"]
+[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/components/pickup_interaction.tscn" id="1_ctn22"]
 [ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://items/weapons/pistol/pistol.tres" id="2_5urlf"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_giplq"]
 
@@ -49,5 +49,5 @@ mesh = SubResource("BoxMesh_rdqwp")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=112048275]
 shape = SubResource("BoxShape3D_18xq7")
 
-[node name="PickupComponent" parent="." unique_id=2017310821 instance=ExtResource("1_ctn22")]
+[node name="PickupInteraction" parent="." unique_id=2017310821 instance=ExtResource("1_ctn22")]
 item_stack = SubResource("Resource_bsiym")

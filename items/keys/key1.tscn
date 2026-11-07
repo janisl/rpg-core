@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cck223f36japb"]
 
 [ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_vfb62"]
-[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/components/pickup_component.tscn" id="1_yyn27"]
+[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/components/pickup_interaction.tscn" id="1_yyn27"]
 [ext_resource type="Resource" uid="uid://bymetjlxxl0j5" path="res://items/keys/key1.tres" id="2_vfb62"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_4jctu"]
 
@@ -58,5 +58,5 @@ mesh = SubResource("PrismMesh_bsiym")
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.01347439, 0, 0.00928529)
 mesh = SubResource("PrismMesh_bsiym")
 
-[node name="PickupComponent" parent="." unique_id=2017310821 instance=ExtResource("1_yyn27")]
+[node name="PickupInteraction" parent="." unique_id=2017310821 instance=ExtResource("1_yyn27")]
 item_stack = SubResource("Resource_2xn4c")

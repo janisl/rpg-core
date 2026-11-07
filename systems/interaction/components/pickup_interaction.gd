@@ -1,5 +1,5 @@
+class_name PickupInteraction
 extends InteractionComponent
-class_name PickupComponent
 
 @export var item_stack: ItemStack
 @export var display_item_name := false
