@@ -51,7 +51,7 @@ static func load_state_chart(state: Dictionary, name: StringName, chart: StateCh
 
 
 static func save_animation_player(state: Dictionary, name: StringName, animation_player: AnimationPlayer) -> void:
-	if not animation_player and animation_player.current_animation:
+	if not animation_player or not animation_player.current_animation:
 		return
 
 	state[name] = {

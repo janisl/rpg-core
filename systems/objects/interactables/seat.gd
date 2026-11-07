@@ -24,6 +24,7 @@ signal object_state_updated(interaction_text: String)
 @export var sit_area_behaviour := SitAreaBehaviour.NONE
 @export var disable_on_jump := true
 @export var disable_on_crouch := true
+@export var is_sat_on_start := false
 
 @export_group("Vision")
 @export var sit_marker_displacement := 0.9
@@ -53,6 +54,8 @@ signal object_state_updated(interaction_text: String)
 @export var interaction_text_when_on := "INTERACT Stand Up"
 @export var interaction_text_when_off := "INTERACT Sit"
 @export var interact_cooldown_duration := 0.4
+@export var objects_call_interact: Array[NodePath]
+@export var objects_call_delay := 0.0
 
 var sit_position_node: Node3D
 var look_marker_node: Node3D
@@ -87,6 +90,10 @@ func _ready() -> void:
 			basic_interaction.is_disabled = true
 		SitAreaBehaviour.AUTO:
 			basic_interaction.is_disabled = true
+
+	if is_sat_on_start:
+		interact(LevelManager.current_player)
+		basic_interaction.is_disabled = false
 
 
 func save_state() -> Dictionary:
@@ -134,6 +141,8 @@ func interact(player: Player) -> void:
 	else:
 		player.sitting_handler.sit_requested(self)
 		_sit_down()
+
+	_call_linked_interact(player)
 
 
 func _displace_sit_marker() -> void:
@@ -207,3 +216,13 @@ func _on_sit_area_body_exited(body: Node3D) -> void:
 	else:
 		basic_interaction.is_disabled = true
 	EventBus.interactable_changed.emit()
+
+
+func _call_linked_interact(player: Player) -> void:
+	if !objects_call_interact:
+		return
+	for nodepath in objects_call_interact:
+		await get_tree().create_timer(objects_call_delay).timeout
+		if nodepath != null:
+			var object := get_node(nodepath)
+			object.interact(player)

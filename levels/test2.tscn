@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://b16alro8fspcn" path="res://items/ammo/pistol_ammo.tscn" id="4_m0x41"]
 [ext_resource type="PackedScene" uid="uid://crytf2marbeak" path="res://props/exploding_barrel.tscn" id="5_v2h5b"]
 [ext_resource type="PackedScene" uid="uid://cj1cbhi5vwsb5" path="res://props/destructible_box.tscn" id="6_px0vi"]
+[ext_resource type="PackedScene" uid="uid://br6xkoxkudf5x" path="res://assets/interactables/chair.tscn" id="8_px0vi"]
+[ext_resource type="PackedScene" uid="uid://cil4m5x6emyl8" path="res://assets/interactables/rotating_door.tscn" id="9_s81gp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bsiym"]
 transparency = 1
@@ -71,3 +73,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8178682, 0.0050004767, 2.40
 
 [node name="FromTest" type="Node3D" parent="." unique_id=271932512]
 transform = Transform3D(-0.27855885, 0, 0.9604192, 0, 1, 0, -0.9604192, 0, -0.27855885, 3.938611, 0, -2.0816755)
+
+[node name="Chair" parent="." unique_id=1326040903 instance=ExtResource("8_px0vi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7624252, -4.7683716e-07, -4.108343)
+
+[node name="StaticBody3D" parent="Chair" index="2" unique_id=1322540823]
+placement_on_leave = 2
+disable_on_jump = false
+is_sat_on_start = true
+objects_call_interact = Array[NodePath]([NodePath("../../RotatingDoor/AnimatableBody3D")])
+objects_call_delay = 5.0
+
+[node name="RotatingDoor" parent="." unique_id=1305629844 instance=ExtResource("9_s81gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.585578, 0, -3.64941)
+
+[editable path="Chair"]
+[editable path="RotatingDoor"]
