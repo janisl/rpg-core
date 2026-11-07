@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c1w5e3ieei41o"]
 
-[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/pickup_component.tscn" id="1_ov1ue"]
+[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/components/pickup_component.tscn" id="1_ov1ue"]
 [ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_pup2o"]
 [ext_resource type="Resource" uid="uid://vy6ngoc84hnn" path="res://items/weapons/shotgun/shotgun.tres" id="2_pup2o"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_2u4lp"]

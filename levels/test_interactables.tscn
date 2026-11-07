@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cjaa0sbur8iiu" path="res://assets/interactables/animated_door.tscn" id="6_5o2v4"]
 [ext_resource type="PackedScene" uid="uid://cuyd6ulofkduf" path="res://assets/interactables/dual_rotating_door.tscn" id="7_7q521"]
 [ext_resource type="Resource" uid="uid://bymetjlxxl0j5" path="res://items/keys/key1.tres" id="8_emp2w"]
-[ext_resource type="PackedScene" uid="uid://bbt5twbnrlcfj" path="res://systems/interaction/lock_interaction.tscn" id="9_ogusv"]
+[ext_resource type="PackedScene" uid="uid://bbt5twbnrlcfj" path="res://systems/interaction/components/lock_interaction.tscn" id="9_ogusv"]
 [ext_resource type="PackedScene" uid="uid://dm06jg7n1hf00" path="res://assets/interactables/turnable.tscn" id="10_35h6x"]
 [ext_resource type="PackedScene" uid="uid://c80yp33psmaru" path="res://assets/interactables/locked_door.tscn" id="11_sgeon"]
 [ext_resource type="PackedScene" uid="uid://br6xkoxkudf5x" path="res://assets/interactables/chair.tscn" id="12_4j5gu"]

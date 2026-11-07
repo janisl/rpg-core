@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://vdqct0dnf3ms" path="res://systems/objects/interactables/door.gd" id="1_r38t6"]
 [ext_resource type="AudioStream" uid="uid://b583f3y65t06b" path="res://assets/sounds/kenney_rpg-audio/door_open_1.ogg" id="2_6vv0q"]
-[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/basic_interaction.tscn" id="2_jmeyh"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="2_jmeyh"]
 [ext_resource type="AudioStream" uid="uid://c6s02nhxex53m" path="res://assets/sounds/kenney_rpg-audio/door_close_1.ogg" id="3_2qgq7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]

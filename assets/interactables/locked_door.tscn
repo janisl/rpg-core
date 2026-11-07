@@ -7,9 +7,9 @@
 [ext_resource type="AudioStream" uid="uid://phe1iao2dra6" path="res://assets/sounds/misc/321087__benjaminnelan__door-locked.wav" id="4_2idl7"]
 [ext_resource type="AudioStream" uid="uid://dj3g4va0g585j" path="res://assets/sounds/misc/497033__pixelprophecy__large-modern-door-close.wav" id="5_je61g"]
 [ext_resource type="AudioStream" uid="uid://c8ca2846b2sbp" path="res://assets/sounds/misc/487614__deela__lock-a-door.wav" id="6_e5iap"]
-[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/basic_interaction.tscn" id="7_dt1ys"]
-[ext_resource type="PackedScene" uid="uid://bbt5twbnrlcfj" path="res://systems/interaction/lock_interaction.tscn" id="8_fqk0p"]
-[ext_resource type="PackedScene" uid="uid://bqp8nl7x2c37m" path="res://systems/interaction/dual_interaction.tscn" id="9_2idl7"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="7_dt1ys"]
+[ext_resource type="PackedScene" uid="uid://bbt5twbnrlcfj" path="res://systems/interaction/components/lock_interaction.tscn" id="8_fqk0p"]
+[ext_resource type="PackedScene" uid="uid://bqp8nl7x2c37m" path="res://systems/interaction/components/dual_interaction.tscn" id="9_2idl7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
 size = Vector3(1, 2, 0.1)

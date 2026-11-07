@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cil4m5x6emyl8"]
 
 [ext_resource type="Script" uid="uid://vdqct0dnf3ms" path="res://systems/objects/interactables/door.gd" id="1_841dq"]
-[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/basic_interaction.tscn" id="2_uqoie"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="2_uqoie"]
 [ext_resource type="AudioStream" uid="uid://es54vl54g4k6" path="res://assets/sounds/kenney_rpg-audio/door_open_2.ogg" id="2_xcu3i"]
 [ext_resource type="AudioStream" uid="uid://btq2grvad7a4v" path="res://assets/sounds/kenney_rpg-audio/door_close_2.ogg" id="3_1j8dt"]
 [ext_resource type="AudioStream" uid="uid://phe1iao2dra6" path="res://assets/sounds/misc/321087__benjaminnelan__door-locked.wav" id="4_j65js"]

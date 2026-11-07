@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bmq87quw8icqf"]
 
-[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/pickup_component.tscn" id="1_jgkro"]
+[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/components/pickup_component.tscn" id="1_jgkro"]
 [ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_syb6x"]
 [ext_resource type="Resource" uid="uid://4fhry8pq51ej" path="res://items/weapons/laser/laser.tres" id="2_syb6x"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_wvhbt"]

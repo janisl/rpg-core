@@ -33,7 +33,7 @@ func load_state(state: Dictionary) -> void:
 func interact(player: Player) -> void:
 	if hold_node and hold_node.has_method("start_hold_check"):
 		if not hold_node.start_hold_check(player):
-			parent_node.interact(player) 
+			parent_node.interact(player)
 			return
 
 	super(player)

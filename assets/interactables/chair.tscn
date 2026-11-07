@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://br6xkoxkudf5x"]
 
 [ext_resource type="Script" uid="uid://bc7b3lo5omcua" path="res://systems/objects/interactables/seat.gd" id="1_m4w0d"]
-[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/basic_interaction.tscn" id="2_4t67g"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="2_4t67g"]
 [ext_resource type="AudioStream" uid="uid://dvssv6a5urwqr" path="res://assets/sounds/kenney_rpg-audio/cloth3.ogg" id="2_ff3vy"]
 [ext_resource type="AudioStream" uid="uid://dlmesdth25wiy" path="res://assets/sounds/kenney_rpg-audio/cloth1.ogg" id="3_dfa3p"]
 

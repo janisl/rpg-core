@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bqp8nl7x2c37m"]
 
-[ext_resource type="Script" uid="uid://d1kfc1qtxt8cp" path="res://systems/interaction/dual_interaction.gd" id="1_onadr"]
+[ext_resource type="Script" uid="uid://d1kfc1qtxt8cp" path="res://systems/interaction/components/dual_interaction.gd" id="1_onadr"]
 
 [node name="DualInteraction" type="Node3D" unique_id=1092888406]
 script = ExtResource("1_onadr")
