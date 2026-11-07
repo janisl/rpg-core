@@ -249,6 +249,23 @@ albedo_color = Color(0.6313726, 0.003921569, 0.8352941, 0.5019608)
 [sub_resource type="BoxShape3D" id="BoxShape3D_6k6bt"]
 size = Vector3(1, 2, 1)
 
+[sub_resource type="GDScript" id="GDScript_efmtk"]
+script/source = "extends AnimatableBody3D
+
+
+func _physics_process(delta: float) -> void:
+	rotate_y(PI / 8.0 * delta)
+"
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bsiym"]
+height = 0.2
+radius = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bsiym"]
+top_radius = 2.0
+bottom_radius = 2.0
+height = 0.2
+
 [node name="Test" type="Node3D" unique_id=867766289 node_paths=PackedStringArray("connectors")]
 script = ExtResource("1_8a51t")
 connectors = [NodePath("FromTest2")]
@@ -913,6 +930,25 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -37,
 
 [node name="Chair" parent="Interactables" unique_id=1326040903 instance=ExtResource("35_krped")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -34, 0, -5)
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="Interactables" unique_id=832754623]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, -20)
+script = SubResource("GDScript_efmtk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactables/AnimatableBody3D" unique_id=451376097]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+shape = SubResource("CylinderShape3D_bsiym")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactables/AnimatableBody3D" unique_id=797857179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("CylinderMesh_bsiym")
+skeleton = NodePath("../..")
+
+[node name="Chair2" parent="Interactables/AnimatableBody3D" unique_id=518392641 instance=ExtResource("35_krped")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0.2, 1)
+
+[node name="Chair3" parent="Interactables/AnimatableBody3D" unique_id=1244467989 instance=ExtResource("35_krped")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0.2, -1)
 
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]
 
