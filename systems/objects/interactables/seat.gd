@@ -22,6 +22,8 @@ signal object_state_updated(interaction_text: String)
 @export var eject_on_fall := false
 @export_range(0, 180, 0.1, "radians_as_degrees") var eject_angle := PI / 4.0
 @export var sit_area_behaviour := SitAreaBehaviour.NONE
+@export var disable_on_jump := true
+@export var disable_on_crouch := true
 
 @export_group("Vision")
 @export var sit_marker_displacement := 0.9
@@ -102,6 +104,16 @@ func interact(player: Player) -> void:
 	if !_is_occupied and _is_fallen():
 		EventBus.show_notification.emit("I can't sit there!")
 		return
+
+	if disable_on_crouch == true:
+		if player.is_crouching:
+			EventBus.show_notification.emit("I should stand up first")
+			return
+
+	if disable_on_jump == true:
+		if not player.is_on_floor():
+			EventBus.show_notification.emit("I should land first")
+			return
 
 	if player.sitting_handler.current_seat:
 		if player.sitting_handler.current_seat == self:

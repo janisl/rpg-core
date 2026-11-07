@@ -1003,6 +1003,8 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0
 [node name="StaticBody3D" parent="Interactables/AnimatableBody3D2/Chair2" index="2" unique_id=1322540823]
 eject_on_fall = true
 sit_area_behaviour = 1
+disable_on_jump = false
+disable_on_crouch = false
 
 [node name="Area3D" type="Area3D" parent="Interactables" unique_id=1069905773]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.5, -21)
