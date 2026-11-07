@@ -16,7 +16,8 @@ signal object_state_updated(interaction_text: String)
 
 @export_group("Vision")
 @export var sit_marker_displacement := 0.9
-@export var vertical_look_angle := 90.0
+@export_range(0, 180, 0.1, "radians_as_degrees") var horizontal_look_angle := deg_to_rad(120)
+@export_range(0, 180, 0.1, "radians_as_degrees") var vertical_look_angle := PI / 2.0
 
 @export_group("Animation")
 @export var tween_duration := 0.8
@@ -24,6 +25,7 @@ signal object_state_updated(interaction_text: String)
 
 @export_group("Nodes")
 @export var sit_position_node_path: NodePath
+@export var look_marker_node_path: NodePath
 @export var leave_node_path: NodePath
 
 @export_group("Interaction")
@@ -31,6 +33,7 @@ signal object_state_updated(interaction_text: String)
 @export var interaction_text_when_off := "INTERACT Sit"
 
 var sit_position_node: Node3D
+var look_marker_node: Node3D
 
 
 func _ready() -> void:
@@ -39,6 +42,9 @@ func _ready() -> void:
 	sit_position_node = get_node_or_null(sit_position_node_path)
 	assert(sit_position_node, "Sit position node not found. Ensure the path is correct.")
 	_displace_sit_marker()
+
+	look_marker_node = get_node_or_null(look_marker_node_path)
+	assert(look_marker_node, "Look marker node not found.")
 
 
 func save_state() -> Dictionary:

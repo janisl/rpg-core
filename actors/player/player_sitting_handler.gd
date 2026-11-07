@@ -55,8 +55,23 @@ func _on_sitting_state_head_physics_processing(_delta: float) -> void:
 
 	player.camera_controller.rotate_y(input.x)
 
+	var neck_position := player.camera_controller.global_transform.origin
+	var look_marker_position := current_seat.look_marker_node.global_transform.origin
+	var target_direction := Vector2(look_marker_position.x - neck_position.x, look_marker_position.z - neck_position.z).normalized()
+
+	var neck_forward := -player.camera_controller.global_transform.basis.z
+	var neck_direction := Vector2(neck_forward.x, neck_forward.z).normalized()
+
+	var new_angle_to_marker := neck_direction.angle_to(target_direction)
+	new_angle_to_marker = wrapf(new_angle_to_marker, -PI, PI)
+
+	if not (new_angle_to_marker > -current_seat.horizontal_look_angle and
+			new_angle_to_marker < current_seat.horizontal_look_angle):
+		player.camera_controller.rotation.y -= input.x
+
 	player.camera_controller.head.rotate_x(input.y)
-	player.camera_controller.head.rotation.x = clamp(player.camera_controller.head.rotation.x, deg_to_rad(-current_seat.vertical_look_angle), deg_to_rad(current_seat.vertical_look_angle))
+	player.camera_controller.head.rotation.x = clamp(player.camera_controller.head.rotation.x,
+			-current_seat.vertical_look_angle, current_seat.vertical_look_angle)
 
 
 func _sit_down(seat: Seat, is_changing_seats: bool) -> void:
@@ -77,6 +92,10 @@ func _sit_down_finished() -> void:
 	player.standing_collision.disabled = true
 	player.crouching_collision.disabled = true
 	_currently_tweening = false
+	var tween := create_tween()
+	var target_transform := player.camera_controller.global_transform.looking_at(
+			current_seat.look_marker_node.global_transform.origin, Vector3.UP)
+	tween.tween_property(player.camera_controller, "global_transform:basis", target_transform.basis, current_seat.rotation_tween_duration)
 
 
 func _stand_up() -> void:
