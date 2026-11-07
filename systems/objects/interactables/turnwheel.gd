@@ -1,4 +1,5 @@
-class_name InteractableTurnwheel
+@warning_ignore("missing_tool")
+class_name Turnwheel
 extends DynamicObject
 
 @export var audio_stream_player: AudioStreamPlayer3D

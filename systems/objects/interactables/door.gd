@@ -1,5 +1,5 @@
 @tool
-class_name InteractableDoor
+class_name Door
 extends DynamicObject
 
 signal object_state_updated(interaction_text: String)

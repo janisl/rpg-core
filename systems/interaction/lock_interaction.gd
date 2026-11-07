@@ -1,7 +1,7 @@
 class_name LockInteraction
 extends InteractionComponent
 
-@onready var door := get_parent() as InteractableDoor
+@onready var door := get_parent() as Door
 
 
 func _ready() -> void:

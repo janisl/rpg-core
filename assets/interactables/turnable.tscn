@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dm06jg7n1hf00"]
 
-[ext_resource type="Script" uid="uid://y17pmal88rs7" path="res://systems/objects/interactables/interactable_turnwheel.gd" id="1_u1fei"]
+[ext_resource type="Script" uid="uid://y17pmal88rs7" path="res://systems/objects/interactables/turnwheel.gd" id="1_u1fei"]
 [ext_resource type="AudioStream" uid="uid://63utb30c5d2p" path="res://assets/sounds/misc/846434__nikoletb__low-stone-rubbing-deep-rock-scrape.wav" id="2_omrbx"]
 [ext_resource type="PackedScene" uid="uid://poem1yjtmt3n" path="res://systems/interaction/hold_interaction.tscn" id="3_77xno"]
 
