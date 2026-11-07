@@ -7,6 +7,7 @@ var _original_position: Transform3D
 var _original_neck_basis := Basis()
 var _currently_tweening := false
 var _displacement_position: Vector3
+var _is_ejected := false
 
 @onready var player: Player = $"../.."
 
@@ -19,6 +20,7 @@ func save_state() -> Dictionary:
 		state[&"currently_tweening"] = _currently_tweening
 		state[&"displacement_position"] = _displacement_position
 		state[&"original_neck_basis"] = _original_neck_basis
+		state[&"is_ejected"] = _is_ejected
 	return state
 
 
@@ -29,6 +31,7 @@ func load_state(state: Dictionary) -> void:
 		_currently_tweening = state.get(&"currently_tweening", false)
 		_displacement_position = state.get(&"displacement_position", Vector3.ZERO)
 		_original_neck_basis = state.get(&"_original_neck_basis", Basis())
+		_is_ejected = state.get(&"is_ejected", false)
 
 
 func sit_requested(seat: Seat) -> void:
@@ -46,6 +49,14 @@ func stand_requested() -> void:
 func _on_sitting_state_physics_processing(_delta: float) -> void:
 	if not _currently_tweening:
 		player.global_transform = _get_sitting_transform()
+
+	if current_seat.eject_on_fall and not _is_ejected:
+		var chair_up_vector := current_seat.global_transform.basis.y
+		var global_up_vector := Vector3(0, 1, 0)
+		var angle_to_up := chair_up_vector.angle_to(global_up_vector)
+		if angle_to_up > current_seat.eject_angle:
+			_is_ejected = true
+			current_seat.interact(player)
 
 
 func _on_sitting_state_head_physics_processing(_delta: float) -> void:
@@ -76,6 +87,10 @@ func _on_sitting_state_head_physics_processing(_delta: float) -> void:
 
 func _sit_down(seat: Seat, is_changing_seats: bool) -> void:
 	current_seat = seat
+	player.standing_collision.disabled = true
+	player.crouching_collision.disabled = true
+	_is_ejected = false
+
 	player.state_chart.set_expression_property(&"is_sitting", true)
 	if not is_changing_seats:
 		_original_position = player.global_transform

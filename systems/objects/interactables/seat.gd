@@ -13,6 +13,8 @@ signal object_state_updated(interaction_text: String)
 
 @export_group("Sittable Behaviour")
 @export var placement_on_leave := PlacementOnLeave.ORIGINAL
+@export var eject_on_fall := false
+@export_range(0, 180, 0.1, "radians_as_degrees") var eject_angle := PI / 4.0
 
 @export_group("Vision")
 @export var sit_marker_displacement := 0.9

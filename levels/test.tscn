@@ -266,6 +266,14 @@ top_radius = 2.0
 bottom_radius = 2.0
 height = 0.2
 
+[sub_resource type="GDScript" id="GDScript_krped"]
+script/source = "extends AnimatableBody3D
+
+
+func _physics_process(delta: float) -> void:
+	rotate_z(PI / 8.0 * delta)
+"
+
 [node name="Test" type="Node3D" unique_id=867766289 node_paths=PackedStringArray("connectors")]
 script = ExtResource("1_8a51t")
 connectors = [NodePath("FromTest2")]
@@ -932,7 +940,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -37,
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -34, 0, -5)
 
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="Interactables" unique_id=832754623]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, -20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, -18)
 script = SubResource("GDScript_efmtk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactables/AnimatableBody3D" unique_id=451376097]
@@ -966,6 +974,25 @@ placement_on_leave = 3
 horizontal_look_angle = 0.7853981633974483
 vertical_look_angle = 0.5235987755982988
 
+[node name="AnimatableBody3D2" type="AnimatableBody3D" parent="Interactables" unique_id=2144369400]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -35, 2, -22)
+script = SubResource("GDScript_krped")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactables/AnimatableBody3D2" unique_id=1075393807]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+shape = SubResource("CylinderShape3D_bsiym")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactables/AnimatableBody3D2" unique_id=1351125726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("CylinderMesh_bsiym")
+skeleton = NodePath("../..")
+
+[node name="Chair2" parent="Interactables/AnimatableBody3D2" unique_id=1373747761 instance=ExtResource("35_krped")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.5, 0)
+
+[node name="StaticBody3D" parent="Interactables/AnimatableBody3D2/Chair2" index="2" unique_id=1322540823]
+eject_on_fall = true
+
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]
 
 [editable path="Pickups/Pistol"]
@@ -975,3 +1002,4 @@ vertical_look_angle = 0.5235987755982988
 [editable path="Interactables/AnimatableBody3D/Chair2"]
 [editable path="Interactables/AnimatableBody3D/Chair3"]
 [editable path="Interactables/AnimatableBody3D/Chair4"]
+[editable path="Interactables/AnimatableBody3D2/Chair2"]
