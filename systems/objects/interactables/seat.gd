@@ -6,6 +6,7 @@ enum PlacementOnLeave {
 	ORIGINAL,
 	DISPLACEMENT,
 	TRANSFORM,
+	AUTO,
 }
 
 signal object_state_updated(interaction_text: String)

@@ -956,6 +956,12 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0
 [node name="StaticBody3D" parent="Interactables/AnimatableBody3D/Chair3" index="2" unique_id=1322540823]
 placement_on_leave = 2
 
+[node name="Chair4" parent="Interactables/AnimatableBody3D" unique_id=1615500327 instance=ExtResource("35_krped")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.2, 0)
+
+[node name="StaticBody3D" parent="Interactables/AnimatableBody3D/Chair4" index="2" unique_id=1322540823]
+placement_on_leave = 3
+
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]
 
 [editable path="Pickups/Pistol"]
@@ -964,3 +970,4 @@ placement_on_leave = 2
 [editable path="Interactables/Turnable"]
 [editable path="Interactables/AnimatableBody3D/Chair2"]
 [editable path="Interactables/AnimatableBody3D/Chair3"]
+[editable path="Interactables/AnimatableBody3D/Chair4"]

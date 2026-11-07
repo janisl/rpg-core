@@ -67,6 +67,8 @@ func _stand_up() -> void:
 			_move_to_displacement_position()
 		Seat.PlacementOnLeave.TRANSFORM:
 			_move_to_leave_node()
+		Seat.PlacementOnLeave.AUTO:
+			_move_to_nearby_location()
 
 
 func _move_to_original_position() -> void:
@@ -95,6 +97,43 @@ func _move_to_leave_node() -> void:
 		tween.tween_callback(_stand_up_finished)
 	else:
 		_move_to_original_position()
+
+
+func _move_to_nearby_location() -> void:
+	var seat_position := current_seat.global_transform.origin
+	var exit_distance := 1.0
+	var max_distance := 10.0
+	var step_increase := 0.5
+	var max_attempts := 10
+	var navmesh_offset_y := 0.25
+	var attempts := 0
+
+	while attempts < max_attempts:
+		var random_direction := Vector3(
+			randf_range(-0.1, 0.1),
+			randf_range(-0.1, 0.1),
+			randf_range(-0.1, 0.1)
+		).normalized()
+
+		var candidate_pos := seat_position + (random_direction * exit_distance)
+		candidate_pos.y = navmesh_offset_y
+
+		player.navigation_agent.target_position = candidate_pos
+
+		if player.navigation_agent.is_navigation_finished():
+			_currently_tweening = true
+			var tween := create_tween()
+			tween.tween_property(player, "global_transform:origin", player.navigation_agent.target_position, current_seat.tween_duration)
+			tween.tween_callback(_stand_up_finished)
+			return
+
+		exit_distance += step_increase
+		attempts += 1
+
+		if exit_distance > max_distance:
+			exit_distance = 1
+
+	_move_to_leave_node()
 
 
 func _stand_up_finished() -> void:

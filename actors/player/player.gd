@@ -73,6 +73,7 @@ var _can_play_footstep := true
 @onready var ladder_movement: PlayerLadderMovementHandler = $MovementHandlers/LadderMovement
 @onready var sitting_handler: PlayerSittingHandler = $MovementHandlers/SittingHandler
 @onready var footstep_player: FootstepPlayer = $FootstepPlayer
+@onready var navigation_agent: NavigationAgent3D = $NavigationAgent
 @onready var sliding_audio_player: AudioStreamPlayer3D = $SlidingAudioPlayer
 
 
