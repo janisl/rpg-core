@@ -52,12 +52,14 @@ signal object_state_updated(interaction_text: String)
 @export_group("Interaction")
 @export var interaction_text_when_on := "INTERACT Stand Up"
 @export var interaction_text_when_off := "INTERACT Sit"
+@export var interact_cooldown_duration := 0.4
 
 var sit_position_node: Node3D
 var look_marker_node: Node3D
 var animation_player: AnimationPlayer
 
 var _is_occupied := false
+var _interact_cooldown := 0.0
 
 @onready var basic_interaction: BasicInteraction = $BasicInteraction
 
@@ -101,6 +103,11 @@ func load_state(state: Dictionary) -> void:
 
 
 func interact(player: Player) -> void:
+	var current_time := Time.get_ticks_msec() / 1000.0
+	if current_time < _interact_cooldown:
+		return
+	_interact_cooldown = current_time + interact_cooldown_duration
+
 	if !_is_occupied and _is_fallen():
 		EventBus.show_notification.emit("I can't sit there!")
 		return
