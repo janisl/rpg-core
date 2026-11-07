@@ -24,6 +24,8 @@ signal object_state_updated(interaction_text: String)
 @export_group("Animation")
 @export var tween_duration := 0.8
 @export var rotation_tween_duration := 0.4
+@export var animation_on_enter: String
+@export var animation_on_leave: String
 
 @export_group("Audio")
 @export var audio_stream_player_3d: AudioStreamPlayer3D
@@ -36,6 +38,7 @@ signal object_state_updated(interaction_text: String)
 @export var sit_position_node_path: NodePath
 @export var look_marker_node_path: NodePath
 @export var leave_node_path: NodePath
+@export var animation_player_node_path: NodePath
 
 @export_group("Interaction")
 @export var interaction_text_when_on := "INTERACT Stand Up"
@@ -43,6 +46,7 @@ signal object_state_updated(interaction_text: String)
 
 var sit_position_node: Node3D
 var look_marker_node: Node3D
+var animation_player: AnimationPlayer
 
 
 func _ready() -> void:
@@ -58,6 +62,8 @@ func _ready() -> void:
 	_displace_sit_marker()
 
 	look_marker_node = get_node_or_null(look_marker_node_path)
+
+	animation_player = get_node_or_null(animation_player_node_path)
 
 
 func save_state() -> Dictionary:
@@ -95,11 +101,17 @@ func _displace_sit_marker() -> void:
 func _sit_down() -> void:
 	_play_sound(sit_sound, sit_pitch)
 
+	if animation_player:
+		animation_player.play(animation_on_enter)
+
 	object_state_updated.emit(interaction_text_when_on)
 
 
 func _stand_up() -> void:
 	_play_sound(stand_sound, stand_pitch)
+
+	if animation_player:
+		animation_player.play(animation_on_leave)
 
 	object_state_updated.emit(interaction_text_when_off)
 
