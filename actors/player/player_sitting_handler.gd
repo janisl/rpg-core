@@ -29,8 +29,11 @@ func load_state(state: Dictionary) -> void:
 
 
 func sit_requested(seat: Seat) -> void:
-	current_seat = seat
-	_sit_down()
+	_sit_down(seat, false)
+
+
+func seat_move_requested(seat: Seat) -> void:
+	_sit_down(seat, true)
 
 
 func stand_requested() -> void:
@@ -42,10 +45,12 @@ func _on_sitting_state_physics_processing(_delta: float) -> void:
 		player.global_transform = _get_sitting_transform()
 
 
-func _sit_down() -> void:
+func _sit_down(seat: Seat, is_changing_seats: bool) -> void:
+	current_seat = seat
 	player.state_chart.set_expression_property(&"is_sitting", true)
-	_original_position = player.global_transform
-	_displacement_position = current_seat.global_transform.origin - player.global_transform.origin
+	if not is_changing_seats:
+		_original_position = player.global_transform
+		_displacement_position = current_seat.global_transform.origin - player.global_transform.origin
 
 	_currently_tweening = true
 	var tween := create_tween()

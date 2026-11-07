@@ -52,8 +52,14 @@ func load_state(state: Dictionary) -> void:
 
 func interact(player: Player) -> void:
 	if player.sitting_handler.current_seat:
+		if player.sitting_handler.current_seat == self:
 			player.sitting_handler.stand_requested()
 			_stand_up()
+		else:
+			var previous_seat := player.sitting_handler.current_seat
+			previous_seat._stand_up()
+			player.sitting_handler.seat_move_requested(self)
+			_sit_down()
 	else:
 		player.sitting_handler.sit_requested(self)
 		_sit_down()
