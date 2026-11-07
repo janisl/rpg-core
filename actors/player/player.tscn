@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="5_15y17"]
 [ext_resource type="Script" uid="uid://bssifbouhjhmf" path="res://systems/wieldables/wield_controller.gd" id="6_2vokq"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="6_bop6h"]
+[ext_resource type="Script" uid="uid://f33qdes54r4j" path="res://actors/player/player_sitting_handler.gd" id="8_0nck3"]
 [ext_resource type="Script" uid="uid://buoxos72xs1dx" path="res://systems/wieldables/wieldable_effects.gd" id="14_v3s8r"]
 [ext_resource type="PackedScene" uid="uid://cbd2ojah4nun6" path="res://systems/interaction/interaction_controller.tscn" id="15_jjb1w"]
 [ext_resource type="ArrayMesh" uid="uid://caxjp2wqc7o7n" path="res://assets/models/mannequin.mesh" id="19_otn2r"]
@@ -100,6 +101,11 @@ script = ExtResource("30_j5me0")
 expression = "not try_sprint"
 metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 
+[sub_resource type="Resource" id="Resource_ifggu"]
+script = ExtResource("30_j5me0")
+expression = "is_sitting"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
 [sub_resource type="Resource" id="Resource_et2yc"]
 script = ExtResource("30_j5me0")
 expression = "climbing_ladder"
@@ -118,6 +124,11 @@ metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 [sub_resource type="Resource" id="Resource_0nck3"]
 script = ExtResource("30_j5me0")
 expression = "not is_jumping"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_qnicj"]
+script = ExtResource("30_j5me0")
+expression = "is_sitting"
 metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 
 [sub_resource type="Resource" id="Resource_igrto"]
@@ -148,6 +159,16 @@ metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 [sub_resource type="Resource" id="Resource_jjb1w"]
 script = ExtResource("30_j5me0")
 expression = "not climbing_ladder"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_bsiym"]
+script = ExtResource("30_j5me0")
+expression = "not is_sitting and on_ground"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_m1hv5"]
+script = ExtResource("30_j5me0")
+expression = "not is_sitting"
 metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 
 [sub_resource type="Resource" id="Resource_1c637"]
@@ -387,6 +408,10 @@ script = ExtResource("25_yeioo")
 player = NodePath("../..")
 metadata/_custom_type_script = "uid://cqmmur7bbutym"
 
+[node name="SittingHandler" type="Node" parent="MovementHandlers" unique_id=1255176383]
+script = ExtResource("8_0nck3")
+metadata/_custom_type_script = "uid://f33qdes54r4j"
+
 [node name="Inventory" type="Node" parent="." unique_id=1686695142]
 script = ExtResource("31_4ihbh")
 metadata/_custom_type_script = "uid://bk8ufns0cjpgj"
@@ -444,6 +469,7 @@ initial_expression_properties = {
 &"is_dead": false,
 &"is_jumping": false,
 &"is_moving": false,
+&"is_sitting": false,
 &"is_sliding": false,
 &"on_ground": false,
 &"try_sprint": false
@@ -588,6 +614,12 @@ to = NodePath("../../Sneaking")
 delay_in_seconds = "1.5"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
+[node name="ToSitting" type="Node" parent="StateChart/Root/Movement/Grounded" unique_id=1543571400]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Sitting")
+guard = SubResource("Resource_ifggu")
+delay_in_seconds = "0.0"
+
 [node name="ToClimbingLadder" type="Node" parent="StateChart/Root/Movement/Grounded" unique_id=453972516]
 script = ExtResource("6_bop6h")
 to = NodePath("../../ClimbingLadder")
@@ -628,6 +660,13 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="Falling" type="Node" parent="StateChart/Root/Movement/Airborne" unique_id=1750954686]
 script = ExtResource("5_15y17")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
+
+[node name="ToSitting" type="Node" parent="StateChart/Root/Movement/Airborne" unique_id=2053176041]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Sitting")
+event = &"onSitting"
+guard = SubResource("Resource_qnicj")
+delay_in_seconds = "0.0"
 
 [node name="ToClimbingLadder" type="Node" parent="StateChart/Root/Movement/Airborne" unique_id=1160867118]
 script = ExtResource("6_bop6h")
@@ -699,6 +738,21 @@ to = NodePath("../../Airborne")
 guard = SubResource("Resource_jjb1w")
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="Sitting" type="Node" parent="StateChart/Root/Movement" unique_id=1421102255]
+script = ExtResource("5_15y17")
+
+[node name="ToGrounded" type="Node" parent="StateChart/Root/Movement/Sitting" unique_id=1803361523]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Grounded")
+guard = SubResource("Resource_bsiym")
+delay_in_seconds = "0.0"
+
+[node name="ToAirborne" type="Node" parent="StateChart/Root/Movement/Sitting" unique_id=714663576]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Airborne")
+guard = SubResource("Resource_m1hv5")
+delay_in_seconds = "0.0"
 
 [node name="Dead" type="Node" parent="StateChart/Root/Movement" unique_id=1820990000]
 script = ExtResource("5_15y17")

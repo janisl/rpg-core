@@ -71,6 +71,7 @@ var _can_play_footstep := true
 @onready var input_controller: InputController = $InputController
 @onready var ground_movement: PlayerGroundMovementHandler = $MovementHandlers/GroundMovement
 @onready var ladder_movement: PlayerLadderMovementHandler = $MovementHandlers/LadderMovement
+@onready var sitting_handler: PlayerSittingHandler = $MovementHandlers/SittingHandler
 @onready var footstep_player: FootstepPlayer = $FootstepPlayer
 @onready var sliding_audio_player: AudioStreamPlayer3D = $SlidingAudioPlayer
 
@@ -138,6 +139,7 @@ func save_state() -> Dictionary:
 	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
 	state[&"ground_movement"] = ground_movement.save_state()
 	state[&"ladder_movement"] = ladder_movement.save_state()
+	state[&"sitting_handler"] = sitting_handler.save_state()
 	return state
 
 
@@ -152,6 +154,7 @@ func load_state(state: Dictionary) -> void:
 	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
 	ground_movement.load_state(state.get(&"ground_movement", Dictionary()))
 	ladder_movement.load_state(state.get(&"ladder_movement", Dictionary()))
+	sitting_handler.load_state(state.get(&"sitting_handler", Dictionary()))
 
 
 func increase_attribute(attribute_name: String, value: float, value_type: BaseAttribute.ValueType) -> bool:
