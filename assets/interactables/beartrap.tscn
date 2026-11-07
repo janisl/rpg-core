@@ -472,6 +472,10 @@ _data = {
 &"open": SubResource("Animation_su8xj")
 }
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bsiym"]
+height = 0.4
+radius = 0.2
+
 [node name="Beartrap" type="Node3D" unique_id=1326040903]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1033924377]
@@ -480,6 +484,7 @@ mesh = SubResource("TorusMesh_pqmcp")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1322540823 node_paths=PackedStringArray("audio_stream_player_3d")]
 script = ExtResource("1_keax5")
+sit_area_behaviour = 2
 animation_on_enter = "close"
 animation_on_leave = "open"
 audio_stream_player_3d = NodePath("../AudioStreamPlayer3D")
@@ -487,6 +492,8 @@ sit_sound = ExtResource("2_3j0hx")
 stand_sound = ExtResource("3_su8xj")
 sit_position_node_path = NodePath("SitPositionMarker")
 animation_player_node_path = NodePath("../AnimationPlayer")
+interaction_text_when_on = "INTERACT Release"
+interaction_text_when_off = "INTERACT Activate"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1116977705]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
@@ -549,3 +556,14 @@ skeleton = NodePath("../..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=65993561]
 libraries/ = SubResource("AnimationLibrary_qi56q")
+
+[node name="SeatArea" type="Area3D" parent="." unique_id=6871181]
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SeatArea" unique_id=74667977]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("CylinderShape3D_bsiym")
+
+[connection signal="body_entered" from="SeatArea" to="StaticBody3D" method="_on_sit_area_body_entered"]
+[connection signal="body_exited" from="SeatArea" to="StaticBody3D" method="_on_sit_area_body_exited"]

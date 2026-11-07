@@ -275,6 +275,15 @@ func _physics_process(delta: float) -> void:
 	rotate_z(PI / 8.0 * delta)
 "
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hftbt"]
+transparency = 1
+albedo_color = Color(0.7176471, 0, 0.21568628, 0.34901962)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g5r3q"]
+material = SubResource("StandardMaterial3D_hftbt")
+
 [node name="Test" type="Node3D" unique_id=867766289 node_paths=PackedStringArray("connectors")]
 script = ExtResource("1_8a51t")
 connectors = [NodePath("FromTest2")]
@@ -993,11 +1002,25 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0
 
 [node name="StaticBody3D" parent="Interactables/AnimatableBody3D2/Chair2" index="2" unique_id=1322540823]
 eject_on_fall = true
+sit_area_behaviour = 1
+
+[node name="Area3D" type="Area3D" parent="Interactables" unique_id=1069905773]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0.5, -21)
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactables/Area3D" unique_id=1348404167]
+shape = SubResource("BoxShape3D_bsiym")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactables/Area3D" unique_id=689020213]
+mesh = SubResource("BoxMesh_g5r3q")
 
 [node name="Beartrap" parent="." unique_id=1660126680 instance=ExtResource("36_m8nfy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0, -8)
 
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]
+[connection signal="body_entered" from="Interactables/Area3D" to="Interactables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_entered"]
+[connection signal="body_exited" from="Interactables/Area3D" to="Interactables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_exited"]
 
 [editable path="Pickups/Pistol"]
 [editable path="Interactables/RotatingDoor2"]

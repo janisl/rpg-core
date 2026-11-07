@@ -9,12 +9,19 @@ enum PlacementOnLeave {
 	AUTO,
 }
 
+enum SitAreaBehaviour {
+	NONE,
+	MANUAL,
+	AUTO,
+}
+
 signal object_state_updated(interaction_text: String)
 
 @export_group("Sittable Behaviour")
 @export var placement_on_leave := PlacementOnLeave.ORIGINAL
 @export var eject_on_fall := false
 @export_range(0, 180, 0.1, "radians_as_degrees") var eject_angle := PI / 4.0
+@export var sit_area_behaviour := SitAreaBehaviour.NONE
 
 @export_group("Vision")
 @export var sit_marker_displacement := 0.9
@@ -50,6 +57,8 @@ var animation_player: AnimationPlayer
 
 var _is_occupied := false
 
+@onready var basic_interaction: BasicInteraction = $BasicInteraction
+
 
 func _ready() -> void:
 	super()
@@ -66,6 +75,14 @@ func _ready() -> void:
 	look_marker_node = get_node_or_null(look_marker_node_path)
 
 	animation_player = get_node_or_null(animation_player_node_path)
+
+	match sit_area_behaviour:
+		SitAreaBehaviour.NONE:
+			basic_interaction.is_disabled = false
+		SitAreaBehaviour.MANUAL:
+			basic_interaction.is_disabled = true
+		SitAreaBehaviour.AUTO:
+			basic_interaction.is_disabled = true
 
 
 func save_state() -> Dictionary:
@@ -140,3 +157,34 @@ func _is_fallen() -> bool:
 	var pitch_angle := absf(current_rotation.x)
 	var roll_angle := absf(current_rotation.z)
 	return pitch_angle > eject_angle or roll_angle > eject_angle
+
+
+func _on_sit_area_body_entered(body: Node3D) -> void:
+	var player := body as Player
+	if not player:
+		return
+
+	match sit_area_behaviour:
+		SitAreaBehaviour.MANUAL:
+			basic_interaction.is_disabled = false
+
+		SitAreaBehaviour.AUTO:
+			if not player.sitting_handler.current_seat:
+				interact(player)
+				basic_interaction.is_disabled = false
+
+		SitAreaBehaviour.NONE:
+			basic_interaction.is_disabled = false
+	EventBus.interactable_changed.emit()
+
+
+func _on_sit_area_body_exited(body: Node3D) -> void:
+	var player := body as Player
+	if not player:
+		return
+
+	if player.sitting_handler.current_seat == self:
+		basic_interaction.is_disabled = false
+	else:
+		basic_interaction.is_disabled = true
+	EventBus.interactable_changed.emit()
