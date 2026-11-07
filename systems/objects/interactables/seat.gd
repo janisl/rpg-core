@@ -25,6 +25,13 @@ signal object_state_updated(interaction_text: String)
 @export var tween_duration := 0.8
 @export var rotation_tween_duration := 0.4
 
+@export_group("Audio")
+@export var audio_stream_player_3d: AudioStreamPlayer3D
+@export var sit_sound: AudioStream
+@export var stand_sound: AudioStream
+@export var sit_pitch := 1.0
+@export var stand_pitch := 1.0
+
 @export_group("Nodes")
 @export var sit_position_node_path: NodePath
 @export var look_marker_node_path: NodePath
@@ -40,6 +47,11 @@ var look_marker_node: Node3D
 
 func _ready() -> void:
 	super()
+
+	if !audio_stream_player_3d:
+		var players := find_children("", "AudioStreamPlayer3D")
+		if len(players) > 0:
+			audio_stream_player_3d = players[0]
 
 	sit_position_node = get_node_or_null(sit_position_node_path)
 	assert(sit_position_node, "Sit position node not found. Ensure the path is correct.")
@@ -80,9 +92,20 @@ func _displace_sit_marker() -> void:
 	sit_position_node.transform = adjusted_transform
 
 
-func _sit_down(play_sound: bool = true) -> void:
+func _sit_down() -> void:
+	_play_sound(sit_sound, sit_pitch)
+
 	object_state_updated.emit(interaction_text_when_on)
 
 
-func _stand_up(play_sound: bool = true) -> void:
+func _stand_up() -> void:
+	_play_sound(stand_sound, stand_pitch)
+
 	object_state_updated.emit(interaction_text_when_off)
+
+
+func _play_sound(sound: AudioStream, pitch: float) -> void:
+	if audio_stream_player_3d and sound:
+		audio_stream_player_3d.stream = sound
+		audio_stream_player_3d.pitch_scale = pitch
+		audio_stream_player_3d.play()
