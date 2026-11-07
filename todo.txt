@@ -30,8 +30,7 @@ Environment
 - object holding/carry
 - throwable objects
 - drowning
-- sitting
-- buttons, switches, doors
+- buttons, switches
 
 Systems
 - crafting
