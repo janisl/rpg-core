@@ -68,12 +68,14 @@ func _ready() -> void:
 
 func save_state() -> Dictionary:
 	var state := super()
+	SaveUtils.save_animation_player(state, &"animation_player", animation_player)
 	#state[&"has_been_turned"] = has_been_turned
 	return state
 
 
 func load_state(state: Dictionary) -> void:
 	super(state)
+	SaveUtils.load_animation_player(state, &"animation_player", animation_player)
 	#has_been_turned = state.get(&"has_been_turned", false)
 
 

@@ -16,16 +16,12 @@ func initialize(wieldable: Wieldable, mesh_layer: int) -> void:
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
-	if animation_player && animation_player.is_playing():
-		state[&"animation_name"] = animation_player.current_animation
-		state[&"animation_position"] = animation_player.current_animation_position
+	SaveUtils.save_animation_player(state, &"animation_player", animation_player)
 	return state
 
 
 func load_state(state: Dictionary) -> void:
-	if animation_player && state.has(&"animation_name"):
-		animation_player.play(state[&"animation_name"])
-		animation_player.seek(state.get(&"animation_position", 0.0))
+	SaveUtils.load_animation_player(state, &"animation_player", animation_player)
 
 
 func _apply_mesh_layer(mesh_layer: int) -> void:
