@@ -16,9 +16,11 @@ signal object_state_updated(interaction_text: String)
 
 @export_group("Vision")
 @export var sit_marker_displacement := 0.9
+@export var vertical_look_angle := 90.0
 
 @export_group("Animation")
 @export var tween_duration := 0.8
+@export var rotation_tween_duration := 0.4
 
 @export_group("Nodes")
 @export var sit_position_node_path: NodePath

@@ -186,9 +186,19 @@ script = ExtResource("30_j5me0")
 expression = "is_sliding"
 metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 
+[sub_resource type="Resource" id="Resource_c3vyd"]
+script = ExtResource("30_j5me0")
+expression = "is_sitting"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
 [sub_resource type="Resource" id="Resource_rfvym"]
 script = ExtResource("30_j5me0")
 expression = "not is_sliding"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[sub_resource type="Resource" id="Resource_6jrol"]
+script = ExtResource("30_j5me0")
+expression = "not is_sitting"
 metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 
 [sub_resource type="Skin" id="Skin_3bqo7"]
@@ -812,6 +822,12 @@ to = NodePath("../../Sliding")
 guard = SubResource("Resource_i0btr")
 delay_in_seconds = "0.0"
 
+[node name="ToSitting" type="Node" parent="StateChart/Root/HeadMovement/Default" unique_id=1329577346]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Sitting")
+guard = SubResource("Resource_c3vyd")
+delay_in_seconds = "0.0"
+
 [node name="Sliding" type="Node" parent="StateChart/Root/HeadMovement" unique_id=1415104844]
 script = ExtResource("5_15y17")
 
@@ -819,6 +835,15 @@ script = ExtResource("5_15y17")
 script = ExtResource("6_bop6h")
 to = NodePath("../../Default")
 guard = SubResource("Resource_rfvym")
+delay_in_seconds = "0.0"
+
+[node name="Sitting" type="Node" parent="StateChart/Root/HeadMovement" unique_id=1380397890]
+script = ExtResource("5_15y17")
+
+[node name="ToDefault" type="Node" parent="StateChart/Root/HeadMovement/Sitting" unique_id=647583953]
+script = ExtResource("6_bop6h")
+to = NodePath("../../Default")
+guard = SubResource("Resource_6jrol")
 delay_in_seconds = "0.0"
 
 [node name="StairsAheadRayCast" type="RayCast3D" parent="." unique_id=2077641786]
@@ -1287,5 +1312,6 @@ stream = ExtResource("29_ivjma")
 [connection signal="state_entered" from="StateChart/Root/HeadMovement/Sliding" to="Neck" method="_on_sliding_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/HeadMovement/Sliding" to="Neck" method="_on_sliding_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/HeadMovement/Sliding" to="Neck" method="_on_sliding_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/HeadMovement/Sitting" to="MovementHandlers/SittingHandler" method="_on_sitting_state_head_physics_processing"]
 [connection signal="damage_taken" from="HealthAttribute" to="." method="_on_health_attribute_damage_taken"]
 [connection signal="died" from="HealthAttribute" to="." method="_on_health_attribute_died"]

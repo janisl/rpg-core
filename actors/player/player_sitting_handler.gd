@@ -4,6 +4,7 @@ extends Node
 var current_seat: Seat
 
 var _original_position: Transform3D
+var _original_neck_basis := Basis()
 var _currently_tweening := false
 var _displacement_position: Vector3
 
@@ -17,6 +18,7 @@ func save_state() -> Dictionary:
 		state[&"original_position"] = _original_position
 		state[&"currently_tweening"] = _currently_tweening
 		state[&"displacement_position"] = _displacement_position
+		state[&"original_neck_basis"] = _original_neck_basis
 	return state
 
 
@@ -26,6 +28,7 @@ func load_state(state: Dictionary) -> void:
 		_original_position = state.get(&"original_position", Transform3D())
 		_currently_tweening = state.get(&"currently_tweening", false)
 		_displacement_position = state.get(&"displacement_position", Vector3.ZERO)
+		_original_neck_basis = state.get(&"_original_neck_basis", Basis())
 
 
 func sit_requested(seat: Seat) -> void:
@@ -45,11 +48,23 @@ func _on_sitting_state_physics_processing(_delta: float) -> void:
 		player.global_transform = _get_sitting_transform()
 
 
+func _on_sitting_state_head_physics_processing(_delta: float) -> void:
+	var input := player.input_controller.consume_look_delta()
+	if _currently_tweening:
+		return
+
+	player.camera_controller.rotate_y(input.x)
+
+	player.camera_controller.head.rotate_x(input.y)
+	player.camera_controller.head.rotation.x = clamp(player.camera_controller.head.rotation.x, deg_to_rad(-current_seat.vertical_look_angle), deg_to_rad(current_seat.vertical_look_angle))
+
+
 func _sit_down(seat: Seat, is_changing_seats: bool) -> void:
 	current_seat = seat
 	player.state_chart.set_expression_property(&"is_sitting", true)
 	if not is_changing_seats:
 		_original_position = player.global_transform
+		_original_neck_basis = player.camera_controller.transform.basis
 		_displacement_position = current_seat.global_transform.origin - player.global_transform.origin
 
 	_currently_tweening = true
@@ -80,6 +95,7 @@ func _move_to_original_position() -> void:
 	_currently_tweening = true
 	var tween := create_tween()
 	tween.tween_property(player, "global_transform", _original_position, current_seat.tween_duration)
+	tween.tween_property(player.camera_controller, "transform:basis", _original_neck_basis, current_seat.rotation_tween_duration)
 	tween.tween_callback(_stand_up_finished)
 
 
@@ -89,6 +105,7 @@ func _move_to_displacement_position() -> void:
 	new_transform.origin = new_position
 	var tween := create_tween()
 	tween.tween_property(player, "global_transform", new_transform, current_seat.tween_duration)
+	tween.tween_property(player.camera_controller, "transform:basis", _original_neck_basis, current_seat.rotation_tween_duration)
 	tween.tween_callback(_stand_up_finished)
 
 
@@ -99,6 +116,7 @@ func _move_to_leave_node() -> void:
 	if leave_node:
 		var tween := create_tween()
 		tween.tween_property(player, "global_transform", leave_node.global_transform, current_seat.tween_duration)
+		tween.tween_property(player.camera_controller, "transform:basis", _original_neck_basis, current_seat.rotation_tween_duration)
 		tween.tween_callback(_stand_up_finished)
 	else:
 		_move_to_original_position()
@@ -129,6 +147,7 @@ func _move_to_nearby_location() -> void:
 			_currently_tweening = true
 			var tween := create_tween()
 			tween.tween_property(player, "global_transform:origin", player.navigation_agent.target_position, current_seat.tween_duration)
+			tween.tween_property(player.camera_controller, "transform:basis", _original_neck_basis, current_seat.rotation_tween_duration)
 			tween.tween_callback(_stand_up_finished)
 			return
 
@@ -143,6 +162,7 @@ func _move_to_nearby_location() -> void:
 
 func _stand_up_finished() -> void:
 	player.standing_collision.disabled = false
+	player.camera_controller.transform.basis = _original_neck_basis
 	_currently_tweening = false
 	player.state_chart.set_expression_property(&"is_sitting", false)
 	current_seat = null
