@@ -2,7 +2,15 @@
 class_name Seat
 extends DynamicObject
 
+enum PlacementOnLeave {
+	ORIGINAL,
+	DISPLACEMENT,
+}
+
 signal object_state_updated(interaction_text: String)
+
+@export_group("Sittable Behaviour")
+@export var placement_on_leave := PlacementOnLeave.ORIGINAL
 
 @export_group("Vision")
 @export var sit_marker_displacement := 0.9

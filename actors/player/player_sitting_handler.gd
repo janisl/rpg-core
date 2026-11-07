@@ -5,6 +5,7 @@ var current_seat: Seat
 
 var _original_position: Transform3D
 var _currently_tweening := false
+var _displacement_position: Vector3
 
 @onready var player: Player = $"../.."
 
@@ -15,6 +16,7 @@ func save_state() -> Dictionary:
 	if current_seat:
 		state[&"original_position"] = _original_position
 		state[&"currently_tweening"] = _currently_tweening
+		state[&"displacement_position"] = _displacement_position
 	return state
 
 
@@ -23,6 +25,7 @@ func load_state(state: Dictionary) -> void:
 	if current_seat:
 		_original_position = state.get(&"original_position", Transform3D())
 		_currently_tweening = state.get(&"currently_tweening", false)
+		_displacement_position = state.get(&"displacement_position", Vector3.ZERO)
 
 
 func sit_requested(seat: Seat) -> void:
@@ -42,6 +45,7 @@ func _on_sitting_state_physics_processing(_delta: float) -> void:
 func _sit_down() -> void:
 	player.state_chart.set_expression_property(&"is_sitting", true)
 	_original_position = player.global_transform
+	_displacement_position = current_seat.global_transform.origin - player.global_transform.origin
 
 	_currently_tweening = true
 	var tween := create_tween()
@@ -56,13 +60,26 @@ func _sit_down_finished() -> void:
 
 
 func _stand_up() -> void:
+	match current_seat.placement_on_leave:
+		Seat.PlacementOnLeave.ORIGINAL:
 			_move_to_original_position()
+		Seat.PlacementOnLeave.DISPLACEMENT:
+			_move_to_displacement_position()
 
 
 func _move_to_original_position() -> void:
 	_currently_tweening = true
 	var tween := create_tween()
 	tween.tween_property(player, "global_transform", _original_position, current_seat.tween_duration)
+	tween.tween_callback(_stand_up_finished)
+
+
+func _move_to_displacement_position() -> void:
+	var new_position := current_seat.global_transform.origin - _displacement_position
+	var new_transform := player.global_transform
+	new_transform.origin = new_position
+	var tween := create_tween()
+	tween.tween_property(player, "global_transform", new_transform, current_seat.tween_duration)
 	tween.tween_callback(_stand_up_finished)
 
 
