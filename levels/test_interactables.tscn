@@ -74,7 +74,6 @@ connectors = [null]
 
 [node name="Floor" type="MeshInstance3D" parent="." unique_id=717552237]
 mesh = SubResource("QuadMesh_rdqwp")
-skeleton = NodePath("")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor" unique_id=895788123]
 

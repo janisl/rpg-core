@@ -7,6 +7,7 @@ signal carry_state_changed(is_being_carried: bool)
 @export var carry_distance_offset := 0.0
 @export var carry_velocity_multiplier := 10.0
 @export var drop_distance := 1.5
+@export var enable_manual_rotating := true
 
 var carried_by: Player
 
