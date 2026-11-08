@@ -4,6 +4,9 @@ extends InteractionComponent
 signal carry_state_changed(is_being_carried: bool)
 
 @export var lock_rotation_when_carried := true
+@export var carry_distance_offset := 0.0
+@export var carry_velocity_multiplier := 10.0
+@export var drop_distance := 1.5
 
 var carried_by: Player
 
@@ -14,6 +17,22 @@ func _ready() -> void:
 	super()
 
 	_parent_object = get_parent()
+
+
+func _physics_process(_delta: float) -> void:
+	if not carried_by:
+		return
+
+	var carry_position := carried_by.carry_controller.get_carry_destination_point(carry_distance_offset)
+	_parent_object.set_linear_velocity((carry_position - _parent_object.global_position) * carry_velocity_multiplier)
+
+	if carry_position.distance_to(_parent_object.global_position) >= drop_distance:
+		_stop_carrying()
+
+
+func _exit_tree() -> void:
+	if carried_by:
+		_stop_carrying()
 
 
 func save_state() -> Dictionary:

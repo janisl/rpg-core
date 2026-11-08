@@ -467,10 +467,11 @@ player = NodePath("../../..")
 collision_mask = 47
 player = NodePath("../../../..")
 
-[node name="CarryablePosition" type="Marker3D" parent="Neck/Head/Camera" unique_id=1743504561]
+[node name="CarryablePosition" type="Marker3D" parent="Neck/Head/Camera" unique_id=1743504561 node_paths=PackedStringArray("player")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.8)
 script = ExtResource("14_ivjma")
+player = NodePath("../../../..")
 
 [node name="Wieldables" type="Node3D" parent="Neck/Head/Camera" unique_id=1901824401]
 script = ExtResource("14_v3s8r")

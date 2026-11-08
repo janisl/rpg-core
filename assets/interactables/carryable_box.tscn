@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bfr10nf6bdk1m"]
+
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_kfpps"]
+[ext_resource type="Texture2D" uid="uid://b0www41j8av5" path="res://assets/textures/kenney_prototype_textures/green/texture_05.png" id="1_lddli"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://systems/interaction/components/carry_interaction.tscn" id="2_kfpps"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_texture = ExtResource("1_lddli")
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jcp1c"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="CarryableBox" type="RigidBody3D" unique_id=2028542117]
+collision_layer = 34
+collision_mask = 45
+mass = 2.0
+script = ExtResource("1_kfpps")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=710886664]
+mesh = SubResource("BoxMesh_bsiym")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=32371436]
+shape = SubResource("BoxShape3D_jcp1c")
+
+[node name="CarryInteraction" parent="." unique_id=1412771906 instance=ExtResource("2_kfpps")]

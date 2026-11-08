@@ -3,7 +3,7 @@ extends Marker3D
 
 signal started_carrying(interaction_node: CarryInteraction)
 
-#@export var player: Player
+@export var player: Player
 
 var carried_object: CarryInteraction:
 	set = _set_carried_object
@@ -29,6 +29,21 @@ func start_carrying(_carried_object: CarryInteraction) -> void:
 func stop_carrying() -> void:
 	carried_object = null
 	EventBus.interactable_changed.emit()
+
+
+func get_carry_destination_point(distance_offset: float) -> Vector3:
+	var destination_point := global_position - distance_offset * player.camera_effects.global_basis.z
+
+	if player.interaction_controller.is_colliding():
+		var collision_point := player.interaction_controller.get_collision_point()
+		var interaction_origin := player.interaction_controller.global_position
+
+		if interaction_origin.distance_squared_to(destination_point) < interaction_origin.distance_squared_to(collision_point):
+			return destination_point
+		else:
+			return collision_point
+
+	return destination_point
 
 
 func _set_carried_object(new_carried_object: CarryInteraction) -> void:
