@@ -144,6 +144,10 @@ func _fire_raycast_at(node: Node3D) -> bool:
 		player_sight_collision_point = Vector3.ZERO
 		return false
 	if last_raycasted_target is not Player:
+		var carry_interaction: CarryInteraction = last_raycasted_target.get_node_or_null("CarryInteraction")
+		if carry_interaction.carried_by:
+			var player: Player = carry_interaction.carried_by
+			return _fire_raycast_at_player_result(player.global_position, player)
 		player_sight_collision_point = Vector3.ZERO
 		return false
 	else:
