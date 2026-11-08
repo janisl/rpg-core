@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_kfpps"]
 [ext_resource type="Texture2D" uid="uid://b0www41j8av5" path="res://assets/textures/kenney_prototype_textures/green/texture_05.png" id="1_lddli"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://systems/interaction/components/carry_interaction.tscn" id="2_kfpps"]
+[ext_resource type="AudioStream" uid="uid://blwpy1ufci15q" path="res://assets/sounds/kenney_rpg-audio/handleSmallLeather.ogg" id="4_f8yf4"]
+[ext_resource type="AudioStream" uid="uid://qqf0up26cmbb" path="res://assets/sounds/kenney_rpg-audio/handleSmallLeather2.ogg" id="5_8i5qb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
 albedo_texture = ExtResource("1_lddli")
@@ -27,3 +29,5 @@ mesh = SubResource("BoxMesh_bsiym")
 shape = SubResource("BoxShape3D_jcp1c")
 
 [node name="CarryInteraction" parent="." unique_id=1412771906 instance=ExtResource("2_kfpps")]
+pick_up_sound = ExtResource("4_f8yf4")
+drop_sound = ExtResource("5_8i5qb")

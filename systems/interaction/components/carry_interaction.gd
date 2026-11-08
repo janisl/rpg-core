@@ -10,6 +10,11 @@ signal carry_state_changed(is_being_carried: bool)
 @export var enable_manual_rotating := true
 @export var is_carryable_while_wielding := false
 
+@export_group("Audio")
+@export var audio_stream_player: AudioStreamPlayer3D
+@export var pick_up_sound: AudioStream
+@export var drop_sound: AudioStream
+
 var carried_by: Player
 
 var _parent_object: RigidBody3D
@@ -17,6 +22,11 @@ var _parent_object: RigidBody3D
 
 func _ready() -> void:
 	super()
+
+	if !audio_stream_player:
+		var players := find_children("", "AudioStreamPlayer3D")
+		if len(players):
+			audio_stream_player = players[0]
 
 	_parent_object = get_parent() as RigidBody3D
 	assert(_parent_object, "Parent must be a RigidBody3D to work.")
@@ -74,6 +84,8 @@ func _start_carrying(player: Player) -> void:
 	player.carry_controller.start_carrying(self)
 	player.interaction_controller.add_exception(_parent_object)
 
+	_play_sound(pick_up_sound)
+
 	carried_by = player
 	carry_state_changed.emit(true)
 
@@ -94,3 +106,9 @@ func _stop_carrying() -> void:
 func _on_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player") and carried_by:
 		_stop_carrying()
+
+
+func _play_sound(sound: AudioStream) -> void:
+	if audio_stream_player and sound:
+		audio_stream_player.stream = sound
+		audio_stream_player.play()
