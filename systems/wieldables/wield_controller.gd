@@ -46,6 +46,11 @@ func switch_wieldable(item_stack: ItemStack) -> void:
 	if wieldable and not wieldable.is_unequipping and item_stack == current_item_stack:
 		return
 
+	if player.carry_controller.carried_object and not player.carry_controller.carried_object.is_carryable_while_wielding:
+		if !is_wielding:
+			setup_wieldable_to_auto_equip(item_stack)
+			player.carry_controller.drop_carried_object()
+		return
 
 	_switch_to(item_stack)
 

@@ -16,6 +16,7 @@ var jump_just_pressed := false
 var crouch_pressed := false
 var crouch_just_pressed := false
 var primary_action_pressed := false
+var primary_action_just_pressed := false
 var secondary_action_pressed := false
 var reload_pressed := false
 var reload_just_pressed := false
@@ -77,6 +78,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event.is_action_pressed("primary_action"):
 		primary_action_pressed = true
+		primary_action_just_pressed = true
 	if event.is_action_released("primary_action"):
 		primary_action_pressed = false
 
@@ -113,6 +115,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(_delta: float) -> void:
 	jump_just_pressed = false
 	crouch_just_pressed = false
+	primary_action_just_pressed = false
 	reload_just_pressed = false
 	cycle_ammo_just_pressed = false
 	interact_just_pressed = false

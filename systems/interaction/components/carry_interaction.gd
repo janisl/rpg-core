@@ -2,6 +2,7 @@ class_name CarryInteraction
 extends InteractionComponent
 
 signal carry_state_changed(is_being_carried: bool)
+signal thrown(impulse: Vector3)
 
 @export var lock_rotation_when_carried := true
 @export var carry_distance_offset := 0.0
@@ -74,6 +75,14 @@ func interact(player: Player) -> void:
 		_start_carrying(player)
 
 	was_interacted_with.emit()
+
+
+func throw(power: float) -> void:
+	var impulse := carried_by.carry_controller.get_look_direction() * power
+	_stop_carrying()
+	_play_sound(drop_sound)
+	_parent_object.apply_central_impulse(impulse)
+	thrown.emit(impulse)
 
 
 func _start_carrying(player: Player) -> void:
