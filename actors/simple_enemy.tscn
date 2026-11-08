@@ -238,6 +238,11 @@ height = 0.1
 radial_segments = 8
 rings = 4
 
+[sub_resource type="Curve" id="Curve_bqx5n"]
+_limits = [0.0, 1.0, 0.0, 100.0]
+_data = [Vector2(0, 0), 0.0, 0.01, 0, 1, Vector2(100, 1), 0.01, 0.0, 1, 1]
+point_count = 2
+
 [sub_resource type="Curve" id="Curve_f3ltb"]
 _limits = [0.0, 10.0, 0.0, 10.0]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(5.47046, 1.4973259), 0.0, 0.0, 0, 0, Vector2(10, 10), 0.0, 0.0, 0, 0]
@@ -1032,11 +1037,12 @@ visible = false
 mesh = SubResource("SphereMesh_rpt3r")
 skeleton = NodePath("../Audio")
 
-[node name="SightDetection" type="Node3D" parent="." unique_id=1899700967 node_paths=PackedStringArray("detection_area", "npc", "sight_suspicion_indicator")]
+[node name="SightDetection" type="Node3D" parent="." unique_id=1899700967 node_paths=PackedStringArray("npc", "detection_area", "sight_suspicion_indicator")]
 script = ExtResource("22_gbejp")
-detection_area = NodePath("../Rig/GeneralSkeleton/HeadAttachment/DetectionArea")
 npc = NodePath("..")
+detection_area = NodePath("../Rig/GeneralSkeleton/HeadAttachment/DetectionArea")
 sight_suspicion_indicator = NodePath("../Rig/GeneralSkeleton/HeadAttachment/SightIndicator")
+visibility_modifier_curve = SubResource("Curve_bqx5n")
 metadata/_custom_type_script = "uid://crvmh56qwb83k"
 
 [node name="HearingIndicator" parent="." unique_id=1075551061 instance=ExtResource("34_ol0oh")]
@@ -1065,6 +1071,7 @@ shape = SubResource("CylinderShape3D_tgfp8")
 debug_color = Color(0.89396733, 0.28965023, 0.35837063, 1)
 
 [node name="HealthAttribute" parent="." unique_id=167552575 instance=ExtResource("6_4s1oe")]
+hurt_sound = ExtResource("10_1cfep")
 free_on_death = Array[NodePath]([NodePath("..")])
 max_value = 50.0
 initial_value = 50.0

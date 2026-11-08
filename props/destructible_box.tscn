@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_caev0"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="2_5sfkv"]
+[ext_resource type="AudioStream" uid="uid://dwecmjc427wjw" path="res://assets/sounds/kenney_impact-sounds/impact_wood_medium_000.ogg" id="3_0df57"]
 [ext_resource type="AudioStream" uid="uid://dnnyvnppivtdp" path="res://assets/sounds/misc/853904__alexzavesa__boards-fall-4.wav" id="3_caev0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
@@ -24,6 +25,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_awh2e")
 
 [node name="HealthAttribute" parent="." unique_id=167552575 instance=ExtResource("2_5sfkv")]
+impact_sound = ExtResource("3_0df57")
 death_sound = ExtResource("3_caev0")
 free_on_death = Array[NodePath]([NodePath("..")])
 max_value = 20.0
