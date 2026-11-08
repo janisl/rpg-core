@@ -27,8 +27,6 @@ NPCs
 
 Environment
 - hit boxes
-- object holding/carry
-- throwable objects
 - drowning
 - buttons, switches
 
