@@ -78,3 +78,12 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Equip"
+
+[node name="UnequipButton" type="Button" parent="DetailslContainer/MarginContainer/VBoxContainer" unique_id=1967397958]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Unequip"
+
+[connection signal="pressed" from="DetailslContainer/MarginContainer/VBoxContainer/EquipButton" to="." method="_on_equip_button_pressed"]
+[connection signal="pressed" from="DetailslContainer/MarginContainer/VBoxContainer/UnequipButton" to="." method="_on_unequip_button_pressed"]

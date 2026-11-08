@@ -9,13 +9,10 @@ const ITEM_SLOT_CONTROL = preload("uid://d3nmme6bfak14")
 @onready var description_label: Label = %DescriptionLabel
 @onready var equip_button: Button = %EquipButton
 @onready var detailsl_container: ScrollContainer = $DetailslContainer
+@onready var unequip_button: Button = %UnequipButton
 
 var _player: Player
 var _selected_item: ItemStack
-
-
-func _ready() -> void:
-	detailsl_container.hide()
 
 
 func connect_to_player(player: Player) -> void:
@@ -25,6 +22,8 @@ func connect_to_player(player: Player) -> void:
 func show_screen() -> void:
 	visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	_selected_item = null
+	detailsl_container.hide()
 	_recreate_slots()
 
 
@@ -53,5 +52,16 @@ func _on_item_selected(item: ItemStack) -> void:
 	name_label.text = tr(item.item.display_name)
 	icon_rect.texture = item.item.icon
 	description_label.text = tr(item.item.description)
-	equip_button.visible = item.item is WieldableData
+	equip_button.visible = item.item is WieldableData and _player.wield_controller.current_item_stack != item
+	unequip_button.visible = item.item is WieldableData and _player.wield_controller.current_item_stack == item
 	detailsl_container.show()
+
+
+func _on_equip_button_pressed() -> void:
+	_player.wield_controller.switch_wieldable(_selected_item)
+	hide_screen()
+
+
+func _on_unequip_button_pressed() -> void:
+	_player.wield_controller.switch_wieldable(null)
+	hide_screen()
