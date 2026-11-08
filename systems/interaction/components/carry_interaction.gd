@@ -8,6 +8,7 @@ signal carry_state_changed(is_being_carried: bool)
 @export var carry_velocity_multiplier := 10.0
 @export var drop_distance := 1.5
 @export var enable_manual_rotating := true
+@export var is_carryable_while_wielding := false
 
 var carried_by: Player
 
@@ -53,6 +54,12 @@ func load_state(state: Dictionary) -> void:
 func interact(player: Player) -> void:
 	if carried_by:
 		_stop_carrying()
+	elif player.wield_controller.is_wielding:
+		if is_carryable_while_wielding:
+			_start_carrying(player)
+		elif not player.wield_controller.is_changing_wieldables:
+			player.wield_controller.setup_wieldable_to_auto_equip()
+			_start_carrying(player)
 	else:
 		_start_carrying(player)
 
@@ -78,6 +85,7 @@ func _stop_carrying() -> void:
 	if carried_by and is_instance_valid(carried_by):
 		carried_by.carry_controller.stop_carrying()
 		carried_by.interaction_controller.remove_exception(_parent_object)
+		carried_by.wield_controller.auto_equip_last_wieldable()
 
 	carried_by = null
 	carry_state_changed.emit(false)

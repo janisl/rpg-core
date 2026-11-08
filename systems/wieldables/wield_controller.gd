@@ -13,13 +13,19 @@ signal wieldable_changed
 @export_flags_3d_render var first_person_mesh_layer := 1
 @export_flags_3d_render var third_person_mesh_layer := 1
 
+var is_wielding: bool:
+	get: return wieldable_data != null
+
 var current_item_stack: ItemStack
 var wieldable_data: WieldableData
 var wieldable: Wieldable
 var first_person_model: FirstPersonWieldable
 var third_person_model: ThirdPersonWieldable
+var is_changing_wieldables := false
 
 var _selected_item_stack: ItemStack
+var _item_to_auto_equip: ItemStack
+var _auto_equip_after_carrying := false
 
 
 func _ready() -> void:
@@ -40,6 +46,32 @@ func switch_wieldable(item_stack: ItemStack) -> void:
 	if wieldable and not wieldable.is_unequipping and item_stack == current_item_stack:
 		return
 
+
+	_switch_to(item_stack)
+
+
+func setup_wieldable_to_auto_equip(next_item: ItemStack = null) -> void:
+	if wieldable:
+		_item_to_auto_equip = current_item_stack
+	elif next_item:
+		_item_to_auto_equip = next_item
+	else:
+		return
+
+	_switch_to(null)
+	_auto_equip_after_carrying = true
+
+
+func auto_equip_last_wieldable() -> void:
+	if not _auto_equip_after_carrying or not _item_to_auto_equip:
+		return
+
+	switch_wieldable(_item_to_auto_equip)
+	_auto_equip_after_carrying = false
+
+
+func _switch_to(item_stack: ItemStack) -> void:
+	is_changing_wieldables = true
 	_selected_item_stack = item_stack
 
 	if wieldable != null:
@@ -65,12 +97,14 @@ func _spawn_wieldable_scenes() -> void:
 	if not current_item_stack or not current_item_stack.is_valid:
 		current_item_stack = null
 		wieldable_changed.emit()
+		is_changing_wieldables = false
 		return
 
 	wieldable_data = current_item_stack.item as WieldableData
 	if not wieldable_data:
 		current_item_stack = null
 		wieldable_changed.emit()
+		is_changing_wieldables = false
 		return
 
 	assert(wieldable_data.controller_scene, "Wieldable has no controller scene")
@@ -95,6 +129,7 @@ func _spawn_wieldable_scenes() -> void:
 	first_person_parent.reset_effects()
 
 	wieldable_changed.emit()
+	is_changing_wieldables = false
 
 
 func _on_primary_action_started() -> void:
