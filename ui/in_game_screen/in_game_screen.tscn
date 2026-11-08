@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://li5ryexfavom"]
 
 [ext_resource type="Script" uid="uid://ni25kqrant6d" path="res://ui/in_game_screen/in_game_screen.gd" id="1_kbxrr"]
-[ext_resource type="PackedScene" uid="uid://d3nmme6bfak14" path="res://ui/in_game_screen/item_slot_control.tscn" id="1_lihay"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lihay"]
+bg_color = Color(0, 0, 0, 0.49411765)
 
 [node name="InGameScreen" type="Control" unique_id=606499691]
 layout_mode = 3
@@ -10,25 +12,69 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_behavior_recursive = 2
 script = ExtResource("1_kbxrr")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=311715911]
+[node name="BackgrondShade" type="ColorRect" parent="." unique_id=311715911]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.49803922)
+color = Color(0, 0, 0, 0.7058824)
 
-[node name="SlotsContainer" type="FlowContainer" parent="ColorRect" unique_id=648689634]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=2014713029]
 layout_mode = 0
-offset_left = 128.0
-offset_top = 128.0
-offset_right = 1368.0
-offset_bottom = 386.0
-theme_override_constants/h_separation = 2
-theme_override_constants/v_separation = 2
+offset_left = 61.0
+offset_top = 61.0
+offset_right = 881.0
+offset_bottom = 1027.0
 
-[node name="ColorRect" parent="ColorRect/SlotsContainer" unique_id=1931404340 instance=ExtResource("1_lihay")]
+[node name="SlotsContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=735540642]
+unique_name_in_owner = true
 layout_mode = 2
+
+[node name="DetailslContainer" type="ScrollContainer" parent="." unique_id=1684081375]
+layout_mode = 0
+offset_left = 991.0
+offset_top = 96.0
+offset_right = 1855.0
+offset_bottom = 800.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_lihay")
+
+[node name="MarginContainer" type="MarginContainer" parent="DetailslContainer" unique_id=492455488]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DetailslContainer/MarginContainer" unique_id=1378610088]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="DetailslContainer/MarginContainer/VBoxContainer" unique_id=1215223959]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+autowrap_mode = 2
+
+[node name="IconRect" type="TextureRect" parent="DetailslContainer/MarginContainer/VBoxContainer" unique_id=1365178634]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(256, 256)
+custom_maximum_size = Vector2(256, 256)
+layout_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="DetailslContainer/MarginContainer/VBoxContainer" unique_id=30625926]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+autowrap_mode = 2
+
+[node name="EquipButton" type="Button" parent="DetailslContainer/MarginContainer/VBoxContainer" unique_id=152489329]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Equip"

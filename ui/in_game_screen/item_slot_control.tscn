@@ -2,35 +2,30 @@
 
 [ext_resource type="Script" uid="uid://b01wyvqydf1sn" path="res://ui/in_game_screen/item_slot_control.gd" id="1_ij2ti"]
 
-[node name="ColorRect" type="ColorRect" unique_id=1931404340]
-custom_minimum_size = Vector2(128, 128)
-color = Color(0.14044744, 0.14044747, 0.14044738, 1)
+[node name="ItemSlotControl" type="PanelContainer" unique_id=158954589]
+custom_minimum_size = Vector2(800, 64)
+offset_right = 400.0
+offset_bottom = 64.0
 script = ExtResource("1_ij2ti")
 
-[node name="ItemIcon" type="TextureRect" parent="." unique_id=1779587367]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 1.0
-offset_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1188899522]
+layout_mode = 2
 
-[node name="AmountLabel" type="Label" parent="." unique_id=2075202681]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -41.0
-offset_top = -24.0
-offset_right = -1.0
-offset_bottom = -1.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "999"
-horizontal_alignment = 2
+[node name="ItemIcon" type="TextureRect" parent="HBoxContainer" unique_id=1779587367]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+custom_maximum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer" unique_id=76503324]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="NameLabel" type="Label" parent="HBoxContainer/MarginContainer" unique_id=657061296]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(720, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Item name"
+autowrap_mode = 3
