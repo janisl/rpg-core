@@ -11,13 +11,16 @@ signal carry_state_changed(is_being_carried: bool)
 
 var carried_by: Player
 
-var _parent_object: Node3D
+var _parent_object: RigidBody3D
 
 
 func _ready() -> void:
 	super()
 
-	_parent_object = get_parent()
+	_parent_object = get_parent() as RigidBody3D
+	assert(_parent_object, "Parent must be a RigidBody3D to work.")
+
+	_parent_object.body_entered.connect(_on_body_entered)
 
 
 func _physics_process(_delta: float) -> void:
@@ -57,10 +60,9 @@ func interact(player: Player) -> void:
 
 
 func _start_carrying(player: Player) -> void:
-	if _parent_object is RigidBody3D:
-		if lock_rotation_when_carried:
-			_parent_object.lock_rotation = true
-		_parent_object.freeze = false
+	if lock_rotation_when_carried:
+		_parent_object.lock_rotation = true
+	_parent_object.freeze = false
 
 	player.carry_controller.start_carrying(self)
 	player.interaction_controller.add_exception(_parent_object)
@@ -70,7 +72,7 @@ func _start_carrying(player: Player) -> void:
 
 
 func _stop_carrying() -> void:
-	if _parent_object is RigidBody3D and lock_rotation_when_carried:
+	if lock_rotation_when_carried:
 		_parent_object.lock_rotation = false
 
 	if carried_by and is_instance_valid(carried_by):
@@ -79,3 +81,8 @@ func _stop_carrying() -> void:
 
 	carried_by = null
 	carry_state_changed.emit(false)
+
+
+func _on_body_entered(body: Node3D) -> void:
+	if body.is_in_group("player") and carried_by:
+		_stop_carrying()
