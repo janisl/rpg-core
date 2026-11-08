@@ -41,6 +41,8 @@ func _physics_process(_delta: float) -> void:
 
 func _set_interactable(value: Node3D) -> void:
 	interactable = value
+	if player.carry_controller.is_carrying:
+		return
 	if interactable == null:
 		nothing_detected.emit()
 	else:
@@ -109,8 +111,33 @@ func _is_interactable_freed() -> bool:
 
 
 func _handle_interaction(action: String) -> void:
+	if player.carry_controller.is_carrying:
+		_handle_carry_interaction(action)
+		return
+
 	if interactable:
 		_handle_interactable_interaction(action)
+
+
+func _handle_carry_interaction(action: String) -> void:
+	if not is_instance_valid(player.carry_controller.carried_object):
+		player.carry_controller.stop_carrying()
+		return
+
+	if player.carry_controller.carried_object.input_map_action == action:
+		player.carry_controller.drop_carried_object()
+		return
+
+	var carry_parent := player.carry_controller.carried_object.get_parent()
+	if not carry_parent:
+		return
+
+	for node: InteractionComponent in carry_parent.find_children("", "InteractionComponent", true):
+		if node.input_map_action == action and not node.is_disabled:
+			if node is PickupInteraction:
+				node.interact(player)
+				_rebuild_interaction_prompts()
+				break
 
 
 func _handle_interactable_interaction(action: String) -> void:
@@ -125,6 +152,9 @@ func _handle_interactable_interaction(action: String) -> void:
 
 
 func _rebuild_interaction_prompts() -> void:
+	if player.carry_controller.is_carrying:
+		return
+
 	nothing_detected.emit()
 	if interactable != null:
 		interactive_object_detected.emit(interaction_nodes)

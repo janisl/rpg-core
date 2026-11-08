@@ -24,6 +24,7 @@ func connect_to_player(player: Player) -> void:
 	_player.wield_controller.wieldable_changed.connect(_on_wieldable_changed)
 	_player.interaction_controller.interactive_object_detected.connect(_on_interactive_object_detected)
 	_player.interaction_controller.nothing_detected.connect(_on_nothing_detected)
+	_player.carry_controller.started_carrying.connect(_set_drop_prompt)
 	_player.liquid_level_changed.connect(_on_liquid_level_changed)
 	EventBus.show_notification.connect(_on_show_notification)
 
@@ -105,7 +106,35 @@ func _on_interactive_object_detected(nodes: Array[Node]) -> void:
 
 
 func _on_nothing_detected() -> void:
+	_clear_interaction_prompts()
 	interaction_container.visible = false
+
+
+func _set_drop_prompt(carrying_node: CarryInteraction) -> void:
+	_clear_interaction_prompts()
+
+	var carry_parent := carrying_node.get_parent()
+	if carry_parent:
+		for node: InteractionComponent in carry_parent.find_children("", "InteractionComponent", true):
+			if node.is_disabled:
+				continue
+			if node is PickupInteraction:
+				var take_prompt := INTERACTION_CONTROL.instantiate() as InteractionControl
+				interaction_container.add_child(take_prompt)
+				take_prompt.set_prompt(node.interaction_text, node.input_map_action)
+
+	var drop_prompt := INTERACTION_CONTROL.instantiate() as InteractionControl
+	interaction_container.add_child(drop_prompt)
+	drop_prompt.set_prompt("INTERACT Drop", carrying_node.input_map_action)
+
+	var throw_prompt := INTERACTION_CONTROL.instantiate() as InteractionControl
+	interaction_container.add_child(throw_prompt)
+	throw_prompt.set_prompt("INTERACT Throw", "primary_action")
+
+	if carrying_node.enable_manual_rotating:
+		var rotate_prompt := INTERACTION_CONTROL.instantiate() as InteractionControl
+		interaction_container.add_child(rotate_prompt)
+		rotate_prompt.set_prompt("INTERACT Rotate", "secondary_action")
 
 
 func _clear_interaction_prompts() -> void:
