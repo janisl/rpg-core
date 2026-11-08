@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://devphxuat7w8v"]
+
+[ext_resource type="Script" uid="uid://bc7b3lo5omcua" path="res://systems/objects/interactables/seat.gd" id="1_bwatw"]
+[ext_resource type="Texture2D" uid="uid://djpvgpjuu6jbv" path="res://assets/textures/kenney_prototype_textures/green/texture_09.png" id="1_w7cb8"]
+[ext_resource type="AudioStream" uid="uid://dvssv6a5urwqr" path="res://assets/sounds/kenney_rpg-audio/cloth3.ogg" id="2_gvlcm"]
+[ext_resource type="AudioStream" uid="uid://dlmesdth25wiy" path="res://assets/sounds/kenney_rpg-audio/cloth1.ogg" id="3_w7cb8"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="4_yevky"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://systems/interaction/components/carry_interaction.tscn" id="6_yevky"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
+size = Vector3(0.4, 0.6, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_texture = ExtResource("1_w7cb8")
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(0.4, 0.6, 0.4)
+
+[node name="Seat" type="RigidBody3D" unique_id=1645215705 node_paths=PackedStringArray("audio_stream_player_3d")]
+script = ExtResource("1_bwatw")
+audio_stream_player_3d = NodePath("AudioStreamPlayer3D")
+sit_sound = ExtResource("2_gvlcm")
+stand_sound = ExtResource("3_w7cb8")
+sit_position_node_path = NodePath("SitPositionMarker")
+look_marker_node_path = NodePath("LookMarker")
+leave_node_path = NodePath("LeavePositionMarker")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1116977705]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("BoxShape3D_bsiym")
+
+[node name="SitPositionMarker" type="Node3D" parent="." unique_id=1720928553]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="BasicInteraction" parent="." unique_id=14951234 instance=ExtResource("4_yevky")]
+interaction_text = "INTERACT Sit"
+
+[node name="CarryInteraction" parent="." unique_id=1412771906 instance=ExtResource("6_yevky")]
+
+[node name="LeavePositionMarker" type="Node3D" parent="." unique_id=609962230]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.5)
+
+[node name="LookMarker" type="Node3D" parent="." unique_id=1927143059]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0.687)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=901787543]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1033924377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_bsiym")
+skeleton = NodePath("../..")
+
+[node name="Chair" type="Node3D" parent="." unique_id=1326040903]

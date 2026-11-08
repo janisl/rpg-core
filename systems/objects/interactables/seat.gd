@@ -25,6 +25,7 @@ signal object_state_updated(interaction_text: String)
 @export var disable_on_jump := true
 @export var disable_on_crouch := true
 @export var is_sat_on_start := false
+@export var disable_carry := true
 
 @export_group("Vision")
 @export var sit_marker_displacement := 0.9
@@ -63,6 +64,7 @@ var animation_player: AnimationPlayer
 
 var _is_occupied := false
 var _interact_cooldown := 0.0
+var _carry_interactions: Array[CarryInteraction]
 
 @onready var basic_interaction: BasicInteraction = $BasicInteraction
 
@@ -90,6 +92,9 @@ func _ready() -> void:
 			basic_interaction.is_disabled = true
 		SitAreaBehaviour.AUTO:
 			basic_interaction.is_disabled = true
+
+	if disable_carry:
+		_carry_interactions = _get_child_carry_interactions()
 
 	if is_sat_on_start:
 		interact(LevelManager.current_player)
@@ -157,6 +162,10 @@ func _sit_down() -> void:
 	if animation_player:
 		animation_player.play(animation_on_enter)
 
+	if disable_carry:
+		for component in _carry_interactions:
+			component.is_disabled = true
+
 	object_state_updated.emit(interaction_text_when_on)
 
 	_is_occupied = true
@@ -167,6 +176,10 @@ func _stand_up() -> void:
 
 	if animation_player:
 		animation_player.play(animation_on_leave)
+
+	if disable_carry:
+		for component in _carry_interactions:
+			component.is_disabled = false
 
 	object_state_updated.emit(interaction_text_when_off)
 
@@ -226,3 +239,11 @@ func _call_linked_interact(player: Player) -> void:
 		if nodepath != null:
 			var object := get_node(nodepath)
 			object.interact(player)
+
+
+func _get_child_carry_interactions() -> Array[CarryInteraction]:
+	var components: Array[CarryInteraction]
+	for child in self.get_children():
+		if child is CarryInteraction:
+			components.append(child)
+	return components

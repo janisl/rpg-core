@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bh5lh8r6aylut" path="res://items/keys/key2.tscn" id="15_er7k5"]
 [ext_resource type="PackedScene" uid="uid://bfr10nf6bdk1m" path="res://assets/interactables/carryable_box.tscn" id="16_er7k5"]
 [ext_resource type="PackedScene" uid="uid://cbtrf5bt881ri" path="res://items/weapons/pistol/pistol_pickup.tscn" id="17_s4xnp"]
+[ext_resource type="PackedScene" uid="uid://devphxuat7w8v" path="res://assets/interactables/stool.tscn" id="18_5o2v4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rghg7"]
 albedo_color = Color(0, 0.38844073, 0.07338921, 1)
@@ -230,6 +231,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.1, 8)
 
 [node name="Pistol" parent="." unique_id=2029630907 instance=ExtResource("17_s4xnp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.01, 7)
+
+[node name="Chair" parent="." unique_id=1618642924 instance=ExtResource("18_5o2v4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 5)
 
 [connection signal="body_entered" from="Interactables/Area3D" to="Interactables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_entered"]
 [connection signal="body_exited" from="Interactables/Area3D" to="Interactables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_exited"]
