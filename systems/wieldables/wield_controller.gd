@@ -42,6 +42,33 @@ func _physics_process(_delta: float) -> void:
 				player.input_controller.cycle_ammo_just_pressed)
 
 
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	if current_item_stack:
+		state[&"wielded_item"] = player.inventory.slots.find(current_item_stack)
+	if wieldable:
+		state[&"wieldable"] = wieldable.save_state()
+	if first_person_model:
+		state[&"first_person_model"] = first_person_model.save_state()
+	if third_person_model:
+		state[&"third_person_model"] = third_person_model.save_state()
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	var index := state.get(&"wielded_item", -1) as int
+	if index >= 0 and index < player.inventory.slots.size():
+		_selected_item_stack = player.inventory.slots[index]
+		_spawn_wieldable_scenes()
+		_selected_item_stack = null
+	if wieldable:
+		wieldable.load_state(state.get(&"wieldable", Dictionary()))
+	if first_person_model:
+		first_person_model.load_state(state.get(&"first_person_model", Dictionary()))
+	if third_person_model:
+		third_person_model.load_state(state.get(&"third_person_model", Dictionary()))
+
+
 func switch_wieldable(item_stack: ItemStack) -> void:
 	if wieldable and not wieldable.is_unequipping and item_stack == current_item_stack:
 		return
@@ -148,30 +175,3 @@ func _on_primary_action_started() -> void:
 
 func _on_unequipped() -> void:
 	_spawn_wieldable_scenes()
-
-
-func save_state() -> Dictionary:
-	var state := Dictionary()
-	if current_item_stack:
-		state[&"wielded_item"] = player.inventory.slots.find(current_item_stack)
-	if wieldable:
-		state[&"wieldable"] = wieldable.save_state()
-	if first_person_model:
-		state[&"first_person_model"] = first_person_model.save_state()
-	if third_person_model:
-		state[&"third_person_model"] = third_person_model.save_state()
-	return state
-
-
-func load_state(state: Dictionary) -> void:
-	var index := state.get(&"wielded_item", -1) as int
-	if index >= 0 and index < player.inventory.slots.size():
-		_selected_item_stack = player.inventory.slots[index]
-		_spawn_wieldable_scenes()
-		_selected_item_stack = null
-	if wieldable:
-		wieldable.load_state(state.get(&"wieldable", Dictionary()))
-	if first_person_model:
-		first_person_model.load_state(state.get(&"first_person_model", Dictionary()))
-	if third_person_model:
-		third_person_model.load_state(state.get(&"third_person_model", Dictionary()))
