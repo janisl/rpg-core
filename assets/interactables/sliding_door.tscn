@@ -36,3 +36,4 @@ mesh = SubResource("BoxMesh_bsiym")
 [node name="BasicInteraction" parent="SlidingDoor" unique_id=14951234 instance=ExtResource("2_jmeyh")]
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1310377400]
+bus = &"SFX"

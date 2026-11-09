@@ -57,3 +57,4 @@ mesh = SubResource("BoxMesh_bsiym")
 [node name="BasicInteraction" parent="AnimatableBody3D2" unique_id=2022564347 instance=ExtResource("4_x1878")]
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=669111478]
+bus = &"SFX"

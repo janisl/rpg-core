@@ -54,6 +54,7 @@ is_disabled = true
 hold_node = NodePath("../LockInteraction")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=669111478]
+bus = &"SFX"
 
 [connection signal="on_hold_complete" from="AnimatableBody3D/DualInteraction" to="AnimatableBody3D/LockInteraction" method="interact"]
 [connection signal="on_quick_press" from="AnimatableBody3D/DualInteraction" to="AnimatableBody3D/BasicInteraction" method="interact"]

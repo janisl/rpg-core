@@ -8,3 +8,4 @@ input_map_action = "interact2"
 interaction_text = "INTERACT Carry"
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1275863622]
+bus = &"SFX"

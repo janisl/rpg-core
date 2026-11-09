@@ -96,3 +96,4 @@ mesh = SubResource("BoxMesh_bsiym")
 libraries/ = SubResource("AnimationLibrary_bt7tr")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2068030800]
+bus = &"SFX"

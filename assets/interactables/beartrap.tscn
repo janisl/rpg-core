@@ -506,6 +506,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 interaction_text = "INTERACT Sit"
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=901787543]
+bus = &"SFX"
 
 [node name="Tooth1" type="Node3D" parent="." unique_id=219536326]
 
