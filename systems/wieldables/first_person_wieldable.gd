@@ -7,6 +7,13 @@ const WIELDABLE_CLIP_AND_FOV_SHADER = preload("uid://dn5emhygjupes")
 @export var muzzle_flash: MuzzleFlash
 @export var mesh_fov := -1
 
+@export_group("Animations")
+@export var equip_animation: StringName = &"equip"
+@export var unequip_animation: StringName = &"unequip"
+@export var idle_animation: StringName = &"idle"
+@export var fire_animation: StringName = &"fire"
+@export var reload_animation: StringName = &"reload"
+
 var _player: Player
 var _wieldable: Wieldable
 
@@ -74,22 +81,22 @@ func _connect_signals() -> void:
 
 func _on_equip_started() -> void:
 	if animation_player:
-		animation_player.play("equip")
+		animation_player.play(equip_animation)
 
 
 func _on_unequip_started() -> void:
 	if animation_player:
-		animation_player.play("unequip")
+		animation_player.play(unequip_animation)
 
 
 func _on_idle_started() -> void:
 	if animation_player:
-		animation_player.play("idle")
+		animation_player.play(idle_animation)
 
 
 func _on_primary_action_started() -> void:
 	if animation_player:
-		animation_player.play("fire")
+		animation_player.play(fire_animation)
 
 	if muzzle_flash:
 		muzzle_flash.flash()
@@ -97,4 +104,4 @@ func _on_primary_action_started() -> void:
 
 func _on_reload_started() -> void:
 	if animation_player:
-		animation_player.play("reload")
+		animation_player.play(reload_animation)
