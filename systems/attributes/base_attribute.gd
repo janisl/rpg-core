@@ -7,6 +7,7 @@ enum AttributeType{
 	STAMINA = 2,
 	VISIBILITY = 3,
 	CURRENCY = 4,
+	STRENGTH = 5,
 }
 
 enum ValueType { CURRENT, MAX }

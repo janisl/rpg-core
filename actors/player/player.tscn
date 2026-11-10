@@ -27,6 +27,7 @@
 [ext_resource type="AudioStream" uid="uid://dxo7lgyv6y01" path="res://assets/sounds/misc/504383__joao_janz__boots-gravel-feet-slide-1_5.wav" id="29_ivjma"]
 [ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="30_j5me0"]
 [ext_resource type="Script" uid="uid://bk8ufns0cjpgj" path="res://systems/inventory/inventory.gd" id="31_4ihbh"]
+[ext_resource type="PackedScene" uid="uid://b473k73oyrxdp" path="res://systems/attributes/strength_attribute.tscn" id="34_ivjma"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="35_qls60"]
 [ext_resource type="PackedScene" uid="uid://n1doui0jpn1v" path="res://systems/attributes/currency_attribute.tscn" id="39_52j8m"]
 [ext_resource type="AudioStream" uid="uid://c5etqcpobd0u" path="res://systems/footsteps/generic_footstep_profile.tres" id="40_ifggu"]
@@ -1321,6 +1322,8 @@ stream = ExtResource("29_ivjma")
 [node name="VisibilityAttribute" parent="." unique_id=2015746694 instance=ExtResource("27_s7w8x")]
 
 [node name="CurrencyAttribute" parent="." unique_id=1398226394 instance=ExtResource("39_52j8m")]
+
+[node name="StrengthAttribute" parent="." unique_id=255030817 instance=ExtResource("34_ivjma")]
 
 [connection signal="ladder_entered" from="." to="MovementHandlers/LadderMovement" method="_on_ladder_entered"]
 [connection signal="ladder_exited" from="." to="MovementHandlers/LadderMovement" method="_on_ladder_exited"]

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b473k73oyrxdp"]
+
+[ext_resource type="Script" uid="uid://m3rm7ylw0et6" path="res://systems/attributes/base_attribute.gd" id="1_wbojs"]
+
+[node name="StrengthAttribute" type="Node" unique_id=255030817]
+script = ExtResource("1_wbojs")
+attribute_type = 5
+display_name = "ATTRIBUTE Strength"
+max_value = 100.0
+initial_value = 1.0

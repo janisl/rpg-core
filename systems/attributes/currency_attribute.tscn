@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://n1doui0jpn1v"]
 
-[ext_resource type="Script" uid="uid://sf1jv3lkaxf8" path="res://systems/attributes/currency_attribute.gd" id="1_vxi2l"]
+[ext_resource type="Script" uid="uid://m3rm7ylw0et6" path="res://systems/attributes/base_attribute.gd" id="1_vxi2l"]
 
 [node name="CurrencyAttribute" type="Node" unique_id=1398226394]
 script = ExtResource("1_vxi2l")
