@@ -18,12 +18,16 @@ signal value_reached_zero()
 @export var attribute_type := AttributeType.NONE
 @export var display_name := ""
 @export var max_value: float
+@export var is_unlimited := false
 @export var initial_value: float
 
 var value: float:
 	set(new_value):
 		var prev_value := value
-		value = clampf(new_value, 0, max_value)
+		if is_unlimited:
+			value = maxf(new_value, 0)
+		else:
+			value = clampf(new_value, 0, max_value)
 		if value == prev_value:
 			return
 

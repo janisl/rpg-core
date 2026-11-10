@@ -20,7 +20,7 @@ func _on_value_changed(_new_value: float, _old_value: float, _max_value: float) 
 
 
 func _update_value() -> void:
-	if _attribute.max_value < 1000000:
-		value_label.text = str(int(_attribute.value)) + "/" + str(int(_attribute.max_value))
-	else:
+	if _attribute.is_unlimited:
 		value_label.text = str(int(_attribute.value))
+	else:
+		value_label.text = str(int(_attribute.value)) + "/" + str(int(_attribute.max_value))

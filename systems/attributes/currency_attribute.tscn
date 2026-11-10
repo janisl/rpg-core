@@ -6,4 +6,4 @@
 script = ExtResource("1_vxi2l")
 attribute_type = 4
 display_name = "ATTRIBUTE Currency"
-max_value = 1e+18
+is_unlimited = true
