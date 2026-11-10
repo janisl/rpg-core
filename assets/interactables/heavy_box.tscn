@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://qqcw2fhr4pnq"]
+
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_1ftkf"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://systems/interaction/components/carry_interaction.tscn" id="2_aau1t"]
+[ext_resource type="AudioStream" uid="uid://blwpy1ufci15q" path="res://assets/sounds/kenney_rpg-audio/handleSmallLeather.ogg" id="3_0nova"]
+[ext_resource type="AudioStream" uid="uid://qqf0up26cmbb" path="res://assets/sounds/kenney_rpg-audio/handleSmallLeather2.ogg" id="4_02rnt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.067437746, 0.06743774, 0.06743772, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(0.8, 0.8, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0nova"]
+size = Vector3(0.8, 0.8, 0.8)
+
+[node name="HeavyBox" type="RigidBody3D" unique_id=1756682221]
+mass = 100.0
+script = ExtResource("1_1ftkf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=819023739]
+mesh = SubResource("BoxMesh_bsiym")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1874702734]
+shape = SubResource("BoxShape3D_0nova")
+
+[node name="CarryInteraction" parent="." unique_id=1412771906 node_paths=PackedStringArray("audio_stream_player") instance=ExtResource("2_aau1t")]
+audio_stream_player = NodePath("../AudioStreamPlayer3D")
+pick_up_sound = ExtResource("3_0nova")
+drop_sound = ExtResource("4_02rnt")
+attribute_check = 1
+attribute_to_check = 5
+min_value_to_pass = 2.0
+message_on_pass = "Like a feather!"
+message_on_fail = "It's too heavy!"
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=452902162]

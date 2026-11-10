@@ -21,6 +21,7 @@ var _hotspot_base_pos_z : float = -1.5
 
 
 func _ready() -> void:
+	add_exception_rid(player.get_rid())
 	_hotspot_base_pos_z = hotspot.position.z
 	if !show_debug_shapes:
 		raycast_highlighter.visible = false
@@ -144,9 +145,10 @@ func _handle_interactable_interaction(action: String) -> void:
 	for node: InteractionComponent in interaction_nodes:
 		if node.input_map_action != action or node.is_disabled:
 			continue
+		if !node.check_attribute(player):
+			continue
 
 		node.interact(player)
-
 		_rebuild_interaction_prompts()
 		break
 

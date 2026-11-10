@@ -10,7 +10,6 @@ UI
 
 Inventory
 - weight based inventory
-- usable items
 
 Enemies
 - wandering

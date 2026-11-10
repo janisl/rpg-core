@@ -18,6 +18,8 @@
 [ext_resource type="PackedScene" uid="uid://bfr10nf6bdk1m" path="res://assets/interactables/carryable_box.tscn" id="16_er7k5"]
 [ext_resource type="PackedScene" uid="uid://cbtrf5bt881ri" path="res://items/weapons/pistol/pistol_pickup.tscn" id="17_s4xnp"]
 [ext_resource type="PackedScene" uid="uid://devphxuat7w8v" path="res://assets/interactables/stool.tscn" id="18_5o2v4"]
+[ext_resource type="PackedScene" uid="uid://qqcw2fhr4pnq" path="res://assets/interactables/heavy_box.tscn" id="18_emp2w"]
+[ext_resource type="PackedScene" uid="uid://h63prh2hngne" path="res://items/consumables/strength_potion.tscn" id="19_ogusv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rghg7"]
 albedo_color = Color(0, 0.38844073, 0.07338921, 1)
@@ -234,6 +236,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.01, 7)
 
 [node name="PickupInteraction" parent="Pistol" index="2" unique_id=2017310821]
 display_item_name = true
+
+[node name="HeavyBox" parent="Pistol" unique_id=1756682221 instance=ExtResource("18_emp2w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.4, 1)
+
+[node name="StrengthPotion" parent="Pistol" unique_id=270468499 instance=ExtResource("19_ogusv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.09, 0)
 
 [node name="Chair" parent="." unique_id=1618642924 instance=ExtResource("18_5o2v4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 5)

@@ -98,6 +98,9 @@ func _on_interactive_object_detected(nodes: Array[Node]) -> void:
 	for node: InteractionComponent in nodes:
 		if node.is_disabled:
 			continue
+		if node.attribute_check == InteractionComponent.AttributeCheck.HIDE_INTERACTION and !node.check_attribute(_player):
+			continue
+
 		var control := INTERACTION_CONTROL.instantiate() as InteractionControl
 		interaction_container.add_child(control)
 		control.initialize(node)

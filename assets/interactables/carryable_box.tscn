@@ -28,6 +28,9 @@ mesh = SubResource("BoxMesh_bsiym")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=32371436]
 shape = SubResource("BoxShape3D_jcp1c")
 
-[node name="CarryInteraction" parent="." unique_id=1412771906 instance=ExtResource("2_kfpps")]
+[node name="CarryInteraction" parent="." unique_id=1412771906 node_paths=PackedStringArray("audio_stream_player") instance=ExtResource("2_kfpps")]
+audio_stream_player = NodePath("../AudioStreamPlayer3D")
 pick_up_sound = ExtResource("4_f8yf4")
 drop_sound = ExtResource("5_8i5qb")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=24832122]
