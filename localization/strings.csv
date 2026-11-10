@@ -39,6 +39,7 @@ INTERACT Carry,Carry
 INTERACT Drop,Drop
 INTERACT Throw,Throw
 INTERACT Rotate,Rotate
+INTERACT Use,Use
 ATTRIBUTE Health,Health
 ATTRIBUTE Stamina,Stamina
 ATTRIBUTE Visibility,Visibility

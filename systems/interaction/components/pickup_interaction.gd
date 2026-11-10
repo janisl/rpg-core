@@ -13,11 +13,6 @@ func _ready() -> void:
 
 
 func interact(player: Player) -> void:
-	if !is_disabled:
-		pick_up(player)
-
-
-func pick_up(player: Player) -> void:
 	player.inventory.add_stack(item_stack)
 	if item_stack.amount == 1:
 		EventBus.show_notification.emit(tr(item_stack.item.display_name))

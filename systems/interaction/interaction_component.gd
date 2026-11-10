@@ -56,3 +56,7 @@ func check_attribute(player: Player) -> bool:
 		if message_on_fail and attribute_check == AttributeCheck.FAIL_MESSAGE:
 			EventBus.show_notification.emit(tr(message_on_fail))
 		return false
+
+
+func update_disabled_state(_player: Player) -> void:
+	pass

@@ -96,6 +96,8 @@ func _on_interactive_object_detected(nodes: Array[Node]) -> void:
 		instanced_object_name.set_object_name(display_name)
 
 	for node: InteractionComponent in nodes:
+		node.update_disabled_state(_player)
+	for node: InteractionComponent in nodes:
 		if node.is_disabled:
 			continue
 		if node.attribute_check == InteractionComponent.AttributeCheck.HIDE_INTERACTION and !node.check_attribute(_player):
@@ -118,10 +120,13 @@ func _set_drop_prompt(carrying_node: CarryInteraction) -> void:
 
 	var carry_parent := carrying_node.get_parent()
 	if carry_parent:
-		for node: InteractionComponent in carry_parent.find_children("", "InteractionComponent", true):
+		var nodes := carry_parent.find_children("", "InteractionComponent", true)
+		for node: InteractionComponent in nodes:
+			node.update_disabled_state(_player)
+		for node: InteractionComponent in nodes:
 			if node.is_disabled:
 				continue
-			if node is PickupInteraction:
+			if node is PickupInteraction or node is ExtendedPickupInteraction:
 				var take_prompt := INTERACTION_CONTROL.instantiate() as InteractionControl
 				interaction_container.add_child(take_prompt)
 				take_prompt.set_prompt(node.interaction_text, node.input_map_action)

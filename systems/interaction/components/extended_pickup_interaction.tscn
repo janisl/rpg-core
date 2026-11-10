@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://hb6a2o6ljd5q"]
+
+[ext_resource type="Script" uid="uid://ceuce8wxjaoe0" path="res://systems/interaction/components/extended_pickup_interaction.gd" id="1_v80f2"]
+
+[node name="ExtendedPickupInteraction" type="Node3D" unique_id=728078588]
+script = ExtResource("1_v80f2")
+hold_interaction_text = "INTERACT Use"
+separator_text = "INTERACT hold joiner"
+hold_time = 0.7

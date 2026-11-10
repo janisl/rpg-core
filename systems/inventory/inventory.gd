@@ -10,15 +10,15 @@ func _ready() -> void:
 	add_to_group("persist_component")
 
 
-func add_item(item: ItemData, amount := 1, metadata: Dictionary[String, Variant] = {}):
+func add_item(item: ItemData, amount := 1, metadata: Dictionary[String, Variant] = {}) -> ItemStack:
 	if not item or amount <= 0:
-		return
-	add_stack(ItemStack.new(item, amount, metadata))
+		return null
+	return add_stack(ItemStack.new(item, amount, metadata))
 
 
-func add_stack(stack: ItemStack):
+func add_stack(stack: ItemStack) -> ItemStack:
 	if not stack or not stack.is_valid:
-		return
+		return null
 
 	for i in slots.size():
 		if _is_empty(i):
@@ -29,10 +29,12 @@ func add_stack(stack: ItemStack):
 		slots[i].amount += stack.amount
 		slots[i].emit_changed()
 		changed.emit()
-		return
+		return slots[i]
 
-	slots.append(stack.duplicate_deep())
+	var new_stack := stack.duplicate_deep()
+	slots.append(new_stack)
 	changed.emit()
+	return new_stack
 
 
 func remove_item(item: ItemData, amount := 1, exact: bool = true) -> bool:
@@ -51,7 +53,7 @@ func remove_item(item: ItemData, amount := 1, exact: bool = true) -> bool:
 			break
 		if _is_empty(i):
 			continue
-		var stack = slots[i]
+		var stack := slots[i]
 		if stack.item != item:
 			continue
 
@@ -93,7 +95,7 @@ func _is_empty(index: int) -> bool:
 
 func _can_stack(index: int, stack: ItemStack) -> bool:
 	var existing := slots[index]
-	return existing.item == stack.item and existing.metadata.recursive_equal(stack.metadata, 10)
+	return stack.item.is_stacable and existing.item == stack.item and existing.metadata.recursive_equal(stack.metadata, 10)
 
 
 func save_state() -> Dictionary:

@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/components/pickup_interaction.tscn" id="1_ctn22"]
 [ext_resource type="Resource" uid="uid://k8m0m32cwhsd" path="res://items/weapons/pistol/pistol.tres" id="2_5urlf"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="3_giplq"]
+[ext_resource type="PackedScene" uid="uid://hb6a2o6ljd5q" path="res://systems/interaction/components/extended_pickup_interaction.tscn" id="5_giplq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vgx7n"]
 albedo_color = Color(0.26536053, 0.26536053, 0.2653605, 1)
@@ -51,3 +52,5 @@ shape = SubResource("BoxShape3D_18xq7")
 
 [node name="PickupInteraction" parent="." unique_id=2017310821 instance=ExtResource("1_ctn22")]
 item_stack = SubResource("Resource_bsiym")
+
+[node name="ExtendedPickupInteraction" parent="." unique_id=728078588 instance=ExtResource("5_giplq")]

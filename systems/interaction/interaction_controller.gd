@@ -135,7 +135,7 @@ func _handle_carry_interaction(action: String) -> void:
 
 	for node: InteractionComponent in carry_parent.find_children("", "InteractionComponent", true):
 		if node.input_map_action == action and not node.is_disabled:
-			if node is PickupInteraction:
+			if node is PickupInteraction or node is ExtendedPickupInteraction:
 				node.interact(player)
 				_rebuild_interaction_prompts()
 				break

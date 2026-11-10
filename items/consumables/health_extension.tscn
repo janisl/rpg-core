@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/components/pickup_interaction.tscn" id="2_o70o7"]
 [ext_resource type="Resource" uid="uid://ctg1hixd15clh" path="res://items/consumables/health_extension.tres" id="3_vywbr"]
 [ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="4_nfsgo"]
+[ext_resource type="PackedScene" uid="uid://hb6a2o6ljd5q" path="res://systems/interaction/components/extended_pickup_interaction.tscn" id="5_o70o7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cof35"]
 albedo_color = Color(0.6510383, 0.08730193, 1.92523e-07, 1)
@@ -40,3 +41,5 @@ shape = SubResource("BoxShape3D_vywbr")
 [node name="PickupInteraction" parent="." unique_id=2017310821 instance=ExtResource("2_o70o7")]
 item_stack = SubResource("Resource_e20dk")
 display_item_name = true
+
+[node name="ExtendedPickupInteraction" parent="." unique_id=728078588 instance=ExtResource("5_o70o7")]
