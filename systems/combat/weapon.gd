@@ -97,8 +97,10 @@ func _get_damage() -> float:
 
 
 func _get_accuracy_spread() -> float:
+	var accuracy := lerpf(_weapon_data.accuracy, _weapon_data.aim_accuracy, aim_fraction)
 	var ammo := _get_loaded_ammo()
-	var accuracy := _weapon_data.accuracy * (ammo.accuracy_multiplier if ammo else 1.0)
+	if ammo:
+		accuracy *= ammo.accuracy_multiplier
 	return (100.0 - clampf(accuracy, 0.0, 100.0)) / 1000.0
 
 
@@ -136,7 +138,8 @@ func _fire_weapon() -> void:
 
 	var camera_collision := _get_camera_collision()
 	var look_basis := Basis.looking_at(_forward_direction)
-	var from := _from_position + look_basis * _weapon_data.fire_offset
+	var offset := _weapon_data.fire_offset.lerp(_weapon_data.aim_fire_offset, aim_fraction)
+	var from := _from_position + look_basis * offset
 	var fire_direction := from.direction_to(camera_collision)
 
 	_perform_attack(from, fire_direction)

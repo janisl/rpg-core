@@ -25,6 +25,7 @@ script = ExtResource("5_ebdrl")
 weapon_range = 50.0
 damage = 5.0
 fire_offset = Vector3(0.1, -0.02, -0.1)
+aim_fire_offset = Vector3(0, -0.02, -0.1)
 is_automatic = true
 ammo_types = Array[ExtResource("1_spaxh")]([ExtResource("1_cxtko")])
 magazine_size = 12
