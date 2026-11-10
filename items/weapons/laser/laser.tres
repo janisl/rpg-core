@@ -37,6 +37,7 @@ first_person_scene = ExtResource("4_da8ks")
 third_person_scene = ExtResource("8_efmtk")
 first_person_position = Vector3(0.14105655, -0.06323153, -0.18142417)
 first_person_aim_position = Vector3(0, -0.063, -0.181)
+aim_fov_multilier = 0.95
 vertical_lag_amount = 0.002
 display_name = "ITEM NAME Laser"
 description = "ITEM DESCRIPTION Laser"

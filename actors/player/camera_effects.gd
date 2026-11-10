@@ -58,6 +58,12 @@ var step_timer := 0.0
 var _slide_tilt := 0.0
 var _slide_tilt_target := 0.0
 
+var _base_fov: float
+
+
+func _ready() -> void:
+	_base_fov = fov
+
 
 func _process(delta: float) -> void:
 	_calcuate_view_offset(delta)
@@ -116,6 +122,7 @@ func _calcuate_view_offset(delta: float) -> void:
 
 	var angles := Vector3.ZERO
 	var offset := Vector3.ZERO
+	var new_fov := _base_fov
 
 	if enable_tilt:
 		var forward := global_transform.basis.z
@@ -169,8 +176,14 @@ func _calcuate_view_offset(delta: float) -> void:
 		_slide_tilt = move_toward(_slide_tilt, _slide_tilt_target, delta * slide_tilt_speed)
 		angles.z += _slide_tilt
 
+	if player.wield_controller.wieldable:
+		new_fov *= lerpf(1.0,
+				player.wield_controller.wieldable_data.aim_fov_multilier,
+				player.wield_controller.wieldable.aim_fraction)
+
 	position = offset
 	rotation = angles
+	fov = new_fov
 
 
 func _update_screen_shake(alpha: float, amount: float) -> void:

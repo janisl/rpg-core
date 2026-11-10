@@ -6,11 +6,12 @@ extends ItemData
 @export var first_person_scene: PackedScene
 @export var third_person_scene: PackedScene
 
-@export_group("Positioning")
+@export_group("Positioning and aiming")
 @export var uses_aiming := true
 @export var first_person_position := Vector3.ZERO
 @export var first_person_aim_position := Vector3.ZERO
 @export var aim_speed := 4.0
+@export var aim_fov_multilier := 1.0
 
 @export_group("State durations")
 @export var equip_time := 0.5
