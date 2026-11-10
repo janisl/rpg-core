@@ -16,6 +16,12 @@ var _player: Player
 var _selected_item: ItemStack
 
 
+func _input(event: InputEvent) -> void:
+	if visible and event.is_action_pressed("inventory"):
+		hide_screen()
+		get_viewport().set_input_as_handled()
+
+
 func connect_to_player(player: Player) -> void:
 	_player = player
 
@@ -70,4 +76,7 @@ func _on_unequip_button_pressed() -> void:
 
 
 func _on_use_button_pressed() -> void:
-	_selected_item.item.use(_player, _selected_item)
+	if _selected_item.item.use(_player, _selected_item):
+		_player.inventory.remove_item(_selected_item.item, 1)
+		if not _selected_item.is_valid:
+			detailsl_container.hide()

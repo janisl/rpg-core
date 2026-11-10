@@ -31,7 +31,7 @@ func add_stack(stack: ItemStack):
 		changed.emit()
 		return
 
-	slots.append(stack)
+	slots.append(stack.duplicate_deep())
 	changed.emit()
 
 

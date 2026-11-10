@@ -18,10 +18,10 @@ func use(target: Actor, item_stack: ItemStack) -> bool:
 	if did_use:
 		AudioManager.play_ui_sound(success_sound)
 		if success_message:
-			EventBus.show_notification.emit(success_message)
+			EventBus.show_notification.emit(tr(success_message))
 		return true
 	else:
 		AudioManager.play_ui_sound(failure_sound)
 		if failure_message:
-			EventBus.show_notification.emit(failure_message)
+			EventBus.show_notification.emit(tr(failure_message))
 		return false
