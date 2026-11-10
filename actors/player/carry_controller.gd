@@ -118,7 +118,7 @@ func _attempt_throw() -> void:
 			if drop_when_cant_throw:
 				player.carry_controller.drop_carried_object()
 			return
-		player.decrease_attribute(player.stamina_attribute.attribute_name, throw_stamina_drain)
+		player.decrease_attribute(BaseAttribute.AttributeType.STAMINA, throw_stamina_drain)
 
 	player.carry_controller.carried_object.throw(throw_force)
 

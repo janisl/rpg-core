@@ -4,7 +4,7 @@
 
 [node name="HealthAttribute" type="Node" unique_id=167552575]
 script = ExtResource("1_2l1ju")
-attribute_name = "health"
+attribute_type = 1
 display_name = "ATTRIBUTE Health"
 max_value = 100.0
 initial_value = 100.0

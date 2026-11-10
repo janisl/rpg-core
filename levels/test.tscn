@@ -657,9 +657,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 46)
 [node name="Pistol" parent="Pickups" unique_id=2029630907 instance=ExtResource("18_fivcu")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.4, 1.01, 2)
 
-[node name="PickupComponent" parent="Pickups/Pistol" index="2" unique_id=2017310821]
-display_item_name = true
-
 [node name="Shotgun" parent="Pickups" unique_id=2119485406 instance=ExtResource("19_b5wip")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.4, 1.01, 3.9776902)
 
@@ -855,5 +852,3 @@ shape = SubResource("BoxShape3D_6k6bt")
 transform = Transform3D(-0.39042774, 0, -0.92063355, 0, 1, 0, 0.92063355, 0, -0.39042774, -8.426714, 0, 0)
 
 [connection signal="activated" from="TriggerVolume" to="Enemies/SimpleEnemy" method="on_trigger"]
-
-[editable path="Pickups/Pistol"]

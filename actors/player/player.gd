@@ -61,7 +61,7 @@ var jumped_from_slide := false
 
 var anim_tree_state: AnimationNodeStateMachinePlayback
 
-var player_attributes: Dictionary[String, BaseAttribute]
+var player_attributes: Dictionary[BaseAttribute.AttributeType, BaseAttribute]
 var health_attribute: HealthAttribute
 var stamina_attribute: StaminaAttribute
 var visibility_attribute: BaseAttribute
@@ -87,12 +87,12 @@ func _ready() -> void:
 	anim_tree_state = animation_tree["parameters/LowerBody/playback"]
 	animation_tree.process_mode = Node.PROCESS_MODE_INHERIT
 
-	for attribute in find_children("", "BaseAttribute", false):
-		player_attributes[attribute.attribute_name] = attribute
+	for attribute: BaseAttribute in find_children("", "BaseAttribute", false):
+		player_attributes[attribute.attribute_type] = attribute
 
-	health_attribute = player_attributes.get("health")
-	stamina_attribute = player_attributes.get("stamina")
-	visibility_attribute = player_attributes.get("visibility")
+	health_attribute = player_attributes.get(BaseAttribute.AttributeType.HEALTH)
+	stamina_attribute = player_attributes.get(BaseAttribute.AttributeType.STAMINA)
+	visibility_attribute = player_attributes.get(BaseAttribute.AttributeType.VISIBILITY)
 
 	EventBus.player_spawned.emit(self)
 
@@ -161,10 +161,10 @@ func load_state(state: Dictionary) -> void:
 	carry_controller.load_state(state.get(&"carry_controller", Dictionary()))
 
 
-func increase_attribute(attribute_name: String, value: float, value_type: BaseAttribute.ValueType) -> bool:
-	var attribute: BaseAttribute = player_attributes.get(attribute_name)
+func increase_attribute(attribute_type: BaseAttribute.AttributeType, value: float, value_type: BaseAttribute.ValueType) -> bool:
+	var attribute: BaseAttribute = player_attributes.get(attribute_type)
 	if not attribute:
-		print("Increase attribute: " + attribute_name + " Attribute not found")
+		print("Increase attribute: " + str(attribute_type) + " Attribute not found")
 		return false
 
 	if value_type == BaseAttribute.ValueType.CURRENT:
@@ -180,17 +180,17 @@ func increase_attribute(attribute_name: String, value: float, value_type: BaseAt
 	return false
 
 
-func decrease_attribute(attribute_name: String, value: float) -> void:
-	var attribute: BaseAttribute = player_attributes.get(attribute_name)
+func decrease_attribute(attribute_type: BaseAttribute.AttributeType, value: float) -> void:
+	var attribute: BaseAttribute = player_attributes.get(attribute_type)
 	if not attribute:
-		print("Decrease attribute: " + attribute_name + " - Attribute not found")
+		print("Decrease attribute: " + str(attribute_type) + " - Attribute not found")
 		return
 	attribute.subtract(value)
 
 
 func jump() -> void:
 	AudioManager.play_sound_3d(jump_sound, global_position)
-	decrease_attribute("stamina", stamina_attribute.jump_exhaustion)
+	decrease_attribute(BaseAttribute.AttributeType.STAMINA, stamina_attribute.jump_exhaustion)
 
 	if is_sliding:
 		velocity.y += slide_jump_velocity

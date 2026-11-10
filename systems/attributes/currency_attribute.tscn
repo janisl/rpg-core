@@ -4,6 +4,6 @@
 
 [node name="CurrencyAttribute" type="Node" unique_id=1398226394]
 script = ExtResource("1_vxi2l")
-attribute_name = "currency"
+attribute_type = 4
 display_name = "ATTRIBUTE Currency"
 max_value = 1e+18

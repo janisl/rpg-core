@@ -1,17 +1,25 @@
 class_name BaseAttribute
 extends Node
 
+enum AttributeType{
+	NONE = 0,
+	HEALTH = 1,
+	STAMINA = 2,
+	VISIBILITY = 3,
+	CURRENCY = 4,
+}
+
 enum ValueType { CURRENT, MAX }
 
 signal value_changed(new_value: float, old_value: float, max_value: float)
 signal value_reached_zero()
 
-@export var attribute_name : String
-@export var display_name : String
-@export var max_value : float
-@export var initial_value : float
+@export var attribute_type := AttributeType.NONE
+@export var display_name := ""
+@export var max_value: float
+@export var initial_value: float
 
-var value : float:
+var value: float:
 	set(new_value):
 		var prev_value := value
 		value = clampf(new_value, 0, max_value)
