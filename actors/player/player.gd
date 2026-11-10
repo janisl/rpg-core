@@ -168,7 +168,7 @@ func increase_attribute(attribute_type: BaseAttribute.AttributeType, value: floa
 		return false
 
 	if value_type == BaseAttribute.ValueType.CURRENT:
-		if attribute.value == attribute.max_value:
+		if not attribute.is_unlimited and attribute.value == attribute.max_value:
 			return false
 		attribute.add(value)
 		return true

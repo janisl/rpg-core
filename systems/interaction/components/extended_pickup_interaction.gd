@@ -32,7 +32,7 @@ func update_disabled_state(player: Player) -> void:
 		if player.player_attributes.has(consumable.consumable_effects[0].attribute_type):
 			var attribute := player.player_attributes[consumable.consumable_effects[0].attribute_type] as BaseAttribute
 			if consumable.consumable_effects[0].value_to_change == BaseAttribute.ValueType.CURRENT:
-				is_disabled = attribute.value == attribute.max_value
+				is_disabled = not attribute.is_unlimited and attribute.value == attribute.max_value
 			elif consumable.consumable_effects[0].value_to_change == BaseAttribute.ValueType.MAX:
 				is_disabled = false
 	elif item is WieldableData:
