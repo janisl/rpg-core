@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://h63prh2hngne"]
+
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_t5fjh"]
+[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/components/pickup_interaction.tscn" id="2_vdvp8"]
+[ext_resource type="Resource" uid="uid://gbcclhemlbsq" path="res://items/consumables/strength_potion.tres" id="3_t5fjh"]
+[ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="4_ciooa"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gidhk"]
+albedo_color = Color(0, 0.5138533, 0.7616877, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_o70o7"]
+material = SubResource("StandardMaterial3D_gidhk")
+top_radius = 0.02
+bottom_radius = 0.05
+height = 0.2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_nfsgo"]
+height = 0.2
+radius = 0.05
+
+[sub_resource type="Resource" id="Resource_e20dk"]
+script = ExtResource("4_ciooa")
+item = ExtResource("3_t5fjh")
+metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
+
+[node name="StrengthPotion" type="RigidBody3D" unique_id=270468499]
+collision_layer = 34
+collision_mask = 45
+script = ExtResource("1_t5fjh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=386862216]
+mesh = SubResource("CylinderMesh_o70o7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1792626013]
+shape = SubResource("CylinderShape3D_nfsgo")
+
+[node name="PickupInteraction" parent="." unique_id=2017310821 instance=ExtResource("2_vdvp8")]
+item_stack = SubResource("Resource_e20dk")
+display_item_name = true

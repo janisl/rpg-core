@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="ConsumableItem" format=3 uid="uid://b4bifbru3uh1l"]
+
+[ext_resource type="Script" uid="uid://wd8upkj6fbbh" path="res://systems/inventory/consumable/consumable_effect.gd" id="1_5pkw1"]
+[ext_resource type="AudioStream" uid="uid://2mgtgtbslunh" path="res://assets/sounds/kenney_ui-audio/click1.ogg" id="2_wu238"]
+[ext_resource type="Script" uid="uid://dd216g7cnupju" path="res://systems/inventory/consumable/consumable_attribute_effect.gd" id="2_x6if6"]
+[ext_resource type="AudioStream" uid="uid://dgw0gnlcd0sr4" path="res://assets/sounds/kenney_interface_sounds/error_006.ogg" id="3_2jwkp"]
+[ext_resource type="Script" uid="uid://dr5kneob1wta8" path="res://systems/inventory/consumable/consumable_item.gd" id="3_x6if6"]
+[ext_resource type="AudioStream" uid="uid://dtus18te45sjd" path="res://assets/sounds/rpg_sound_pack/inventory/bottle.wav" id="6_uhun4"]
+
+[sub_resource type="Resource" id="Resource_5tjpm"]
+script = ExtResource("2_x6if6")
+attribute_type = 1
+attribute_change_amount = 10.0
+metadata/_custom_type_script = "uid://dd216g7cnupju"
+
+[sub_resource type="Gradient" id="Gradient_xy5oi"]
+offsets = PackedFloat32Array(0.7677725, 0.8262243)
+colors = PackedColorArray(0.8509804, 0.23529412, 0, 0, 0.8509584, 0.23506567, 5.7756904e-07, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dxcik"]
+gradient = SubResource("Gradient_xy5oi")
+
+[resource]
+script = ExtResource("3_x6if6")
+consumable_effects = Array[ExtResource("1_5pkw1")]([SubResource("Resource_5tjpm")])
+success_sound = ExtResource("6_uhun4")
+failure_sound = ExtResource("3_2jwkp")
+display_name = "ITEM NAME Medkit"
+description = "ITEM DESCRIPTION Medkit"
+icon = SubResource("GradientTexture2D_dxcik")
+weight = 0.1
+pickup_scene = "uid://bdih6iygs2l05"
+pickup_sound = ExtResource("2_wu238")

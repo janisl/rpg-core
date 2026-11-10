@@ -18,6 +18,12 @@ ITEM NAME Key1,Magenta key
 ITEM DESCRIPTION Key1,Magenta key
 ITEM NAME Key2,Blue key
 ITEM DESCRIPTION Key2,Blue key
+ITEM NAME Medkit,Medkit
+ITEM DESCRIPTION Medkit,Medkit
+ITEM NAME Health extension,Health Extension
+ITEM DESCRIPTION Health extension,Health extension
+ITEM NAME Strength potion,Strength Potion
+ITEM DESCRIPTION Strength potion,Strength potion
 INTERACT Pick up,Pick up
 INTERACT Open,Open
 INTERACT Close,Close
