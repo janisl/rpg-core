@@ -68,12 +68,12 @@ func remove_item(item: ItemData, amount := 1, exact: bool = true) -> bool:
 	return remaining == 0
 
 
-func get_available_amount(item) -> int:
+func get_available_amount(item: ItemData) -> int:
 	var available := 0
 	for i in slots.size():
 		if _is_empty(i):
 			continue
-		var stack = slots[i]
+		var stack := slots[i]
 		if stack.item != item:
 			continue
 
@@ -87,6 +87,15 @@ func find_by_type(item: ItemData) -> ItemStack:
 		if slot and slot.is_valid and slot.item == item:
 			return slot
 	return null
+
+
+func use_item(item_stack: ItemStack) -> void:
+	if not item_stack.item.has_method("use"):
+		return
+	if not item_stack.item.use(get_parent(), item_stack):
+		return
+	if item_stack.item is ConsumableItem:
+		remove_item(item_stack.item)
 
 
 func _is_empty(index: int) -> bool:

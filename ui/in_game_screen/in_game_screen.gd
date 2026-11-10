@@ -76,7 +76,6 @@ func _on_unequip_button_pressed() -> void:
 
 
 func _on_use_button_pressed() -> void:
-	if _selected_item.item.use(_player, _selected_item):
-		_player.inventory.remove_item(_selected_item.item, 1)
-		if not _selected_item.is_valid:
-			detailsl_container.hide()
+	_player.inventory.use_item(_selected_item)
+	if not _selected_item.is_valid:
+		detailsl_container.hide()
