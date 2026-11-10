@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://n1doui0jpn1v"]
+
+[ext_resource type="Script" uid="uid://sf1jv3lkaxf8" path="res://systems/attributes/currency_attribute.gd" id="1_vxi2l"]
+
+[node name="CurrencyAttribute" type="Node" unique_id=1398226394]
+script = ExtResource("1_vxi2l")
+attribute_name = "currency"
+display_name = "ATTRIBUTE Currency"
+max_value = 1e+18
