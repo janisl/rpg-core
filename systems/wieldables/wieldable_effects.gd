@@ -115,7 +115,9 @@ func _apply_offsets(delta: float) -> void:
 
 
 func _update_base_offset(_delta: float) -> Vector3:
-	return player.wield_controller.wieldable_data.first_person_position
+	return player.wield_controller.wieldable_data.first_person_position.lerp(
+		player.wield_controller.wieldable_data.first_person_aim_position,
+		player.wield_controller.wieldable.aim_fraction)
 
 
 func _update_idle_sway(delta: float) -> Vector3:

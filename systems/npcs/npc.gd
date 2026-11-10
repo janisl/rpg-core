@@ -128,7 +128,7 @@ func do_weapon_attack() -> void:
 	if player_sight_collision_point != Vector3.ZERO:
 		var from_position := head.global_position
 		var forward_direction := from_position.direction_to(player_sight_collision_point)
-		_weapon.update(from_position, forward_direction, false, false, false)
+		_weapon.update(from_position, forward_direction, false, false, false, false)
 		_weapon.state_chart.send_event("onFiring")
 
 

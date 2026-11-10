@@ -38,6 +38,7 @@ func _physics_process(_delta: float) -> void:
 				camera.global_position,
 				-camera.global_transform.basis.z,
 				player.input_controller.primary_action_pressed,
+				player.input_controller.secondary_action_pressed,
 				player.input_controller.reload_just_pressed,
 				player.input_controller.cycle_ammo_just_pressed)
 
