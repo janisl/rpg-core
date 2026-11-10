@@ -7,8 +7,10 @@ extends Resource
 @export var icon: Texture2D
 @export var is_stacable := true
 @export var weight := 0.0
+@export var drop_stack_size := 1
 
 @export_file("*.tscn") var pickup_scene := ""
 
 @export_group("Sounds")
 @export var pickup_sound: AudioStream
+@export var drop_sound: AudioStream

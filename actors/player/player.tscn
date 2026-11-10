@@ -44,6 +44,9 @@ height = 0.8
 [sub_resource type="SphereShape3D" id="SphereShape3D_rghg7"]
 radius = 0.3
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_igrto"]
+size = Vector3(0.1, 0.1, 0.1)
+
 [sub_resource type="Resource" id="Resource_dbtiq"]
 script = ExtResource("30_j5me0")
 expression = "is_crouching"
@@ -484,6 +487,12 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.8)
 script = ExtResource("14_ivjma")
 player = NodePath("../../../..")
+
+[node name="ItemDropShapeCast" type="ShapeCast3D" parent="Neck/Head/Camera" unique_id=180064871]
+shape = SubResource("BoxShape3D_igrto")
+target_position = Vector3(0, 0, -2)
+collision_mask = 33
+debug_shape_custom_color = Color(1, 0.368977, 0.687569, 1)
 
 [node name="Wieldables" type="Node3D" parent="Neck/Head/Camera" unique_id=1901824401]
 script = ExtResource("14_v3s8r")

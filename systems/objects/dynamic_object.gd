@@ -4,6 +4,9 @@ extends Node3D
 
 @export var display_name: String
 
+@export_group("Object Size and Shape")
+@export var custom_aabb := AABB()
+
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
@@ -32,3 +35,15 @@ func load_state(state: Dictionary) -> void:
 		rigid_body.linear_velocity = state.get(&"linear_velocity", Vector3.ZERO)
 		rigid_body.angular_velocity = state.get(&"angular_velocity", Vector3.ZERO)
 	display_name = state.get(&"display_name", "")
+
+
+func get_aabb() -> AABB:
+	if custom_aabb:
+		return custom_aabb
+
+	var aabb : AABB = AABB()
+	for child in find_children("*", "MeshInstance3D", true, false):
+		if child.visible:
+			aabb = aabb.merge(child.transform * child.get_aabb())
+
+	return aabb

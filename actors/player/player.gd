@@ -51,6 +51,9 @@ extends Actor
 @export var max_pitch := 0.8
 @export var min_pitch := 0.7
 
+@export_group("Drop settings")
+@export var item_drop_distance_offset := 0.0
+
 var try_crouch := false
 
 var is_sprinting := false
@@ -76,6 +79,7 @@ var _can_play_footstep := true
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent
 @onready var sliding_audio_player: AudioStreamPlayer3D = $SlidingAudioPlayer
 @onready var carry_controller: CarryController = %CarryablePosition
+@onready var item_drop_shape_cast: ShapeCast3D = $Neck/Head/Camera/ItemDropShapeCast
 
 
 func _ready() -> void:
@@ -211,6 +215,69 @@ func handle_landing(current_fall_velocity: float) -> void:
 		var volume := lerpf(min_volume_db, max_volume_db, velocity_ratio)
 		var pitch := lerpf(max_pitch, min_pitch, velocity_ratio)
 		footstep_player.play_landing(volume, pitch, current_fall_velocity)
+
+
+func drop_item(item_stack: ItemStack) -> bool:
+	if item_stack.item.drop_stack_size == 0:
+		return false
+	if item_stack == wield_controller.current_item_stack:
+		return false
+
+	var player_radius: float = standing_collision.shape.radius
+	var camera_forward := -camera_effects.global_basis.z
+
+	var drop_distance := absf(item_drop_shape_cast.target_position.z - item_drop_distance_offset)
+
+	var scene_to_drop := load(item_stack.item.pickup_scene)
+	var dropped_item := scene_to_drop.instantiate() as DynamicObject
+
+	if not dropped_item:
+		return false
+
+	var drop_amount := mini(item_stack.amount, item_stack.item.drop_stack_size)
+	for child in dropped_item.get_children():
+		if child is PickupInteraction:
+			var item := child as PickupInteraction
+			item.item_stack = item_stack.duplicate()
+			item.item_stack.amount = drop_amount
+
+	var item_aabb := dropped_item.get_aabb()
+	var item_length := item_aabb.size.z
+
+	item_drop_shape_cast.add_exception(self)
+
+	item_drop_shape_cast.shape.size = item_aabb.size
+
+	var previous_target_position := item_drop_shape_cast.target_position
+	item_drop_shape_cast.target_position = Vector3.ZERO
+	item_drop_shape_cast.force_shapecast_update()
+
+	if item_drop_shape_cast.is_colliding():
+		item_drop_shape_cast.target_position = previous_target_position
+		return false
+
+	item_drop_shape_cast.target_position = previous_target_position
+	item_drop_shape_cast.force_shapecast_update()
+
+	var collision_safe_fraction := item_drop_shape_cast.get_closest_collision_safe_fraction()
+	var safe_drop_distance := drop_distance * collision_safe_fraction
+
+	var drop_offset := safe_drop_distance - item_length / 2
+	if item_length < player_radius:
+		if safe_drop_distance < player_radius:
+			return false
+	else:
+		if safe_drop_distance < item_length:
+			return false
+		drop_offset += player_radius
+
+	get_tree().current_scene.add_child(dropped_item)
+	dropped_item.global_rotation = global_rotation
+	dropped_item.position = item_drop_shape_cast.global_position + drop_offset * camera_forward
+
+	AudioManager.play_sound_3d(item_stack.item.drop_sound, dropped_item.global_position)
+	inventory.remove_item(item_stack.item, drop_amount)
+	return true
 
 
 func _on_standing_state_entered() -> void:

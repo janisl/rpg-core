@@ -11,6 +11,7 @@ const ITEM_SLOT_CONTROL = preload("uid://d3nmme6bfak14")
 @onready var detailsl_container: ScrollContainer = $DetailslContainer
 @onready var unequip_button: Button = %UnequipButton
 @onready var use_button: Button = %UseButton
+@onready var drop_button: Button = %DropButton
 
 var _player: Player
 var _selected_item: ItemStack
@@ -62,6 +63,7 @@ func _on_item_selected(item: ItemStack) -> void:
 	equip_button.visible = item.item is WieldableData and _player.wield_controller.current_item_stack != item
 	unequip_button.visible = item.item is WieldableData and _player.wield_controller.current_item_stack == item
 	use_button.visible = item.item is ConsumableItem
+	drop_button.visible = item.item.drop_stack_size > 0 and _player.wield_controller.current_item_stack != item
 	detailsl_container.show()
 
 
@@ -77,5 +79,11 @@ func _on_unequip_button_pressed() -> void:
 
 func _on_use_button_pressed() -> void:
 	_player.inventory.use_item(_selected_item)
+	if not _selected_item.is_valid:
+		detailsl_container.hide()
+
+
+func _on_drop_button_pressed() -> void:
+	_player.drop_item(_selected_item)
 	if not _selected_item.is_valid:
 		detailsl_container.hide()
