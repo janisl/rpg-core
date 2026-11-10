@@ -2,13 +2,17 @@
 
 [ext_resource type="Resource" uid="uid://8wv77e0i7ndt" path="res://items/ammo/pistol_ammo.tres" id="1_cxtko"]
 [ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_spaxh"]
+[ext_resource type="AudioStream" uid="uid://cnquoamyw0oo5" path="res://assets/sounds/weapons/521370__cetsoundcrew__pistol-shot-ricochet-clean.wav" id="3_j14d8"]
 [ext_resource type="PackedScene" uid="uid://cojhl7nthk3w1" path="res://systems/combat/hit_scan_weapon.tscn" id="3_wtgxi"]
 [ext_resource type="PackedScene" uid="uid://bdrf1d353xxqq" path="res://effects/decals/bullet_decal.tscn" id="4_ebdrl"]
 [ext_resource type="PackedScene" uid="uid://567vdvii3fg6" path="res://items/weapons/pistol/pistol_first_person.tscn" id="5_4ccf2"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="5_ebdrl"]
 [ext_resource type="PackedScene" uid="uid://bd6vg3o6i0l17" path="res://effects/bullet_effects/bullet_impact.tscn" id="5_wtgxi"]
+[ext_resource type="AudioStream" uid="uid://bc8gi26o717eq" path="res://assets/sounds/weapons/467300__xfixy8__pistol-cock.wav" id="6_wtqle"]
 [ext_resource type="AudioStream" uid="uid://wllyvfxmffj5" path="res://assets/sounds/kenney_ui-audio/click3.ogg" id="7_4ccf2"]
 [ext_resource type="PackedScene" uid="uid://cctjew3ncbu00" path="res://items/weapons/pistol/pistol_third_person.tscn" id="9_dcqkq"]
+[ext_resource type="AudioStream" uid="uid://dccwlhbvdaoq1" path="res://assets/sounds/weapons/370251__evanboyerman__full-reload-of-a-pistol-mixed.wav" id="10_51xv3"]
+[ext_resource type="AudioStream" uid="uid://bgp2rdsyk671u" path="res://assets/sounds/weapons/789657__drinkingwindgames__shotgun-safety.wav" id="13_wtqle"]
 
 [sub_resource type="Gradient" id="Gradient_cm5tq"]
 offsets = PackedFloat32Array(0.31320754, 0.4264151, 0.5962264, 0.7169811)
@@ -29,6 +33,8 @@ aim_fire_offset = Vector3(0, -0.02, -0.1)
 is_automatic = true
 ammo_types = Array[ExtResource("1_spaxh")]([ExtResource("1_cxtko")])
 magazine_size = 12
+attack_sound = ExtResource("3_j14d8")
+reload_sound = ExtResource("10_51xv3")
 decal_scene = ExtResource("4_ebdrl")
 impact_scene = ExtResource("5_wtgxi")
 controller_scene = ExtResource("3_wtgxi")
@@ -38,6 +44,8 @@ first_person_position = Vector3(0.14105655, -0.06323153, -0.18142417)
 first_person_aim_position = Vector3(0, -0.063, -0.181)
 aim_fov_multilier = 0.9
 vertical_lag_amount = 0.002
+equip_sound = ExtResource("6_wtqle")
+unequip_sound = ExtResource("13_wtqle")
 display_name = "ITEM NAME Pistol"
 description = "ITEM DESCRIPTION Pistol"
 icon = SubResource("GradientTexture2D_8hv22")

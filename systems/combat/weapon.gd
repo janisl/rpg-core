@@ -223,6 +223,7 @@ func _on_firing_state_physics_processing(delta: float) -> void:
 func _on_reloading_state_entered() -> void:
 	_reload_timer = _weapon_data.reload_time
 	_emit_reload_started()
+	_play_sound(_weapon_data.reload_sound)
 
 
 func _on_reloading_state_physics_processing(delta: float) -> void:
@@ -248,3 +249,13 @@ func _get_spread_delta(direction: Vector3, spread: float) -> Vector3:
 	var spread_y := randf_range(-spread, spread)
 	var direction_basis := Basis.looking_at(direction)
 	return Vector3(spread_x, spread_y, 0) * direction_basis
+
+
+func _play_attack_sound(pos: Vector3) -> void:
+	if not _weapon_data.attack_sound:
+		return
+	audio.stream = _weapon_data.attack_sound
+	audio.global_position = pos
+	audio.pitch_scale = randf_range(0.9, 1.1)
+	audio.volume_db = randf_range(-2.0, 0.0)
+	audio.play()

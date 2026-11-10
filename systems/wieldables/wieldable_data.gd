@@ -19,3 +19,8 @@ extends ItemData
 
 @export_group("Vertical lag")
 @export var vertical_lag_amount := 0.0
+
+@export_group("Audio")
+@export var equip_sound: AudioStream
+@export var unequip_sound: AudioStream
+@export var idle_sound: AudioStream

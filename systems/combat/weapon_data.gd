@@ -16,6 +16,10 @@ extends WieldableData
 @export var magazine_size := 0
 @export var reload_time := 1.5
 
+@export_group("Audio")
+@export var attack_sound: AudioStream
+@export var reload_sound: AudioStream
+
 @export_group("Muzzle flash")
 @export var light_color := Color(1.0, 0.8, 0.4)
 @export var light_energy := 10.0

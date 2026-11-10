@@ -31,6 +31,7 @@ var _equip_timer := 0.0
 var _unequip_timer := 0.0
 
 @onready var state_chart: StateChart = $StateChart
+@onready var audio: AudioStreamPlayer3D = $Audio
 
 
 func _physics_process(delta: float) -> void:
@@ -105,6 +106,7 @@ func _emit_unequipped() -> void:
 func _on_equipping_state_entered() -> void:
 	_equip_timer = _wieldable_data.equip_time
 	equip_started.emit()
+	_play_sound(_wieldable_data.equip_sound)
 
 
 func _on_equipping_state_physics_processing(delta: float) -> void:
@@ -116,6 +118,7 @@ func _on_equipping_state_physics_processing(delta: float) -> void:
 func _on_unequipping_state_entered() -> void:
 	_unequip_timer = _wieldable_data.unequip_time
 	unequip_started.emit()
+	_play_sound(_wieldable_data.unequip_sound)
 
 
 func _on_unequipping_state_physics_processing(delta: float) -> void:
@@ -126,8 +129,19 @@ func _on_unequipping_state_physics_processing(delta: float) -> void:
 
 func _on_idle_state_entered() -> void:
 	idle_started.emit()
+	_play_sound(_wieldable_data.idle_sound)
 
 
 func _update_aim_fraction(delta: float) -> void:
 	var aim_target := 1.0 if _secondary_action_pressed else 0.0
 	aim_fraction = move_toward(aim_fraction, aim_target, _wieldable_data.aim_speed * delta)
+
+
+func _play_sound(sound: AudioStream) -> void:
+	if not sound:
+		return
+	audio.stream = sound
+	audio.global_position = _from_position
+	audio.pitch_scale = 1.0
+	audio.volume_db = 0.0
+	audio.play()

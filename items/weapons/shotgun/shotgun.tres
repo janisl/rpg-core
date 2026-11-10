@@ -5,11 +5,15 @@
 [ext_resource type="PackedScene" uid="uid://cojhl7nthk3w1" path="res://systems/combat/hit_scan_weapon.tscn" id="3_0jun3"]
 [ext_resource type="Resource" uid="uid://cd8l0g101jh5w" path="res://items/ammo/shotgun_ammo2.tres" id="3_gfaep"]
 [ext_resource type="PackedScene" uid="uid://bdrf1d353xxqq" path="res://effects/decals/bullet_decal.tscn" id="4_l67j6"]
+[ext_resource type="AudioStream" uid="uid://ct60baeprawby" path="res://assets/sounds/weapons/660299__hyperix6__shotgun-fire.wav" id="4_su3oj"]
 [ext_resource type="PackedScene" uid="uid://bd6vg3o6i0l17" path="res://effects/bullet_effects/bullet_impact.tscn" id="5_0jun3"]
 [ext_resource type="PackedScene" uid="uid://br2mplv6cjpjb" path="res://items/weapons/shotgun/shotgun_first_person.tscn" id="5_gfaep"]
 [ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="5_l67j6"]
+[ext_resource type="AudioStream" uid="uid://dyjwblbtmw4y1" path="res://assets/sounds/weapons/537724__yeet2020202020__realistic-shotgun-cocking-sound.wav" id="7_lfd56"]
 [ext_resource type="AudioStream" uid="uid://wllyvfxmffj5" path="res://assets/sounds/kenney_ui-audio/click3.ogg" id="8_tigrw"]
 [ext_resource type="PackedScene" uid="uid://dg4nn0fehvx26" path="res://items/weapons/shotgun/shotgun_third_person.tscn" id="10_s8wen"]
+[ext_resource type="AudioStream" uid="uid://c7yfdfsjtn6ox" path="res://assets/sounds/weapons/481099__greenfiresound__shotgun.wav" id="11_oa5bn"]
+[ext_resource type="AudioStream" uid="uid://bgp2rdsyk671u" path="res://assets/sounds/weapons/789657__drinkingwindgames__shotgun-safety.wav" id="13_6vlg4"]
 
 [sub_resource type="Gradient" id="Gradient_vy2tt"]
 offsets = PackedFloat32Array(0.33584905, 0.41886792, 0.6415094, 0.7358491)
@@ -33,6 +37,8 @@ fire_rate = 1.0
 is_automatic = true
 ammo_types = Array[ExtResource("1_ptbh3")]([ExtResource("1_d26d0"), ExtResource("3_gfaep")])
 magazine_size = 8
+attack_sound = ExtResource("4_su3oj")
+reload_sound = ExtResource("11_oa5bn")
 pellet_count = 8
 spread_angle = 0.1
 decal_scene = ExtResource("4_l67j6")
@@ -44,6 +50,8 @@ third_person_scene = ExtResource("10_s8wen")
 first_person_position = Vector3(0.15307574, -0.1009149, -0.18142417)
 first_person_aim_position = Vector3(0, -0.101, -0.181)
 vertical_lag_amount = 0.001
+equip_sound = ExtResource("7_lfd56")
+unequip_sound = ExtResource("13_6vlg4")
 display_name = "ITEM NAME Shotgun"
 description = "ITEM DESCRIPTION Shotgun"
 icon = SubResource("GradientTexture2D_8hv22")

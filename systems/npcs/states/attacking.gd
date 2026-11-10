@@ -45,7 +45,8 @@ func _on_attacking_state_exited() -> void:
 
 func _on_attacking_state_physics_processing(delta: float) -> void:
 	npc.stop_moving(delta)
-	npc.face_direction(_target.global_position)
+	if _target:
+		npc.face_direction(_target.global_position)
 
 	if _count_down <= 0 and _attack_while_moving():
 		_attempt_attack()

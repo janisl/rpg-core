@@ -34,7 +34,6 @@ Systems
 - quest system
 
 Weapons
-- aim action
 - knockback
 - melee weapon
 - throwable weapon

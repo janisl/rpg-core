@@ -10,6 +10,7 @@ func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
 	var space_state := get_world_3d().direct_space_state
 
 	EffectsManager.spawn_light_flash(from, _weapon_data.light_color, _weapon_data.light_energy, _weapon_data.light_duration)
+	_play_attack_sound(from)
 
 	var accuracy_spread := _get_accuracy_spread()
 	var pellet_count := _get_pellet_count()
