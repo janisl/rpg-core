@@ -178,12 +178,20 @@ func set_upper_body_neutral() -> void:
 	state_chart.send_event("ubody_neutral")
 
 
+func set_upper_body_raised_weapon() -> void:
+	state_chart.send_event("ubody_raise_weapon")
+
+
 func set_lower_body_walk() -> void:
 	state_chart.send_event("body_walk")
 
 
+func is_suspicion_cleared() -> bool:
+	return sight_detection.current_suspicion <= 0 and hearing_detection.current_suspicion <= 0
+
+
 func try_end_investigation() -> void:
-	if sight_detection.current_suspicion <= 0 and hearing_detection.current_suspicion <= 0:
+	if is_suspicion_cleared():
 		state_chart.send_event("idle")
 
 

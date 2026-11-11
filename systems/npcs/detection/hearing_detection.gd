@@ -56,6 +56,11 @@ func _process(delta: float) -> void:
 		npc.try_end_investigation()
 
 
+## True when heard noises are suspicious enough to investigate.
+func is_suspicious_of_noise() -> bool:
+	return current_suspicion > suspicion_threshold_before_investigating
+
+
 func reset() -> void:
 	current_suspicion = 0
 	noise_suspicion_indicator.update(current_suspicion, suspicion_threshold_before_investigating)
@@ -78,7 +83,7 @@ func _on_hearing_radius_area_entered(area: Area3D) -> void:
 	elif noise.magnitude > ignore_sounds_under_x_magnitude and current_suspicion < suspicion_threshold_before_investigating + 0.5:
 		_decay_timer.stop()
 		current_suspicion += noise_suspicion_curve.sample(noise.magnitude)
-	if current_suspicion > suspicion_threshold_before_investigating:
+	if is_suspicious_of_noise():
 		generate_attention_target(noise.global_position)
 		npc.state_chart.send_event("investigate")
 

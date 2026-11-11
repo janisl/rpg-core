@@ -207,12 +207,22 @@ func _decay_suspicion(delta: float) -> void:
 		npc.try_end_investigation()
 
 
+## True when the player is in sight and suspicion is high enough to start chasing.
+func is_aggro_on_player() -> bool:
+	return current_suspicion >= aggro_threshold and ref_to_player
+
+
+## True when the player is in sight and suspicion is high enough to investigate.
+func is_suspicious_of_player() -> bool:
+	return current_suspicion >= investigation_threshold and ref_to_player
+
+
 func _state_trigger_checks() -> void:
-	if current_suspicion >= aggro_threshold and ref_to_player and npc.in_state([Npc.BehaviourState.Investigating]):
+	if is_aggro_on_player() and npc.in_state([Npc.BehaviourState.Investigating]):
 		current_suspicion = investigation_threshold
 		npc.attention_target = ref_to_player
 		npc.state_chart.send_event("chase")
-	elif current_suspicion >= investigation_threshold and ref_to_player and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
+	elif is_suspicious_of_player() and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
 		generate_attention_target(ref_to_player.global_position)
 		npc.state_chart.send_event("investigate")
 
