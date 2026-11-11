@@ -54,6 +54,10 @@ var search_target: Player:
 			return get_tree().get_first_node_in_group("player")
 		return search_target
 
+# One-off stimuli, consumed by _select_behaviour() on the next physics frame
+var _was_alerted := false
+var _heard_suspicious_noise := false
+
 var previous_behaviour: BehaviourState
 var current_behaviour: BehaviourState
 
@@ -95,6 +99,8 @@ func _physics_process(delta: float) -> void:
 
 	if footsteps_enabled:
 		_npc_footsteps(delta)
+
+	_select_behaviour()
 
 
 func face_direction(target_position: Vector3) -> void:
@@ -228,9 +234,15 @@ func reset_suspicion() -> void:
 		sight_detection.reset()
 
 
-func try_end_investigation() -> void:
-	if is_suspicion_cleared():
-		state_chart.send_event("idle")
+## Something alarming happened, such as taking damage or an impact noise nearby.
+## The attention target should already point at its source.
+func notify_alerted() -> void:
+	_was_alerted = true
+
+
+## A noise was suspicious enough to investigate. The attention target should already point at it.
+func notify_suspicious_noise() -> void:
+	_heard_suspicious_noise = true
 
 
 func is_dead() -> bool:
@@ -291,6 +303,28 @@ func load_state(state: Dictionary) -> void:
 	alerted_processor.load_state(state.get(&"alerted_processor", Dictionary()))
 
 
+## Picks behaviour transitions from perception. To be replaced by the behaviour tree.
+func _select_behaviour() -> void:
+	if _was_alerted:
+		_was_alerted = false
+		state_chart.send_event("alerted")
+
+	if _heard_suspicious_noise:
+		_heard_suspicious_noise = false
+		state_chart.send_event("investigate")
+
+	if in_state([BehaviourState.Investigating]):
+		if sight_detection.is_aggro_on_player():
+			sight_detection.current_suspicion = sight_detection.investigation_threshold
+			attention_target = sight_detection.ref_to_player
+			state_chart.send_event("chase")
+		elif is_suspicion_cleared():
+			state_chart.send_event("idle")
+	elif in_state([BehaviourState.Idle, BehaviourState.Patrolling, BehaviourState.Alerted]) and sight_detection.is_suspicious_of_player():
+		sight_detection.generate_attention_target(sight_detection.ref_to_player.global_position)
+		state_chart.send_event("investigate")
+
+
 func _spawn_weapon() -> void:
 	if not weapon_stack:
 		return
@@ -322,7 +356,7 @@ func _find_health_attribute() -> void:
 func _on_health_attribute_damage_taken(hit_info: HitInfo) -> void:
 	if not hit_info.direction.is_zero_approx():
 		sight_detection.generate_attention_target(hit_info.source_position)
-	state_chart.send_event("alerted")
+	notify_alerted()
 
 
 func _npc_footsteps(delta: float) -> void:

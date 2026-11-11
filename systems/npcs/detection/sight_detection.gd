@@ -74,8 +74,6 @@ func _physics_process(delta: float) -> void:
 
 	_decay_suspicion(delta)
 
-	_state_trigger_checks()
-
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
@@ -203,8 +201,6 @@ func _decay_suspicion(delta: float) -> void:
 		_decay_timer.start()
 	elif _is_decaying and current_suspicion > 0:
 		current_suspicion -= (suspicion_decay_rate * delta)
-	if current_suspicion <= 0 and npc.in_state([Npc.BehaviourState.Investigating]):
-		npc.try_end_investigation()
 
 
 ## True when the player is in sight and suspicion is high enough to start chasing.
@@ -215,16 +211,6 @@ func is_aggro_on_player() -> bool:
 ## True when the player is in sight and suspicion is high enough to investigate.
 func is_suspicious_of_player() -> bool:
 	return current_suspicion >= investigation_threshold and ref_to_player
-
-
-func _state_trigger_checks() -> void:
-	if is_aggro_on_player() and npc.in_state([Npc.BehaviourState.Investigating]):
-		current_suspicion = investigation_threshold
-		npc.attention_target = ref_to_player
-		npc.state_chart.send_event("chase")
-	elif is_suspicious_of_player() and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
-		generate_attention_target(ref_to_player.global_position)
-		npc.state_chart.send_event("investigate")
 
 
 func generate_attention_target(pos: Vector3) -> void:

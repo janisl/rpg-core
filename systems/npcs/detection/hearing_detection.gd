@@ -52,8 +52,6 @@ func _process(delta: float) -> void:
 		_decay_timer.start()
 	elif _is_decaying and current_suspicion > 0:
 		current_suspicion -= delta
-	if current_suspicion <= 0 and npc.current_behaviour == Npc.BehaviourState.Investigating:
-		npc.try_end_investigation()
 
 
 ## True when heard noises are suspicious enough to investigate.
@@ -79,13 +77,13 @@ func _on_hearing_radius_area_entered(area: Area3D) -> void:
 	var noise := area as ObjectNoise
 	if noise.noise_type == ObjectNoise.NoiseType.Impact:
 		generate_attention_target(noise.global_position)
-		npc.state_chart.send_event("alerted")
+		npc.notify_alerted()
 	elif noise.magnitude > ignore_sounds_under_x_magnitude and current_suspicion < suspicion_threshold_before_investigating + 0.5:
 		_decay_timer.stop()
 		current_suspicion += noise_suspicion_curve.sample(noise.magnitude)
 	if is_suspicious_of_noise():
 		generate_attention_target(noise.global_position)
-		npc.state_chart.send_event("investigate")
+		npc.notify_suspicious_noise()
 
 
 func _linear_curve() -> Curve:
