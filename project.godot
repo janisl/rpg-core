@@ -27,6 +27,8 @@ EffectsManager="*uid://xaq71ee0rvh2"
 UserInterface="*uid://6ygkwtxr8bbo"
 DevTools="*uid://bf0htswuay7cy"
 LevelManager="*uid://ero0l8bg86td"
+BeehaveGlobalMetrics="*uid://c3ktl6ontsdt7"
+BeehaveGlobalDebugger="*uid://bl3ma400hpvsh"
 
 [display]
 
@@ -37,7 +39,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg")
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg")
 
 [file_customization]
 
