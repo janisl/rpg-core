@@ -36,6 +36,19 @@
 [ext_resource type="AudioStream" uid="uid://c5etqcpobd0u" path="res://systems/footsteps/generic_footstep_profile.tres" id="32_dqwjh"]
 [ext_resource type="PackedScene" uid="uid://essuiwcp63ni" path="res://systems/npcs/detection/hearing_indicator.tscn" id="34_ol0oh"]
 [ext_resource type="Script" uid="uid://c0wkbigr3oabl" path="res://systems/npcs/detection/hearing_detection.gd" id="35_bqx5n"]
+[ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="bt_tree"]
+[ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="bt_sel_r"]
+[ext_resource type="Script" uid="uid://dcojdhvj8qcw0" path="res://addons/beehave/nodes/composites/sequence_reactive.gd" id="bt_seq_r"]
+[ext_resource type="Script" uid="uid://8hn4kne15ac5" path="res://addons/beehave/nodes/composites/selector.gd" id="bt_sel"]
+[ext_resource type="Script" uid="uid://cg016dbe7gs1x" path="res://addons/beehave/nodes/composites/sequence.gd" id="bt_seq"]
+[ext_resource type="Script" path="res://systems/npcs/behaviour_tree/leaves/npc_check_condition.gd" id="bt_npc_check_condition"]
+[ext_resource type="Script" path="res://systems/npcs/behaviour_tree/leaves/idle_leaf.gd" id="bt_idle_leaf"]
+[ext_resource type="Script" path="res://systems/npcs/behaviour_tree/leaves/patrol_leaf.gd" id="bt_patrol_leaf"]
+[ext_resource type="Script" path="res://systems/npcs/behaviour_tree/leaves/investigate_leaf.gd" id="bt_investigate_leaf"]
+[ext_resource type="Script" path="res://systems/npcs/behaviour_tree/leaves/alerted_leaf.gd" id="bt_alerted_leaf"]
+[ext_resource type="Script" path="res://systems/npcs/behaviour_tree/leaves/chase_leaf.gd" id="bt_chase_leaf"]
+[ext_resource type="Script" path="res://systems/npcs/behaviour_tree/leaves/attack_leaf.gd" id="bt_attack_leaf"]
+[ext_resource type="Script" path="res://systems/npcs/behaviour_tree/leaves/search_leaf.gd" id="bt_search_leaf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -252,13 +265,14 @@ point_count = 3
 height = 3.0
 radius = 8.0
 
-[node name="SimpleEnemy" type="CharacterBody3D" unique_id=1330723701 node_paths=PackedStringArray("head_turner", "head")]
+[node name="SimpleEnemy" type="CharacterBody3D" unique_id=1330723701 node_paths=PackedStringArray("head_turner", "head", "behaviour_tree")]
 collision_layer = 8
 collision_mask = 45
 script = ExtResource("1_4s1oe")
 response_to_player = "Hostile"
 head_turner = NodePath("Rig/GeneralSkeleton/HeadTurn")
 head = NodePath("Rig/GeneralSkeleton/HeadAttachment/Head")
+behaviour_tree = NodePath("BehaviourTree")
 
 [node name="StateChart" type="Node" parent="." unique_id=1116907845]
 script = ExtResource("2_tmhjk")
@@ -467,6 +481,9 @@ to = NodePath("../../Investigating")
 event = &"investigate"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
+
+[node name="TreeControlled" type="Node" parent="StateChart/Root/Behaviour"]
+script = ExtResource("4_4a0lb")
 
 [node name="Posture" type="Node" parent="StateChart/Root" unique_id=1113553867]
 script = ExtResource("3_ngyoi")
@@ -1075,6 +1092,95 @@ hurt_sound = ExtResource("10_1cfep")
 free_on_death = Array[NodePath]([NodePath("..")])
 max_value = 50.0
 initial_value = 50.0
+
+[node name="BehaviourTree" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("bt_tree")
+enabled = false
+actor = NodePath("..")
+
+[node name="Root" type="Node" parent="BehaviourTree"]
+script = ExtResource("bt_sel_r")
+
+[node name="Combat" type="Node" parent="BehaviourTree/Root"]
+script = ExtResource("bt_seq_r")
+
+[node name="IsInCombat" type="Node" parent="BehaviourTree/Root/Combat"]
+script = ExtResource("bt_npc_check_condition")
+method = &"is_in_combat"
+
+[node name="Engagement" type="Node" parent="BehaviourTree/Root/Combat"]
+script = ExtResource("bt_sel")
+
+[node name="Pursue" type="Node" parent="BehaviourTree/Root/Combat/Engagement"]
+script = ExtResource("bt_seq")
+
+[node name="Chase" type="Node" parent="BehaviourTree/Root/Combat/Engagement/Pursue" node_paths=PackedStringArray("npc")]
+script = ExtResource("bt_chase_leaf")
+npc = NodePath("../../../../../..")
+behaviour_state = 5
+start_chase_sound = ExtResource("9_gn5pi")
+
+[node name="Attack" type="Node" parent="BehaviourTree/Root/Combat/Engagement/Pursue" node_paths=PackedStringArray("npc", "attack_impact_zone")]
+script = ExtResource("bt_attack_leaf")
+npc = NodePath("../../../../../..")
+attack_impact_zone = NodePath("../../../../../../Rig/GeneralSkeleton/HandAttachment/ImpactZone")
+behaviour_state = 6
+attack_sound = ExtResource("10_qld51")
+
+[node name="Search" type="Node" parent="BehaviourTree/Root/Combat/Engagement" node_paths=PackedStringArray("npc", "sight_detection", "searching_look_ahead_pivot", "searching_look_ahead")]
+script = ExtResource("bt_search_leaf")
+npc = NodePath("../../../../..")
+sight_detection = NodePath("../../../../../SightDetection")
+searching_look_ahead_pivot = NodePath("../../../../../Rig/GeneralSkeleton/LookingPivot")
+searching_look_ahead = NodePath("../../../../../Rig/GeneralSkeleton/LookingPivot/LookAtWhileSearching")
+behaviour_state = 7
+searching_sound = ExtResource("13_ocjwc")
+end_search_sound = ExtResource("14_dqk6m")
+i_see_you_sound = ExtResource("9_gn5pi")
+
+[node name="Investigate" type="Node" parent="BehaviourTree/Root"]
+script = ExtResource("bt_seq_r")
+
+[node name="IsInvestigating" type="Node" parent="BehaviourTree/Root/Investigate"]
+script = ExtResource("bt_npc_check_condition")
+method = &"is_investigating"
+
+[node name="Investigate" type="Node" parent="BehaviourTree/Root/Investigate" node_paths=PackedStringArray("npc")]
+script = ExtResource("bt_investigate_leaf")
+npc = NodePath("../../../..")
+behaviour_state = 3
+investigate_sound = ExtResource("10_1cfep")
+
+[node name="Alerted" type="Node" parent="BehaviourTree/Root"]
+script = ExtResource("bt_seq_r")
+
+[node name="IsAlerted" type="Node" parent="BehaviourTree/Root/Alerted"]
+script = ExtResource("bt_npc_check_condition")
+method = &"is_alerted"
+
+[node name="Alerted" type="Node" parent="BehaviourTree/Root/Alerted" node_paths=PackedStringArray("npc")]
+script = ExtResource("bt_alerted_leaf")
+npc = NodePath("../../../..")
+behaviour_state = 4
+alerted_sound = ExtResource("14_dqk6m")
+must_have_been_the_wind_sound = ExtResource("19_oxcgc")
+
+[node name="Patrol" type="Node" parent="BehaviourTree/Root"]
+script = ExtResource("bt_seq_r")
+
+[node name="HasPatrolPath" type="Node" parent="BehaviourTree/Root/Patrol"]
+script = ExtResource("bt_npc_check_condition")
+method = &"has_patrol_path"
+
+[node name="Patrol" type="Node" parent="BehaviourTree/Root/Patrol" node_paths=PackedStringArray("npc")]
+script = ExtResource("bt_patrol_leaf")
+npc = NodePath("../../../..")
+behaviour_state = 2
+
+[node name="Idle" type="Node" parent="BehaviourTree/Root" node_paths=PackedStringArray("npc")]
+script = ExtResource("bt_idle_leaf")
+npc = NodePath("../../..")
+behaviour_state = 1
 
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_exited"]

@@ -25,6 +25,9 @@ enum BehaviourState {
 @export_group("NPC Behaviour")
 @export_enum("Friendly", "Neutral", "Hostile") var response_to_player := "Neutral"
 @export var weapon_stack: ItemStack
+## Drive behaviour with the behaviour tree instead of the state chart's Behaviour region.
+@export var use_behaviour_tree := false
+@export var behaviour_tree: BeehaveTree
 
 @export_group("Head LookAt")
 @export var head_turner: LookAtModifier3D
@@ -60,6 +63,11 @@ var _alert_attention_point := Callable()
 var _heard_suspicious_noise := false
 var _noise_attention_point := Callable()
 
+# Behaviour tree memory: which sticky behaviour the NPC is committed to
+var _in_combat := false
+var _investigating := false
+var _alerted := false
+
 var previous_behaviour: BehaviourState
 var current_behaviour: BehaviourState
 
@@ -89,6 +97,13 @@ var _wiggle_index := 0.0
 @onready var alerted_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Alerted/Processor
 
 
+func _enter_tree() -> void:
+	# Must run before the state chart and the tree are ready
+	if use_behaviour_tree:
+		$StateChart/Root/Behaviour.initial_state = NodePath("TreeControlled")
+		behaviour_tree.enabled = true
+
+
 func _ready() -> void:
 	add_to_group("persist")
 	_spawn_weapon()
@@ -102,7 +117,10 @@ func _physics_process(delta: float) -> void:
 	if footsteps_enabled:
 		_npc_footsteps(delta)
 
-	_select_behaviour()
+	if use_behaviour_tree:
+		_update_behaviour_memory()
+	else:
+		_select_behaviour()
 
 
 func face_direction(target_position: Vector3) -> void:
@@ -199,6 +217,40 @@ func find_bumped_hostile_target() -> Player:
 	return null
 
 
+func play_sound(sound: AudioStream) -> void:
+	var audio := get_node_or_null("Audio") as AudioStreamPlayer3D
+	if audio and sound:
+		audio.stream = sound
+		audio.play()
+
+
+func is_in_combat() -> bool:
+	return _in_combat
+
+
+func is_investigating() -> bool:
+	return _investigating
+
+
+func is_alerted() -> bool:
+	return _alerted
+
+
+func start_combat(target: Node3D) -> void:
+	attention_target = target
+	_in_combat = true
+	_investigating = false
+	_alerted = false
+
+
+func end_combat() -> void:
+	_in_combat = false
+
+
+func end_alert() -> void:
+	_alerted = false
+
+
 func set_upper_body_neutral() -> void:
 	state_chart.send_event("ubody_neutral")
 
@@ -267,6 +319,9 @@ func save_state() -> Dictionary:
 	SaveUtils.save_ref(state, &"search_target", search_target)
 	state[&"previous_behaviour"] = previous_behaviour
 	state[&"current_behaviour"] = current_behaviour
+	state[&"in_combat"] = _in_combat
+	state[&"investigating"] = _investigating
+	state[&"alerted"] = _alerted
 
 	state[&"weapon_equiped"] = _weapon_third_person && _weapon_third_person.visible
 	if head_turner:
@@ -294,6 +349,9 @@ func load_state(state: Dictionary) -> void:
 	search_target = SaveUtils.load_ref(state, &"search_target")
 	previous_behaviour = state.get(&"previous_behaviour", BehaviourState.None)
 	current_behaviour = state.get(&"current_behaviour", BehaviourState.None)
+	_in_combat = state.get(&"in_combat", false)
+	_investigating = state.get(&"investigating", false)
+	_alerted = state.get(&"alerted", false)
 
 	if _weapon_third_person:
 		_weapon_third_person.visible = state.get(&"weapon_equiped", false)
@@ -333,6 +391,36 @@ func _select_behaviour() -> void:
 	elif in_state([BehaviourState.Idle, BehaviourState.Patrolling, BehaviourState.Alerted]) and sight_detection.is_suspicious_of_player():
 		sight_detection.generate_attention_target(sight_detection.ref_to_player.global_position)
 		state_chart.send_event("investigate")
+
+
+## Turns perception and stimuli into behaviour tree memory. Mirrors _select_behaviour().
+func _update_behaviour_memory() -> void:
+	if _was_alerted:
+		_was_alerted = false
+		if not (_in_combat or _investigating or _alerted):
+			_alert_attention_point.call()
+			_alerted = true
+
+	if _heard_suspicious_noise:
+		_heard_suspicious_noise = false
+		if not (_in_combat or _investigating):
+			_noise_attention_point.call()
+			_investigating = true
+			_alerted = false
+
+	if _in_combat:
+		return
+
+	if _investigating:
+		if sight_detection.is_aggro_on_player():
+			sight_detection.current_suspicion = sight_detection.investigation_threshold
+			start_combat(sight_detection.ref_to_player)
+		elif is_suspicion_cleared():
+			_investigating = false
+	elif sight_detection.is_suspicious_of_player():
+		sight_detection.generate_attention_target(sight_detection.ref_to_player.global_position)
+		_investigating = true
+		_alerted = false
 
 
 func _spawn_weapon() -> void:
