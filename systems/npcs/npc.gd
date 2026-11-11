@@ -157,6 +157,10 @@ func stop_moving(delta: float) -> void:
 	move_and_slide()
 
 
+func has_attention_target() -> bool:
+	return is_instance_valid(attention_target)
+
+
 func has_patrol_path() -> bool:
 	return patrol_path != null
 
