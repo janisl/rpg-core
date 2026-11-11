@@ -76,14 +76,12 @@ func _on_hearing_radius_area_entered(area: Area3D) -> void:
 		return
 	var noise := area as ObjectNoise
 	if noise.noise_type == ObjectNoise.NoiseType.Impact:
-		generate_attention_target(noise.global_position)
-		npc.notify_alerted()
+		npc.notify_alerted(generate_attention_target.bind(noise.global_position))
 	elif noise.magnitude > ignore_sounds_under_x_magnitude and current_suspicion < suspicion_threshold_before_investigating + 0.5:
 		_decay_timer.stop()
 		current_suspicion += noise_suspicion_curve.sample(noise.magnitude)
 	if is_suspicious_of_noise():
-		generate_attention_target(noise.global_position)
-		npc.notify_suspicious_noise()
+		npc.notify_suspicious_noise(generate_attention_target.bind(noise.global_position))
 
 
 func _linear_curve() -> Curve:

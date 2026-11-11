@@ -56,7 +56,9 @@ var search_target: Player:
 
 # One-off stimuli, consumed by _select_behaviour() on the next physics frame
 var _was_alerted := false
+var _alert_attention_point := Callable()
 var _heard_suspicious_noise := false
+var _noise_attention_point := Callable()
 
 var previous_behaviour: BehaviourState
 var current_behaviour: BehaviourState
@@ -235,14 +237,18 @@ func reset_suspicion() -> void:
 
 
 ## Something alarming happened, such as taking damage or an impact noise nearby.
-## The attention target should already point at its source.
-func notify_alerted() -> void:
+## place_attention_point is called only if the NPC reacts, so the current attention target
+## isn't replaced while e.g. chasing.
+func notify_alerted(place_attention_point: Callable) -> void:
 	_was_alerted = true
+	_alert_attention_point = place_attention_point
 
 
-## A noise was suspicious enough to investigate. The attention target should already point at it.
-func notify_suspicious_noise() -> void:
+## A noise was suspicious enough to investigate.
+## place_attention_point is called only if the NPC reacts.
+func notify_suspicious_noise(place_attention_point: Callable) -> void:
 	_heard_suspicious_noise = true
+	_noise_attention_point = place_attention_point
 
 
 func is_dead() -> bool:
@@ -307,11 +313,15 @@ func load_state(state: Dictionary) -> void:
 func _select_behaviour() -> void:
 	if _was_alerted:
 		_was_alerted = false
-		state_chart.send_event("alerted")
+		if in_state([BehaviourState.Idle, BehaviourState.Patrolling]):
+			_alert_attention_point.call()
+			state_chart.send_event("alerted")
 
 	if _heard_suspicious_noise:
 		_heard_suspicious_noise = false
-		state_chart.send_event("investigate")
+		if in_state([BehaviourState.Idle, BehaviourState.Patrolling, BehaviourState.Alerted]):
+			_noise_attention_point.call()
+			state_chart.send_event("investigate")
 
 	if in_state([BehaviourState.Investigating]):
 		if sight_detection.is_aggro_on_player():
@@ -354,9 +364,9 @@ func _find_health_attribute() -> void:
 
 
 func _on_health_attribute_damage_taken(hit_info: HitInfo) -> void:
+	# Damage without a direction is environmental and has no source to react to
 	if not hit_info.direction.is_zero_approx():
-		sight_detection.generate_attention_target(hit_info.source_position)
-	notify_alerted()
+		notify_alerted(sight_detection.generate_attention_target.bind(hit_info.source_position))
 
 
 func _npc_footsteps(delta: float) -> void:
