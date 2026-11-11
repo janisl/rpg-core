@@ -1,41 +1,27 @@
 extends NpcStateProcessor
 
-enum TravelStatus { RUNNING, WAITING }
-
 @export var patrol_point_wait_time := 3.0
 
-var _current_travel_status: TravelStatus
-
-var _patrol_wait_timer: Timer
+var _patrol_action: NpcPatrolAction
 
 
 func _enter_tree() -> void:
-	_patrol_wait_timer = Timer.new()
-	_patrol_wait_timer.wait_time = patrol_point_wait_time
-	_patrol_wait_timer.one_shot = true
-	_patrol_wait_timer.timeout.connect(_resume_patrolling)
-	add_child(_patrol_wait_timer)
+	_patrol_action = NpcPatrolAction.new(npc, patrol_point_wait_time)
+	add_child(_patrol_action)
 
 
 func save_state() -> Dictionary:
-	var state := Dictionary()
-	state[&"current_travel_status"] = _current_travel_status
-	SaveUtils.save_timer(state, &"patrol_wait_timer", _patrol_wait_timer)
-	return state
+	return _patrol_action.save_state()
 
 
 func load_state(state: Dictionary) -> void:
-	_current_travel_status = state.get(&"current_travel_status", TravelStatus.RUNNING)
-	SaveUtils.load_timer(state, &"patrol_wait_timer", _patrol_wait_timer)
+	_patrol_action.load_state(state)
 
 
 func _on_patrolling_state_entered() -> void:
-	assert(npc.patrol_path, "Entered patrol state without patrol path")
-
 	_enter_state()
-	state_chart.send_event("ubody_neutral")
-
-	_resume_patrolling()
+	npc.set_upper_body_neutral()
+	_patrol_action.start()
 
 
 func _on_patrolling_state_exited() -> void:
@@ -43,40 +29,9 @@ func _on_patrolling_state_exited() -> void:
 
 
 func _on_patrolling_state_physics_processing(delta: float) -> void:
-	for i in npc.get_slide_collision_count():
-		var collision := npc.get_slide_collision(i)
-		if collision.get_collider() is Player and npc.response_to_player == "Hostile":
-			npc.attention_target = collision.get_collider()
-			state_chart.send_event("chase")
+	var bumped_target := npc.find_bumped_hostile_target()
+	if bumped_target:
+		npc.attention_target = bumped_target
+		state_chart.send_event("chase")
 
-	match _current_travel_status:
-		TravelStatus.WAITING:
-			npc.stop_moving(delta)
-			return
-		TravelStatus.RUNNING:
-			_running(delta)
-
-
-func _running(delta: float) -> void:
-	if not npc.nav_agent.is_target_reachable():
-		npc.nav_agent.target_position = npc.patrol_path.starting_patrol_point.global_position
-
-	if npc.nav_agent.is_navigation_finished():
-		_wait_at_patrol_point()
-		return
-
-	npc.move_npc_to_next_position(delta)
-
-
-func _wait_at_patrol_point() -> void:
-	_patrol_wait_timer.start()
-	_current_travel_status = TravelStatus.WAITING
-
-
-func _resume_patrolling() -> void:
-	npc.nav_agent.target_position = _set_next_patrol_point_destination()
-	_current_travel_status = TravelStatus.RUNNING
-
-
-func _set_next_patrol_point_destination() -> Vector3:
-	return npc.patrol_path.target_next_patrol_point().global_position
+	_patrol_action.physics_process(delta)

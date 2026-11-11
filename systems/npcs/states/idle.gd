@@ -3,10 +3,10 @@ extends NpcStateProcessor
 
 func _on_idle_state_entered() -> void:
 	_enter_state()
-	state_chart.send_event("ubody_neutral")
-	if npc.patrol_path:
+	npc.set_upper_body_neutral()
+	if npc.has_patrol_path():
 		state_chart.send_event("patrol")
-		state_chart.send_event("body_walk")
+		npc.set_lower_body_walk()
 
 
 func _on_idle_state_exited() -> void:

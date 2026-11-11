@@ -157,6 +157,31 @@ func stop_moving(delta: float) -> void:
 	move_and_slide()
 
 
+func has_patrol_path() -> bool:
+	return patrol_path != null
+
+
+## Returns the player if a hostile NPC bumped into them this frame, otherwise null.
+func find_bumped_hostile_target() -> Player:
+	if response_to_player != "Hostile":
+		return null
+
+	for i in get_slide_collision_count():
+		var collider := get_slide_collision(i).get_collider()
+		if collider is Player:
+			return collider as Player
+
+	return null
+
+
+func set_upper_body_neutral() -> void:
+	state_chart.send_event("ubody_neutral")
+
+
+func set_lower_body_walk() -> void:
+	state_chart.send_event("body_walk")
+
+
 func try_end_investigation() -> void:
 	if sight_detection.current_suspicion <= 0 and hearing_detection.current_suspicion <= 0:
 		state_chart.send_event("idle")
