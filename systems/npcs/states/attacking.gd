@@ -9,70 +9,39 @@ extends NpcStateProcessor
 @export var attack_duration := 1.0
 @export var melee_range := 1.5
 
-var _target: Node3D
-var _count_down := 0.0
+var _attack_action: NpcAttackAction
+
+
+func _enter_tree() -> void:
+	_attack_action = NpcAttackAction.new(npc)
+	_attack_action.can_attack_while_moving = can_attack_while_moving
+	_attack_action.attack_impact_zone = attack_impact_zone
+	_attack_action.attack_sound = attack_sound
+	_attack_action.attack_duration = attack_duration
+	_attack_action.melee_range = melee_range
 
 
 func save_state() -> Dictionary:
-	var state := Dictionary()
-	SaveUtils.save_ref(state, &"target", _target)
-	state[&"count_down"] = _count_down
-	state[&"attack_impact_zone_enabled"] = attack_impact_zone.monitoring
-	return state
+	return _attack_action.save_state()
 
 
 func load_state(state: Dictionary) -> void:
-	_target = SaveUtils.load_ref(state, &"target")
-	_count_down = state.get(&"count_down", 0.0)
-	attack_impact_zone.monitoring = state.get(&"attack_impact_zone_enabled", false)
+	_attack_action.load_state(state)
 
 
 func _on_attacking_state_entered() -> void:
 	_enter_state()
-	_target = npc.attention_target
-	if !_target:
+	if not npc.has_attention_target():
 		state_chart.send_event(state_after_attack)
 	else:
-		_count_down = attack_duration
-		if _attack_while_moving():
-			_attempt_attack()
+		_attack_action.start(npc.attention_target)
 
 
 func _on_attacking_state_exited() -> void:
 	_exit_state()
-	attack_impact_zone.set_collision(false)
+	_attack_action.stop()
 
 
 func _on_attacking_state_physics_processing(delta: float) -> void:
-	npc.stop_moving(delta)
-	npc.face_direction(_target.global_position)
-
-	if _count_down <= 0 and _attack_while_moving():
-		_attempt_attack()
+	if _attack_action.physics_process(delta):
 		state_chart.send_event(state_after_attack)
-	else:
-		_count_down -= delta
-
-
-func _attack_while_moving() -> bool:
-	if can_attack_while_moving or not npc.is_using_weapon():
-		return true
-	return npc.velocity.length_squared() == 0
-
-
-func _attempt_attack() -> void:
-	if not npc.is_using_weapon():
-		_count_down = attack_duration
-		state_chart.send_event("ubody_attack")
-		if npc.global_position.distance_to(_target.global_position) <= melee_range:
-			_punch_attack()
-	else:
-		_count_down = attack_duration
-		npc.sight_detection.check_if_player_in_los()
-		npc.do_weapon_attack()
-
-
-func _punch_attack() -> void:
-	AudioManager.play_sound_3d(attack_sound, npc.global_position)
-
-	attack_impact_zone.set_collision(true)

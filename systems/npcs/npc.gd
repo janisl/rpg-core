@@ -199,6 +199,10 @@ func set_upper_body_raised_weapon() -> void:
 	state_chart.send_event("ubody_raise_weapon")
 
 
+func set_upper_body_attack() -> void:
+	state_chart.send_event("ubody_attack")
+
+
 func set_lower_body_walk() -> void:
 	state_chart.send_event("body_walk")
 
