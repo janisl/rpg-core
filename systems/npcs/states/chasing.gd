@@ -7,7 +7,6 @@ extends NpcStateProcessor
 @export var giveup_chase_time := 5.0
 @export var wait_after_broken_los_time := 3.0
 @export var face_target_while_waiting := true
-@export var searching_state: NpcStateProcessor
 
 @export_flags_3d_physics var collision_mask := (
 	PhysicsLayers.WORLD_MASK |
@@ -67,13 +66,10 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 
 
 func _on_line_of_sight_broken(point: Vector3) -> void:
-	searching_state.broken_los_point = point
+	npc.broken_los_point = point
 
 
 func _start_searching() -> void:
-	var sight := npc.sight_detection
-	sight.current_suspicion -= sight.aggro_threshold / 4
-	searching_state.player = _chase_action.chase_target
-	searching_state.last_known_player_point = npc.last_reachable_path
+	npc.remember_lost_target(_chase_action.chase_target)
 	state_chart.send_event("search")
 	npc.set_lower_body_walk()

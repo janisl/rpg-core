@@ -45,6 +45,15 @@ var attention_target: Node3D:
 var move_speed := 2.0
 var last_reachable_path: Vector3
 
+# Search memory, written when a chase loses its target and read while searching
+var broken_los_point: Vector3
+var last_known_target_point: Vector3
+var search_target: Player:
+	get:
+		if not search_target:
+			return get_tree().get_first_node_in_group("player")
+		return search_target
+
 var previous_behaviour: BehaviourState
 var current_behaviour: BehaviourState
 
@@ -202,6 +211,19 @@ func is_suspicion_cleared() -> bool:
 	return sight_detection.current_suspicion <= 0 and hearing_detection.current_suspicion <= 0
 
 
+func remember_lost_target(target: Player) -> void:
+	search_target = target
+	last_known_target_point = last_reachable_path
+	sight_detection.current_suspicion -= sight_detection.aggro_threshold / 4
+
+
+func reset_suspicion() -> void:
+	if hearing_detection:
+		hearing_detection.reset()
+	if sight_detection:
+		sight_detection.reset()
+
+
 func try_end_investigation() -> void:
 	if is_suspicion_cleared():
 		state_chart.send_event("idle")
@@ -218,6 +240,9 @@ func save_state() -> Dictionary:
 
 	state[&"move_speed"] = move_speed
 	state[&"last_reachable_path"] = last_reachable_path
+	state[&"broken_los_point"] = broken_los_point
+	state[&"last_known_target_point"] = last_known_target_point
+	SaveUtils.save_ref(state, &"search_target", search_target)
 	state[&"previous_behaviour"] = previous_behaviour
 	state[&"current_behaviour"] = current_behaviour
 
@@ -242,6 +267,9 @@ func load_state(state: Dictionary) -> void:
 
 	move_speed = state.get(&"move_speed", move_speed)
 	last_reachable_path = state.get(&"last_reachable_path", Vector3.ZERO)
+	broken_los_point = state.get(&"broken_los_point", Vector3.ZERO)
+	last_known_target_point = state.get(&"last_known_target_point", Vector3.ZERO)
+	search_target = SaveUtils.load_ref(state, &"search_target")
 	previous_behaviour = state.get(&"previous_behaviour", BehaviourState.None)
 	current_behaviour = state.get(&"current_behaviour", BehaviourState.None)
 

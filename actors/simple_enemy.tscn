@@ -364,10 +364,9 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="Chasing" type="Node" parent="StateChart/Root/Behaviour" unique_id=226969982]
 script = ExtResource("4_4a0lb")
 
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=735664981 node_paths=PackedStringArray("searching_state", "npc", "state_chart", "audio")]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=735664981 node_paths=PackedStringArray("npc", "state_chart", "audio")]
 script = ExtResource("8_gvg5y")
 start_chase_sound = ExtResource("9_gn5pi")
-searching_state = NodePath("../../Searching/Processor")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")

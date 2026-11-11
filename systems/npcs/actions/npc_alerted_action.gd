@@ -30,7 +30,7 @@ func _enter_tree() -> void:
 func save_state() -> Dictionary:
 	var state := Dictionary()
 	SaveUtils.save_timer(state, &"shock_timer", _shock_timer)
-	SaveUtils.save_timer(state, &"return_to_patrol_timer", _give_up_timer)
+	SaveUtils.save_timer(state, &"give_up_timer", _give_up_timer)
 	state[&"target"] = _target
 	state[&"has_given_up"] = _has_given_up
 	return state
@@ -38,7 +38,7 @@ func save_state() -> Dictionary:
 
 func load_state(state: Dictionary) -> void:
 	SaveUtils.load_timer(state, &"shock_timer", _shock_timer)
-	SaveUtils.load_timer(state, &"return_to_patrol_timer", _give_up_timer)
+	SaveUtils.load_timer(state, &"give_up_timer", _give_up_timer)
 	_target = state.get(&"target", _target)
 	_has_given_up = state.get(&"has_given_up", false)
 
