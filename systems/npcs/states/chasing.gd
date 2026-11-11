@@ -1,7 +1,5 @@
 extends NpcStateProcessor
 
-enum ChaseStatus { CHASING, CAUGHT, WAITING, LOST }
-
 @export var target_melee_distance := 1.5
 @export var target_ranged_distance_offset := 1.0
 @export var action_when_caught := "attack"
@@ -18,167 +16,64 @@ enum ChaseStatus { CHASING, CAUGHT, WAITING, LOST }
 	PhysicsLayers.DYNAMIC_OBJECTS_MASK
 )
 
-var _chase_wait_timer: Timer
-var _los_broken_timer: Timer
-var _current_chase_status: ChaseStatus
-var _chase_target: Node3D
-var _can_see_player := false
+var _chase_action: NpcChaseAction
 
 
 func _enter_tree() -> void:
-	_chase_wait_timer = Timer.new()
-	_chase_wait_timer.wait_time = giveup_chase_time
-	_chase_wait_timer.one_shot = true
-	_chase_wait_timer.timeout.connect(_stop_chasing)
-	add_child(_chase_wait_timer)
-
-	_los_broken_timer = Timer.new()
-	_los_broken_timer.wait_time = wait_after_broken_los_time
-	_los_broken_timer.one_shot = true
-	_los_broken_timer.timeout.connect(_start_searching)
-	add_child(_los_broken_timer)
+	_chase_action = NpcChaseAction.new(npc)
+	_chase_action.target_melee_distance = target_melee_distance
+	_chase_action.target_ranged_distance_offset = target_ranged_distance_offset
+	_chase_action.giveup_chase_time = giveup_chase_time
+	_chase_action.wait_after_broken_los_time = wait_after_broken_los_time
+	_chase_action.face_target_while_waiting = face_target_while_waiting
+	_chase_action.collision_mask = collision_mask
+	_chase_action.line_of_sight_broken.connect(_on_line_of_sight_broken)
+	_chase_action.target_lost.connect(_start_searching)
+	add_child(_chase_action)
 
 
 func save_state() -> Dictionary:
-	var state := Dictionary()
-	SaveUtils.save_timer(state, &"chase_wait_timer", _chase_wait_timer)
-	SaveUtils.save_timer(state, &"los_broken_timer", _los_broken_timer)
-	state[&"current_chase_status"] = _current_chase_status
-	SaveUtils.save_ref(state, &"chase_target", _chase_target)
-	state[&"can_see_player"] = _can_see_player
-	return state
+	return _chase_action.save_state()
 
 
 func load_state(state: Dictionary) -> void:
-	SaveUtils.load_timer(state, &"chase_wait_timer", _chase_wait_timer)
-	SaveUtils.load_timer(state, &"los_broken_timer", _los_broken_timer)
-	_current_chase_status = state.get(&"current_chase_status", ChaseStatus.CHASING)
-	_chase_target = SaveUtils.load_ref(state, &"chase_target")
-	_can_see_player = state.get(&"can_see_player", false)
+	_chase_action.load_state(state)
 
 
 func _on_chasing_state_entered() -> void:
 	_enter_state()
-	if npc.attention_target is Player:
-		_chase_target = npc.attention_target
+	var target := npc.attention_target as Player
 
-	if not _chase_target or npc.response_to_player == "Neutral":
+	if not target or npc.is_neutral_to_player():
 		state_chart.send_event("search")
-		state_chart.send_event("body_walk")
+		npc.set_lower_body_walk()
 		return
 
 	if npc.previous_behaviour != Npc.BehaviourState.Attacking:
 		play_sound(start_chase_sound)
-	state_chart.send_event("body_run")
-	state_chart.send_event("ubody_raise_weapon")
-	npc.move_speed = npc.sprint_speed
-	_current_chase_status = ChaseStatus.CHASING
-	npc.head_turner.target_node = _chase_target.get_path()
+	npc.set_lower_body_run()
+	npc.set_upper_body_raised_weapon()
+	_chase_action.start(target)
 
 
 func _on_chasing_state_exited() -> void:
 	_exit_state()
-	_chase_target = null
+	_chase_action.stop()
 
 
 func _on_chasing_state_physics_processing(delta: float) -> void:
-	# When loading a game during a chase, the attention target needs to be reacquired
-	if not _chase_target and npc.attention_target:
-		_chase_target = npc.attention_target
-
-	_can_see_player = _check_los_to_player()
-	if _can_see_player:
-		npc.head_turner.active = true
-		_los_broken_timer.stop()
-	else:
-		npc.head_turner.active = false
-		if _los_broken_timer.is_stopped() and _chase_wait_timer.is_stopped():
-			searching_state.broken_los_point = _chase_target.global_position
-			_los_broken_timer.start()
-
-	if not _chase_target or not (_chase_target as Player).health_attribute.is_alive:
-		_stop_chasing()
-
-	if npc.is_dead():
-		_npc_has_died()
-
-	match _current_chase_status:
-		ChaseStatus.CHASING:
-			_running(delta)
-			return
-
-		ChaseStatus.CAUGHT:
-			state_chart.send_event(action_when_caught)
-			return
-
-		ChaseStatus.WAITING:
-			npc.stop_moving(delta)
-
-			if face_target_while_waiting:
-				npc.face_direction(_chase_target.global_position)
-
-			npc.nav_agent.target_position = _chase_target.global_position
-			if npc.nav_agent.is_target_reachable() or _can_see_player:
-				_chase_wait_timer.stop()
-				_current_chase_status = ChaseStatus.CHASING
-			return
-
-		ChaseStatus.LOST:
-			_start_searching()
-			return
+	if _chase_action.physics_process(delta) == NpcChaseAction.Outcome.CAUGHT:
+		state_chart.send_event(action_when_caught)
 
 
-func _check_los_to_player() -> bool:
-	var space_state := npc.get_world_3d().direct_space_state
-	var query := PhysicsRayQueryParameters3D.create(npc.head.global_position, _chase_target.global_position, collision_mask)
-	query.exclude = [npc.get_rid()]
-	var result := space_state.intersect_ray(query)
-	if result:
-		return result.collider is Player
-	return false
-
-
-func _running(delta: float) -> void:
-	npc.nav_agent.target_position = _chase_target.global_position
-	var distance_to_target := npc.global_position.distance_to(_chase_target.global_position)
-
-	if _can_see_player:
-		var ranged_distance := _get_wieldable_range()
-		if ranged_distance > 0 and distance_to_target <= ranged_distance - target_ranged_distance_offset:
-			_current_chase_status = ChaseStatus.CAUGHT
-		elif distance_to_target <= target_melee_distance:
-			_current_chase_status = ChaseStatus.CAUGHT
-
-	if not npc.nav_agent.is_target_reachable():
-		_start_waiting()
-
-	npc.move_npc_to_next_position(delta)
-
-
-func _get_wieldable_range() -> float:
-	if npc.is_using_weapon():
-		return npc.get_weapon_range()
-	return 0
-
-
-func _start_waiting() -> void:
-	_current_chase_status = ChaseStatus.WAITING
-	_chase_wait_timer.start()
-
-
-func _stop_chasing() -> void:
-	npc.move_speed = npc.walk_speed
-	_current_chase_status = ChaseStatus.LOST
-
-
-func _npc_has_died() -> void:
-	_current_chase_status = ChaseStatus.LOST
+func _on_line_of_sight_broken(point: Vector3) -> void:
+	searching_state.broken_los_point = point
 
 
 func _start_searching() -> void:
 	var sight := npc.sight_detection
 	sight.current_suspicion -= sight.aggro_threshold / 4
-	searching_state.player = _chase_target
+	searching_state.player = _chase_action.chase_target
 	searching_state.last_known_player_point = npc.last_reachable_path
 	state_chart.send_event("search")
-	state_chart.send_event("body_walk")
+	npc.set_lower_body_walk()

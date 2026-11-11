@@ -161,6 +161,10 @@ func has_attention_target() -> bool:
 	return is_instance_valid(attention_target)
 
 
+func is_neutral_to_player() -> bool:
+	return response_to_player == "Neutral"
+
+
 func has_patrol_path() -> bool:
 	return patrol_path != null
 
@@ -188,6 +192,10 @@ func set_upper_body_raised_weapon() -> void:
 
 func set_lower_body_walk() -> void:
 	state_chart.send_event("body_walk")
+
+
+func set_lower_body_run() -> void:
+	state_chart.send_event("body_run")
 
 
 func is_suspicion_cleared() -> bool:
