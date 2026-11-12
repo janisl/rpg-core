@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://dm6b1w6fv1h34"]
+
+[ext_resource type="Script" uid="uid://bixbhmwwiv2f3" path="res://ui/external_inventory/external_iventory.gd" id="1_vjruw"]
+[ext_resource type="PackedScene" uid="uid://cg7g7edvnesgr" path="res://ui/in_game_screen/inventory_list.tscn" id="2_iboxp"]
+
+[node name="ExternalIventory" type="Control" unique_id=1572823586]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vjruw")
+
+[node name="PlayerInventoryList" parent="." unique_id=1345309669 instance=ExtResource("2_iboxp")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 98.0
+offset_top = 56.0
+offset_right = 918.0
+offset_bottom = 1022.0
+
+[node name="LootInventoryList" parent="." unique_id=350828206 instance=ExtResource("2_iboxp")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1026.0
+offset_top = 50.0
+offset_right = 1846.0
+offset_bottom = 1016.0
+
+[node name="TakeAllButton" type="Button" parent="." unique_id=1816288776]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.5
+offset_top = -42.0
+offset_right = 64.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Take all"
+
+[connection signal="item_clicked" from="PlayerInventoryList" to="." method="_on_player_inventory_list_item_clicked"]
+[connection signal="item_clicked" from="LootInventoryList" to="." method="_on_loot_inventory_list_item_clicked"]
+[connection signal="pressed" from="TakeAllButton" to="." method="_on_take_all_button_pressed"]

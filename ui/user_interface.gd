@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var player_hud: PlayerHud = $PlayerHud
 @onready var in_game_screen: InGameScreen = $InGameScreen
+@onready var external_iventory: ExternalInventory = $ExternalIventory
 
 
 func _ready() -> void:
@@ -14,6 +15,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			in_game_screen.hide_screen()
 		else:
 			in_game_screen.show_screen()
+
+
+func show_loot_inventory(player: Player, loot_inventory: Inventory) -> void:
+	external_iventory.initialize(player, loot_inventory)
+	external_iventory.show()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func _on_player_spawned(player: Player) -> void:

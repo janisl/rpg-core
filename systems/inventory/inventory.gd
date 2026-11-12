@@ -78,6 +78,11 @@ func remove_item(item: ItemData, amount := 1, exact: bool = true) -> bool:
 	return remaining == 0
 
 
+func remove_stack(item_stack: ItemStack) -> void:
+	slots.erase(item_stack)
+	changed.emit()
+
+
 func get_available_amount(item: ItemData) -> int:
 	var available := 0
 	for i in slots.size():
@@ -106,6 +111,12 @@ func use_item(item_stack: ItemStack) -> void:
 		return
 	if item_stack.item is ConsumableItem:
 		remove_item(item_stack.item)
+
+
+func take_all_items(target_inventory: Inventory) -> void:
+	for slot in slots:
+		target_inventory.add_stack(slot)
+	slots.clear()
 
 
 func _is_empty(index: int) -> bool:

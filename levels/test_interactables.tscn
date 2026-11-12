@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://devphxuat7w8v" path="res://assets/interactables/stool.tscn" id="18_5o2v4"]
 [ext_resource type="PackedScene" uid="uid://qqcw2fhr4pnq" path="res://assets/interactables/heavy_box.tscn" id="18_emp2w"]
 [ext_resource type="PackedScene" uid="uid://h63prh2hngne" path="res://items/consumables/strength_potion.tscn" id="19_ogusv"]
+[ext_resource type="PackedScene" uid="uid://btrqhtpuldyn1" path="res://assets/interactables/chest.tscn" id="22_35h6x"]
 
 [sub_resource type="Environment" id="Environment_bsiym"]
 background_mode = 1
@@ -247,6 +248,9 @@ display_item_name = true
 
 [node name="StrengthPotion" parent="Pickups" unique_id=270468499 instance=ExtResource("19_ogusv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.01, -0.4)
+
+[node name="Chest" parent="." unique_id=136403234 instance=ExtResource("22_35h6x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 1.5)
 
 [connection signal="body_entered" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_entered"]
 [connection signal="body_exited" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_exited"]

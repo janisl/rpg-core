@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://btgmq5uw4sufl" path="res://ui/user_interface.gd" id="1_r3gyj"]
 [ext_resource type="PackedScene" uid="uid://qobbrsn8t2k4" path="res://ui/player_hud/player_hud.tscn" id="3_j1g8x"]
 [ext_resource type="PackedScene" uid="uid://li5ryexfavom" path="res://ui/in_game_screen/in_game_screen.tscn" id="4_5skvp"]
+[ext_resource type="PackedScene" uid="uid://dm6b1w6fv1h34" path="res://ui/external_inventory/external_iventory.tscn" id="4_j1g8x"]
 
 [node name="UserInterface" type="CanvasLayer" unique_id=82762904]
 script = ExtResource("1_r3gyj")
@@ -12,4 +13,7 @@ visible = false
 
 [node name="InGameScreen" parent="." unique_id=606499691 instance=ExtResource("4_5skvp")]
 process_mode = 3
+visible = false
+
+[node name="ExternalIventory" parent="." unique_id=1572823586 instance=ExtResource("4_j1g8x")]
 visible = false
