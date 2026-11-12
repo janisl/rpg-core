@@ -4,20 +4,23 @@
 [ext_resource type="AudioStream" uid="uid://es54vl54g4k6" path="res://assets/sounds/kenney_rpg-audio/door_open_2.ogg" id="2_tgoy7"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="2_ueph5"]
 [ext_resource type="AudioStream" uid="uid://dxwqk4cv7wb2d" path="res://assets/sounds/kenney_rpg-audio/door_close_4.ogg" id="3_85q47"]
+[ext_resource type="Texture2D" uid="uid://ca7ll4tevvupe" path="res://assets/textures/kenney_prototype_textures/purple/texture_12.png" id="4_o4dc0"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
-size = Vector3(1, 2, 0.1)
+size = Vector3(1.26, 2.12, 0.1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
-albedo_color = Color(0.4143056, 0.22761494, 0, 1)
+albedo_texture = ExtResource("4_o4dc0")
+uv1_offset = Vector3(0.3, 0.3, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
 material = SubResource("StandardMaterial3D_rdqwp")
-size = Vector3(1, 2, 0.1)
+size = Vector3(1.26, 2.12, 0.1)
 
 [node name="BidirectionalRotatingDoor" type="Node3D" unique_id=1305629844]
 
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=426944630 node_paths=PackedStringArray("audio_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.63, 0, 0)
 script = ExtResource("1_n6ume")
 open_rotation = Vector3(0, 95, 0)
 bidirectional_swing = true
@@ -26,11 +29,11 @@ open_sound = ExtResource("2_tgoy7")
 close_sound = ExtResource("3_85q47")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=942444345]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.63, 1.06, 0)
 shape = SubResource("BoxShape3D_bsiym")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="AnimatableBody3D" unique_id=364271063]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.63, 1.06, 0)
 mesh = SubResource("BoxMesh_bsiym")
 
 [node name="BasicInteraction" parent="AnimatableBody3D" unique_id=14951234 instance=ExtResource("2_ueph5")]

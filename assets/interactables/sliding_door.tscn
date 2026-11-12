@@ -4,16 +4,18 @@
 [ext_resource type="AudioStream" uid="uid://b583f3y65t06b" path="res://assets/sounds/kenney_rpg-audio/door_open_1.ogg" id="2_6vv0q"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="2_jmeyh"]
 [ext_resource type="AudioStream" uid="uid://c6s02nhxex53m" path="res://assets/sounds/kenney_rpg-audio/door_close_1.ogg" id="3_2qgq7"]
+[ext_resource type="Texture2D" uid="uid://ca7ll4tevvupe" path="res://assets/textures/kenney_prototype_textures/purple/texture_12.png" id="4_hd8gp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
-size = Vector3(1, 2, 0.1)
+size = Vector3(1.26, 2.12, 0.1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
-albedo_color = Color(0.5979504, 0.28370667, 0, 1)
+albedo_texture = ExtResource("4_hd8gp")
+uv1_offset = Vector3(0.3, 0.3, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
 material = SubResource("StandardMaterial3D_rdqwp")
-size = Vector3(1, 2, 0.1)
+size = Vector3(1.26, 2.12, 0.1)
 
 [node name="Node3D" type="Node3D" unique_id=226986960]
 
@@ -26,11 +28,11 @@ open_sound = ExtResource("2_6vv0q")
 close_sound = ExtResource("3_2qgq7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SlidingDoor" unique_id=982076642]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06, 0)
 shape = SubResource("BoxShape3D_bsiym")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SlidingDoor" unique_id=255831984]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06, 0)
 mesh = SubResource("BoxMesh_bsiym")
 
 [node name="BasicInteraction" parent="SlidingDoor" unique_id=14951234 instance=ExtResource("2_jmeyh")]
