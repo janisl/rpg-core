@@ -6,4 +6,4 @@ extends ItemData
 @export var accuracy_multiplier := 1.0
 @export var spread_multiplier := 1.0
 @export var pellet_count_override := 0
-@export var projectile_scene_override: PackedScene
+@export_file("*.tscn") var projectile_scene_override: String

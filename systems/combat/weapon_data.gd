@@ -35,7 +35,7 @@ extends WieldableData
 
 @export_group("Projectile")
 @export var projectile_speed := 50.0
-@export var projectile_scene: PackedScene
+@export_file("*.tscn") var projectile_scene: String
 
 @export_group("Melee")
 @export var melee_rays := 3

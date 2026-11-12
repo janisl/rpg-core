@@ -5,7 +5,6 @@
 [ext_resource type="AudioStream" uid="uid://wllyvfxmffj5" path="res://assets/sounds/kenney_ui-audio/click3.ogg" id="2_32onr"]
 [ext_resource type="PackedScene" uid="uid://dxl3jq3fi0sgg" path="res://systems/combat/throwable_weapon.tscn" id="2_bhebp"]
 [ext_resource type="PackedScene" uid="uid://bolannbddvv15" path="res://items/weapons/grenade/grenade_first_person.tscn" id="3_gshwq"]
-[ext_resource type="PackedScene" uid="uid://b2cgq77v4j7nw" path="res://items/weapons/grenade/grenade_projectile.tscn" id="5_gshwq"]
 [ext_resource type="PackedScene" uid="uid://6yhwivjxhpvf" path="res://items/weapons/grenade/grenade_third_person.tscn" id="6_ucf6w"]
 
 [sub_resource type="Gradient" id="Gradient_x0f8i"]
@@ -25,7 +24,7 @@ prepare_attack_time = 0.5
 light_energy = 0.0
 light_duration = 0.0
 projectile_speed = 15.0
-projectile_scene = ExtResource("5_gshwq")
+projectile_scene = "uid://b2cgq77v4j7nw"
 recoil_cam_pitch = 0.0
 recoil_cam_yaw = 0.0
 recoil_model_kickback = 0.0

@@ -2,7 +2,6 @@
 
 [ext_resource type="Resource" uid="uid://c8ff3twc0mra8" path="res://items/ammo/laser_ammo.tres" id="1_bjold"]
 [ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_da8ks"]
-[ext_resource type="PackedScene" uid="uid://b2gscberboh83" path="res://items/weapons/laser/test_projectile.tscn" id="2_l8b5j"]
 [ext_resource type="AudioStream" uid="uid://js778f6lkvnw" path="res://assets/sounds/kenney_sci-fi-sounds/laserLarge_000.ogg" id="3_t3ufx"]
 [ext_resource type="PackedScene" uid="uid://b6eda53ea0fae" path="res://systems/combat/projectile_weapon.tscn" id="3_wch0n"]
 [ext_resource type="PackedScene" uid="uid://b1hhl7ucow0hf" path="res://items/weapons/laser/laser_first_person.tscn" id="4_da8ks"]
@@ -36,7 +35,7 @@ magazine_size = 20
 attack_sound = ExtResource("3_t3ufx")
 reload_sound = ExtResource("8_ff6ku")
 light_color = Color(1, 0.50995165, 0.67012393, 1)
-projectile_scene = ExtResource("2_l8b5j")
+projectile_scene = "uid://b2gscberboh83"
 controller_scene = ExtResource("3_wch0n")
 first_person_scene = ExtResource("4_da8ks")
 third_person_scene = ExtResource("8_efmtk")
