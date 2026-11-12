@@ -507,6 +507,7 @@ initial_expression_properties = {
 &"is_dead": false,
 &"is_jumping": false,
 &"is_moving": false,
+&"is_rotating_carried_object": false,
 &"is_sitting": false,
 &"is_sliding": false,
 &"on_ground": false,
@@ -1319,8 +1320,8 @@ generic_landing_profile = ExtResource("40_ifggu")
 metadata/_custom_type_script = "uid://ccwu2fc84l1rx"
 
 [node name="SlidingAudioPlayer" type="AudioStreamPlayer3D" parent="." unique_id=2075284362]
-bus = &"SFX"
 stream = ExtResource("29_ivjma")
+bus = &"SFX"
 
 [node name="NavigationAgent" type="NavigationAgent3D" parent="." unique_id=753962621]
 
