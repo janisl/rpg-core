@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://6yhwivjxhpvf"]
 
 [ext_resource type="Script" uid="uid://s3f0gwhot7my" path="res://systems/wieldables/third_person_wieldable.gd" id="1_r0xfa"]
-[ext_resource type="PackedScene" uid="uid://7f1hvxmn2lb8" path="res://effects/muzzle_flash/muzzle_flash.tscn" id="2_8inkh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
 albedo_color = Color(0, 0.28893945, 0.2623827, 1)
@@ -93,7 +92,7 @@ _data = {
 [node name="Grenade" type="Node3D" unique_id=1327495288 node_paths=PackedStringArray("animation_player", "muzzle_flash")]
 script = ExtResource("1_r0xfa")
 animation_player = NodePath("AnimationPlayer")
-muzzle_flash = NodePath("MuzzleFlash")
+muzzle_flash = NodePath("")
 
 [node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
@@ -108,6 +107,3 @@ mesh = SubResource("TorusMesh_ujs7d")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2117961768]
 libraries/ = SubResource("AnimationLibrary_or41q")
-
-[node name="MuzzleFlash" parent="." unique_id=546064966 instance=ExtResource("2_8inkh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.036589243, -0.15508378)

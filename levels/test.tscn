@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://dh75686jc3dg7" path="res://items/weapons/grenade/grenade_pickup.tscn" id="19_uyurq"]
 [ext_resource type="PackedScene" uid="uid://bmq87quw8icqf" path="res://items/weapons/laser/laser_pickup.tscn" id="20_70x8p"]
 [ext_resource type="Script" uid="uid://co3ihnup4mtgl" path="res://systems/levels/level_transition.gd" id="21_1w0m8"]
+[ext_resource type="PackedScene" uid="uid://c6rioo3yrr6uk" path="res://items/weapons/throwing_blade/throwing_blade_pickup.tscn" id="21_mfah6"]
 [ext_resource type="PackedScene" uid="uid://u5kjeyq7rd1m" path="res://items/ammo/laser_ammo.tscn" id="21_uyurq"]
 [ext_resource type="PackedScene" uid="uid://b16alro8fspcn" path="res://items/ammo/pistol_ammo.tscn" id="22_8m07d"]
 [ext_resource type="PackedScene" uid="uid://kcm3gee3e08y" path="res://items/ammo/shotgun_ammo.tscn" id="23_mfah6"]
@@ -845,7 +846,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.02, 10)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.02, 10)
 
 [node name="Crowbar" parent="Pickups" unique_id=932254342 instance=ExtResource("27_8m07d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1.01, 10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1.01, 9.9)
+
+[node name="ThrowingBladePickup" parent="Pickups" unique_id=990470374 instance=ExtResource("21_mfah6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 1.005, 10.1)
+
+[node name="ThrowingBladePickup2" parent="Pickups" unique_id=1356871598 instance=ExtResource("21_mfah6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1.005, 10.1)
+
+[node name="ThrowingBladePickup3" parent="Pickups" unique_id=620154136 instance=ExtResource("21_mfah6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 1.005, 10.1)
+
+[node name="ThrowingBladePickup4" parent="Pickups" unique_id=1549780099 instance=ExtResource("21_mfah6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7, 1.005, 10.1)
 
 [node name="Decorations" type="Node3D" parent="." unique_id=211340265]
 

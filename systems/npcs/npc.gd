@@ -245,7 +245,7 @@ func _find_health_attribute() -> void:
 func _on_health_attribute_damage_taken(hit_info: HitInfo) -> void:
 	if not hit_info.direction.is_zero_approx():
 		sight_detection.generate_attention_target(hit_info.source_position)
-	state_chart.send_event("alerted")
+		state_chart.send_event("alerted")
 
 
 func _npc_footsteps(delta: float) -> void:

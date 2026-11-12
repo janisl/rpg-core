@@ -3,6 +3,7 @@ extends Node
 
 signal fired
 
+@export var stick_on_impact := false
 @export var die_on_impact := true
 @export var death_sound: AudioStream
 @export var death_sound_volume := 0.0
@@ -30,6 +31,23 @@ func setup(src: CharacterBody3D, vel: Vector3, dmg: float) -> void:
 	fired.emit()
 
 
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	SaveUtils.save_ref(state, &"source", _source)
+	state[&"damage"] = _damage
+	state[&"was_fired"] = _rigid_body != null
+	SaveUtils.save_timer(state, &"lifespan", lifespan)
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	_source = SaveUtils.load_ref(state, &"source")
+	_damage = state.get(&"damage", 0)
+	if state.get(&"was_fired", false):
+		_set_up_rigid_body()
+	SaveUtils.load_timer(state, &"lifespan", lifespan)
+
+
 func _set_up_rigid_body() -> void:
 	_rigid_body = get_parent() as RigidBody3D
 	_rigid_body.continuous_cd = true
@@ -49,6 +67,10 @@ func _on_body_entered(body: Node3D) -> void:
 		return
 
 	_deal_damage(body, _rigid_body.linear_velocity.normalized(), _rigid_body.global_position)
+
+	if stick_on_impact:
+		_stick_to_object(body)
+
 	if die_on_impact:
 		_die()
 
@@ -81,18 +103,11 @@ func _on_lifespan_timeout() -> void:
 	_die()
 
 
-func save_state() -> Dictionary:
-	var state := Dictionary()
-	SaveUtils.save_ref(state, &"source", _source)
-	state[&"damage"] = _damage
-	state[&"was_fired"] = _rigid_body != null
-	SaveUtils.save_timer(state, &"lifespan", lifespan)
-	return state
-
-
-func load_state(state: Dictionary) -> void:
-	_source = SaveUtils.load_ref(state, &"source")
-	_damage = state.get(&"damage", 0)
-	if state.get(&"was_fired", false):
-		_set_up_rigid_body()
-	SaveUtils.load_timer(state, &"lifespan", lifespan)
+func _stick_to_object(collider: Node) -> void:
+	_rigid_body.linear_velocity = Vector3.ZERO
+	_rigid_body.angular_velocity = Vector3.ZERO
+	var joint := PinJoint3D.new()
+	joint.node_a = _rigid_body.get_path()
+	joint.node_b = collider.get_path()
+	joint.position = _rigid_body.global_position
+	get_tree().root.add_child(joint)
