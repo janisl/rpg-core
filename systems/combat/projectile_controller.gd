@@ -3,6 +3,7 @@ extends Node
 
 signal fired
 
+@export var die_on_impact := true
 @export var death_sound: AudioStream
 @export var death_sound_volume := 0.0
 @export var spawn_on_death: Array[PackedScene] = []
@@ -48,7 +49,8 @@ func _on_body_entered(body: Node3D) -> void:
 		return
 
 	_deal_damage(body, _rigid_body.linear_velocity.normalized(), _rigid_body.global_position)
-	_die()
+	if die_on_impact:
+		_die()
 
 
 func _deal_damage(body: Node3D, hit_direction: Vector3, hit_position: Vector3) -> void:

@@ -71,6 +71,12 @@ func _update_ammo_label() -> void:
 
 	ammo_label.visible = true
 	var weapon_data := weapon.item as WeaponData
+
+	if _player.wield_controller.wieldable is ThrowableWeapon:
+		var available := _player.inventory.get_available_amount(weapon_data)
+		ammo_label.text = "%d %s" % [available, tr(weapon_data.display_name)]
+		return
+
 	if weapon_data.ammo_types.is_empty():
 		ammo_label.visible = false
 		return

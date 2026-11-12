@@ -7,6 +7,7 @@ const SELECTED_AMMO_KEY := "selected_ammo_index"
 
 var _weapon_data: WeaponData
 
+var _prepare_attack_timer := 0.0
 var _fire_rate_timer := 0.0
 var _reload_timer := 0.0
 
@@ -71,6 +72,9 @@ func _has_ammo() -> bool:
 
 
 func _can_reload() -> bool:
+	if _weapon_data.magazine_size == 0:
+		return false
+
 	var selected := _get_selected_ammo()
 	if _get_reserve_ammo(selected) <= 0:
 		return false
@@ -131,7 +135,7 @@ func _fire_weapon() -> void:
 	if not _can_fire():
 		return
 
-	_set_magazine_ammo(_get_magazine_ammo() - 1)
+	_consume_ammo()
 	_emit_primary_action_started()
 
 	_fire_rate_timer = 1.0 / _weapon_data.fire_rate
@@ -143,6 +147,10 @@ func _fire_weapon() -> void:
 	var fire_direction := from.direction_to(camera_collision)
 
 	_perform_attack(from, fire_direction)
+
+
+func _consume_ammo() -> void:
+	_set_magazine_ammo(_get_magazine_ammo() - 1)
 
 
 @warning_ignore("unused_parameter")
@@ -194,7 +202,26 @@ func _on_idle_state_physics_processing(_delta: float) -> void:
 		return
 
 	if _primary_action_just_pressed and _can_fire():
-		state_chart.send_event("onFiring")
+		if _weapon_data.prepare_attack_time:
+			state_chart.send_event("onPrepareAttack")
+		else:
+			state_chart.send_event("onFiring")
+
+
+func _on_prepare_attack_state_entered() -> void:
+	_emit_primary_action_prepare_started()
+	_prepare_attack_timer = _weapon_data.prepare_attack_time
+
+
+func _on_prepare_attack_state_physics_processing(delta: float) -> void:
+	if _weapon_data.secondary_action == WieldableData.SecondaryAction.ABORT and _secondary_action_just_pressed:
+		state_chart.send_event("onIdle")
+		return
+
+	_prepare_attack_timer -= delta
+	if _prepare_attack_timer <= 0.0:
+		if not _primary_action_pressed:
+			state_chart.send_event("onFiring")
 
 
 func _on_firing_state_entered() -> void:
@@ -207,6 +234,10 @@ func _on_firing_state_physics_processing(delta: float) -> void:
 		if _fire_rate_timer > 0.0:
 			return
 
+	_attack_finished()
+
+
+func _attack_finished() -> void:
 	if not _has_ammo():
 		state_chart.send_event("onIdle")
 		return

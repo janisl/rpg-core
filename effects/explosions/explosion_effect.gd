@@ -1,7 +1,7 @@
 extends Node3D
 
 @export var explosion_force := 15.0
-@export var explosion_damage := 10.0
+@export var explosion_damage := 50.0
 
 var _radius := 0.0
 
@@ -26,7 +26,7 @@ func push_away_objects() -> void:
 		var force_div := 1.0
 		if body is CharacterBody3D:
 			body_pos.y += 1.0
-			force_div = 4.0
+			force_div = 10.0
 		elif body is RigidBody3D:
 			force_div = maxf(0.01, body.mass)
 		var force_dir := global_position.direction_to(body_pos)

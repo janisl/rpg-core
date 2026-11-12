@@ -36,4 +36,3 @@ Systems
 Weapons
 - knockback
 - melee weapon
-- throwable weapon

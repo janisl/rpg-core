@@ -6,6 +6,7 @@ extends Node3D
 
 @export_group("Animations")
 @export var idle_animation: StringName = &"idle"
+@export var prepare_fire_animation: StringName = &"prepare_fire"
 @export var fire_animation: StringName = &"fire"
 @export var reload_animation: StringName = &"reload"
 
@@ -37,6 +38,7 @@ func _apply_mesh_layer(mesh_layer: int) -> void:
 
 func _connect_signals() -> void:
 	_wieldable.idle_started.connect(_on_idle_started)
+	_wieldable.primary_action_started.connect(_on_primary_action_prepare_started)
 	_wieldable.primary_action_started.connect(_on_primary_action_started)
 	_wieldable.reload_started.connect(_on_reload_started)
 
@@ -44,6 +46,11 @@ func _connect_signals() -> void:
 func _on_idle_started() -> void:
 	if animation_player:
 		animation_player.play(idle_animation)
+
+
+func _on_primary_action_prepare_started() -> void:
+	if animation_player:
+		animation_player.play(prepare_fire_animation)
 
 
 func _on_primary_action_started() -> void:

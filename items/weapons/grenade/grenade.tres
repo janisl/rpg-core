@@ -19,12 +19,12 @@ fill_to = Vector2(1, 1)
 [resource]
 script = ExtResource("2_3pal6")
 weapon_range = 30.0
-damage = 40.0
 accuracy = 70
 fire_offset = Vector3(0.3, 0.1, 0)
 prepare_attack_time = 0.5
 light_energy = 0.0
 light_duration = 0.0
+projectile_speed = 15.0
 projectile_scene = ExtResource("5_gshwq")
 recoil_cam_pitch = 0.0
 recoil_cam_yaw = 0.0

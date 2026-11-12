@@ -4,6 +4,7 @@ extends Node3D
 signal equip_started
 signal unequip_started
 signal idle_started
+signal primary_action_prepare_started
 signal primary_action_started
 signal reload_started
 
@@ -85,6 +86,10 @@ func load_state(state: Dictionary) -> void:
 	is_unequipping = state.get(&"is_unequipping", false)
 	_equip_timer = state.get(&"equip_timer", 0.0)
 	_unequip_timer = state.get(&"unequip_timer", 0.0)
+
+
+func _emit_primary_action_prepare_started() -> void:
+	primary_action_prepare_started.emit()
 
 
 func _emit_primary_action_started() -> void:
