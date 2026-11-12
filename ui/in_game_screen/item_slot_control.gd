@@ -1,10 +1,18 @@
 class_name ItemSlotControl
 extends PanelContainer
 
+signal clicked(item_stack: ItemStack)
+
 var _stack: ItemStack
 
 @onready var item_icon: TextureRect = %ItemIcon
 @onready var name_label: Label = %NameLabel
+
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			clicked.emit(_stack)
 
 
 func init(stack: ItemStack) -> void:

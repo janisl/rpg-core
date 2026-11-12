@@ -3,7 +3,8 @@ extends ScrollContainer
 
 const ITEM_SLOT_CONTROL = preload("uid://d3nmme6bfak14")
 
-signal item_selected(item: ItemStack)
+signal item_selected(item_stack: ItemStack)
+signal item_clicked(item_stack: ItemStack)
 
 @onready var slots_container: VBoxContainer = %SlotsContainer
 
@@ -21,6 +22,7 @@ func recreate_slots() -> void:
 		slots_container.add_child(slot)
 		slot.init(_inventory.slots[i])
 		slot.mouse_entered.connect(_on_item_selected.bind(_inventory.slots[i]))
+		slot.clicked.connect(_on_item_clicked)
 
 
 func clear() -> void:
@@ -28,5 +30,9 @@ func clear() -> void:
 		c.queue_free()
 
 
-func _on_item_selected(item: ItemStack) -> void:
-	item_selected.emit(item)
+func _on_item_selected(item_stack: ItemStack) -> void:
+	item_selected.emit(item_stack)
+
+
+func _on_item_clicked(item_stack: ItemStack) -> void:
+	item_clicked.emit(item_stack)
