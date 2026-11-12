@@ -1,5 +1,7 @@
 keys,en
 %d / %d %s,%d / %d %s
+ITEM NAME Crowbar,Crowbar
+ITEM DESCRIPTION Crowbar,Crowbar
 ITEM NAME Pistol,Pistol
 ITEM DESCRIPTION Pistol,Pistol
 ITEM NAME Shotgun,Shotgun

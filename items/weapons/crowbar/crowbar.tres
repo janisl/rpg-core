@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://bkxlpqvuw4a1h"]
+
+[ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_xejrn"]
+[ext_resource type="AudioStream" uid="uid://b8bu4y83ee8gp" path="res://assets/sounds/rpg_sound_pack/battle/swing.wav" id="2_1uh7i"]
+[ext_resource type="PackedScene" uid="uid://wyjibbo6erog" path="res://systems/combat/melee_weapon.tscn" id="2_s7cmg"]
+[ext_resource type="AudioStream" uid="uid://cgyb1w8ghak87" path="res://assets/sounds/rpg_sound_pack/battle/swing2.wav" id="3_vwh33"]
+[ext_resource type="PackedScene" uid="uid://8pukftbjc5i1" path="res://items/weapons/crowbar/crowbar_first_person.tscn" id="4_q62b4"]
+[ext_resource type="AudioStream" uid="uid://cxw1lp0edntg8" path="res://assets/sounds/rpg_sound_pack/battle/swing3.wav" id="4_xejrn"]
+[ext_resource type="PackedScene" uid="uid://bdrf1d353xxqq" path="res://effects/decals/bullet_decal.tscn" id="5_6f6sj"]
+[ext_resource type="PackedScene" uid="uid://bd6vg3o6i0l17" path="res://effects/bullet_effects/bullet_impact.tscn" id="8_4d4fg"]
+[ext_resource type="PackedScene" uid="uid://210v4e40vbm7" path="res://items/weapons/crowbar/crowbar_third_person.tscn" id="8_vbiek"]
+[ext_resource type="AudioStream" uid="uid://wllyvfxmffj5" path="res://assets/sounds/kenney_ui-audio/click3.ogg" id="9_kvykb"]
+[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="11_tdfeu"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_s7cmg"]
+streams_count = 3
+stream_0/stream = ExtResource("2_1uh7i")
+stream_1/stream = ExtResource("3_vwh33")
+stream_2/stream = ExtResource("4_xejrn")
+
+[sub_resource type="Gradient" id="Gradient_cm5tq"]
+offsets = PackedFloat32Array(0.33931485, 0.4264151, 0.58401304, 0.67373574)
+colors = PackedColorArray(0.4, 0, 0.0627451, 0, 0.39889258, 0, 0.062847175, 1, 0.39889258, 0, 0.062847175, 1, 0.4, 0, 0.0627451, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8hv22"]
+gradient = SubResource("Gradient_cm5tq")
+width = 128
+height = 128
+fill_to = Vector2(1, 1)
+
+[resource]
+script = ExtResource("11_tdfeu")
+weapon_range = 1.5
+damage = 5.0
+fire_offset = Vector3(0.1, -0.02, -0.1)
+is_automatic = true
+attack_sound = SubResource("AudioStreamRandomizer_s7cmg")
+light_energy = 0.0
+light_duration = 0.0
+bullet_tracer_chance = 0.0
+decal_scene = ExtResource("5_6f6sj")
+impact_scene = ExtResource("8_4d4fg")
+recoil_cam_pitch = 0.0
+recoil_cam_yaw = 0.0
+recoil_model_kickback = 0.0
+recoil_model_rise = 0.0
+controller_scene = ExtResource("2_s7cmg")
+first_person_scene = ExtResource("4_q62b4")
+third_person_scene = ExtResource("8_vbiek")
+first_person_position = Vector3(0.14105655, -0.06323153, -0.18142417)
+first_person_aim_position = Vector3(0, -0.063, -0.181)
+vertical_lag_amount = 0.002
+display_name = "ITEM NAME Crowbar"
+description = "ITEM DESCRIPTION Crowbar"
+icon = SubResource("GradientTexture2D_8hv22")
+is_stacable = false
+weight = 3.0
+pickup_scene = "uid://cuikktpfjqv0"
+pickup_sound = ExtResource("9_kvykb")
+metadata/_custom_type_script = "uid://bjvp63efii4fn"

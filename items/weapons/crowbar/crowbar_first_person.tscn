@@ -1,0 +1,182 @@
+[gd_scene format=3 uid="uid://8pukftbjc5i1"]
+
+[ext_resource type="Script" uid="uid://3l8hkh0mdklm" path="res://systems/wieldables/first_person_wieldable.gd" id="1_eqg4r"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.58886385, 0.38416725, 9.62615e-08, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o05c6"]
+albedo_color = Color(0.53461653, 0, 0.03298853, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cw11i"]
+material = SubResource("StandardMaterial3D_o05c6")
+radius = 0.01
+height = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dr53j"]
+albedo_color = Color(0.24840015, 0.24840018, 0.24840015, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_qfox3"]
+material = SubResource("StandardMaterial3D_dr53j")
+radius = 0.01
+height = 0.04
+
+[sub_resource type="Animation" id="Animation_vgx7n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Meshes:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Meshes:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4shgo"]
+resource_name = "equip"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Meshes:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.34288663, 0.18877952), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Meshes:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.5707964, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wn77a"]
+resource_name = "fire"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Meshes:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.35, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.16088206, -0.017483043), Vector3(0, -0.22743602, -0.04079376), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Meshes:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.35, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.366225, 0, 0), Vector3(-1.0737028, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_iwwi5"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_lvwx2"]
+resource_name = "unequip"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Meshes:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.3510244, 0.18449575)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Meshes:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-1.5707964, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_or41q"]
+_data = {
+&"RESET": SubResource("Animation_vgx7n"),
+&"equip": SubResource("Animation_4shgo"),
+&"fire": SubResource("Animation_wn77a"),
+&"idle": SubResource("Animation_iwwi5"),
+&"unequip": SubResource("Animation_lvwx2")
+}
+
+[node name="Pistol" type="Node3D" unique_id=1327495288 node_paths=PackedStringArray("animation_player", "muzzle_flash")]
+script = ExtResource("1_eqg4r")
+animation_player = NodePath("AnimationPlayer")
+muzzle_flash = NodePath("")
+
+[node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
+transform = Transform3D(1, 0, 0, 0, 0.9999997, 0, 0, 0, 0.9999997, 0, 0, 0)
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Meshes" unique_id=34653514]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.047, 0.162)
+mesh = SubResource("CylinderMesh_bsiym")
+
+[node name="CrowbarMesh" type="Node3D" parent="Meshes/MeshInstance3D3" unique_id=957587932]
+transform = Transform3D(-1, -8.742269e-08, 3.821367e-15, 0, -4.3711346e-08, -0.999999, 8.742278e-08, -0.999999, 4.3711346e-08, 0, -0.15576991, -0.21341681)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes/MeshInstance3D3/CrowbarMesh" unique_id=1491478946]
+transform = Transform3D(0.9999999, -3.8482995e-11, 1.8339982e-09, -3.850431e-11, 0.99911916, 0.04195698, -1.8339981e-09, -0.041956984, 0.9991193, 1.110223e-16, 0.027999997, -0.035931084)
+mesh = SubResource("CapsuleMesh_cw11i")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Meshes/MeshInstance3D3/CrowbarMesh" unique_id=68871259]
+transform = Transform3D(0.99999964, -6.531481e-08, 2.6554625e-08, -5.686363e-08, -0.52444094, 0.85144657, -4.1685766e-08, -0.8514467, -0.52444094, 1.5851954e-08, 0.33265036, -0.029974775)
+mesh = SubResource("CapsuleMesh_qfox3")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Meshes/MeshInstance3D3/CrowbarMesh" unique_id=587931898]
+transform = Transform3D(0.99999946, -3.0500964e-08, 3.1399978e-08, -2.1919579e-08, 0.2720065, 0.96229506, -3.7891983e-08, -0.9622954, 0.2720063, 1.5851949e-08, 0.33265024, -0.00069318525)
+mesh = SubResource("CapsuleMesh_qfox3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2117961768]
+libraries/ = SubResource("AnimationLibrary_or41q")

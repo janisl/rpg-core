@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://wyjibbo6erog"]
+
+[ext_resource type="PackedScene" uid="uid://cojhl7nthk3w1" path="res://systems/combat/hit_scan_weapon.tscn" id="1_mqhcr"]
+[ext_resource type="Script" uid="uid://dnaa6jviy2lyx" path="res://systems/combat/melee_weapon.gd" id="2_a07ds"]
+
+[node name="MeleeWeapon" unique_id=2003787361 instance=ExtResource("1_mqhcr")]
+script = ExtResource("2_a07ds")

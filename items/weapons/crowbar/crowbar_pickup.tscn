@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://cuikktpfjqv0"]
+
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_61enk"]
+[ext_resource type="PackedScene" uid="uid://1xq4y42qkcur" path="res://systems/interaction/components/pickup_interaction.tscn" id="2_hsr45"]
+[ext_resource type="Resource" uid="uid://bkxlpqvuw4a1h" path="res://items/weapons/crowbar/crowbar.tres" id="3_yyxcs"]
+[ext_resource type="Script" uid="uid://ryjb8ge7pqnj" path="res://systems/inventory/item_stack.gd" id="4_bx5k5"]
+[ext_resource type="PackedScene" uid="uid://hb6a2o6ljd5q" path="res://systems/interaction/components/extended_pickup_interaction.tscn" id="5_6ys4h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jsee5"]
+albedo_color = Color(0.53461653, 0, 0.03298853, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_g3qyn"]
+material = SubResource("StandardMaterial3D_jsee5")
+radius = 0.01
+height = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kriu8"]
+albedo_color = Color(0.24840015, 0.24840018, 0.24840015, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_yyxcs"]
+material = SubResource("StandardMaterial3D_kriu8")
+radius = 0.01
+height = 0.04
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_18xq7"]
+size = Vector3(0.6256299, 0.02, 0.07940918)
+
+[sub_resource type="Resource" id="Resource_bsiym"]
+script = ExtResource("4_bx5k5")
+item = ExtResource("3_yyxcs")
+metadata/_custom_type_script = "uid://ryjb8ge7pqnj"
+
+[node name="Crowbar" type="RigidBody3D" unique_id=2029630907]
+collision_layer = 34
+collision_mask = 45
+mass = 3.0
+script = ExtResource("1_61enk")
+
+[node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
+transform = Transform3D(-4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 0, 0, 0.9999999, -0.033, 0, 0.03)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=96319735]
+transform = Transform3D(0.9999999, -3.8482995e-11, 1.8339982e-09, -3.850431e-11, 0.99911916, 0.04195698, -1.8339981e-09, -0.041956984, 0.9991193, 1.110223e-16, 0.027999997, -0.035931084)
+mesh = SubResource("CapsuleMesh_g3qyn")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Meshes" unique_id=1199806293]
+transform = Transform3D(0.99999964, -6.531481e-08, 2.6554625e-08, -5.686363e-08, -0.52444094, 0.85144657, -4.1685766e-08, -0.8514467, -0.52444094, 1.5851954e-08, 0.33265036, -0.029974775)
+mesh = SubResource("CapsuleMesh_yyxcs")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Meshes" unique_id=1396657989]
+transform = Transform3D(0.99999946, -3.0500964e-08, 3.1399978e-08, -2.1919579e-08, 0.2720065, 0.96229506, -3.7891983e-08, -0.9622954, 0.2720063, 1.5851949e-08, 0.33265024, -0.00069318525)
+mesh = SubResource("CapsuleMesh_yyxcs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=112048275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06853271, 0, 0.009123541)
+shape = SubResource("BoxShape3D_18xq7")
+
+[node name="PickupInteraction" parent="." unique_id=2017310821 instance=ExtResource("2_hsr45")]
+item_stack = SubResource("Resource_bsiym")
+
+[node name="ExtendedPickupInteraction" parent="." unique_id=728078588 instance=ExtResource("5_6ys4h")]
