@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://li5ryexfavom"]
 
 [ext_resource type="Script" uid="uid://ni25kqrant6d" path="res://ui/in_game_screen/in_game_screen.gd" id="1_kbxrr"]
+[ext_resource type="PackedScene" uid="uid://cg7g7edvnesgr" path="res://ui/in_game_screen/inventory_list.tscn" id="2_kbxrr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lihay"]
 bg_color = Color(0, 0, 0, 0.49411765)
@@ -24,16 +25,12 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.7058824)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=2014713029]
+[node name="InventoryList" parent="." unique_id=1345309669 instance=ExtResource("2_kbxrr")]
 layout_mode = 0
-offset_left = 61.0
-offset_top = 61.0
-offset_right = 881.0
-offset_bottom = 1027.0
-
-[node name="SlotsContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=735540642]
-unique_name_in_owner = true
-layout_mode = 2
+offset_left = 76.0
+offset_top = 60.0
+offset_right = 896.0
+offset_bottom = 1026.0
 
 [node name="DetailslContainer" type="ScrollContainer" parent="." unique_id=1684081375]
 layout_mode = 0
@@ -97,6 +94,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Drop"
 
+[connection signal="item_selected" from="InventoryList" to="." method="_on_inventory_list_item_selected"]
 [connection signal="pressed" from="DetailslContainer/MarginContainer/VBoxContainer/EquipButton" to="." method="_on_equip_button_pressed"]
 [connection signal="pressed" from="DetailslContainer/MarginContainer/VBoxContainer/UnequipButton" to="." method="_on_unequip_button_pressed"]
 [connection signal="pressed" from="DetailslContainer/MarginContainer/VBoxContainer/UseButton" to="." method="_on_use_button_pressed"]
