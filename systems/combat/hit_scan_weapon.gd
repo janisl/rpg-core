@@ -7,8 +7,6 @@ const BULLET_TRACER = preload("uid://lbvs8vldbgts")
 
 
 func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
-	var space_state := get_world_3d().direct_space_state
-
 	EffectsManager.spawn_light_flash(from, _weapon_data.light_color, _weapon_data.light_energy, _weapon_data.light_duration)
 	_play_attack_sound(from)
 
@@ -21,23 +19,29 @@ func _perform_attack(from: Vector3, fire_direction: Vector3) -> void:
 		if pellet_count > 1:
 			direction += _get_spread_delta(fire_direction, _weapon_data.spread_angle * _get_spread_multiplier())
 
-		var to := from + direction * _weapon_data.weapon_range
+		_cast_ray(from, direction)
 
-		var query := PhysicsRayQueryParameters3D.create(from, to)
-		query.collision_mask = hit_scan_collision_mask
-		query.exclude = [ _item_owner.get_rid() ]
-		var result := space_state.intersect_ray(query)
 
-		if randf() < _weapon_data.bullet_tracer_chance:
-			_spawn_tracer(from, result.position if result else to)
-		if not result:
-			continue
+func _cast_ray(from: Vector3, direction: Vector3) -> void:
+	var space_state := get_world_3d().direct_space_state
 
-		_spawn_impact_effects(result)
-		_apply_damage_to_target(result, direction)
+	var to := from + direction * _weapon_data.weapon_range
 
-		if result.collider is RigidBody3D:
-			result.collider.apply_impulse(-result.normal * 5.0 / result.collider.mass, result.position - result.collider.global_position)
+	var query := PhysicsRayQueryParameters3D.create(from, to)
+	query.collision_mask = hit_scan_collision_mask
+	query.exclude = [ _item_owner.get_rid() ]
+	var result := space_state.intersect_ray(query)
+
+	if randf() < _weapon_data.bullet_tracer_chance:
+		_spawn_tracer(from, result.position if result else to)
+	if not result:
+		return
+
+	_spawn_impact_effects(result)
+	_apply_damage_to_target(result, direction)
+
+	if result.collider is RigidBody3D:
+		result.collider.apply_impulse(-result.normal * 5.0 / result.collider.mass, result.position - result.collider.global_position)
 
 
 func _apply_damage_to_target(result: Dictionary, direction: Vector3) -> void:

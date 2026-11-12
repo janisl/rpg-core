@@ -10,7 +10,9 @@ func spawn_decal(decal_scene: PackedScene, position: Vector3, normal: Vector3, p
 		return
 
 	if decal_pool.size() >= MAX_DECALS:
-		decal_pool.pop_front().queue_free()
+		var to_free: Node = decal_pool.pop_front()
+		if to_free:
+			to_free.queue_free()
 
 	var decal_instance : Decal = decal_scene.instantiate()
 	parent.add_child(decal_instance)

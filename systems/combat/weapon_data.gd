@@ -37,6 +37,10 @@ extends WieldableData
 @export var projectile_speed := 50.0
 @export var projectile_scene: PackedScene
 
+@export_group("Melee")
+@export var melee_rays := 3
+@export_range(0, 90, 0.1, "radians_as_degrees") var melee_range := deg_to_rad(30.0)
+
 @export_group("Recoil")
 @export_range(0, 90, 0.1, "radians_as_degrees") var recoil_cam_pitch := deg_to_rad(1.0)
 @export_range(0, 90, 0.1, "radians_as_degrees") var recoil_cam_yaw := deg_to_rad(0.25)
