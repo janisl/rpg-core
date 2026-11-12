@@ -301,6 +301,7 @@ func _on_health_attribute_died() -> void:
 	state_chart.set_expression_property(&"is_dead", true)
 	anim_tree_state.travel("Death")
 	wield_controller.switch_wieldable(null)
+	carry_controller.carried_object = null
 
 
 func _on_health_attribute_damage_taken(hit_info: HitInfo) -> void:
