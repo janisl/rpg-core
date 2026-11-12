@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://6yhwivjxhpvf"]
+
+[ext_resource type="Script" uid="uid://s3f0gwhot7my" path="res://systems/wieldables/third_person_wieldable.gd" id="1_r0xfa"]
+[ext_resource type="PackedScene" uid="uid://7f1hvxmn2lb8" path="res://effects/muzzle_flash/muzzle_flash.tscn" id="2_8inkh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0, 0.28893945, 0.2623827, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_dop1e"]
+material = SubResource("StandardMaterial3D_rdqwp")
+radius = 0.02
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qqjky"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_ujs7d"]
+material = SubResource("StandardMaterial3D_qqjky")
+inner_radius = 0.01
+outer_radius = 0.012
+
+[sub_resource type="Animation" id="Animation_vgx7n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Meshes:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Meshes:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wn77a"]
+resource_name = "fire"
+length = 0.5
+step = 0.05
+
+[sub_resource type="Animation" id="Animation_iwwi5"]
+resource_name = "idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_or41q"]
+_data = {
+&"RESET": SubResource("Animation_vgx7n"),
+&"fire": SubResource("Animation_wn77a"),
+&"idle": SubResource("Animation_iwwi5")
+}
+
+[node name="Grenade" type="Node3D" unique_id=1327495288 node_paths=PackedStringArray("animation_player", "muzzle_flash")]
+script = ExtResource("1_r0xfa")
+animation_player = NodePath("AnimationPlayer")
+muzzle_flash = NodePath("MuzzleFlash")
+
+[node name="Meshes" type="Node3D" parent="." unique_id=1796340923]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=1711212723]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_dop1e")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Meshes" unique_id=1509890400]
+transform = Transform3D(-0.0055292738, -0.8665425, -0.49907255, 0.9999387, -4.3708706e-08, -0.011078342, 0.009599833, -0.49910325, 0.86648947, 0.025164295, 0, 0.02563235)
+mesh = SubResource("TorusMesh_ujs7d")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2117961768]
+libraries/ = SubResource("AnimationLibrary_or41q")
+
+[node name="MuzzleFlash" parent="." unique_id=546064966 instance=ExtResource("2_8inkh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.036589243, -0.15508378)

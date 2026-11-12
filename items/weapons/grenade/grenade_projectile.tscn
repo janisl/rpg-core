@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://b2cgq77v4j7nw"]
+
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_704wm"]
+[ext_resource type="Script" uid="uid://bwwvm23vhe66h" path="res://systems/combat/projectile_controller.gd" id="2_5twdn"]
+[ext_resource type="PackedScene" uid="uid://c17xcvi36ce1i" path="res://effects/explosions/explosion_effect.tscn" id="3_704wm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6snve"]
+albedo_color = Color(0, 0.28893945, 0.2623827, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_bsiym"]
+material = SubResource("StandardMaterial3D_6snve")
+radius = 0.02
+height = 0.1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qqjky"]
+radius = 0.02
+height = 0.1
+
+[node name="GrenadePickup" type="RigidBody3D" unique_id=531163192]
+collision_layer = 16
+collision_mask = 45
+mass = 0.5
+script = ExtResource("1_704wm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=925246588]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_bsiym")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1471405415]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_qqjky")
+
+[node name="ProjectileController" type="Node" parent="." unique_id=666076916]
+script = ExtResource("2_5twdn")
+spawn_on_death = Array[PackedScene]([ExtResource("3_704wm")])
+metadata/_custom_type_script = "uid://bwwvm23vhe66h"
+
+[node name="Lifespan" type="Timer" parent="ProjectileController" unique_id=468744017]
+wait_time = 4.0
+one_shot = true

@@ -40,6 +40,7 @@ projectile_scene = ExtResource("2_l8b5j")
 controller_scene = ExtResource("3_wch0n")
 first_person_scene = ExtResource("4_da8ks")
 third_person_scene = ExtResource("8_efmtk")
+secondary_action = 1
 first_person_position = Vector3(0.14105655, -0.06323153, -0.18142417)
 first_person_aim_position = Vector3(0, -0.063, -0.181)
 aim_fov_multilier = 0.95

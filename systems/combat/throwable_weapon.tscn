@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dxl3jq3fi0sgg"]
+
+[ext_resource type="PackedScene" uid="uid://b6eda53ea0fae" path="res://systems/combat/projectile_weapon.tscn" id="1_txcqt"]
+[ext_resource type="Script" uid="uid://dovdf1co0bpsj" path="res://systems/combat/throwable_weapon.gd" id="2_0bsue"]
+
+[node name="ThrowableWeapon" unique_id=2003787361 instance=ExtResource("1_txcqt")]
+script = ExtResource("2_0bsue")

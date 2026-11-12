@@ -47,6 +47,7 @@ recoil_cam_pitch = 0.08726646259971647
 controller_scene = ExtResource("3_0jun3")
 first_person_scene = ExtResource("5_gfaep")
 third_person_scene = ExtResource("10_s8wen")
+secondary_action = 1
 first_person_position = Vector3(0.15307574, -0.1009149, -0.18142417)
 first_person_aim_position = Vector3(0, -0.101, -0.181)
 vertical_lag_amount = 0.001

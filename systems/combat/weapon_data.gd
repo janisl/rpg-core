@@ -8,6 +8,7 @@ extends WieldableData
 @export_range(0, 100) var aim_accuracy := 100
 @export var fire_offset := Vector3(0.1, -0.05, -0.1)
 @export var aim_fire_offset := Vector3(0.0, -0.05, -0.1)
+@export var prepare_attack_time := 0.0
 @export var fire_rate := 2.0
 @export var is_automatic := false
 

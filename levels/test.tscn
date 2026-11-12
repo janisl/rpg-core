@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://h63prh2hngne" path="res://items/consumables/strength_potion.tscn" id="18_8m07d"]
 [ext_resource type="PackedScene" uid="uid://cbtrf5bt881ri" path="res://items/weapons/pistol/pistol_pickup.tscn" id="18_fivcu"]
 [ext_resource type="PackedScene" uid="uid://c1w5e3ieei41o" path="res://items/weapons/shotgun/shotgun_pickup.tscn" id="19_b5wip"]
+[ext_resource type="PackedScene" uid="uid://dh75686jc3dg7" path="res://items/weapons/grenade/grenade_pickup.tscn" id="19_uyurq"]
 [ext_resource type="PackedScene" uid="uid://bmq87quw8icqf" path="res://items/weapons/laser/laser_pickup.tscn" id="20_70x8p"]
 [ext_resource type="Script" uid="uid://co3ihnup4mtgl" path="res://systems/levels/level_transition.gd" id="21_1w0m8"]
 [ext_resource type="PackedScene" uid="uid://u5kjeyq7rd1m" path="res://items/ammo/laser_ammo.tscn" id="21_uyurq"]
@@ -556,6 +557,15 @@ mesh = SubResource("BoxMesh_nylvy")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion/WeaponsTable4/StaticBody3D" unique_id=322362801]
 shape = SubResource("BoxShape3D_mteop")
 
+[node name="WeaponsTable5" type="MeshInstance3D" parent="NavigationRegion" unique_id=426750411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.5, 10)
+mesh = SubResource("BoxMesh_nylvy")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion/WeaponsTable5" unique_id=1184860573]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion/WeaponsTable5/StaticBody3D" unique_id=2075327995]
+shape = SubResource("BoxShape3D_mteop")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion" unique_id=1117447890]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 5)
 mesh = SubResource("BoxMesh_b4548")
@@ -802,6 +812,36 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 1.05, 8)
 
 [node name="StrengthPotion" parent="Pickups" unique_id=1548254880 instance=ExtResource("18_8m07d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.1, 8)
+
+[node name="GrenadePickup" parent="Pickups" unique_id=531163192 instance=ExtResource("19_uyurq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1.02, 10)
+
+[node name="GrenadePickup2" parent="Pickups" unique_id=1896954986 instance=ExtResource("19_uyurq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3, 1.02, 10)
+
+[node name="GrenadePickup3" parent="Pickups" unique_id=105849759 instance=ExtResource("19_uyurq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1.02, 10)
+
+[node name="GrenadePickup4" parent="Pickups" unique_id=1620321901 instance=ExtResource("19_uyurq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.02, 10)
+
+[node name="GrenadePickup5" parent="Pickups" unique_id=241176284 instance=ExtResource("19_uyurq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 1.02, 10)
+
+[node name="GrenadePickup6" parent="Pickups" unique_id=1851242626 instance=ExtResource("19_uyurq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 1.02, 10)
+
+[node name="GrenadePickup7" parent="Pickups" unique_id=1205691291 instance=ExtResource("19_uyurq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 1.02, 10)
+
+[node name="GrenadePickup8" parent="Pickups" unique_id=1797589423 instance=ExtResource("19_uyurq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9, 1.02, 10)
+
+[node name="GrenadePickup9" parent="Pickups" unique_id=696767064 instance=ExtResource("19_uyurq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.02, 10)
+
+[node name="GrenadePickup10" parent="Pickups" unique_id=1072353023 instance=ExtResource("19_uyurq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.02, 10)
 
 [node name="Decorations" type="Node3D" parent="." unique_id=211340265]
 

@@ -35,7 +35,7 @@ var _unequip_timer := 0.0
 
 
 func _physics_process(delta: float) -> void:
-	if _wieldable_data.uses_aiming:
+	if _wieldable_data.secondary_action == WieldableData.SecondaryAction.AIM:
 		_update_aim_fraction(delta)
 
 

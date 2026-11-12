@@ -1,13 +1,19 @@
 class_name WieldableData
 extends ItemData
 
+enum SecondaryAction {
+	NONE,
+	AIM,
+	ABORT,
+}
+
 @export_group("Scenes")
 @export var controller_scene: PackedScene
 @export var first_person_scene: PackedScene
 @export var third_person_scene: PackedScene
 
 @export_group("Positioning and aiming")
-@export var uses_aiming := true
+@export var secondary_action := SecondaryAction.NONE
 @export var first_person_position := Vector3.ZERO
 @export var first_person_aim_position := Vector3.ZERO
 @export var aim_speed := 4.0

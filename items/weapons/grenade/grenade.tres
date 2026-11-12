@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://bwiek5jifpt1p"]
+
+[ext_resource type="Script" uid="uid://bmgq6ppgbrqsa" path="res://systems/combat/ammo_data.gd" id="1_x0f8i"]
+[ext_resource type="Script" uid="uid://bjvp63efii4fn" path="res://systems/combat/weapon_data.gd" id="2_3pal6"]
+[ext_resource type="AudioStream" uid="uid://wllyvfxmffj5" path="res://assets/sounds/kenney_ui-audio/click3.ogg" id="2_32onr"]
+[ext_resource type="PackedScene" uid="uid://dxl3jq3fi0sgg" path="res://systems/combat/throwable_weapon.tscn" id="2_bhebp"]
+[ext_resource type="PackedScene" uid="uid://bolannbddvv15" path="res://items/weapons/grenade/grenade_first_person.tscn" id="3_gshwq"]
+[ext_resource type="PackedScene" uid="uid://b2cgq77v4j7nw" path="res://items/weapons/grenade/grenade_projectile.tscn" id="5_gshwq"]
+[ext_resource type="PackedScene" uid="uid://6yhwivjxhpvf" path="res://items/weapons/grenade/grenade_third_person.tscn" id="6_ucf6w"]
+
+[sub_resource type="Gradient" id="Gradient_x0f8i"]
+offsets = PackedFloat32Array(0.34584013, 0.43230015, 0.6084829, 0.6769984)
+colors = PackedColorArray(0, 0.33333334, 0.16862746, 0, 0, 0.33397552, 0.16788948, 1, 0, 0.33397552, 0.16788948, 1, 0, 0.33333334, 0.16862746, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1k4dr"]
+gradient = SubResource("Gradient_x0f8i")
+fill_to = Vector2(1, 1)
+
+[resource]
+script = ExtResource("2_3pal6")
+weapon_range = 30.0
+damage = 40.0
+accuracy = 70
+fire_offset = Vector3(0.3, 0.1, 0)
+prepare_attack_time = 0.5
+light_energy = 0.0
+light_duration = 0.0
+projectile_scene = ExtResource("5_gshwq")
+recoil_cam_pitch = 0.0
+recoil_cam_yaw = 0.0
+recoil_model_kickback = 0.0
+recoil_model_rise = 0.0
+controller_scene = ExtResource("2_bhebp")
+first_person_scene = ExtResource("3_gshwq")
+third_person_scene = ExtResource("6_ucf6w")
+secondary_action = 2
+first_person_position = Vector3(0.04, -0.063, -0.181)
+vertical_lag_amount = 0.02
+display_name = "ITEM NAME Grenade"
+description = "ITEM DESCRIPTION Grenade"
+icon = SubResource("GradientTexture2D_1k4dr")
+weight = 0.5
+pickup_scene = "uid://dh75686jc3dg7"
+pickup_sound = ExtResource("2_32onr")
+metadata/_custom_type_script = "uid://bjvp63efii4fn"
