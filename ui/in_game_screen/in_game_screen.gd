@@ -31,13 +31,11 @@ func show_screen() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	_selected_item = null
 	detailsl_container.hide()
-	inventory_list.recreate_slots()
 
 
 func hide_screen() -> void:
 	visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	inventory_list.clear()
 
 
 func _on_inventory_list_item_selected(item: ItemStack) -> void:
