@@ -2,6 +2,9 @@ class_name Inventory
 extends Node
 
 signal changed
+signal stack_added(stack: ItemStack)
+signal stack_updated(stack: ItemStack)
+signal stack_removed(stack: ItemStack)
 
 @export var slots: Array[ItemStack]
 
@@ -36,11 +39,13 @@ func add_stack(stack: ItemStack) -> ItemStack:
 
 		slots[i].amount += stack.amount
 		slots[i].emit_changed()
+		stack_updated.emit(slots[i])
 		changed.emit()
 		return slots[i]
 
 	var new_stack := stack.duplicate_deep()
 	slots.append(new_stack)
+	stack_added.emit(new_stack)
 	changed.emit()
 	return new_stack
 
@@ -59,9 +64,12 @@ func remove_item(item: ItemData, amount := 1, exact: bool = true) -> bool:
 
 		var removed_amount := mini(stack.amount, amount)
 		stack.amount -= removed_amount
-		if not stack.is_valid:
-			slots.erase(i)
 		stack.emit_changed()
+		if stack.is_valid:
+			stack_updated.emit(stack)
+		else:
+			slots.erase(stack)
+			stack_removed.emit(stack)
 
 		changed.emit()
 		return removed_amount == amount
@@ -70,7 +78,10 @@ func remove_item(item: ItemData, amount := 1, exact: bool = true) -> bool:
 
 
 func remove_stack(item_stack: ItemStack) -> void:
+	if not item_stack in slots:
+		return
 	slots.erase(item_stack)
+	stack_removed.emit(item_stack)
 	changed.emit()
 
 
@@ -98,9 +109,12 @@ func use_item(item_stack: ItemStack) -> void:
 
 
 func take_all_items(target_inventory: Inventory) -> void:
-	for slot in slots:
-		target_inventory.add_stack(slot)
+	var taken := slots.duplicate()
 	slots.clear()
+	for slot in taken:
+		target_inventory.add_stack(slot)
+		stack_removed.emit(slot)
+	changed.emit()
 
 
 func _can_stack(index: int, stack: ItemStack) -> bool:
