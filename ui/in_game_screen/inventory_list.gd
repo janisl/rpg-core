@@ -39,11 +39,28 @@ func _add_slot(stack: ItemStack) -> void:
 	if _slot_controls.has(stack):
 		return
 	var slot := ITEM_SLOT_CONTROL.instantiate() as ItemSlotControl
+	var index := _sorted_index(stack)
 	slots_container.add_child(slot)
+	slots_container.move_child(slot, index)
 	slot.init(stack)
 	slot.mouse_entered.connect(_on_item_selected.bind(stack))
 	slot.clicked.connect(_on_item_clicked)
 	_slot_controls[stack] = slot
+
+
+func _sorted_index(stack: ItemStack) -> int:
+	var key := _sort_key(stack)
+	for child in slots_container.get_children():
+		var other := child as ItemSlotControl
+		if other.is_queued_for_deletion() or not other.stack:
+			continue
+		if _sort_key(other.stack) > key:
+			return child.get_index()
+	return slots_container.get_child_count()
+
+
+func _sort_key(stack: ItemStack) -> String:
+	return tr(stack.item.display_name).to_lower()
 
 
 func _on_stack_added(stack: ItemStack) -> void:

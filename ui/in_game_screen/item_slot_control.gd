@@ -4,6 +4,8 @@ extends PanelContainer
 signal clicked(item_stack: ItemStack)
 
 var _stack: ItemStack
+var stack: ItemStack:
+	get: return _stack
 
 @onready var item_icon: TextureRect = %ItemIcon
 @onready var name_label: Label = %NameLabel
