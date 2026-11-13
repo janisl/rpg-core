@@ -12,3 +12,6 @@ signal load_level_finished
 signal interactable_changed
 
 signal show_notification(text: String)
+
+signal in_game_screen_shown(screen: Control)
+signal in_game_screen_closed(screen: Control)

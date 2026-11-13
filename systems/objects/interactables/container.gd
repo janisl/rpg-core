@@ -2,12 +2,16 @@
 class_name InteractableContainer
 extends DynamicObject
 
+const EXTERNAL_IVENTORY = preload("uid://dm6b1w6fv1h34")
+
 signal object_state_updated(interaction_text: String)
 
 @export_group("Container Settings")
 @export var inventory: Inventory
 @export var text_when_closed := "INTERACT Open"
 @export var text_when_open := "INTERACT Close"
+
+var _screen: Control
 
 
 func _ready() -> void:
@@ -16,6 +20,7 @@ func _ready() -> void:
 		return
 
 	object_state_updated.emit(text_when_closed)
+	EventBus.in_game_screen_closed.connect(_on_screen_closed)
 
 
 func load_state(state: Dictionary) -> void:
@@ -24,4 +29,13 @@ func load_state(state: Dictionary) -> void:
 
 
 func interact(player: Player) -> void:
-	UserInterface.show_loot_inventory(player, inventory)
+	if _screen:
+		UserInterface.close_in_game_screen()
+	else:
+		_screen = UserInterface.show_in_game_screen(EXTERNAL_IVENTORY)
+		_screen.initialize(player, inventory)
+
+
+func _on_screen_closed(screen: Control) -> void:
+	if _screen and screen == _screen:
+		screen = null
