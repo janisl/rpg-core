@@ -36,6 +36,9 @@ func show_in_game_screen(scene: PackedScene) -> Control:
 
 
 func close_in_game_screen() -> void:
+	if not _current_in_game_screen:
+		return
+
 	EventBus.in_game_screen_closed.emit(_current_in_game_screen)
 	_current_in_game_screen.queue_free()
 	_current_in_game_screen = null
