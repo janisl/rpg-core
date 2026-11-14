@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://dh5ri0p4xtaey"]
+
+[ext_resource type="Script" uid="uid://d3ih8pt4tlcsc" path="res://systems/objects/interactables/switch.gd" id="1_5gmm4"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="2_sjhh3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.5885638, 0.25343236, 3.85046e-07, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(0.1, 0.2, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sjhh3"]
+albedo_color = Color(0.26050612, 0.26050615, 0.26050612, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bsiym"]
+material = SubResource("StandardMaterial3D_sjhh3")
+top_radius = 0.005
+bottom_radius = 0.005
+height = 0.1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
+size = Vector3(0.1, 0.2, 0.1)
+
+[sub_resource type="Animation" id="Animation_wyfsd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.5235988, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_1oouu"]
+resource_name = "switch_off"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-2.6179938, 0, 0), Vector3(-0.5235988, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xocfm"]
+resource_name = "switch_on"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.5235988, 0, 0), Vector3(-2.6179938, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_myp6b"]
+_data = {
+&"RESET": SubResource("Animation_wyfsd"),
+&"switch_off": SubResource("Animation_1oouu"),
+&"switch_on": SubResource("Animation_xocfm")
+}
+
+[node name="Lever" type="StaticBody3D" unique_id=1934225552]
+script = ExtResource("1_5gmm4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1071809095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.025)
+mesh = SubResource("BoxMesh_bsiym")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1250578478]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 0, 0)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=155106213]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("CylinderMesh_bsiym")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=442064414]
+shape = SubResource("BoxShape3D_bsiym")
+
+[node name="BasicInteraction" parent="." unique_id=14951234 instance=ExtResource("2_sjhh3")]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1386526595]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=223772400]
+libraries/ = SubResource("AnimationLibrary_myp6b")
