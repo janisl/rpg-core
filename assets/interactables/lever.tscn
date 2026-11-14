@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d3ih8pt4tlcsc" path="res://systems/objects/interactables/switch.gd" id="1_5gmm4"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="2_sjhh3"]
+[ext_resource type="AudioStream" uid="uid://b883ggoiwdiji" path="res://assets/sounds/kenney_ui-audio/switch1.ogg" id="2_wyfsd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
 albedo_color = Color(0.5885638, 0.25343236, 3.85046e-07, 1)
@@ -76,11 +77,13 @@ _data = {
 &"switch_on": SubResource("Animation_xocfm")
 }
 
-[node name="Lever" type="StaticBody3D" unique_id=1934225552 node_paths=PackedStringArray("animation_player")]
+[node name="Lever" type="StaticBody3D" unique_id=1934225552 node_paths=PackedStringArray("animation_player", "audio_stream_player_3d")]
 script = ExtResource("1_5gmm4")
 animation_player = NodePath("AnimationPlayer")
 anim_when_switched_on = "switch_on"
 anim_when_switched_off = "switch_off"
+audio_stream_player_3d = NodePath("AudioStreamPlayer3D")
+switch_sound = ExtResource("2_wyfsd")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1071809095]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.025)

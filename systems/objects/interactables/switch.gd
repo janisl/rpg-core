@@ -5,6 +5,7 @@ extends DynamicObject
 signal object_state_updated(interaction_text: String)
 signal switched(is_on: bool)
 
+@export_group("Switch Settings")
 @export var is_on := false
 @export var nodes_to_show_when_on: Array[Node]
 @export var nodes_to_hide_when_on: Array[Node]
@@ -21,9 +22,21 @@ signal switched(is_on: bool)
 @export var anim_when_switched_off: String
 @export var animation_speed := 1.0
 
+@export_group("Audio")
+@export var audio_stream_player_3d: AudioStreamPlayer3D
+@export var switch_sound: AudioStream
+
 
 func _ready() -> void:
 	super()
+
+	if !audio_stream_player_3d:
+		var players := find_children("", "AudioStreamPlayer3D")
+		if len(players) > 0:
+			audio_stream_player_3d = players[0]
+
+	if audio_stream_player_3d:
+		audio_stream_player_3d.stream = switch_sound
 
 	if is_on:
 		_switch_on()
@@ -48,6 +61,9 @@ func interact(player: Player) -> void:
 
 
 func _switch(player: Player) -> void:
+	if audio_stream_player_3d:
+		audio_stream_player_3d.play()
+
 	if is_on:
 		_switch_off()
 	else:
