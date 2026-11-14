@@ -12,6 +12,8 @@ signal switched(is_on: bool)
 @export_group("Interaction Settings")
 @export var interaction_text_when_on := "INTERACT Off"
 @export var interaction_text_when_off := "INTERACT On"
+@export var objects_call_interact: Array[NodePath]
+@export var objects_call_delay := 0.0
 
 @export_group("Animation Settings")
 @export var animation_player: AnimationPlayer
@@ -51,6 +53,8 @@ func _switch(player: Player) -> void:
 	else:
 		_switch_on()
 
+	_call_interact_on_objects(player)
+
 
 func _switch_on() -> void:
 	if animation_player:
@@ -87,3 +91,13 @@ func _set_visibility_state() -> void:
 
 		for node in nodes_to_hide_when_on:
 			node.show()
+
+
+func _call_interact_on_objects(player: Player) -> void:
+	if !objects_call_interact:
+		return
+	for nodepath in objects_call_interact:
+		await get_tree().create_timer(objects_call_delay).timeout
+		if nodepath:
+			var object := get_node(nodepath)
+			object.interact(player)

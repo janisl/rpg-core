@@ -328,11 +328,15 @@ inventory_respawning_logic = 1
 
 [node name="Lever" parent="SwitchesAndButtons" unique_id=1934225552 instance=ExtResource("31_h56rt")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.15, 1.5, -6.5)
+objects_call_interact = Array[NodePath]([NodePath("../IndicatorLamp3")])
 
 [node name="LightzoneComponent" parent="SwitchesAndButtons" unique_id=880632074 instance=ExtResource("32_0aeba")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.5, -6.5)
 
-[node name="IndicatorLamp" parent="SwitchesAndButtons" unique_id=836121470 instance=ExtResource("33_e6nsv")]
+[node name="IndicatorLamp3" parent="SwitchesAndButtons" unique_id=836121470 instance=ExtResource("33_e6nsv")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, 2.5, -6.5)
+
+[node name="IndicatorLamp" parent="SwitchesAndButtons" unique_id=610983543 instance=ExtResource("33_e6nsv")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, 2.5, -7.5)
 
 [node name="BasicButton" parent="SwitchesAndButtons" unique_id=314984277 instance=ExtResource("34_agba6")]
