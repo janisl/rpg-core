@@ -9,6 +9,9 @@ signal pressed
 @export var press_sound: AudioStream
 @export var press_cooldown_time := 1.0
 @export var has_been_used_hint: String
+@export var needs_item_to_operate := false
+@export var required_item: ItemData
+@export var item_hint: String
 
 @export_group("Interaction Settings")
 @export var allows_repeated_interaction := true
@@ -19,6 +22,13 @@ signal pressed
 
 var _has_been_used := false
 var _cooldown: float
+
+
+func _ready() -> void:
+	super()
+
+	var interaction_text := usable_interaction_text
+	object_state_updated.emit(interaction_text)
 
 
 func _physics_process(delta: float) -> void:
@@ -48,6 +58,9 @@ func interact(player: Player) -> void:
 			EventBus.show_notification.emit(has_been_used_hint)
 		return
 
+	if needs_item_to_operate and not _check_for_item(player):
+		return
+
 	pressed.emit()
 	AudioManager.play_sound_3d(press_sound, global_position)
 
@@ -72,3 +85,14 @@ func _call_linked_interact(player: Player) -> void:
 
 func _on_damage_taken(_hit_info: HitInfo) -> void:
 	interact(LevelManager.current_player)
+
+
+func _check_for_item(player: Player) -> bool:
+	if player.inventory.get_available_amount(required_item):
+		if required_item.discard_after_use:
+			player.inventory.remove_item(required_item)
+		return true
+
+	if item_hint:
+		EventBus.show_notification.emit(item_hint) # Sends the key hint with the default hint icon.
+	return false

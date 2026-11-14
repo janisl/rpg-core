@@ -9,6 +9,9 @@ signal switched(is_on: bool)
 @export var is_on := false
 @export var nodes_to_show_when_on: Array[Node]
 @export var nodes_to_hide_when_on: Array[Node]
+@export var needs_item_to_operate := false
+@export var required_item: ItemData
+@export var item_hint: String
 
 @export_group("Interaction Settings")
 @export var interaction_text_when_on := "INTERACT Off"
@@ -25,6 +28,8 @@ signal switched(is_on: bool)
 @export_group("Audio")
 @export var audio_stream_player_3d: AudioStreamPlayer3D
 @export var switch_sound: AudioStream
+
+var _is_holding_item := false
 
 
 func _ready() -> void:
@@ -47,16 +52,27 @@ func _ready() -> void:
 func save_state() -> Dictionary:
 	var state := super()
 	state[&"is_on"] = is_on
+	state[&"is_holding_item"] = _is_holding_item
 	return state
 
 
 func load_state(state: Dictionary) -> void:
 	super(state)
 	is_on = state.get(&"is_on", false)
+	_is_holding_item = state.get(&"is_holding_item", false)
 	_set_visibility_state()
 
 
 func interact(player: Player) -> void:
+	if needs_item_to_operate:
+		if _is_holding_item:
+			player.inventory.add_item(required_item)
+			_is_holding_item = false
+		else:
+			if not _check_for_item(player):
+				return
+			_is_holding_item = true
+
 	_switch(player)
 
 
@@ -121,3 +137,12 @@ func _call_interact_on_objects(player: Player) -> void:
 
 func _on_damage_taken(_hit_info: HitInfo) -> void:
 	interact(LevelManager.current_player)
+
+
+func _check_for_item(player: Player) -> bool:
+	if player.inventory.remove_item(required_item):
+		return true
+
+	if item_hint:
+		EventBus.show_notification.emit(item_hint)
+	return false

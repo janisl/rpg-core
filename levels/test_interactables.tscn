@@ -32,6 +32,7 @@
 [ext_resource type="PackedScene" uid="uid://k0htvnxa1y60" path="res://assets/interactables/loot_chest.tscn" id="30_grnd0"]
 [ext_resource type="PackedScene" uid="uid://dh5ri0p4xtaey" path="res://assets/interactables/lever.tscn" id="31_h56rt"]
 [ext_resource type="PackedScene" uid="uid://ctr7n0w3hgys7" path="res://systems/attributes/areas/lightzone_component.tscn" id="32_0aeba"]
+[ext_resource type="Resource" uid="uid://pdxuupchn4xf" path="res://items/keys/key2.tres" id="33_5meya"]
 [ext_resource type="PackedScene" uid="uid://o3sxwr62t25n" path="res://assets/interactables/indicator_lamp.tscn" id="33_e6nsv"]
 [ext_resource type="PackedScene" uid="uid://ykywtyn6wovp" path="res://assets/interactables/basic_button.tscn" id="34_agba6"]
 
@@ -326,34 +327,58 @@ inventory_respawning_logic = 1
 
 [node name="SwitchesAndButtons" type="Node3D" parent="." unique_id=1877373800]
 
-[node name="Lever" parent="SwitchesAndButtons" unique_id=1934225552 instance=ExtResource("31_h56rt")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.15, 1.5, -6.5)
-objects_call_interact = Array[NodePath]([NodePath("../IndicatorLamp3")])
-
-[node name="LightzoneComponent" parent="SwitchesAndButtons" unique_id=880632074 instance=ExtResource("32_0aeba")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.5, -6.5)
-
-[node name="IndicatorLamp3" parent="SwitchesAndButtons" unique_id=836121470 instance=ExtResource("33_e6nsv")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, 2.5, -6.5)
-
-[node name="IndicatorLamp" parent="SwitchesAndButtons" unique_id=610983543 instance=ExtResource("33_e6nsv")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, 2.5, -7.5)
-
 [node name="BasicButton" parent="SwitchesAndButtons" unique_id=314984277 instance=ExtResource("34_agba6")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.125, 1.5, -7.5)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.125, 1.5, -6.5)
 objects_call_interact = Array[NodePath]([NodePath("../IndicatorLamp")])
 
-[node name="IndicatorLamp2" parent="SwitchesAndButtons" unique_id=622353141 instance=ExtResource("33_e6nsv")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, 2.5, -8.5)
+[node name="IndicatorLamp" parent="SwitchesAndButtons" unique_id=610983543 instance=ExtResource("33_e6nsv")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, 2.5, -6.5)
+
+[node name="BasicButton3" parent="SwitchesAndButtons" unique_id=1130804625 instance=ExtResource("34_agba6")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.125, 1.5, -7.5)
+needs_item_to_operate = true
+required_item = ExtResource("33_5meya")
+item_hint = "You need key"
+objects_call_interact = Array[NodePath]([NodePath("../IndicatorLamp5")])
+objects_call_delay = 1.0
+
+[node name="IndicatorLamp5" parent="SwitchesAndButtons" unique_id=1131885342 instance=ExtResource("33_e6nsv")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, 2.5, -7.5)
 
 [node name="BasicButton2" parent="SwitchesAndButtons" unique_id=1421876279 instance=ExtResource("34_agba6")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.125, 1.5, -8.5)
 allows_repeated_interaction = false
 objects_call_interact = Array[NodePath]([NodePath("../IndicatorLamp2")])
 
+[node name="IndicatorLamp2" parent="SwitchesAndButtons" unique_id=622353141 instance=ExtResource("33_e6nsv")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, 2.5, -8.5)
+
+[node name="Lever" parent="SwitchesAndButtons" unique_id=1934225552 instance=ExtResource("31_h56rt")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.85, 1.5, -6.5)
+objects_call_interact = Array[NodePath]([NodePath("../IndicatorLamp3")])
+
+[node name="IndicatorLamp3" parent="SwitchesAndButtons" unique_id=836121470 instance=ExtResource("33_e6nsv")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.75, 2.5, -6.5)
+
+[node name="LightzoneComponent" parent="SwitchesAndButtons" unique_id=880632074 instance=ExtResource("32_0aeba")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.5, -6.5)
+
+[node name="Lever2" parent="SwitchesAndButtons" unique_id=593718659 instance=ExtResource("31_h56rt")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.85, 1.5, -7.5)
+is_on = true
+needs_item_to_operate = true
+required_item = ExtResource("33_5meya")
+item_hint = "You need key"
+objects_call_interact = Array[NodePath]([NodePath("../IndicatorLamp4")])
+objects_call_delay = 1.0
+
+[node name="IndicatorLamp4" parent="SwitchesAndButtons" unique_id=1746295219 instance=ExtResource("33_e6nsv")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.75, 2.5, -7.5)
+
 [connection signal="body_entered" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_entered"]
 [connection signal="body_exited" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_exited"]
 [connection signal="switched" from="SwitchesAndButtons/Lever" to="SwitchesAndButtons/LightzoneComponent/LightzoneSwitchComponent" method="_on_switched"]
+[connection signal="switched" from="SwitchesAndButtons/Lever2" to="SwitchesAndButtons/LightzoneComponent/LightzoneSwitchComponent" method="_on_switched"]
 
 [editable path="Doors/RotatingDoorWithTurnwheel"]
 [editable path="Doors/RotatingDoor2"]
