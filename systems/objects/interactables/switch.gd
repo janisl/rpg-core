@@ -10,6 +10,12 @@ signal object_state_updated(interaction_text: String)
 @export var interaction_text_when_on := "INTERACT Off"
 @export var interaction_text_when_off := "INTERACT On"
 
+@export_group("Animation Settings")
+@export var animation_player: AnimationPlayer
+@export var anim_when_switched_on: String
+@export var anim_when_switched_off: String
+@export var animation_speed := 1.0
+
 
 func _ready() -> void:
 	super()
@@ -43,10 +49,16 @@ func _switch(player: Player) -> void:
 
 
 func _switch_on() -> void:
+	if animation_player:
+		animation_player.play(anim_when_switched_on, -1, animation_speed)
+
 	is_on = true
 	object_state_updated.emit(interaction_text_when_on)
 
 
 func _switch_off() -> void:
+	if animation_player:
+		animation_player.play(anim_when_switched_off, -1, animation_speed)
+
 	is_on = false
 	object_state_updated.emit(interaction_text_when_off)

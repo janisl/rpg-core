@@ -76,8 +76,11 @@ _data = {
 &"switch_on": SubResource("Animation_xocfm")
 }
 
-[node name="Lever" type="StaticBody3D" unique_id=1934225552]
+[node name="Lever" type="StaticBody3D" unique_id=1934225552 node_paths=PackedStringArray("animation_player")]
 script = ExtResource("1_5gmm4")
+animation_player = NodePath("AnimationPlayer")
+anim_when_switched_on = "switch_on"
+anim_when_switched_off = "switch_off"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1071809095]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.025)
