@@ -4,6 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="2_5sfkv"]
 [ext_resource type="AudioStream" uid="uid://dwecmjc427wjw" path="res://assets/sounds/kenney_impact-sounds/impact_wood_medium_000.ogg" id="3_0df57"]
 [ext_resource type="AudioStream" uid="uid://dnnyvnppivtdp" path="res://assets/sounds/misc/853904__alexzavesa__boards-fall-4.wav" id="3_caev0"]
+[ext_resource type="Script" uid="uid://d2dr6c2kvr57f" path="res://systems/loot/loot_component.gd" id="5_nelre"]
+[ext_resource type="Script" uid="uid://bw38ep6ean3wy" path="res://systems/loot/loot_table_entry.gd" id="6_3f5kk"]
+[ext_resource type="Resource" uid="uid://8wv77e0i7ndt" path="res://items/ammo/pistol_ammo.tres" id="7_027yq"]
+[ext_resource type="Script" uid="uid://dj1uuvia16dhm" path="res://systems/loot/loot_table.gd" id="8_hqgfx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
 albedo_color = Color(0.33825946, 0.19281942, 9.62615e-08, 1)
@@ -12,6 +16,19 @@ albedo_color = Color(0.33825946, 0.19281942, 9.62615e-08, 1)
 material = SubResource("StandardMaterial3D_rdqwp")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_awh2e"]
+
+[sub_resource type="Resource" id="Resource_rdqwp"]
+script = ExtResource("6_3f5kk")
+item = ExtResource("7_027yq")
+droptype = 1
+quantity_min = 1
+quantity_max = 10
+metadata/_custom_type_script = "uid://bw38ep6ean3wy"
+
+[sub_resource type="Resource" id="Resource_bsiym"]
+script = ExtResource("8_hqgfx")
+drops = Array[ExtResource("6_3f5kk")]([SubResource("Resource_rdqwp")])
+metadata/_custom_type_script = "uid://dj1uuvia16dhm"
 
 [node name="DestructibleBox" type="StaticBody3D" unique_id=1172205483]
 script = ExtResource("1_caev0")
@@ -30,3 +47,9 @@ death_sound = ExtResource("3_caev0")
 free_on_death = Array[NodePath]([NodePath("..")])
 max_value = 20.0
 initial_value = 20.0
+
+[node name="LootComponent" type="Node3D" parent="." unique_id=1908822689 node_paths=PackedStringArray("health_component_to_monitor")]
+script = ExtResource("5_nelre")
+loot_table = SubResource("Resource_bsiym")
+health_component_to_monitor = NodePath("../HealthAttribute")
+metadata/_custom_type_script = "uid://d2dr6c2kvr57f"
