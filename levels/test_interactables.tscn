@@ -31,6 +31,7 @@
 [ext_resource type="Script" uid="uid://dj1uuvia16dhm" path="res://systems/loot/loot_table.gd" id="29_5meya"]
 [ext_resource type="PackedScene" uid="uid://k0htvnxa1y60" path="res://assets/interactables/loot_chest.tscn" id="30_grnd0"]
 [ext_resource type="PackedScene" uid="uid://dh5ri0p4xtaey" path="res://assets/interactables/lever.tscn" id="31_h56rt"]
+[ext_resource type="PackedScene" uid="uid://ctr7n0w3hgys7" path="res://systems/attributes/areas/lightzone_component.tscn" id="32_0aeba"]
 
 [sub_resource type="Environment" id="Environment_bsiym"]
 background_mode = 1
@@ -326,8 +327,12 @@ inventory_respawning_logic = 1
 [node name="Lever" parent="SwitchesAndButtons" unique_id=1934225552 instance=ExtResource("31_h56rt")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.15, 1.5, -6.5)
 
+[node name="LightzoneComponent" parent="SwitchesAndButtons" unique_id=880632074 instance=ExtResource("32_0aeba")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.5, -6.5)
+
 [connection signal="body_entered" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_entered"]
 [connection signal="body_exited" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_exited"]
+[connection signal="switched" from="SwitchesAndButtons/Lever" to="SwitchesAndButtons/LightzoneComponent/LightzoneSwitchComponent" method="_on_switched"]
 
 [editable path="Doors/RotatingDoorWithTurnwheel"]
 [editable path="Doors/RotatingDoor2"]
@@ -339,3 +344,4 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.15
 [editable path="AutoSittArea/RotatingDoor4"]
 [editable path="AutoSittArea/Chair2"]
 [editable path="Pickups/Pistol"]
+[editable path="SwitchesAndButtons/LightzoneComponent"]

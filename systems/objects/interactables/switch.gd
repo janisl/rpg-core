@@ -3,6 +3,7 @@ class_name Switch
 extends DynamicObject
 
 signal object_state_updated(interaction_text: String)
+signal switched(is_on: bool)
 
 @export var is_on := false
 
@@ -54,6 +55,7 @@ func _switch_on() -> void:
 
 	is_on = true
 	object_state_updated.emit(interaction_text_when_on)
+	switched.emit(is_on)
 
 
 func _switch_off() -> void:
@@ -62,3 +64,4 @@ func _switch_off() -> void:
 
 	is_on = false
 	object_state_updated.emit(interaction_text_when_off)
+	switched.emit(is_on)
