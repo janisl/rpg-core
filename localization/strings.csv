@@ -51,6 +51,7 @@ ATTRIBUTE Stamina,Stamina
 ATTRIBUTE Visibility,Visibility
 ATTRIBUTE Currency,Credits
 ATTRIBUTE Strength,Strength
+ATTRIBUTE Lockpicking,Lockpicking
 DOOR HINT Locked,Locked
 DOOR HINT Already open,Can't lock an open door
 DOOR HINT Key1,You need a magenta key to open this door

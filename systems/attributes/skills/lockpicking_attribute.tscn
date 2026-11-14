@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://4xkswbo5soh0"]
+
+[ext_resource type="Script" uid="uid://m3rm7ylw0et6" path="res://systems/attributes/base_attribute.gd" id="1_gjx6s"]
+
+[node name="LockpickingAttribute" type="Node" unique_id=2015746694]
+script = ExtResource("1_gjx6s")
+attribute_type = 6
+display_name = "ATTRIBUTE Lockpicking"
+max_value = 100.0
+initial_value = 1.0

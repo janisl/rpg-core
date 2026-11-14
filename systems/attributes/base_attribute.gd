@@ -8,6 +8,7 @@ enum AttributeType{
 	VISIBILITY = 3,
 	CURRENCY = 4,
 	STRENGTH = 5,
+	LOCKPICKING = 6,
 }
 
 enum ValueType { CURRENT, MAX }
