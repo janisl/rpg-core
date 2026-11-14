@@ -54,7 +54,7 @@ func check_attribute(player: Player) -> bool:
 		return true
 	else:
 		if message_on_fail and attribute_check == AttributeCheck.FAIL_MESSAGE:
-			EventBus.show_notification.emit(tr(message_on_fail))
+			EventBus.show_notification.emit(tr(message_on_fail) % min_value_to_pass)
 		return false
 
 

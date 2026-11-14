@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://dl4u0yhv6h1m6"]
+
+[ext_resource type="Script" uid="uid://ce6cx430jwqo1" path="res://ui/lockpick/lockpick_ui.gd" id="2_0lahd"]
+
+[node name="LockpickUI" type="Control" unique_id=430572442]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_0lahd")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=126694607]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 121.0
+offset_bottom = 20.0
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=715249242]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer" unique_id=340604000]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer" unique_id=1563631475]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=155988664]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ItemIconTexture" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer/MarginContainer" unique_id=334592268]
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+
+[node name="AmountLockpicks" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1442763967]
+layout_mode = 2
+theme_type_variation = &"PromptLabel"
+theme_override_font_sizes/font_size = 32
+text = "00"

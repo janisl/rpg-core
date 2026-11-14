@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bbt5twbnrlcfj" path="res://systems/interaction/components/lock_interaction.tscn" id="8_fqk0p"]
 [ext_resource type="Texture2D" uid="uid://ca7ll4tevvupe" path="res://assets/textures/kenney_prototype_textures/purple/texture_12.png" id="8_je61g"]
 [ext_resource type="PackedScene" uid="uid://bqp8nl7x2c37m" path="res://systems/interaction/components/dual_interaction.tscn" id="9_2idl7"]
+[ext_resource type="PackedScene" uid="uid://c826hdmv23gt6" path="res://systems/interaction/components/lockpick_interaction.tscn" id="12_e5iap"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bsiym"]
 size = Vector3(1.26, 2.12, 0.1)
@@ -55,6 +56,10 @@ is_disabled = true
 
 [node name="DualInteraction" parent="AnimatableBody3D" unique_id=1092888406 node_paths=PackedStringArray("hold_node") instance=ExtResource("9_2idl7")]
 hold_node = NodePath("../LockInteraction")
+
+[node name="LockpickInteraction" parent="AnimatableBody3D" unique_id=622002918 node_paths=PackedStringArray("doors_to_unlock") instance=ExtResource("12_e5iap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.63, 0, 0)
+doors_to_unlock = [NodePath("..")]
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=669111478]
 bus = &"SFX"

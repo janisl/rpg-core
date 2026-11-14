@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://c826hdmv23gt6"]
+
+[ext_resource type="Script" uid="uid://c5gn5id4mftv6" path="res://systems/interaction/components/lockpick_interaction.gd" id="1_l8avr"]
+[ext_resource type="PackedScene" uid="uid://c36qe573mrl5e" path="res://ui/lockpick/lockpick_minigame.tscn" id="2_umqru"]
+[ext_resource type="Resource" uid="uid://b8myk7uttl7en" path="res://items/lockpick.tres" id="3_8cohw"]
+
+[node name="LockpickInteraction" type="Node3D" unique_id=622002918]
+script = ExtResource("1_l8avr")
+lockpick_minigame = ExtResource("2_umqru")
+required_lockpick_item = ExtResource("3_8cohw")
+input_map_action = "interact2"
+interaction_text = "INTERACT Pick lock"
+attribute_to_check = 6
+min_value_to_pass = 1.0
+message_on_fail = "LOCKPICK HINT Skill required"
