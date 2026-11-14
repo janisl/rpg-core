@@ -53,7 +53,7 @@ var _sweet_spot := 0.0
 
 var _lockpick_attribute: BaseAttribute
 
-var _unlock_difficulty_modifier := 0.0
+var _unlock_difficulty_modifier := 1.0
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -68,16 +68,14 @@ func _ready() -> void:
 
 	_place_sweetspot()
 
+	EventBus.in_game_screen_closed.connect(_on_in_game_screen_closed)
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if not _is_turning_keyhole and not _is_changing_lockpicks and not _is_unlocked:
 			lockpick_pivot.rotate_z(-event.relative.x * lockpick_move_sensitivity)
 			lockpick_pivot.rotation.z = clampf(lockpick_pivot.rotation.z, deg_to_rad(-90), deg_to_rad(90))
-
-	if event.is_action_pressed("menu"):
-		get_viewport().set_input_as_handled()
-		cancelled.emit()
 
 
 func _physics_process(delta: float) -> void:
@@ -195,3 +193,8 @@ func _on_lockpick_break() -> void:
 		await animation_player.animation_finished
 
 	lockpick_broke.emit()
+
+
+func _on_in_game_screen_closed(_screen: Control) -> void:
+	if not _is_unlocked:
+		exit_game()

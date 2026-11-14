@@ -11,7 +11,7 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if _current_in_game_screen && event.is_action_pressed("ui_cancel"):
+	if _current_in_game_screen && event.is_action_pressed("menu"):
 		close_in_game_screen()
 		get_viewport().set_input_as_handled()
 
@@ -39,9 +39,10 @@ func close_in_game_screen() -> void:
 	if not _current_in_game_screen:
 		return
 
-	EventBus.in_game_screen_closed.emit(_current_in_game_screen)
-	_current_in_game_screen.queue_free()
+	var screen := _current_in_game_screen
 	_current_in_game_screen = null
+	EventBus.in_game_screen_closed.emit(screen)
+	screen.queue_free()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 

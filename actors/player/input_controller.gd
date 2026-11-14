@@ -27,12 +27,19 @@ var interact_just_pressed := false
 var interact2_pressed := false
 var interact2_just_pressed := false
 
+var _is_disabled := false
+
 
 func _ready() -> void:
 	process_physics_priority = 1
+	EventBus.in_game_screen_shown.connect(_on_in_game_screen_shown)
+	EventBus.in_game_screen_closed.connect(_on_in_game_screen_closed)
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _is_disabled:
+		return
+
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var input: Vector2
 		input.x = -event.relative.x * mouse_sensitivity
@@ -113,13 +120,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	jump_just_pressed = false
-	crouch_just_pressed = false
-	primary_action_just_pressed = false
-	reload_just_pressed = false
-	cycle_ammo_just_pressed = false
-	interact_just_pressed = false
-	interact2_just_pressed = false
+	_clear_just_pressed()
 
 
 func consume_look_delta() -> Vector2:
@@ -133,3 +134,41 @@ func _update_look_delta(input: Vector2) -> void:
 		input.y *= -1
 
 	look_delta += input
+
+
+func _on_in_game_screen_shown(_screen: Control) -> void:
+	_is_disabled = true
+	_clear()
+
+
+func _on_in_game_screen_closed(_screen: Control) -> void:
+	_is_disabled = false
+
+
+func _clear() -> void:
+	move_input = Vector2.ZERO
+	look_delta = Vector2.ZERO
+	_clear_pressed()
+	_clear_just_pressed()
+
+
+func _clear_pressed() -> void:
+	sprint_pressed = false
+	jump_pressed = false
+	crouch_pressed = false
+	primary_action_pressed = false
+	secondary_action_pressed = false
+	reload_pressed = false
+	cycle_ammo_pressed = false
+	interact_pressed = false
+	interact2_pressed = false
+
+
+func _clear_just_pressed() -> void:
+	jump_just_pressed = false
+	crouch_just_pressed = false
+	primary_action_just_pressed = false
+	reload_just_pressed = false
+	cycle_ammo_just_pressed = false
+	interact_just_pressed = false
+	interact2_just_pressed = false
