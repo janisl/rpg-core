@@ -375,10 +375,20 @@ objects_call_delay = 1.0
 [node name="IndicatorLamp4" parent="SwitchesAndButtons" unique_id=1746295219 instance=ExtResource("33_e6nsv")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.75, 2.5, -7.5)
 
+[node name="Lever3" parent="SwitchesAndButtons" unique_id=1817217772 instance=ExtResource("31_h56rt")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.85, 1.5, -8.5)
+has_been_used_hint = "Already used"
+allows_repeated_interaction = false
+objects_call_interact = Array[NodePath]([NodePath("../IndicatorLamp6")])
+
+[node name="IndicatorLamp6" parent="SwitchesAndButtons" unique_id=582762778 instance=ExtResource("33_e6nsv")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.75, 2.5, -8.5)
+
 [connection signal="body_entered" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_entered"]
 [connection signal="body_exited" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_exited"]
 [connection signal="switched" from="SwitchesAndButtons/Lever" to="SwitchesAndButtons/LightzoneComponent/LightzoneSwitchComponent" method="_on_switched"]
 [connection signal="switched" from="SwitchesAndButtons/Lever2" to="SwitchesAndButtons/LightzoneComponent/LightzoneSwitchComponent" method="_on_switched"]
+[connection signal="switched" from="SwitchesAndButtons/Lever3" to="SwitchesAndButtons/LightzoneComponent/LightzoneSwitchComponent" method="_on_switched"]
 
 [editable path="Doors/RotatingDoorWithTurnwheel"]
 [editable path="Doors/RotatingDoor2"]

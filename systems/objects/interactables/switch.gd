@@ -12,8 +12,10 @@ signal switched(is_on: bool)
 @export var needs_item_to_operate := false
 @export var required_item: ItemData
 @export var item_hint: String
+@export var has_been_used_hint: String
 
 @export_group("Interaction Settings")
+@export var allows_repeated_interaction := true
 @export var interaction_text_when_on := "INTERACT Off"
 @export var interaction_text_when_off := "INTERACT On"
 @export var objects_call_interact: Array[NodePath]
@@ -64,6 +66,10 @@ func load_state(state: Dictionary) -> void:
 
 
 func interact(player: Player) -> void:
+	if !allows_repeated_interaction and is_on:
+		EventBus.show_notification.emit(tr(has_been_used_hint))
+		return
+
 	if needs_item_to_operate:
 		if _is_holding_item:
 			player.inventory.add_item(required_item)

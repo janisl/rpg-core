@@ -26,7 +26,6 @@ NPCs
 Environment
 - hit boxes
 - drowning
-- buttons, switches
 
 Systems
 - crafting

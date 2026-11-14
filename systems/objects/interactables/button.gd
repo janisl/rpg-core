@@ -8,10 +8,10 @@ signal pressed
 @export_group("Button Settings")
 @export var press_sound: AudioStream
 @export var press_cooldown_time := 1.0
-@export var has_been_used_hint: String
 @export var needs_item_to_operate := false
 @export var required_item: ItemData
 @export var item_hint: String
+@export var has_been_used_hint: String
 
 @export_group("Interaction Settings")
 @export var allows_repeated_interaction := true
@@ -55,7 +55,7 @@ func interact(player: Player) -> void:
 
 	if !allows_repeated_interaction and _has_been_used:
 		if has_been_used_hint:
-			EventBus.show_notification.emit(has_been_used_hint)
+			EventBus.show_notification.emit(tr(has_been_used_hint))
 		return
 
 	if needs_item_to_operate and not _check_for_item(player):
