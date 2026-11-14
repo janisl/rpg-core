@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://dmm1368oglfp0" path="res://actors/player/player.tscn" id="2_k2k1l"]
 [ext_resource type="PackedScene" uid="uid://u5kjeyq7rd1m" path="res://items/ammo/laser_ammo.tscn" id="3_0gdhd"]
 [ext_resource type="PackedScene" uid="uid://b16alro8fspcn" path="res://items/ammo/pistol_ammo.tscn" id="4_m0x41"]
-[ext_resource type="PackedScene" uid="uid://crytf2marbeak" path="res://props/exploding_barrel.tscn" id="5_v2h5b"]
-[ext_resource type="PackedScene" uid="uid://cj1cbhi5vwsb5" path="res://props/destructible_box.tscn" id="6_px0vi"]
+[ext_resource type="PackedScene" uid="uid://crytf2marbeak" path="res://assets/props/exploding_barrel.tscn" id="5_v2h5b"]
+[ext_resource type="PackedScene" uid="uid://cj1cbhi5vwsb5" path="res://assets/props/destructible_box.tscn" id="6_px0vi"]
 [ext_resource type="MeshLibrary" uid="uid://cno5c1t746t5n" path="res://assets/gridmaps/prototype/prototype.meshlib" id="8_v2h5b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bsiym"]
