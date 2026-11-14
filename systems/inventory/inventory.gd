@@ -109,11 +109,15 @@ func use_item(item_stack: ItemStack) -> void:
 
 
 func take_all_items(target_inventory: Inventory) -> void:
-	var taken := slots.duplicate()
-	slots.clear()
-	for slot: ItemStack in taken:
+	for slot: ItemStack in slots:
 		target_inventory.add_stack(slot)
+	clear()
+
+
+func clear() -> void:
+	for slot: ItemStack in slots:
 		stack_removed.emit(slot)
+	slots.clear()
 	changed.emit()
 
 
