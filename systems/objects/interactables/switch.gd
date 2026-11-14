@@ -117,3 +117,7 @@ func _call_interact_on_objects(player: Player) -> void:
 		if nodepath:
 			var object := get_node(nodepath)
 			object.interact(player)
+
+
+func _on_damage_taken(_hit_info: HitInfo) -> void:
+	interact(LevelManager.current_player)

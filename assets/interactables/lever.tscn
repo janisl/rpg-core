@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://d3ih8pt4tlcsc" path="res://systems/objects/interactables/switch.gd" id="1_5gmm4"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="2_sjhh3"]
 [ext_resource type="AudioStream" uid="uid://b883ggoiwdiji" path="res://assets/sounds/kenney_ui-audio/switch1.ogg" id="2_wyfsd"]
+[ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="4_1oouu"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
 albedo_color = Color(0.5885638, 0.25343236, 3.85046e-07, 1)
@@ -78,6 +79,7 @@ _data = {
 }
 
 [node name="Lever" type="StaticBody3D" unique_id=1934225552 node_paths=PackedStringArray("animation_player", "audio_stream_player_3d")]
+collision_layer = 3
 script = ExtResource("1_5gmm4")
 animation_player = NodePath("AnimationPlayer")
 anim_when_switched_on = "switch_on"
@@ -105,3 +107,9 @@ shape = SubResource("BoxShape3D_bsiym")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=223772400]
 libraries/ = SubResource("AnimationLibrary_myp6b")
+
+[node name="HealthAttribute" parent="." unique_id=167552575 instance=ExtResource("4_1oouu")]
+max_value = 1000000.0
+initial_value = 1000000.0
+
+[connection signal="damage_taken" from="HealthAttribute" to="." method="_on_damage_taken"]
