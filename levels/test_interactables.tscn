@@ -32,6 +32,8 @@
 [ext_resource type="PackedScene" uid="uid://k0htvnxa1y60" path="res://assets/interactables/loot_chest.tscn" id="30_grnd0"]
 [ext_resource type="PackedScene" uid="uid://dh5ri0p4xtaey" path="res://assets/interactables/lever.tscn" id="31_h56rt"]
 [ext_resource type="PackedScene" uid="uid://ctr7n0w3hgys7" path="res://systems/attributes/areas/lightzone_component.tscn" id="32_0aeba"]
+[ext_resource type="PackedScene" uid="uid://o3sxwr62t25n" path="res://assets/interactables/indicator_lamp.tscn" id="33_e6nsv"]
+[ext_resource type="PackedScene" uid="uid://ykywtyn6wovp" path="res://assets/interactables/basic_button.tscn" id="34_agba6"]
 
 [sub_resource type="Environment" id="Environment_bsiym"]
 background_mode = 1
@@ -329,6 +331,21 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.15
 
 [node name="LightzoneComponent" parent="SwitchesAndButtons" unique_id=880632074 instance=ExtResource("32_0aeba")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.5, -6.5)
+
+[node name="IndicatorLamp" parent="SwitchesAndButtons" unique_id=836121470 instance=ExtResource("33_e6nsv")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, 2.5, -7.5)
+
+[node name="BasicButton" parent="SwitchesAndButtons" unique_id=314984277 instance=ExtResource("34_agba6")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.125, 1.5, -7.5)
+objects_call_interact = Array[NodePath]([NodePath("../IndicatorLamp")])
+
+[node name="IndicatorLamp2" parent="SwitchesAndButtons" unique_id=622353141 instance=ExtResource("33_e6nsv")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, 2.5, -8.5)
+
+[node name="BasicButton2" parent="SwitchesAndButtons" unique_id=1421876279 instance=ExtResource("34_agba6")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.125, 1.5, -8.5)
+allows_repeated_interaction = false
+objects_call_interact = Array[NodePath]([NodePath("../IndicatorLamp2")])
 
 [connection signal="body_entered" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_entered"]
 [connection signal="body_exited" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_exited"]

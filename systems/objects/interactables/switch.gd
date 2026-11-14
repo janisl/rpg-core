@@ -6,6 +6,8 @@ signal object_state_updated(interaction_text: String)
 signal switched(is_on: bool)
 
 @export var is_on := false
+@export var nodes_to_show_when_on: Array[Node]
+@export var nodes_to_hide_when_on: Array[Node]
 
 @export_group("Interaction Settings")
 @export var interaction_text_when_on := "INTERACT Off"
@@ -36,6 +38,7 @@ func save_state() -> Dictionary:
 func load_state(state: Dictionary) -> void:
 	super(state)
 	is_on = state.get(&"is_on", false)
+	_set_visibility_state()
 
 
 func interact(player: Player) -> void:
@@ -54,6 +57,8 @@ func _switch_on() -> void:
 		animation_player.play(anim_when_switched_on, -1, animation_speed)
 
 	is_on = true
+	_set_visibility_state()
+
 	object_state_updated.emit(interaction_text_when_on)
 	switched.emit(is_on)
 
@@ -63,5 +68,22 @@ func _switch_off() -> void:
 		animation_player.play(anim_when_switched_off, -1, animation_speed)
 
 	is_on = false
+	_set_visibility_state()
+
 	object_state_updated.emit(interaction_text_when_off)
 	switched.emit(is_on)
+
+
+func _set_visibility_state() -> void:
+	if is_on:
+		for node in nodes_to_show_when_on:
+			node.show()
+
+		for node in nodes_to_hide_when_on:
+			node.hide()
+	else:
+		for node in nodes_to_show_when_on:
+			node.hide()
+
+		for node in nodes_to_hide_when_on:
+			node.show()
