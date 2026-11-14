@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://qqcw2fhr4pnq" path="res://assets/interactables/heavy_box.tscn" id="18_emp2w"]
 [ext_resource type="PackedScene" uid="uid://h63prh2hngne" path="res://items/consumables/strength_potion.tscn" id="19_ogusv"]
 [ext_resource type="PackedScene" uid="uid://btrqhtpuldyn1" path="res://assets/interactables/chest.tscn" id="22_35h6x"]
+[ext_resource type="PackedScene" uid="uid://d7kuq0pgup2r" path="res://items/lockpick.tscn" id="22_grnd0"]
 [ext_resource type="Script" uid="uid://bw38ep6ean3wy" path="res://systems/loot/loot_table_entry.gd" id="24_grnd0"]
 [ext_resource type="Resource" uid="uid://8wv77e0i7ndt" path="res://items/ammo/pistol_ammo.tres" id="25_h56rt"]
 [ext_resource type="Resource" uid="uid://bvm2idvb450ig" path="res://items/ammo/shotgun_ammo.tres" id="26_0aeba"]
@@ -289,6 +290,21 @@ display_item_name = true
 
 [node name="StrengthPotion" parent="Pickups" unique_id=270468499 instance=ExtResource("19_ogusv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.01, -0.4)
+
+[node name="Lockpoick" parent="Pickups" unique_id=895342739 instance=ExtResource("22_grnd0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.015, 0.3)
+
+[node name="Lockpoick2" parent="Pickups" unique_id=766914690 instance=ExtResource("22_grnd0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.015, 0.4)
+
+[node name="Lockpoick3" parent="Pickups" unique_id=314251831 instance=ExtResource("22_grnd0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.015, 0.5)
+
+[node name="Lockpoick4" parent="Pickups" unique_id=818648844 instance=ExtResource("22_grnd0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.015, 0.6)
+
+[node name="Lockpoick5" parent="Pickups" unique_id=607448166 instance=ExtResource("22_grnd0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.015, 0.7)
 
 [node name="Lootables" type="Node3D" parent="." unique_id=1592585624]
 

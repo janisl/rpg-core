@@ -30,6 +30,8 @@ ITEM NAME Health extension,Health Extension
 ITEM DESCRIPTION Health extension,Health extension
 ITEM NAME Strength potion,Strength Potion
 ITEM DESCRIPTION Strength potion,Strength potion
+ITEM NAME Lockpick,Lockpick
+ITEM DESCRIPTION Lockpick,Lockpick
 INTERACT Pick up,Pick up
 INTERACT Open,Open
 INTERACT Close,Close

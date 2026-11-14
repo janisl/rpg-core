@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://b8myk7uttl7en"]
+
+[ext_resource type="AudioStream" uid="uid://2mgtgtbslunh" path="res://assets/sounds/kenney_ui-audio/click1.ogg" id="1_1xl24"]
+[ext_resource type="Script" uid="uid://bkignq3aylb0o" path="res://systems/inventory/item_data.gd" id="1_j61ov"]
+
+[sub_resource type="Gradient" id="Gradient_j61ov"]
+offsets = PackedFloat32Array(0.6066351, 0.68404424, 0.7756714, 0.835703)
+colors = PackedColorArray(0.29803923, 0.29803923, 0.29803923, 0, 0.29954746, 0.29954746, 0.29954743, 1, 0.29954746, 0.29954746, 0.29954743, 1, 0.29803923, 0.29803923, 0.29803923, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gdfkc"]
+gradient = SubResource("Gradient_j61ov")
+
+[resource]
+script = ExtResource("1_j61ov")
+display_name = "ITEM NAME Lockpick"
+description = "ITEM DESCRIPTION Lockpick"
+icon = SubResource("GradientTexture2D_gdfkc")
+weight = 0.1
+pickup_scene = "uid://d7kuq0pgup2r"
+pickup_sound = ExtResource("1_1xl24")
+metadata/_custom_type_script = "uid://bkignq3aylb0o"
