@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://ykywtyn6wovp"]
+
+[ext_resource type="Script" uid="uid://4f7et4f3o0ll" path="res://systems/objects/interactables/button.gd" id="1_wlfxi"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="2_7q4jy"]
+[ext_resource type="AudioStream" uid="uid://bjet48hykb3l5" path="res://assets/sounds/kenney_ui-audio/click2.ogg" id="2_mcc8e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(7.70092e-07, 0.4301522, 0.30022156, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+top_radius = 0.05
+bottom_radius = 0.1
+height = 0.05
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mcc8e"]
+size = Vector3(0.2, 0.05, 0.2)
+
+[node name="BasicButton" type="StaticBody3D" unique_id=314984277]
+collision_layer = 2
+script = ExtResource("1_wlfxi")
+press_sound = ExtResource("2_mcc8e")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=513144511]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_bsiym")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1073170817]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_mcc8e")
+
+[node name="BasicInteraction" parent="." unique_id=14951234 instance=ExtResource("2_7q4jy")]
