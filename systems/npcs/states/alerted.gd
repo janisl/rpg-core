@@ -8,12 +8,7 @@ func _enter_tree() -> void:
 
 func _on_alerted_state_entered() -> void:
 	_enter_state()
-	npc.alerted_action._shock_timer.start()
-	if npc.sight_attention_point.is_active:
-		npc.alerted_action._target = npc.sight_attention_point.global_position
-	elif npc.hearing_attention_point.is_active:
-		npc.alerted_action._target = npc.hearing_attention_point.global_position
-	play_sound(npc.sounds.alerted_sound)
+	npc.alerted_action.start()
 
 
 func _on_alerted_state_physics_processing(delta: float) -> void:
@@ -21,16 +16,7 @@ func _on_alerted_state_physics_processing(delta: float) -> void:
 		state_chart.send_event("idle")
 		return
 
-	if not npc.alerted_action._shock_timer.is_stopped() or not npc.alerted_action._give_up_timer.is_stopped():
-		npc.face_direction(npc.alerted_action._target)
-
-	if npc.nav_agent.target_position == npc.alerted_action._target and not npc.nav_agent.is_target_reached():
-		npc.move_npc_to_next_position(delta)
-	else:
-		npc.stop_moving(delta)
-
-	if (npc.nav_agent.is_target_reached() or not npc.nav_agent.is_target_reachable()) and npc.alerted_action._give_up_timer.is_stopped():
-		npc.alerted_action._give_up_timer.start()
+	npc.alerted_action.physics_process(delta)
 
 
 func _give_up() -> void:

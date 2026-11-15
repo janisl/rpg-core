@@ -32,6 +32,27 @@ func load_state(state: Dictionary) -> void:
 	SaveUtils.load_timer(state, &"patrol_wait_timer", _patrol_wait_timer)
 
 
+func start() -> void:
+	npc.state_chart.send_event("ubody_neutral")
+	_resume_patrolling()
+
+
+func physics_process(delta: float) -> void:
+	match _current_travel_status:
+		TravelStatus.WAITING:
+			npc.stop_moving(delta)
+		TravelStatus.RUNNING:
+			_running(delta)
+
+
+func check_for_bumping_into_hostile() -> Actor:
+	for i in npc.get_slide_collision_count():
+		var collision := npc.get_slide_collision(i)
+		if collision.get_collider() is Player and npc.response_to_player == "Hostile":
+			return collision.get_collider()
+	return null
+
+
 func _running(delta: float) -> void:
 	if not npc.nav_agent.is_target_reachable():
 		npc.nav_agent.target_position = npc.patrol_path.starting_patrol_point.global_position

@@ -24,6 +24,12 @@ func _enter_tree() -> void:
 	_chase_wait_timer.timeout.connect(_stop_chasing)
 	add_child(_chase_wait_timer)
 
+	_los_broken_timer = Timer.new()
+	_los_broken_timer.wait_time = wait_after_broken_los_time
+	_los_broken_timer.one_shot = true
+	_los_broken_timer.timeout.connect(_target_los_lost)
+	add_child(_los_broken_timer)
+
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
@@ -39,6 +45,47 @@ func load_state(state: Dictionary) -> void:
 	SaveUtils.load_timer(state, &"los_broken_timer", _los_broken_timer)
 	_current_chase_status = state.get(&"current_chase_status", ChaseStatus.CHASING)
 	_can_see_player = state.get(&"can_see_player", false)
+
+
+func start() -> void:
+	npc.state_chart.send_event("body_run")
+	npc.state_chart.send_event("ubody_raise_weapon")
+	npc.move_speed = npc.sprint_speed
+	_current_chase_status = ChaseStatus.CHASING
+	npc.head_turner.target_node = npc.chase_target.get_path()
+
+
+func physics_process(delta: float) -> void:
+	_can_see_player = npc.sight_detection.check_if_player_in_los()
+	if _can_see_player:
+		npc.head_turner.active = true
+		_los_broken_timer.stop()
+	else:
+		npc.head_turner.active = false
+		if _los_broken_timer.is_stopped() and _chase_wait_timer.is_stopped():
+			npc.broken_los_point = npc.chase_target.global_position
+			_los_broken_timer.start()
+
+	if npc.is_dead():
+		_current_chase_status = ChaseStatus.LOST
+
+	match _current_chase_status:
+		ChaseStatus.CHASING:
+			_running(delta)
+
+		ChaseStatus.WAITING:
+			npc.stop_moving(delta)
+
+			if face_target_while_waiting:
+				npc.face_direction(npc.chase_target.global_position)
+
+			npc.nav_agent.target_position = npc.chase_target.global_position
+			if npc.nav_agent.is_target_reachable() or _can_see_player:
+				_chase_wait_timer.stop()
+				_current_chase_status = ChaseStatus.CHASING
+
+		ChaseStatus.LOST:
+			_save_last_known_player_point()
 
 
 func _running(delta: float) -> void:
@@ -72,3 +119,13 @@ func _start_waiting() -> void:
 func _stop_chasing() -> void:
 	npc.move_speed = npc.walk_speed
 	_current_chase_status = ChaseStatus.LOST
+
+
+func _target_los_lost() -> void:
+	_current_chase_status = ChaseStatus.LOST
+
+
+func _save_last_known_player_point() -> void:
+	var sight := npc.sight_detection
+	sight.current_suspicion -= sight.aggro_threshold / 4
+	npc.last_known_player_point = npc.last_reachable_path

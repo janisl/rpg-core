@@ -5,20 +5,12 @@ func _on_patrolling_state_entered() -> void:
 	assert(npc.patrol_path, "Entered patrol state without patrol path")
 
 	_enter_state()
-	state_chart.send_event("ubody_neutral")
-
-	npc.patrol_action._resume_patrolling()
+	npc.patrol_action.start()
 
 
 func _on_patrolling_state_physics_processing(delta: float) -> void:
-	for i in npc.get_slide_collision_count():
-		var collision := npc.get_slide_collision(i)
-		if collision.get_collider() is Player and npc.response_to_player == "Hostile":
-			npc.start_chasing(collision.get_collider())
+	var bumped_target := npc.patrol_action.check_for_bumping_into_hostile()
+	if bumped_target:
+		npc.start_chasing(bumped_target)
 
-	match npc.patrol_action._current_travel_status:
-		npc.patrol_action.TravelStatus.WAITING:
-			npc.stop_moving(delta)
-			return
-		npc.patrol_action.TravelStatus.RUNNING:
-			npc.patrol_action._running(delta)
+	npc.patrol_action.physics_process(delta)

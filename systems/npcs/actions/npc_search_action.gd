@@ -58,6 +58,59 @@ func load_state(state: Dictionary) -> void:
 	SaveUtils.load_timer(state, &"stuck_timer", _stuck_timer)
 
 
+func start() -> void:
+	if show_search_points and not _search_point_one_label.is_inside_tree():
+			get_tree().current_scene.add_child(_search_point_one_label)
+			get_tree().current_scene.add_child(_search_point_two_label)
+
+	npc.nav_agent.target_position = npc.broken_los_point
+	npc.nav_agent.target_reached.connect(_on_reached_target)
+
+	npc.play_sound(npc.sounds.searching_sound)
+	npc.state_chart.send_event("body_walk")
+	npc.move_speed = npc.walk_speed
+	_los_point_reached = false
+	_last_known_point_reached = false
+	_head = npc.head_turner
+	_head.active = true
+	_head.target_node = searching_look_ahead.get_path()
+
+
+func stop() -> void:
+	npc.nav_agent.target_reached.disconnect(_on_reached_target)
+
+	_first_wait_timer.stop()
+	_second_wait_timer.stop()
+	_reacquire_timer.stop()
+	_stuck_timer.stop()
+
+	searching_look_ahead_pivot.rotation_degrees.y = 0
+	_head.target_node = NodePath("")
+
+	if show_search_points:
+		_search_point_one_label.visible = false
+		_search_point_two_label.visible = false
+
+
+func physics_process(delta: float) -> void:
+	if show_search_points:
+		_search_point_one_label.visible = true
+		_search_point_one_label.global_position = npc.broken_los_point
+		_search_point_two_label.visible = true
+		_search_point_two_label.global_position = npc.last_known_player_point
+
+	_sight_detection_check()
+	if npc.nav_agent.is_target_reached():
+		npc.stop_moving(delta)
+	else:
+		if _reacquire_timer.is_stopped():
+			_turn_head(delta)
+			npc.move_npc_to_next_position(delta)
+
+		if not npc.nav_agent.is_target_reachable() and _stuck_timer.is_stopped():
+			_stuck_timer.start()
+
+
 func _sight_detection_check() -> void:
 	if sight_detection.check_if_player_in_los():
 		_stuck_timer.stop()

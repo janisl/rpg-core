@@ -29,6 +29,28 @@ func load_state(state: Dictionary) -> void:
 	_target = state.get(&"target", _target)
 
 
+func start() -> void:
+	_shock_timer.start()
+	if npc.sight_attention_point.is_active:
+		_target = npc.sight_attention_point.global_position
+	elif npc.hearing_attention_point.is_active:
+		_target = npc.hearing_attention_point.global_position
+	npc.play_sound(npc.sounds.alerted_sound)
+
+
+func physics_process(delta: float) -> void:
+	if not _shock_timer.is_stopped() or not _give_up_timer.is_stopped():
+		npc.face_direction(_target)
+
+	if npc.nav_agent.target_position == _target and not npc.nav_agent.is_target_reached():
+		npc.move_npc_to_next_position(delta)
+	else:
+		npc.stop_moving(delta)
+
+	if (npc.nav_agent.is_target_reached() or not npc.nav_agent.is_target_reachable()) and _give_up_timer.is_stopped():
+		_give_up_timer.start()
+
+
 func _start_moving() -> void:
 	npc.nav_agent.target_position = _target
 

@@ -27,6 +27,31 @@ func load_state(state: Dictionary) -> void:
 	attack_impact_zone.monitoring = state.get(&"attack_impact_zone_enabled", false)
 
 
+func start() -> void:
+	_count_down = attack_duration
+	_did_attack = false
+
+
+func stop() -> void:
+	attack_impact_zone.set_collision(false)
+
+
+func physics_process(delta: float) -> bool:
+	npc.stop_moving(delta)
+	if npc.chase_target:
+		npc.face_direction(npc.chase_target.global_position)
+
+	if not _did_attack and _can_attack_now():
+		_attempt_attack()
+		_did_attack = true
+
+	if _count_down <= 0:
+		return true
+	else:
+		_count_down -= delta
+		return false
+
+
 func _can_attack_now() -> bool:
 	if can_attack_while_moving or not npc.is_using_weapon():
 		return true
