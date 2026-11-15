@@ -1,6 +1,9 @@
 class_name Npc
 extends Actor
 
+const SIGHT_POINT = preload("uid://de4wqr4onwgie")
+const HEARING_POINT = preload("uid://b4r73momnv102")
+
 enum BehaviourState {
 	None,
 	Idle,
@@ -36,11 +39,9 @@ enum BehaviourState {
 @export var wiggle_on_walking_speed := 8.0
 @export var wiggle_on_sprinting_speed := 12.0
 
-var attention_target: Node3D:
-	set(value):
-		if attention_target and attention_target is AttentionPoint:
-			attention_target.queue_free()
-		attention_target = value
+var sight_attention_point: AttentionPoint
+var hearing_attention_point: AttentionPoint
+var attention_target: Node3D
 
 var move_speed := 2.0
 var last_reachable_path: Vector3
@@ -78,6 +79,7 @@ func _ready() -> void:
 	add_to_group("persist")
 	_spawn_weapon()
 	_find_health_attribute()
+	_create_attention_points()
 
 
 func _physics_process(delta: float) -> void:
@@ -86,6 +88,23 @@ func _physics_process(delta: float) -> void:
 
 	if footsteps_enabled:
 		_npc_footsteps(delta)
+
+
+func _exit_tree() -> void:
+	if sight_attention_point:
+		sight_attention_point.queue_free()
+	if hearing_attention_point:
+		hearing_attention_point.queue_free()
+
+
+func set_sight_target(pos: Vector3) -> void:
+	sight_attention_point.global_position = pos
+	sight_attention_point.is_active = true
+
+
+func set_hearing_target(pos: Vector3) -> void:
+	hearing_attention_point.global_position = pos
+	hearing_attention_point.is_active = true
 
 
 func face_direction(target_position: Vector3) -> void:
@@ -187,6 +206,8 @@ func save_state() -> Dictionary:
 	state[&"attacking_processor"] = attacking_processor.save_state()
 	state[&"searching_processor"] = searching_processor.save_state()
 	state[&"alerted_processor"] = alerted_processor.save_state()
+	state[&"sight_attention_point"] = sight_attention_point.save_state()
+	state[&"hearing_attention_point"] = hearing_attention_point.save_state()
 	return state
 
 
@@ -212,6 +233,8 @@ func load_state(state: Dictionary) -> void:
 	attacking_processor.load_state(state.get(&"attacking_processor", Dictionary()))
 	searching_processor.load_state(state.get(&"searching_processor", Dictionary()))
 	alerted_processor.load_state(state.get(&"alerted_processor", Dictionary()))
+	sight_attention_point.load_state(state.get(&"sight_attention_point", Dictionary()))
+	hearing_attention_point.load_state(state.get(&"hearing_attention_point", Dictionary()))
 
 
 func _spawn_weapon() -> void:
@@ -244,7 +267,7 @@ func _find_health_attribute() -> void:
 
 func _on_health_attribute_damage_taken(hit_info: HitInfo) -> void:
 	if not hit_info.direction.is_zero_approx():
-		sight_detection.generate_attention_target(hit_info.source_position)
+		set_sight_target(hit_info.source_position)
 		state_chart.send_event("alerted")
 
 
@@ -270,3 +293,11 @@ func _npc_footsteps(delta: float) -> void:
 
 		if !_can_play_footstep and _wiggle_vector.y < 0.9:
 			_can_play_footstep = true
+
+
+func _create_attention_points() -> void:
+	sight_attention_point = SIGHT_POINT.instantiate()
+	get_tree().current_scene.add_child(sight_attention_point)
+
+	hearing_attention_point = HEARING_POINT.instantiate()
+	get_tree().current_scene.add_child(hearing_attention_point)

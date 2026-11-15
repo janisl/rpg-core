@@ -2,8 +2,6 @@
 class_name SightDetection
 extends Node3D
 
-const SIGHT_POINT = preload("uid://de4wqr4onwgie")
-
 @export_group("References")
 @export var npc: Npc
 @export var detection_area: Area3D
@@ -213,15 +211,8 @@ func _state_trigger_checks() -> void:
 		npc.attention_target = ref_to_player
 		npc.state_chart.send_event("chase")
 	elif current_suspicion >= investigation_threshold and ref_to_player and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
-		generate_attention_target(ref_to_player.global_position)
+		npc.set_sight_target(ref_to_player.global_position)
 		npc.state_chart.send_event("investigate")
-
-
-func generate_attention_target(pos: Vector3) -> void:
-	var attention_point := SIGHT_POINT.instantiate()
-	get_tree().current_scene.add_child(attention_point)
-	attention_point.global_position = pos
-	npc.attention_target = attention_point
 
 
 func _generate_sight_range_collider() -> void:

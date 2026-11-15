@@ -2,8 +2,6 @@
 extends Node3D
 class_name HearingDetection
 
-const HEARING_POINT = preload("uid://b4r73momnv102")
-
 @export_group("Nodepaths")
 @export var collision_shape: CollisionShape3D
 @export var npc: Npc
@@ -61,25 +59,18 @@ func reset() -> void:
 	noise_suspicion_indicator.update(current_suspicion, suspicion_threshold_before_investigating)
 
 
-func generate_attention_target(pos: Vector3) -> void:
-	var attention_point := HEARING_POINT.instantiate()
-	get_tree().current_scene.add_child(attention_point)
-	attention_point.global_position = pos
-	npc.attention_target = attention_point
-
-
 func _on_hearing_radius_area_entered(area: Area3D) -> void:
 	if area is not ObjectNoise:
 		return
 	var noise := area as ObjectNoise
 	if noise.noise_type == ObjectNoise.NoiseType.Impact:
-		generate_attention_target(noise.global_position)
+		npc.set_hearing_target(noise.global_position)
 		npc.state_chart.send_event("alerted")
 	elif noise.magnitude > ignore_sounds_under_x_magnitude and current_suspicion < suspicion_threshold_before_investigating + 0.5:
 		_decay_timer.stop()
 		current_suspicion += noise_suspicion_curve.sample(noise.magnitude)
 	if current_suspicion > suspicion_threshold_before_investigating:
-		generate_attention_target(noise.global_position)
+		npc.set_hearing_target(noise.global_position)
 		npc.state_chart.send_event("investigate")
 
 
