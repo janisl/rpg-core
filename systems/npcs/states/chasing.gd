@@ -68,10 +68,6 @@ func _on_chasing_state_entered() -> void:
 	npc.head_turner.target_node = npc.chase_target.get_path()
 
 
-func _on_chasing_state_exited() -> void:
-	_exit_state()
-
-
 func _on_chasing_state_physics_processing(delta: float) -> void:
 	_can_see_player = _check_los_to_player()
 	if _can_see_player:

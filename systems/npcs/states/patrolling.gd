@@ -38,10 +38,6 @@ func _on_patrolling_state_entered() -> void:
 	_resume_patrolling()
 
 
-func _on_patrolling_state_exited() -> void:
-	_exit_state()
-
-
 func _on_patrolling_state_physics_processing(delta: float) -> void:
 	for i in npc.get_slide_collision_count():
 		var collision := npc.get_slide_collision(i)

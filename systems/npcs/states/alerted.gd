@@ -37,10 +37,6 @@ func _on_alerted_state_entered() -> void:
 	play_sound(npc.sounds.alerted_sound)
 
 
-func _on_alerted_state_exited() -> void:
-	_exit_state()
-
-
 func _on_alerted_state_physics_processing(delta: float) -> void:
 	if not npc.sight_attention_point.is_active and not npc.hearing_attention_point.is_active:
 		state_chart.send_event("idle")

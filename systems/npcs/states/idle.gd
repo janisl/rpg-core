@@ -9,9 +9,5 @@ func _on_idle_state_entered() -> void:
 		state_chart.send_event("body_walk")
 
 
-func _on_idle_state_exited() -> void:
-	_exit_state()
-
-
 func _on_idle_state_physics_processing(delta: float) -> void:
 	npc.stop_moving(delta)

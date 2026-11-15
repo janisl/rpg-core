@@ -11,10 +11,6 @@ func _enter_state() -> void:
 	npc.current_behaviour = behaviour_state
 
 
-func _exit_state() -> void:
-	npc.previous_behaviour = behaviour_state
-
-
 func play_sound(sound: AudioStream) -> void:
 	if audio and sound:
 		audio.stream = sound

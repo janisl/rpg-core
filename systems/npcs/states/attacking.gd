@@ -33,7 +33,6 @@ func _on_attacking_state_entered() -> void:
 
 
 func _on_attacking_state_exited() -> void:
-	_exit_state()
 	attack_impact_zone.set_collision(false)
 
 

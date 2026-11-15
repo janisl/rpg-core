@@ -25,9 +25,5 @@ func _on_investigate_state_entered() -> void:
 	play_sound(npc.sounds.investigate_sound)
 
 
-func _on_investigating_state_exited() -> void:
-	_exit_state()
-
-
 func _on_investigate_state_physics_processing(delta: float) -> void:
 	npc.move_npc_to_next_position(delta)

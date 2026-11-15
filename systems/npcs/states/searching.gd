@@ -85,7 +85,6 @@ func _on_searching_state_entered() -> void:
 
 
 func _on_searching_state_exited() -> void:
-	_exit_state()
 	npc.nav_agent.target_reached.disconnect(_on_reached_target)
 
 	_first_wait_timer.stop()

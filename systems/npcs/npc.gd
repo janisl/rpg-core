@@ -47,7 +47,6 @@ var chase_target: Actor
 var move_speed := 2.0
 var last_reachable_path: Vector3
 
-var previous_behaviour: BehaviourState
 var current_behaviour: BehaviourState
 
 var _health: HealthAttribute
@@ -212,7 +211,6 @@ func save_state() -> Dictionary:
 
 	state[&"move_speed"] = move_speed
 	state[&"last_reachable_path"] = last_reachable_path
-	state[&"previous_behaviour"] = previous_behaviour
 	state[&"current_behaviour"] = current_behaviour
 
 	state[&"weapon_equiped"] = _weapon_third_person && _weapon_third_person.visible
@@ -238,7 +236,6 @@ func load_state(state: Dictionary) -> void:
 
 	move_speed = state.get(&"move_speed", move_speed)
 	last_reachable_path = state.get(&"last_reachable_path", Vector3.ZERO)
-	previous_behaviour = state.get(&"previous_behaviour", BehaviourState.None)
 	current_behaviour = state.get(&"current_behaviour", BehaviourState.None)
 
 	if _weapon_third_person:
