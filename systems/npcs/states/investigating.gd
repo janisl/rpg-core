@@ -1,7 +1,5 @@
 extends NpcStateProcessor
 
-@export var investigate_sound: AudioStream
-
 var _attention_spot: Vector3
 
 
@@ -24,7 +22,7 @@ func _on_investigate_state_entered() -> void:
 	elif npc.hearing_attention_point.is_active:
 		_attention_spot = npc.hearing_attention_point.global_position
 		npc.nav_agent.target_position = _attention_spot
-	play_sound(investigate_sound)
+	play_sound(npc.sounds.investigate_sound)
 
 
 func _on_investigating_state_exited() -> void:

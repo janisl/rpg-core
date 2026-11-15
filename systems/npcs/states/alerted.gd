@@ -1,7 +1,5 @@
 extends NpcStateProcessor
 
-@export var alerted_sound: AudioStream
-@export var must_have_been_the_wind_sound: AudioStream
 @export var initial_shock_time := 1.5
 @export var wait_time_once_reached := 5.0
 
@@ -36,7 +34,7 @@ func _on_alerted_state_entered() -> void:
 		_target = npc.sight_attention_point.global_position
 	elif npc.hearing_attention_point.is_active:
 		_target = npc.hearing_attention_point.global_position
-	play_sound(alerted_sound)
+	play_sound(npc.sounds.alerted_sound)
 
 
 func _on_alerted_state_exited() -> void:
@@ -66,7 +64,7 @@ func _start_moving() -> void:
 
 func _return_to_patrol() -> void:
 	state_chart.send_event("idle")
-	play_sound(must_have_been_the_wind_sound)
+	play_sound(npc.sounds.must_have_been_the_wind_sound)
 
 
 func _create_timer(wait_time: float, call_on_timeout: Callable) -> Timer:

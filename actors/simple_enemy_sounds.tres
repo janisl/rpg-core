@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="NpcSounds" format=3 uid="uid://82345wkjvlkm"]
+
+[ext_resource type="AudioStream" uid="uid://rafdmwo4cygv" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre3.wav" id="1_f6gyv"]
+[ext_resource type="Script" uid="uid://cwm44uwsc0c74" path="res://systems/npcs/npc_sounds.gd" id="1_wfoq6"]
+[ext_resource type="AudioStream" uid="uid://dw7jtahkwgjth" path="res://assets/sounds/misc/422513__nightflame__swinging-staff-whoosh-strong-04.wav" id="2_p5ukd"]
+[ext_resource type="AudioStream" uid="uid://cxmh3hbaxd2km" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre1.wav" id="3_y8nqh"]
+[ext_resource type="AudioStream" uid="uid://bjtmd38r3mmyg" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre4.wav" id="4_o6t5i"]
+[ext_resource type="AudioStream" uid="uid://ccys0rwespgyq" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre5.wav" id="5_vg1wl"]
+[ext_resource type="AudioStream" uid="uid://svp01mpbkvno" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre2.wav" id="7_1d25q"]
+
+[resource]
+script = ExtResource("1_wfoq6")
+investigate_sound = ExtResource("4_o6t5i")
+start_chase_sound = ExtResource("3_y8nqh")
+attack_sound = ExtResource("2_p5ukd")
+searching_sound = ExtResource("7_1d25q")
+end_search_sound = ExtResource("1_f6gyv")
+i_see_you_sound = ExtResource("3_y8nqh")
+alerted_sound = ExtResource("1_f6gyv")
+must_have_been_the_wind_sound = ExtResource("5_vg1wl")
+metadata/_custom_type_script = "uid://cwm44uwsc0c74"

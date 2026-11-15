@@ -5,7 +5,6 @@ extends NpcStateProcessor
 
 @export_group("Melee attack properties")
 @export var attack_impact_zone: ImpactZone
-@export var attack_sound: AudioStream
 @export var attack_duration := 1.0
 
 var _count_down := 0.0
@@ -68,6 +67,6 @@ func _attempt_attack() -> void:
 
 
 func _punch_attack() -> void:
-	AudioManager.play_sound_3d(attack_sound, npc.global_position)
+	AudioManager.play_sound_3d(npc.sounds.attack_sound, npc.global_position)
 
 	attack_impact_zone.set_collision(true)

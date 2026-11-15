@@ -5,7 +5,6 @@ enum ChaseStatus { CHASING, CAUGHT, WAITING, LOST }
 @export var target_melee_distance := 1.5
 @export var target_ranged_distance_offset := 1.0
 @export var action_when_caught := "attack"
-@export var start_chase_sound: AudioStream
 @export var giveup_chase_time := 5.0
 @export var wait_after_broken_los_time := 3.0
 @export var face_target_while_waiting := true
@@ -63,7 +62,7 @@ func _on_chasing_state_entered() -> void:
 		return
 
 	if npc.previous_behaviour != Npc.BehaviourState.Attacking:
-		play_sound(start_chase_sound)
+		play_sound(npc.sounds.start_chase_sound)
 	state_chart.send_event("body_run")
 	state_chart.send_event("ubody_raise_weapon")
 	npc.move_speed = npc.sprint_speed

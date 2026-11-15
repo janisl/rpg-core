@@ -11,10 +11,6 @@ extends NpcStateProcessor
 @export var end_search_after_second_point := 3.0
 @export var end_search_if_stuck_for := 10.0
 
-@export var searching_sound: AudioStream
-@export var end_search_sound: AudioStream
-@export var i_see_you_sound: AudioStream
-
 @export var show_search_points := false
 
 var broken_los_point: Vector3
@@ -78,7 +74,7 @@ func _on_searching_state_entered() -> void:
 	npc.nav_agent.target_position = broken_los_point
 	npc.nav_agent.target_reached.connect(_on_reached_target)
 
-	play_sound(searching_sound)
+	play_sound(npc.sounds.searching_sound)
 	state_chart.send_event("body_walk")
 	npc.move_speed = npc.walk_speed
 	_los_point_reached = false
@@ -129,7 +125,7 @@ func _sight_detection_check() -> void:
 		_stuck_timer.stop()
 		if _reacquire_timer.is_stopped():
 			_head.target_node = npc.chase_target.head.get_path()
-			play_sound(i_see_you_sound)
+			play_sound(npc.sounds.i_see_you_sound)
 			_reacquire_timer.start()
 	else:
 		_head.target_node = searching_look_ahead.get_path()
@@ -154,7 +150,7 @@ func _search_next_point() -> void:
 
 
 func _end_search() -> void:
-	play_sound(end_search_sound)
+	play_sound(npc.sounds.end_search_sound)
 	if reset_suspicion_when_search_ends:
 		if npc.hearing_detection:
 			npc.hearing_detection.reset()

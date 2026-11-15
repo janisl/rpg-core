@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dtaji4kxnotrq"]
 
 [ext_resource type="Script" uid="uid://b5uu3v3sgtosr" path="res://actors/simple_enemy.gd" id="1_4s1oe"]
+[ext_resource type="Resource" uid="uid://82345wkjvlkm" path="res://actors/simple_enemy_sounds.tres" id="2_f3ltb"]
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="2_tmhjk"]
 [ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="3_4s1oe"]
 [ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="3_ngyoi"]
@@ -14,22 +15,17 @@
 [ext_resource type="Script" uid="uid://d1esyyr4q7tuf" path="res://systems/npcs/states/patrolling.gd" id="8_j0stw"]
 [ext_resource type="Script" uid="uid://djec4ecbh44mx" path="res://systems/npcs/states/attacking.gd" id="9_0qgqr"]
 [ext_resource type="Script" uid="uid://xdrs64ru4ias" path="res://systems/npcs/states/investigating.gd" id="9_1cfep"]
-[ext_resource type="AudioStream" uid="uid://cxmh3hbaxd2km" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre1.wav" id="9_gn5pi"]
 [ext_resource type="AudioStream" uid="uid://bjtmd38r3mmyg" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre4.wav" id="10_1cfep"]
-[ext_resource type="AudioStream" uid="uid://dw7jtahkwgjth" path="res://assets/sounds/misc/422513__nightflame__swinging-staff-whoosh-strong-04.wav" id="10_qld51"]
 [ext_resource type="Script" uid="uid://b5ekeqtjbhney" path="res://systems/npcs/states/posture.gd" id="11_rpt3r"]
 [ext_resource type="Script" uid="uid://ye4ywev58xp2" path="res://systems/npcs/impact_zone.gd" id="11_wimj6"]
 [ext_resource type="AudioStream" uid="uid://dt6y5pgrmcume" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_000.ogg" id="12_25hyd"]
 [ext_resource type="Script" uid="uid://dmu1hixfwsp4e" path="res://systems/npcs/states/searching.gd" id="12_dqk6m"]
-[ext_resource type="AudioStream" uid="uid://svp01mpbkvno" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre2.wav" id="13_ocjwc"]
 [ext_resource type="AudioStream" uid="uid://da00ldi5hp5g" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_001.ogg" id="13_qld51"]
-[ext_resource type="AudioStream" uid="uid://rafdmwo4cygv" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre3.wav" id="14_dqk6m"]
 [ext_resource type="AudioStream" uid="uid://clh4hlpramjwl" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_002.ogg" id="14_thjgf"]
 [ext_resource type="AudioStream" uid="uid://cba5cvqpa62l1" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_003.ogg" id="15_rpt3r"]
 [ext_resource type="AudioStream" uid="uid://l5srpaiywb2d" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_004.ogg" id="16_gbejp"]
 [ext_resource type="PackedScene" uid="uid://ukmk3wjft8no" path="res://systems/npcs/detection/sight_indicator.tscn" id="17_dqk6m"]
 [ext_resource type="Script" uid="uid://51h2b8uanxuf" path="res://systems/npcs/states/alerted.gd" id="18_5sy0m"]
-[ext_resource type="AudioStream" uid="uid://ccys0rwespgyq" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre5.wav" id="19_oxcgc"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://bbe1e835q82bc" path="res://systems/actors/humanoid_animation_tree.tres" id="19_thjgf"]
 [ext_resource type="Script" uid="uid://crvmh56qwb83k" path="res://systems/npcs/detection/sight_detection.gd" id="22_gbejp"]
 [ext_resource type="Script" uid="uid://ccwu2fc84l1rx" path="res://systems/footsteps/footstep_player.gd" id="31_gxn4h"]
@@ -256,6 +252,7 @@ radius = 8.0
 collision_layer = 8
 collision_mask = 45
 script = ExtResource("1_4s1oe")
+sounds = ExtResource("2_f3ltb")
 response_to_player = "Hostile"
 head_turner = NodePath("Rig/GeneralSkeleton/HeadTurn")
 head = NodePath("Rig/GeneralSkeleton/HeadAttachment/Head")
@@ -341,7 +338,6 @@ script = ExtResource("4_4a0lb")
 
 [node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Investigating" unique_id=1887146408 node_paths=PackedStringArray("npc", "state_chart", "audio")]
 script = ExtResource("9_1cfep")
-investigate_sound = ExtResource("10_1cfep")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
@@ -366,7 +362,6 @@ script = ExtResource("4_4a0lb")
 
 [node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=735664981 node_paths=PackedStringArray("searching_state", "npc", "state_chart", "audio")]
 script = ExtResource("8_gvg5y")
-start_chase_sound = ExtResource("9_gn5pi")
 searching_state = NodePath("../../Searching/Processor")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
@@ -392,7 +387,6 @@ script = ExtResource("4_4a0lb")
 script = ExtResource("9_0qgqr")
 state_after_attack = "chase"
 attack_impact_zone = NodePath("../../../../../Rig/GeneralSkeleton/HandAttachment/ImpactZone")
-attack_sound = ExtResource("10_qld51")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
@@ -413,9 +407,6 @@ script = ExtResource("12_dqk6m")
 sight_detection = NodePath("../../../../../SightDetection")
 searching_look_ahead_pivot = NodePath("../../../../../Rig/GeneralSkeleton/LookingPivot")
 searching_look_ahead = NodePath("../../../../../Rig/GeneralSkeleton/LookingPivot/LookAtWhileSearching")
-searching_sound = ExtResource("13_ocjwc")
-end_search_sound = ExtResource("14_dqk6m")
-i_see_you_sound = ExtResource("9_gn5pi")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
@@ -441,8 +432,6 @@ metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 
 [node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=708287372 node_paths=PackedStringArray("npc", "state_chart", "audio")]
 script = ExtResource("18_5sy0m")
-alerted_sound = ExtResource("14_dqk6m")
-must_have_been_the_wind_sound = ExtResource("19_oxcgc")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 audio = NodePath("../../../../../Audio")
@@ -1019,8 +1008,8 @@ parameters/hurt/request = 0
 avoidance_enabled = true
 
 [node name="Audio" type="AudioStreamPlayer3D" parent="." unique_id=545162603]
-bus = &"SFX"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5638493, -0.16451624)
+bus = &"SFX"
 
 [node name="FootstepPlayer" type="AudioStreamPlayer3D" parent="." unique_id=1453074495]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
