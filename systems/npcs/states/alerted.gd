@@ -1,39 +1,19 @@
 extends NpcStateProcessor
 
-@export var initial_shock_time := 1.5
-@export var wait_time_once_reached := 5.0
-
-var _shock_timer: Timer
-var _return_to_patrol_timer: Timer
-var _target: Vector3
-
 
 func _enter_tree() -> void:
-	_shock_timer = _create_timer(initial_shock_time, _start_moving)
-	_return_to_patrol_timer = _create_timer(wait_time_once_reached, _return_to_patrol)
-
-
-func save_state() -> Dictionary:
-	var state := Dictionary()
-	SaveUtils.save_timer(state, &"shock_timer", _shock_timer)
-	SaveUtils.save_timer(state, &"return_to_patrol_timer", _return_to_patrol_timer)
-	state[&"target"] = _target
-	return state
-
-
-func load_state(state: Dictionary) -> void:
-	SaveUtils.load_timer(state, &"shock_timer", _shock_timer)
-	SaveUtils.load_timer(state, &"return_to_patrol_timer", _return_to_patrol_timer)
-	_target = state.get(&"target", _target)
+	await get_tree().process_frame
+	npc.alerted_action._shock_timer = _create_timer(npc.alerted_action.initial_shock_time, _start_moving)
+	npc.alerted_action._return_to_patrol_timer = _create_timer(npc.alerted_action.wait_time_once_reached, _return_to_patrol)
 
 
 func _on_alerted_state_entered() -> void:
 	_enter_state()
-	_shock_timer.start()
+	npc.alerted_action._shock_timer.start()
 	if npc.sight_attention_point.is_active:
-		_target = npc.sight_attention_point.global_position
+		npc.alerted_action._target = npc.sight_attention_point.global_position
 	elif npc.hearing_attention_point.is_active:
-		_target = npc.hearing_attention_point.global_position
+		npc.alerted_action._target = npc.hearing_attention_point.global_position
 	play_sound(npc.sounds.alerted_sound)
 
 
@@ -42,20 +22,20 @@ func _on_alerted_state_physics_processing(delta: float) -> void:
 		state_chart.send_event("idle")
 		return
 
-	if not _shock_timer.is_stopped() or not _return_to_patrol_timer.is_stopped():
-		npc.face_direction(_target)
+	if not npc.alerted_action._shock_timer.is_stopped() or not npc.alerted_action._return_to_patrol_timer.is_stopped():
+		npc.face_direction(npc.alerted_action._target)
 
-	if npc.nav_agent.target_position == _target and not npc.nav_agent.is_target_reached():
+	if npc.nav_agent.target_position == npc.alerted_action._target and not npc.nav_agent.is_target_reached():
 		npc.move_npc_to_next_position(delta)
 	else:
 		npc.stop_moving(delta)
 
-	if (npc.nav_agent.is_target_reached() or not npc.nav_agent.is_target_reachable()) and _return_to_patrol_timer.is_stopped():
-		_return_to_patrol_timer.start()
+	if (npc.nav_agent.is_target_reached() or not npc.nav_agent.is_target_reachable()) and npc.alerted_action._return_to_patrol_timer.is_stopped():
+		npc.alerted_action._return_to_patrol_timer.start()
 
 
 func _start_moving() -> void:
-	npc.nav_agent.target_position = _target
+	npc.nav_agent.target_position = npc.alerted_action._target
 
 
 func _return_to_patrol() -> void:
