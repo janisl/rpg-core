@@ -10,13 +10,6 @@ enum ChaseStatus { CHASING, CAUGHT, WAITING, LOST }
 @export var face_target_while_waiting := true
 @export var searching_state: NpcStateProcessor
 
-@export_flags_3d_physics var collision_mask := (
-	PhysicsLayers.WORLD_MASK |
-	PhysicsLayers.PLAYER_MASK |
-	PhysicsLayers.NPCS_MASK |
-	PhysicsLayers.DYNAMIC_OBJECTS_MASK
-)
-
 var _chase_wait_timer: Timer
 var _los_broken_timer: Timer
 var _current_chase_status: ChaseStatus
@@ -69,7 +62,7 @@ func _on_chasing_state_entered() -> void:
 
 
 func _on_chasing_state_physics_processing(delta: float) -> void:
-	_can_see_player = _check_los_to_player()
+	_can_see_player = npc.sight_detection.check_if_player_in_los()
 	if _can_see_player:
 		npc.head_turner.active = true
 		_los_broken_timer.stop()
@@ -110,16 +103,6 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 		ChaseStatus.LOST:
 			_start_searching()
 			return
-
-
-func _check_los_to_player() -> bool:
-	var space_state := npc.get_world_3d().direct_space_state
-	var query := PhysicsRayQueryParameters3D.create(npc.head.global_position, npc.chase_target.global_position, collision_mask)
-	query.exclude = [npc.get_rid()]
-	var result := space_state.intersect_ray(query)
-	if result:
-		return result.collider is Player
-	return false
 
 
 func _running(delta: float) -> void:
