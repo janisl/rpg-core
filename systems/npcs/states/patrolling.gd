@@ -46,8 +46,7 @@ func _on_patrolling_state_physics_processing(delta: float) -> void:
 	for i in npc.get_slide_collision_count():
 		var collision := npc.get_slide_collision(i)
 		if collision.get_collider() is Player and npc.response_to_player == "Hostile":
-			npc.chase_target = collision.get_collider()
-			state_chart.send_event("chase")
+			npc.start_chasing(collision.get_collider())
 
 	match _current_travel_status:
 		TravelStatus.WAITING:

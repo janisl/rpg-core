@@ -42,7 +42,7 @@ enum BehaviourState {
 
 var sight_attention_point: AttentionPoint
 var hearing_attention_point: AttentionPoint
-var chase_target: Node3D
+var chase_target: Actor
 
 var move_speed := 2.0
 var last_reachable_path: Vector3
@@ -67,6 +67,7 @@ var _wiggle_index := 0.0
 @onready var nav_agent: NavigationAgent3D = $NavAgent
 @onready var state_chart: StateChart = $StateChart
 @onready var footstep_player: FootstepPlayer = $FootstepPlayer
+@onready var audio: AudioStreamPlayer3D = $Audio
 
 @onready var patrolling_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Patrolling/Processor
 @onready var investigate_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Investigating/Processor
@@ -112,6 +113,12 @@ func set_hearing_target(pos: Vector3) -> void:
 	hearing_attention_point.is_active = true
 
 
+func start_chasing(target: Actor) -> void:
+	chase_target = target
+	state_chart.send_event("chase")
+	play_sound(sounds.start_chase_sound)
+
+
 func face_direction(target_position: Vector3) -> void:
 	var direction := global_position.direction_to(target_position)
 	direction.y = 0.0
@@ -124,6 +131,12 @@ func face_direction(target_position: Vector3) -> void:
 
 func in_state(states: Array[BehaviourState]) -> bool:
 	return states.any(func(state: BehaviourState) -> bool: return current_behaviour == state)
+
+
+func play_sound(sound: AudioStream) -> void:
+	if audio and sound:
+		audio.stream = sound
+		audio.play()
 
 
 func is_using_weapon() -> bool:

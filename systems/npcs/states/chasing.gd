@@ -61,8 +61,6 @@ func _on_chasing_state_entered() -> void:
 		state_chart.send_event("body_walk")
 		return
 
-	if npc.previous_behaviour != Npc.BehaviourState.Attacking:
-		play_sound(npc.sounds.start_chase_sound)
 	state_chart.send_event("body_run")
 	state_chart.send_event("ubody_raise_weapon")
 	npc.move_speed = npc.sprint_speed
