@@ -14,9 +14,6 @@ extends Node
 
 @export var show_search_points := false
 
-var broken_los_point: Vector3
-var last_known_player_point: Vector3
-
 var _search_point_one_label: Label3D
 var _search_point_two_label: Label3D
 
@@ -33,8 +30,6 @@ var _head: LookAtModifier3D
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
-	state[&"broken_los_point"] = broken_los_point
-	state[&"last_known_player_point"] = last_known_player_point
 	state[&"los_point_reached"] = _los_point_reached
 	state[&"_last_known_point_reached"] = _last_known_point_reached
 	SaveUtils.save_timer(state, &"reacquire_timer", _reacquire_timer)
@@ -45,8 +40,6 @@ func save_state() -> Dictionary:
 
 
 func load_state(state: Dictionary) -> void:
-	broken_los_point = state.get(&"broken_los_point", Vector3.ZERO)
-	last_known_player_point = state.get(&"last_known_player_point", Vector3.ZERO)
 	_los_point_reached = state.get(&"los_point_reached", false)
 	_last_known_point_reached = state.get(&"last_known_point_reached", false)
 	SaveUtils.load_timer(state, &"reacquire_timer", _reacquire_timer)

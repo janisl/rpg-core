@@ -19,7 +19,7 @@ func _on_searching_state_entered() -> void:
 			get_tree().current_scene.add_child(npc.search_action._search_point_one_label)
 			get_tree().current_scene.add_child(npc.search_action._search_point_two_label)
 
-	npc.nav_agent.target_position = npc.search_action.broken_los_point
+	npc.nav_agent.target_position = npc.broken_los_point
 	npc.nav_agent.target_reached.connect(_on_reached_target)
 
 	play_sound(npc.sounds.searching_sound)
@@ -51,9 +51,9 @@ func _on_searching_state_exited() -> void:
 func _on_searching_state_physics_processing(delta: float) -> void:
 	if npc.search_action.show_search_points:
 		npc.search_action._search_point_one_label.visible = true
-		npc.search_action._search_point_one_label.global_position = npc.search_action.broken_los_point
+		npc.search_action._search_point_one_label.global_position = npc.broken_los_point
 		npc.search_action._search_point_two_label.visible = true
-		npc.search_action._search_point_two_label.global_position = npc.search_action.last_known_player_point
+		npc.search_action._search_point_two_label.global_position = npc.last_known_player_point
 
 	_sight_detection_check()
 	if npc.nav_agent.is_target_reached():
@@ -93,7 +93,7 @@ func _on_reached_target() -> void:
 
 
 func _search_next_point() -> void:
-	npc.nav_agent.target_position = npc.search_action.last_known_player_point
+	npc.nav_agent.target_position = npc.last_known_player_point
 
 
 func _end_search() -> void:
