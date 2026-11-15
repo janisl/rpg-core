@@ -3,7 +3,7 @@ extends NpcStateProcessor
 
 func _enter_tree() -> void:
 	await get_tree().process_frame
-	npc.alerted_action._return_to_patrol_timer = npc.alerted_action._create_timer(npc.alerted_action.wait_time_once_reached, _return_to_patrol)
+	npc.alerted_action._give_up_timer = npc.alerted_action._create_timer(npc.alerted_action.wait_time_once_reached, _give_up)
 
 
 func _on_alerted_state_entered() -> void:
@@ -21,7 +21,7 @@ func _on_alerted_state_physics_processing(delta: float) -> void:
 		state_chart.send_event("idle")
 		return
 
-	if not npc.alerted_action._shock_timer.is_stopped() or not npc.alerted_action._return_to_patrol_timer.is_stopped():
+	if not npc.alerted_action._shock_timer.is_stopped() or not npc.alerted_action._give_up_timer.is_stopped():
 		npc.face_direction(npc.alerted_action._target)
 
 	if npc.nav_agent.target_position == npc.alerted_action._target and not npc.nav_agent.is_target_reached():
@@ -29,10 +29,10 @@ func _on_alerted_state_physics_processing(delta: float) -> void:
 	else:
 		npc.stop_moving(delta)
 
-	if (npc.nav_agent.is_target_reached() or not npc.nav_agent.is_target_reachable()) and npc.alerted_action._return_to_patrol_timer.is_stopped():
-		npc.alerted_action._return_to_patrol_timer.start()
+	if (npc.nav_agent.is_target_reached() or not npc.nav_agent.is_target_reachable()) and npc.alerted_action._give_up_timer.is_stopped():
+		npc.alerted_action._give_up_timer.start()
 
 
-func _return_to_patrol() -> void:
+func _give_up() -> void:
 	state_chart.send_event("idle")
 	play_sound(npc.sounds.must_have_been_the_wind_sound)
