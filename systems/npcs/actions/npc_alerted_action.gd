@@ -8,6 +8,12 @@ var _shock_timer: Timer
 var _return_to_patrol_timer: Timer
 var _target: Vector3
 
+@onready var npc: Npc = $".."
+
+
+func _enter_tree() -> void:
+	_shock_timer = _create_timer(initial_shock_time, _start_moving)
+
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
@@ -21,3 +27,16 @@ func load_state(state: Dictionary) -> void:
 	SaveUtils.load_timer(state, &"shock_timer", _shock_timer)
 	SaveUtils.load_timer(state, &"return_to_patrol_timer", _return_to_patrol_timer)
 	_target = state.get(&"target", _target)
+
+
+func _start_moving() -> void:
+	npc.nav_agent.target_position = _target
+
+
+func _create_timer(wait_time: float, call_on_timeout: Callable) -> Timer:
+	var timer := Timer.new()
+	timer.wait_time = wait_time
+	timer.one_shot = true
+	timer.timeout.connect(call_on_timeout)
+	add_child(timer)
+	return timer

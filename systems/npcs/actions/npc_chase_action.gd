@@ -14,6 +14,16 @@ var _los_broken_timer: Timer
 var _current_chase_status: ChaseStatus
 var _can_see_player := false
 
+@onready var npc: Npc = $".."
+
+
+func _enter_tree() -> void:
+	_chase_wait_timer = Timer.new()
+	_chase_wait_timer.wait_time = giveup_chase_time
+	_chase_wait_timer.one_shot = true
+	_chase_wait_timer.timeout.connect(_stop_chasing)
+	add_child(_chase_wait_timer)
+
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
@@ -29,3 +39,36 @@ func load_state(state: Dictionary) -> void:
 	SaveUtils.load_timer(state, &"los_broken_timer", _los_broken_timer)
 	_current_chase_status = state.get(&"current_chase_status", ChaseStatus.CHASING)
 	_can_see_player = state.get(&"can_see_player", false)
+
+
+func _running(delta: float) -> void:
+	npc.nav_agent.target_position = npc.chase_target.global_position
+	var distance_to_target := npc.global_position.distance_to(npc.chase_target.global_position)
+
+	if _can_see_player:
+		var ranged_distance := _get_wieldable_range()
+		if ranged_distance > 0 and distance_to_target <= ranged_distance - target_ranged_distance_offset:
+			_current_chase_status = ChaseStatus.CAUGHT
+		elif distance_to_target <= target_melee_distance:
+			_current_chase_status = ChaseStatus.CAUGHT
+
+	if not npc.nav_agent.is_target_reachable():
+		_start_waiting()
+
+	npc.move_npc_to_next_position(delta)
+
+
+func _get_wieldable_range() -> float:
+	if npc.is_using_weapon():
+		return npc.get_weapon_range()
+	return 0
+
+
+func _start_waiting() -> void:
+	_current_chase_status = ChaseStatus.WAITING
+	_chase_wait_timer.start()
+
+
+func _stop_chasing() -> void:
+	npc.move_speed = npc.walk_speed
+	_current_chase_status = ChaseStatus.LOST

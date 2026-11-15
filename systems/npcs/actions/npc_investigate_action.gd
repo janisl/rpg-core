@@ -3,6 +3,8 @@ extends Node
 
 var _attention_spot: Vector3
 
+@onready var npc: Npc = $".."
+
 
 func save_state() -> Dictionary:
 	var state := Dictionary()

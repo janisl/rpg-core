@@ -3,11 +3,6 @@ extends NpcStateProcessor
 
 func _enter_tree() -> void:
 	await get_tree().process_frame
-	npc.chase_action._chase_wait_timer = Timer.new()
-	npc.chase_action._chase_wait_timer.wait_time = npc.chase_action.giveup_chase_time
-	npc.chase_action._chase_wait_timer.one_shot = true
-	npc.chase_action._chase_wait_timer.timeout.connect(_stop_chasing)
-	add_child(npc.chase_action._chase_wait_timer)
 
 	npc.chase_action._los_broken_timer = Timer.new()
 	npc.chase_action._los_broken_timer.wait_time = npc.chase_action.wait_after_broken_los_time
@@ -47,11 +42,11 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 		return
 
 	if npc.is_dead():
-		_npc_has_died()
+		npc.chase_action._current_chase_status = npc.chase_action.ChaseStatus.LOST
 
 	match npc.chase_action._current_chase_status:
 		npc.chase_action.ChaseStatus.CHASING:
-			_running(delta)
+			npc.chase_action._running(delta)
 			return
 
 		npc.chase_action.ChaseStatus.CAUGHT:
@@ -73,43 +68,6 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 		npc.chase_action.ChaseStatus.LOST:
 			_start_searching()
 			return
-
-
-func _running(delta: float) -> void:
-	npc.nav_agent.target_position = npc.chase_target.global_position
-	var distance_to_target := npc.global_position.distance_to(npc.chase_target.global_position)
-
-	if npc.chase_action._can_see_player:
-		var ranged_distance := _get_wieldable_range()
-		if ranged_distance > 0 and distance_to_target <= ranged_distance - npc.chase_action.target_ranged_distance_offset:
-			npc.chase_action._current_chase_status = npc.chase_action.ChaseStatus.CAUGHT
-		elif distance_to_target <= npc.chase_action.target_melee_distance:
-			npc.chase_action._current_chase_status = npc.chase_action.ChaseStatus.CAUGHT
-
-	if not npc.nav_agent.is_target_reachable():
-		_start_waiting()
-
-	npc.move_npc_to_next_position(delta)
-
-
-func _get_wieldable_range() -> float:
-	if npc.is_using_weapon():
-		return npc.get_weapon_range()
-	return 0
-
-
-func _start_waiting() -> void:
-	npc.chase_action._current_chase_status = npc.chase_action.ChaseStatus.WAITING
-	npc.chase_action._chase_wait_timer.start()
-
-
-func _stop_chasing() -> void:
-	npc.move_speed = npc.walk_speed
-	npc.chase_action._current_chase_status = npc.chase_action.ChaseStatus.LOST
-
-
-func _npc_has_died() -> void:
-	npc.chase_action._current_chase_status = npc.chase_action.ChaseStatus.LOST
 
 
 func _start_searching() -> void:

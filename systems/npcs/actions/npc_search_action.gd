@@ -27,6 +27,16 @@ var _stuck_timer: Timer
 
 var _head: LookAtModifier3D
 
+@onready var npc: Npc = $".."
+
+
+func _enter_tree() -> void:
+	if show_search_points:
+		_search_point_one_label = _create_debug_label("1")
+		_search_point_two_label = _create_debug_label("2")
+
+	_first_wait_timer = _create_timer(wait_at_first_point, _search_next_point)
+
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
@@ -46,3 +56,55 @@ func load_state(state: Dictionary) -> void:
 	SaveUtils.load_timer(state, &"first_wait_timer", _first_wait_timer)
 	SaveUtils.load_timer(state, &"second_wait_timer", _second_wait_timer)
 	SaveUtils.load_timer(state, &"stuck_timer", _stuck_timer)
+
+
+func _sight_detection_check() -> void:
+	if sight_detection.check_if_player_in_los():
+		_stuck_timer.stop()
+		if _reacquire_timer.is_stopped():
+			_head.target_node = npc.chase_target.head.get_path()
+			npc.play_sound(npc.sounds.i_see_you_sound)
+			_reacquire_timer.start()
+	else:
+		_head.target_node = searching_look_ahead.get_path()
+		_reacquire_timer.stop()
+
+
+func _on_reached_target() -> void:
+	if not _los_point_reached:
+		_los_point_reached = true
+		_first_wait_timer.start()
+	elif not _last_known_point_reached:
+		_last_known_point_reached = true
+		_second_wait_timer.start()
+
+
+func _search_next_point() -> void:
+	npc.nav_agent.target_position = npc.last_known_player_point
+
+
+func _turn_head(delta: float) -> void:
+	if head_target_rotation_angle > 0:
+		searching_look_ahead_pivot.rotate_y(deg_to_rad(180) * delta)
+		if searching_look_ahead_pivot.rotation_degrees.y >= head_target_rotation_angle:
+			head_target_rotation_angle *= -1
+	else:
+		searching_look_ahead_pivot.rotate_y(deg_to_rad(-180) * delta)
+		if searching_look_ahead_pivot.rotation_degrees.y <= head_target_rotation_angle:
+			head_target_rotation_angle *= -1
+
+
+func _create_timer(wait_time: float, call_on_timeout: Callable) -> Timer:
+	var timer := Timer.new()
+	timer.wait_time = wait_time
+	timer.one_shot = true
+	timer.timeout.connect(call_on_timeout)
+	add_child(timer)
+	return timer
+
+
+func _create_debug_label(text: String) -> Label3D:
+	var label := Label3D.new()
+	label.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
+	label.text = text
+	return label
