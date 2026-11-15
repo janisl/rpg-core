@@ -75,6 +75,13 @@ var _wiggle_index := 0.0
 @onready var searching_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Searching/Processor
 @onready var alerted_processor: NpcStateProcessor = $StateChart/Root/Behaviour/Alerted/Processor
 
+@onready var patrol_action: NpcPatrolAction = $PatrolAction
+@onready var investigate_action: NpcInvestigateAction = $InvestigateAction
+@onready var chase_action: NpcChaseAction = $ChaseAction
+@onready var attack_action: NpcAttackAction = $AttackAction
+@onready var search_action: NpcSearchAction = $SearchAction
+@onready var alerted_action: NpcAlertedAction = $AlertedAction
+
 
 func _ready() -> void:
 	add_to_group("persist")

@@ -1,0 +1,2 @@
+class_name NpcAttackAction
+extends Node

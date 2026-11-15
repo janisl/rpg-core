@@ -30,8 +30,14 @@
 [ext_resource type="Script" uid="uid://crvmh56qwb83k" path="res://systems/npcs/detection/sight_detection.gd" id="22_gbejp"]
 [ext_resource type="Script" uid="uid://ccwu2fc84l1rx" path="res://systems/footsteps/footstep_player.gd" id="31_gxn4h"]
 [ext_resource type="AudioStream" uid="uid://c5etqcpobd0u" path="res://systems/footsteps/generic_footstep_profile.tres" id="32_dqwjh"]
+[ext_resource type="Script" uid="uid://4pdjmb8h2tpe" path="res://systems/npcs/actions/npc_patrol_action.gd" id="33_tgfp8"]
+[ext_resource type="Script" uid="uid://6g7k75yxry83" path="res://systems/npcs/actions/npc_investigate_action.gd" id="34_dpv7w"]
 [ext_resource type="PackedScene" uid="uid://essuiwcp63ni" path="res://systems/npcs/detection/hearing_indicator.tscn" id="34_ol0oh"]
 [ext_resource type="Script" uid="uid://c0wkbigr3oabl" path="res://systems/npcs/detection/hearing_detection.gd" id="35_bqx5n"]
+[ext_resource type="Script" uid="uid://kcer2y7lixdg" path="res://systems/npcs/actions/npc_chase_action.gd" id="35_mfil8"]
+[ext_resource type="Script" uid="uid://bixwysc1m3btm" path="res://systems/npcs/actions/npc_attack_action.gd" id="36_gdyrv"]
+[ext_resource type="Script" uid="uid://c276vbb4cey4x" path="res://systems/npcs/actions/npc_search_action.gd" id="37_e2qw7"]
+[ext_resource type="Script" uid="uid://bqvbcpj5ekq7c" path="res://systems/npcs/actions/npc_alerted_action.gd" id="38_xiwia"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -1071,6 +1077,30 @@ hurt_sound = ExtResource("10_1cfep")
 free_on_death = Array[NodePath]([NodePath("..")])
 max_value = 50.0
 initial_value = 50.0
+
+[node name="PatrolAction" type="Node" parent="." unique_id=1356585135]
+script = ExtResource("33_tgfp8")
+metadata/_custom_type_script = "uid://4pdjmb8h2tpe"
+
+[node name="InvestigateAction" type="Node" parent="." unique_id=1268147075]
+script = ExtResource("34_dpv7w")
+metadata/_custom_type_script = "uid://6g7k75yxry83"
+
+[node name="ChaseAction" type="Node" parent="." unique_id=1776116788]
+script = ExtResource("35_mfil8")
+metadata/_custom_type_script = "uid://kcer2y7lixdg"
+
+[node name="AttackAction" type="Node" parent="." unique_id=24342092]
+script = ExtResource("36_gdyrv")
+metadata/_custom_type_script = "uid://bixwysc1m3btm"
+
+[node name="SearchAction" type="Node" parent="." unique_id=201327018]
+script = ExtResource("37_e2qw7")
+metadata/_custom_type_script = "uid://c276vbb4cey4x"
+
+[node name="AlertedAction" type="Node" parent="." unique_id=1792355420]
+script = ExtResource("38_xiwia")
+metadata/_custom_type_script = "uid://bqvbcpj5ekq7c"
 
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_physics_processing"]

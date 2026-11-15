@@ -1,0 +1,2 @@
+class_name NpcChaseAction
+extends Node
