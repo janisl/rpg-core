@@ -8,6 +8,7 @@ extends Node
 @export var attack_duration := 1.0
 
 var _count_down := 0.0
+var _did_attack: bool
 
 @onready var npc: Npc = $".."
 
@@ -15,12 +16,14 @@ var _count_down := 0.0
 func save_state() -> Dictionary:
 	var state := Dictionary()
 	state[&"count_down"] = _count_down
+	state[&"did_attack"] = _did_attack
 	state[&"attack_impact_zone_enabled"] = attack_impact_zone.monitoring
 	return state
 
 
 func load_state(state: Dictionary) -> void:
 	_count_down = state.get(&"count_down", 0.0)
+	_did_attack = state.get(&"did_attack", false)
 	attack_impact_zone.monitoring = state.get(&"attack_impact_zone_enabled", false)
 
 

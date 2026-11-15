@@ -7,8 +7,7 @@ func _on_attacking_state_entered() -> void:
 		state_chart.send_event("chase")
 	else:
 		npc.attack_action._count_down = npc.attack_action.attack_duration
-		if npc.attack_action._can_attack_now():
-			npc.attack_action._attempt_attack()
+		npc.attack_action._did_attack = false
 
 
 func _on_attacking_state_exited() -> void:
@@ -20,8 +19,11 @@ func _on_attacking_state_physics_processing(delta: float) -> void:
 	if npc.chase_target:
 		npc.face_direction(npc.chase_target.global_position)
 
-	if npc.attack_action._count_down <= 0 and npc.attack_action._can_attack_now():
+	if not npc.attack_action._did_attack and npc.attack_action._can_attack_now():
 		npc.attack_action._attempt_attack()
+		npc.attack_action._did_attack = true
+
+	if npc.attack_action._count_down <= 0:
 		state_chart.send_event("chase")
 	else:
 		npc.attack_action._count_down -= delta
