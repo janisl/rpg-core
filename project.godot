@@ -28,6 +28,10 @@ UserInterface="*uid://6ygkwtxr8bbo"
 DevTools="*uid://bf0htswuay7cy"
 LevelManager="*uid://ero0l8bg86td"
 
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+
 [display]
 
 window/size/viewport_width=1920
