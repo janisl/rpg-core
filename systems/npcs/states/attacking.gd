@@ -1,6 +1,5 @@
 extends NpcStateProcessor
 
-@export var state_after_attack: String
 @export var can_attack_while_moving := false
 
 @export_group("Melee attack properties")
@@ -25,7 +24,7 @@ func load_state(state: Dictionary) -> void:
 func _on_attacking_state_entered() -> void:
 	_enter_state()
 	if not npc.chase_target:
-		state_chart.send_event(state_after_attack)
+		state_chart.send_event("chase")
 	else:
 		_count_down = attack_duration
 		if _attack_while_moving():
@@ -43,7 +42,7 @@ func _on_attacking_state_physics_processing(delta: float) -> void:
 
 	if _count_down <= 0 and _attack_while_moving():
 		_attempt_attack()
-		state_chart.send_event(state_after_attack)
+		state_chart.send_event("chase")
 	else:
 		_count_down -= delta
 

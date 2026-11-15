@@ -4,7 +4,6 @@ enum ChaseStatus { CHASING, CAUGHT, WAITING, LOST }
 
 @export var target_melee_distance := 1.5
 @export var target_ranged_distance_offset := 1.0
-@export var action_when_caught := "attack"
 @export var giveup_chase_time := 5.0
 @export var wait_after_broken_los_time := 3.0
 @export var face_target_while_waiting := true
@@ -85,7 +84,7 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 			return
 
 		ChaseStatus.CAUGHT:
-			state_chart.send_event(action_when_caught)
+			state_chart.send_event("attack")
 			return
 
 		ChaseStatus.WAITING:
