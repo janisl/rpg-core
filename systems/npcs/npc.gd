@@ -41,7 +41,7 @@ enum BehaviourState {
 
 var sight_attention_point: AttentionPoint
 var hearing_attention_point: AttentionPoint
-var attention_target: Node3D
+var chase_target: Node3D
 
 var move_speed := 2.0
 var last_reachable_path: Vector3
@@ -79,7 +79,7 @@ func _ready() -> void:
 	add_to_group("persist")
 	_spawn_weapon()
 	_find_health_attribute()
-	_create_attention_points()
+	_create_attention_points.call_deferred()
 
 
 func _physics_process(delta: float) -> void:
@@ -98,11 +98,15 @@ func _exit_tree() -> void:
 
 
 func set_sight_target(pos: Vector3) -> void:
+	if chase_target:
+		return
 	sight_attention_point.global_position = pos
 	sight_attention_point.is_active = true
 
 
 func set_hearing_target(pos: Vector3) -> void:
+	if chase_target:
+		return
 	hearing_attention_point.global_position = pos
 	hearing_attention_point.is_active = true
 
@@ -178,6 +182,8 @@ func stop_moving(delta: float) -> void:
 
 func try_end_investigation() -> void:
 	if sight_detection.current_suspicion <= 0 and hearing_detection.current_suspicion <= 0:
+		sight_attention_point.is_active = false
+		hearing_attention_point.is_active = false
 		state_chart.send_event("idle")
 
 
@@ -188,7 +194,7 @@ func is_dead() -> bool:
 func save_state() -> Dictionary:
 	var state := super()
 	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
-	SaveUtils.save_ref(state, &"attention_target", attention_target)
+	SaveUtils.save_ref(state, &"chase_target", chase_target)
 
 	state[&"move_speed"] = move_speed
 	state[&"last_reachable_path"] = last_reachable_path
@@ -214,7 +220,7 @@ func save_state() -> Dictionary:
 func load_state(state: Dictionary) -> void:
 	super(state)
 	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
-	attention_target = SaveUtils.load_ref(state, &"attention_target")
+	chase_target = SaveUtils.load_ref(state, &"chase_target")
 
 	move_speed = state.get(&"move_speed", move_speed)
 	last_reachable_path = state.get(&"last_reachable_path", Vector3.ZERO)

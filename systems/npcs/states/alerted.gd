@@ -32,7 +32,10 @@ func load_state(state: Dictionary) -> void:
 func _on_alerted_state_entered() -> void:
 	_enter_state()
 	_shock_timer.start()
-	_target = npc.attention_target.global_position
+	if npc.sight_attention_point.is_active:
+		_target = npc.sight_attention_point.global_position
+	elif npc.hearing_attention_point.is_active:
+		_target = npc.hearing_attention_point.global_position
 	play_sound(alerted_sound)
 
 
@@ -41,14 +44,14 @@ func _on_alerted_state_exited() -> void:
 
 
 func _on_alerted_state_physics_processing(delta: float) -> void:
-	if not npc.attention_target:
+	if not npc.sight_attention_point.is_active and not npc.hearing_attention_point.is_active:
 		state_chart.send_event("idle")
 		return
 
 	if not _shock_timer.is_stopped() or not _return_to_patrol_timer.is_stopped():
-		npc.face_direction(npc.attention_target.global_position)
+		npc.face_direction(_target)
 
-	if npc.nav_agent.target_position == npc.attention_target.global_position and not npc.nav_agent.is_target_reached():
+	if npc.nav_agent.target_position == _target and not npc.nav_agent.is_target_reached():
 		npc.move_npc_to_next_position(delta)
 	else:
 		npc.stop_moving(delta)

@@ -20,12 +20,6 @@ extends NpcStateProcessor
 var broken_los_point: Vector3
 var last_known_player_point: Vector3
 
-var player: Player:
-	get:
-		if not player:
-			return get_tree().get_first_node_in_group("player")
-		return player
-
 var _search_point_one_label: Label3D
 var _search_point_two_label: Label3D
 
@@ -55,7 +49,6 @@ func save_state() -> Dictionary:
 	var state := Dictionary()
 	state[&"broken_los_point"] = broken_los_point
 	state[&"last_known_player_point"] = last_known_player_point
-	SaveUtils.save_ref(state, &"player", player)
 	state[&"los_point_reached"] = _los_point_reached
 	state[&"_last_known_point_reached"] = _last_known_point_reached
 	SaveUtils.save_timer(state, &"reacquire_timer", _reacquire_timer)
@@ -68,7 +61,6 @@ func save_state() -> Dictionary:
 func load_state(state: Dictionary) -> void:
 	broken_los_point = state.get(&"broken_los_point", Vector3.ZERO)
 	last_known_player_point = state.get(&"last_known_player_point", Vector3.ZERO)
-	player = SaveUtils.load_ref(state, &"player")
 	_los_point_reached = state.get(&"los_point_reached", false)
 	_last_known_point_reached = state.get(&"last_known_point_reached", false)
 	SaveUtils.load_timer(state, &"reacquire_timer", _reacquire_timer)
@@ -136,7 +128,7 @@ func _sight_detection_check() -> void:
 	if sight_detection.check_if_player_in_los():
 		_stuck_timer.stop()
 		if _reacquire_timer.is_stopped():
-			_head.target_node = player.head.get_path()
+			_head.target_node = npc.chase_target.head.get_path()
 			play_sound(i_see_you_sound)
 			_reacquire_timer.start()
 	else:
@@ -145,7 +137,6 @@ func _sight_detection_check() -> void:
 
 
 func _start_chasing() -> void:
-	npc.attention_target = player
 	state_chart.send_event("chase")
 
 
@@ -170,6 +161,7 @@ func _end_search() -> void:
 		if npc.sight_detection:
 			npc.sight_detection.reset()
 	state_chart.send_event("idle")
+	npc.chase_target = null
 
 
 func _turn_head(delta: float) -> void:

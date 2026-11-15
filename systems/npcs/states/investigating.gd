@@ -18,8 +18,11 @@ func load_state(state: Dictionary) -> void:
 func _on_investigate_state_entered() -> void:
 	_enter_state()
 	state_chart.send_event("ubody_raise_weapon")
-	if npc.attention_target is AttentionPoint:
-		_attention_spot = npc.attention_target.global_position
+	if npc.sight_attention_point.is_active:
+		_attention_spot = npc.sight_attention_point.global_position
+		npc.nav_agent.target_position = _attention_spot
+	elif npc.hearing_attention_point.is_active:
+		_attention_spot = npc.hearing_attention_point.global_position
 		npc.nav_agent.target_position = _attention_spot
 	play_sound(investigate_sound)
 

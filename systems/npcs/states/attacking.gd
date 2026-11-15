@@ -7,30 +7,25 @@ extends NpcStateProcessor
 @export var attack_impact_zone: ImpactZone
 @export var attack_sound: AudioStream
 @export var attack_duration := 1.0
-@export var melee_range := 1.5
 
-var _target: Node3D
 var _count_down := 0.0
 
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
-	SaveUtils.save_ref(state, &"target", _target)
 	state[&"count_down"] = _count_down
 	state[&"attack_impact_zone_enabled"] = attack_impact_zone.monitoring
 	return state
 
 
 func load_state(state: Dictionary) -> void:
-	_target = SaveUtils.load_ref(state, &"target")
 	_count_down = state.get(&"count_down", 0.0)
 	attack_impact_zone.monitoring = state.get(&"attack_impact_zone_enabled", false)
 
 
 func _on_attacking_state_entered() -> void:
 	_enter_state()
-	_target = npc.attention_target
-	if !_target:
+	if not npc.chase_target:
 		state_chart.send_event(state_after_attack)
 	else:
 		_count_down = attack_duration
@@ -45,8 +40,8 @@ func _on_attacking_state_exited() -> void:
 
 func _on_attacking_state_physics_processing(delta: float) -> void:
 	npc.stop_moving(delta)
-	if _target:
-		npc.face_direction(_target.global_position)
+	if npc.chase_target:
+		npc.face_direction(npc.chase_target.global_position)
 
 	if _count_down <= 0 and _attack_while_moving():
 		_attempt_attack()
@@ -65,8 +60,7 @@ func _attempt_attack() -> void:
 	if not npc.is_using_weapon():
 		_count_down = attack_duration
 		state_chart.send_event("ubody_attack")
-		if npc.global_position.distance_to(_target.global_position) <= melee_range:
-			_punch_attack()
+		_punch_attack()
 	else:
 		_count_down = attack_duration
 		npc.sight_detection.check_if_player_in_los()

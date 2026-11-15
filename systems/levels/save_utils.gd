@@ -66,7 +66,7 @@ static func load_animation_player(state: Dictionary, name: StringName, animation
 		return
 
 	var player_state: Dictionary = state[name]
-	animation_player.play(player_state[&"animation_name"])
+	animation_player.play(player_state[&"current_animation"])
 	animation_player.seek(player_state.get(&"animation_position", 0.0))
 	if not player_state.get(&"is_playing", false):
 		animation_player.stop(false)

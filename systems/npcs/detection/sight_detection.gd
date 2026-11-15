@@ -95,7 +95,7 @@ func load_state(state: Dictionary) -> void:
 
 func check_if_player_in_los() -> bool:
 	for	node:Node in _nodes_inside_detection_area:
-		if node is Player:
+		if node is Player and node.health_attribute.is_alive:
 			return _fire_raycast_at(node)
 	return false
 
@@ -208,7 +208,7 @@ func _decay_suspicion(delta: float) -> void:
 func _state_trigger_checks() -> void:
 	if current_suspicion >= aggro_threshold and ref_to_player and npc.in_state([Npc.BehaviourState.Investigating]):
 		current_suspicion = investigation_threshold
-		npc.attention_target = ref_to_player
+		npc.chase_target = ref_to_player
 		npc.state_chart.send_event("chase")
 	elif current_suspicion >= investigation_threshold and ref_to_player and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
 		npc.set_sight_target(ref_to_player.global_position)

@@ -21,7 +21,6 @@ enum ChaseStatus { CHASING, CAUGHT, WAITING, LOST }
 var _chase_wait_timer: Timer
 var _los_broken_timer: Timer
 var _current_chase_status: ChaseStatus
-var _chase_target: Node3D
 var _can_see_player := false
 
 
@@ -44,7 +43,6 @@ func save_state() -> Dictionary:
 	SaveUtils.save_timer(state, &"chase_wait_timer", _chase_wait_timer)
 	SaveUtils.save_timer(state, &"los_broken_timer", _los_broken_timer)
 	state[&"current_chase_status"] = _current_chase_status
-	SaveUtils.save_ref(state, &"chase_target", _chase_target)
 	state[&"can_see_player"] = _can_see_player
 	return state
 
@@ -53,16 +51,13 @@ func load_state(state: Dictionary) -> void:
 	SaveUtils.load_timer(state, &"chase_wait_timer", _chase_wait_timer)
 	SaveUtils.load_timer(state, &"los_broken_timer", _los_broken_timer)
 	_current_chase_status = state.get(&"current_chase_status", ChaseStatus.CHASING)
-	_chase_target = SaveUtils.load_ref(state, &"chase_target")
 	_can_see_player = state.get(&"can_see_player", false)
 
 
 func _on_chasing_state_entered() -> void:
 	_enter_state()
-	if npc.attention_target is Player:
-		_chase_target = npc.attention_target
 
-	if not _chase_target or npc.response_to_player == "Neutral":
+	if not npc.chase_target or npc.response_to_player == "Neutral":
 		state_chart.send_event("search")
 		state_chart.send_event("body_walk")
 		return
@@ -73,19 +68,14 @@ func _on_chasing_state_entered() -> void:
 	state_chart.send_event("ubody_raise_weapon")
 	npc.move_speed = npc.sprint_speed
 	_current_chase_status = ChaseStatus.CHASING
-	npc.head_turner.target_node = _chase_target.get_path()
+	npc.head_turner.target_node = npc.chase_target.get_path()
 
 
 func _on_chasing_state_exited() -> void:
 	_exit_state()
-	_chase_target = null
 
 
 func _on_chasing_state_physics_processing(delta: float) -> void:
-	# When loading a game during a chase, the attention target needs to be reacquired
-	if not _chase_target and npc.attention_target:
-		_chase_target = npc.attention_target
-
 	_can_see_player = _check_los_to_player()
 	if _can_see_player:
 		npc.head_turner.active = true
@@ -93,10 +83,11 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 	else:
 		npc.head_turner.active = false
 		if _los_broken_timer.is_stopped() and _chase_wait_timer.is_stopped():
-			searching_state.broken_los_point = _chase_target.global_position
+			searching_state.broken_los_point = npc.chase_target.global_position
 			_los_broken_timer.start()
 
-	if not _chase_target or not (_chase_target as Player).health_attribute.is_alive:
+	if not npc.chase_target or not (npc.chase_target as Player).health_attribute.is_alive:
+		npc.chase_target = null
 		_stop_chasing()
 
 	if npc.is_dead():
@@ -115,9 +106,9 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 			npc.stop_moving(delta)
 
 			if face_target_while_waiting:
-				npc.face_direction(_chase_target.global_position)
+				npc.face_direction(npc.chase_target.global_position)
 
-			npc.nav_agent.target_position = _chase_target.global_position
+			npc.nav_agent.target_position = npc.chase_target.global_position
 			if npc.nav_agent.is_target_reachable() or _can_see_player:
 				_chase_wait_timer.stop()
 				_current_chase_status = ChaseStatus.CHASING
@@ -130,7 +121,7 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 
 func _check_los_to_player() -> bool:
 	var space_state := npc.get_world_3d().direct_space_state
-	var query := PhysicsRayQueryParameters3D.create(npc.head.global_position, _chase_target.global_position, collision_mask)
+	var query := PhysicsRayQueryParameters3D.create(npc.head.global_position, npc.chase_target.global_position, collision_mask)
 	query.exclude = [npc.get_rid()]
 	var result := space_state.intersect_ray(query)
 	if result:
@@ -139,8 +130,8 @@ func _check_los_to_player() -> bool:
 
 
 func _running(delta: float) -> void:
-	npc.nav_agent.target_position = _chase_target.global_position
-	var distance_to_target := npc.global_position.distance_to(_chase_target.global_position)
+	npc.nav_agent.target_position = npc.chase_target.global_position
+	var distance_to_target := npc.global_position.distance_to(npc.chase_target.global_position)
 
 	if _can_see_player:
 		var ranged_distance := _get_wieldable_range()
@@ -178,7 +169,6 @@ func _npc_has_died() -> void:
 func _start_searching() -> void:
 	var sight := npc.sight_detection
 	sight.current_suspicion -= sight.aggro_threshold / 4
-	searching_state.player = _chase_target
 	searching_state.last_known_player_point = npc.last_reachable_path
 	state_chart.send_event("search")
 	state_chart.send_event("body_walk")
