@@ -80,8 +80,8 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 			_los_broken_timer.start()
 
 	if not npc.chase_target or not (npc.chase_target as Player).health_attribute.is_alive:
-		npc.chase_target = null
-		_stop_chasing()
+		npc.stop_chasing()
+		return
 
 	if npc.is_dead():
 		_npc_has_died()

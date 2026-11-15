@@ -118,6 +118,11 @@ func start_chasing(target: Actor) -> void:
 	play_sound(sounds.start_chase_sound)
 
 
+func stop_chasing() -> void:
+	chase_target = null
+	state_chart.send_event("idle")
+
+
 func face_direction(target_position: Vector3) -> void:
 	var direction := global_position.direction_to(target_position)
 	direction.y = 0.0
