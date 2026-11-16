@@ -99,6 +99,14 @@ func check_if_chase_target_in_los() -> bool:
 	return _fire_raycast_at(npc.chase_target)
 
 
+func is_aggro_to_target() -> bool:
+	return current_suspicion >= aggro_threshold and detected_target
+
+
+func is_suspicious_of_target() -> bool:
+	return current_suspicion >= investigation_threshold and detected_target
+
+
 func reset() -> void:
 	current_suspicion = 0
 	sight_suspicion_indicator.visible = false
@@ -208,10 +216,10 @@ func _decay_suspicion(delta: float) -> void:
 
 
 func _state_trigger_checks() -> void:
-	if current_suspicion >= aggro_threshold and detected_target and npc.in_state([Npc.BehaviourState.Investigating]):
+	if is_aggro_to_target() and npc.in_state([Npc.BehaviourState.Investigating]):
 		current_suspicion = investigation_threshold
 		npc.start_chasing(detected_target)
-	elif current_suspicion >= investigation_threshold and detected_target and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
+	elif is_suspicious_of_target() and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
 		npc.set_sight_target(detected_target.global_position)
 		npc.state_chart.send_event("investigate")
 
