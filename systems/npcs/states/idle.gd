@@ -6,7 +6,6 @@ func _on_idle_state_entered() -> void:
 	state_chart.send_event("ubody_neutral")
 	if npc.patrol_path:
 		state_chart.send_event("patrol")
-		state_chart.send_event("body_walk")
 
 
 func _on_idle_state_physics_processing(delta: float) -> void:

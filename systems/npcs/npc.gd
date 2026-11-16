@@ -201,6 +201,16 @@ func stop_moving(delta: float) -> void:
 	move_and_slide()
 
 
+func set_walking_speed() -> void:
+	move_speed = walk_speed
+	state_chart.send_event("body_walk")
+
+
+func set_running_speed() -> void:
+	move_speed = sprint_speed
+	state_chart.send_event("body_run")
+
+
 func try_end_investigation() -> void:
 	if sight_detection.current_suspicion <= 0 and hearing_detection.current_suspicion <= 0:
 		sight_attention_point.is_active = false

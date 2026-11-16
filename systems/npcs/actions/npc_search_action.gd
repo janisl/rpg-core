@@ -67,8 +67,7 @@ func start() -> void:
 	npc.nav_agent.target_reached.connect(_on_reached_target)
 
 	npc.play_sound(npc.sounds.searching_sound)
-	npc.state_chart.send_event("body_walk")
-	npc.move_speed = npc.walk_speed
+	npc.set_walking_speed()
 	_los_point_reached = false
 	_last_known_point_reached = false
 	_head = npc.head_turner

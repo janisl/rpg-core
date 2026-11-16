@@ -6,7 +6,6 @@ func _on_chasing_state_entered() -> void:
 
 	if not npc.chase_target or npc.response_to_player == "Neutral":
 		state_chart.send_event("search")
-		state_chart.send_event("body_walk")
 		return
 
 	npc.chase_action.start()
@@ -29,4 +28,3 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 
 func _start_searching() -> void:
 	state_chart.send_event("search")
-	state_chart.send_event("body_walk")
