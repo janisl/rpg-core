@@ -70,8 +70,6 @@ func _physics_process(delta: float) -> void:
 
 	_decay_suspicion(delta)
 
-	_state_trigger_checks()
-
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
@@ -212,12 +210,6 @@ func _decay_suspicion(delta: float) -> void:
 		_decay_timer.start()
 	elif _is_decaying and current_suspicion > 0:
 		current_suspicion -= (suspicion_decay_rate * delta)
-
-
-func _state_trigger_checks() -> void:
-	if is_suspicious_of_target() and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
-		npc.set_sight_target(detected_target.global_position)
-		npc.state_chart.send_event("investigate")
 
 
 func _generate_sight_range_collider() -> void:

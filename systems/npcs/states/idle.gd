@@ -10,3 +10,7 @@ func _on_idle_state_entered() -> void:
 
 func _on_idle_state_physics_processing(delta: float) -> void:
 	npc.stop_moving(delta)
+
+	if npc.sight_detection.is_suspicious_of_target():
+		npc.set_sight_target(npc.sight_detection.detected_target.global_position)
+		npc.state_chart.send_event("investigate")

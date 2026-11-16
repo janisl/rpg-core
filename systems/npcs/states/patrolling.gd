@@ -11,5 +11,8 @@ func _on_patrolling_state_physics_processing(delta: float) -> void:
 	if bumped_target:
 		npc.start_chasing(bumped_target)
 		state_chart.send_event("chase")
+	elif npc.sight_detection.is_suspicious_of_target():
+		npc.set_sight_target(npc.sight_detection.detected_target.global_position)
+		npc.state_chart.send_event("investigate")
 
 	npc.patrol_action.physics_process(delta)
