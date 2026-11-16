@@ -54,7 +54,7 @@ func start() -> void:
 	npc.head_turner.target_node = npc.chase_target.get_path()
 
 
-func physics_process(delta: float) -> void:
+func physics_process(delta: float) -> ChaseStatus:
 	_can_see_player = npc.sight_detection.check_if_player_in_los()
 	if _can_see_player:
 		npc.head_turner.active = true
@@ -85,6 +85,8 @@ func physics_process(delta: float) -> void:
 
 		ChaseStatus.LOST:
 			npc.remember_lost_target()
+
+	return _current_chase_status
 
 
 func _running(delta: float) -> void:

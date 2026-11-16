@@ -16,15 +16,10 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 		npc.stop_chasing()
 		return
 
-	npc.chase_action.physics_process(delta)
-
-	match npc.chase_action._current_chase_status:
-		npc.chase_action.ChaseStatus.CAUGHT:
+	var result := npc.chase_action.physics_process(delta)
+	match result:
+		NpcChaseAction.ChaseStatus.CAUGHT:
 			state_chart.send_event("attack")
 
-		npc.chase_action.ChaseStatus.LOST:
-			_start_searching()
-
-
-func _start_searching() -> void:
-	state_chart.send_event("search")
+		NpcChaseAction.ChaseStatus.LOST:
+			state_chart.send_event("search")
