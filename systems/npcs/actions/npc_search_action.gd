@@ -14,6 +14,9 @@ extends Node
 
 @export var show_search_points := false
 
+var target_reacquired: bool
+var given_up: bool
+
 var _search_point_one_label: Label3D
 var _search_point_two_label: Label3D
 
@@ -36,12 +39,17 @@ func _enter_tree() -> void:
 		_search_point_two_label = _create_debug_label("2")
 
 	_first_wait_timer = _create_timer(wait_at_first_point, _search_next_point)
+	_second_wait_timer = _create_timer(end_search_after_second_point, _end_search)
+	_reacquire_timer = _create_timer(reacquire_time, _start_chasing)
+	_stuck_timer = _create_timer(end_search_if_stuck_for, _end_search)
 
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
 	state[&"los_point_reached"] = _los_point_reached
-	state[&"_last_known_point_reached"] = _last_known_point_reached
+	state[&"last_known_point_reached"] = _last_known_point_reached
+	state[&"target_reacquired"] = target_reacquired
+	state[&"given_up"] = given_up
 	SaveUtils.save_timer(state, &"reacquire_timer", _reacquire_timer)
 	SaveUtils.save_timer(state, &"first_wait_timer", _first_wait_timer)
 	SaveUtils.save_timer(state, &"second_wait_timer", _second_wait_timer)
@@ -52,6 +60,8 @@ func save_state() -> Dictionary:
 func load_state(state: Dictionary) -> void:
 	_los_point_reached = state.get(&"los_point_reached", false)
 	_last_known_point_reached = state.get(&"last_known_point_reached", false)
+	target_reacquired = state.get(&"target_reacquired", false)
+	given_up = state.get(&"given_up", false)
 	SaveUtils.load_timer(state, &"reacquire_timer", _reacquire_timer)
 	SaveUtils.load_timer(state, &"first_wait_timer", _first_wait_timer)
 	SaveUtils.load_timer(state, &"second_wait_timer", _second_wait_timer)
@@ -62,6 +72,9 @@ func start() -> void:
 	if show_search_points and not _search_point_one_label.is_inside_tree():
 			get_tree().current_scene.add_child(_search_point_one_label)
 			get_tree().current_scene.add_child(_search_point_two_label)
+
+	target_reacquired = false
+	given_up = false
 
 	npc.nav_agent.target_position = npc.broken_los_point
 	npc.nav_agent.target_reached.connect(_on_reached_target)
@@ -144,6 +157,21 @@ func _turn_head(delta: float) -> void:
 		searching_look_ahead_pivot.rotate_y(deg_to_rad(-180) * delta)
 		if searching_look_ahead_pivot.rotation_degrees.y <= head_target_rotation_angle:
 			head_target_rotation_angle *= -1
+
+
+func _start_chasing() -> void:
+	target_reacquired = true
+
+
+func _end_search() -> void:
+	npc.play_sound(npc.sounds.end_search_sound)
+	if reset_suspicion_when_search_ends:
+		if npc.hearing_detection:
+			npc.hearing_detection.reset()
+		if npc.sight_detection:
+			npc.sight_detection.reset()
+	npc.chase_target = null
+	given_up = true
 
 
 func _create_timer(wait_time: float, call_on_timeout: Callable) -> Timer:
