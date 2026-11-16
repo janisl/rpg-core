@@ -111,7 +111,7 @@ func physics_process(delta: float) -> void:
 
 
 func _sight_detection_check() -> void:
-	if sight_detection.check_if_player_in_los():
+	if sight_detection.check_if_chase_target_in_los():
 		_stuck_timer.stop()
 		if _reacquire_timer.is_stopped():
 			_head.target_node = npc.chase_target.head.get_path()

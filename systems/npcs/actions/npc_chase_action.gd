@@ -12,7 +12,6 @@ enum ChaseStatus { CHASING, CAUGHT, WAITING, LOST }
 var _chase_wait_timer: Timer
 var _los_broken_timer: Timer
 var _current_chase_status: ChaseStatus
-var _can_see_player := false
 
 @onready var npc: Npc = $".."
 
@@ -36,7 +35,6 @@ func save_state() -> Dictionary:
 	SaveUtils.save_timer(state, &"chase_wait_timer", _chase_wait_timer)
 	SaveUtils.save_timer(state, &"los_broken_timer", _los_broken_timer)
 	state[&"current_chase_status"] = _current_chase_status
-	state[&"can_see_player"] = _can_see_player
 	return state
 
 
@@ -44,7 +42,6 @@ func load_state(state: Dictionary) -> void:
 	SaveUtils.load_timer(state, &"chase_wait_timer", _chase_wait_timer)
 	SaveUtils.load_timer(state, &"los_broken_timer", _los_broken_timer)
 	_current_chase_status = state.get(&"current_chase_status", ChaseStatus.CHASING)
-	_can_see_player = state.get(&"can_see_player", false)
 
 
 func start() -> void:
@@ -55,8 +52,8 @@ func start() -> void:
 
 
 func physics_process(delta: float) -> ChaseStatus:
-	_can_see_player = npc.sight_detection.check_if_player_in_los()
-	if _can_see_player:
+	var can_see_target := npc.sight_detection.check_if_chase_target_in_los()
+	if can_see_target:
 		npc.head_turner.active = true
 		_los_broken_timer.stop()
 	else:
@@ -70,7 +67,7 @@ func physics_process(delta: float) -> ChaseStatus:
 
 	match _current_chase_status:
 		ChaseStatus.CHASING:
-			_running(delta)
+			_running(delta, can_see_target)
 
 		ChaseStatus.WAITING:
 			npc.stop_moving(delta)
@@ -79,7 +76,7 @@ func physics_process(delta: float) -> ChaseStatus:
 				npc.face_direction(npc.chase_target.global_position)
 
 			npc.nav_agent.target_position = npc.chase_target.global_position
-			if npc.nav_agent.is_target_reachable() or _can_see_player:
+			if npc.nav_agent.is_target_reachable() or can_see_target:
 				_chase_wait_timer.stop()
 				_current_chase_status = ChaseStatus.CHASING
 
@@ -89,11 +86,11 @@ func physics_process(delta: float) -> ChaseStatus:
 	return _current_chase_status
 
 
-func _running(delta: float) -> void:
+func _running(delta: float, can_see_target: bool) -> void:
 	npc.nav_agent.target_position = npc.chase_target.global_position
 	var distance_to_target := npc.global_position.distance_to(npc.chase_target.global_position)
 
-	if _can_see_player:
+	if can_see_target:
 		var ranged_distance := _get_wieldable_range()
 		if ranged_distance > 0 and distance_to_target <= ranged_distance - target_ranged_distance_offset:
 			_current_chase_status = ChaseStatus.CAUGHT

@@ -65,7 +65,7 @@ func _attempt_attack() -> void:
 		_punch_attack()
 	else:
 		_count_down = attack_duration
-		npc.sight_detection.check_if_player_in_los()
+		npc.sight_detection.check_if_chase_target_in_los()
 		npc.do_weapon_attack()
 
 

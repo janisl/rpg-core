@@ -91,10 +91,12 @@ func load_state(state: Dictionary) -> void:
 	_is_decaying = state.get(&"is_decaying", false)
 
 
-func check_if_player_in_los() -> bool:
-	for node: Node in _nodes_inside_detection_area:
-		return _fire_raycast_at(node)
-	return false
+func check_if_chase_target_in_los() -> bool:
+	if not npc.chase_target:
+		return false
+	if not _nodes_inside_detection_area.has(npc.chase_target):
+		return false
+	return _fire_raycast_at(npc.chase_target)
 
 
 func reset() -> void:
