@@ -242,6 +242,11 @@ func remember_lost_target() -> void:
 func is_hostile_towards(node: Node3D) -> bool:
 	if not node:
 		return false
+
+	var health: BaseAttribute = node.get_node_or_null("HealthAttribute")
+	if health and not health.is_alive:
+		return false
+
 	if node is Player:
 		return response_to_player == "Hostile"
 	return false

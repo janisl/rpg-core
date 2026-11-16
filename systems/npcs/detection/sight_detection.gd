@@ -92,9 +92,8 @@ func load_state(state: Dictionary) -> void:
 
 
 func check_if_player_in_los() -> bool:
-	for	node:Node in _nodes_inside_detection_area:
-		if node is Player and node.health_attribute.is_alive:
-			return _fire_raycast_at(node)
+	for node: Node in _nodes_inside_detection_area:
+		return _fire_raycast_at(node)
 	return false
 
 

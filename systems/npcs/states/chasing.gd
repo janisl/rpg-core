@@ -12,7 +12,7 @@ func _on_chasing_state_entered() -> void:
 
 
 func _on_chasing_state_physics_processing(delta: float) -> void:
-	if not npc.chase_target or not (npc.chase_target as Player).health_attribute.is_alive:
+	if not npc.is_hostile_towards(npc.chase_target):
 		npc.stop_chasing()
 		return
 
