@@ -84,7 +84,7 @@ func physics_process(delta: float) -> void:
 				_current_chase_status = ChaseStatus.CHASING
 
 		ChaseStatus.LOST:
-			_save_last_known_player_point()
+			npc.remember_lost_target()
 
 
 func _running(delta: float) -> void:
@@ -121,9 +121,3 @@ func _stop_chasing() -> void:
 
 func _target_los_lost() -> void:
 	_current_chase_status = ChaseStatus.LOST
-
-
-func _save_last_known_player_point() -> void:
-	var sight := npc.sight_detection
-	sight.current_suspicion -= sight.aggro_threshold / 4
-	npc.last_known_player_point = npc.last_reachable_path

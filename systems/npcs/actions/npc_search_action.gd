@@ -96,7 +96,7 @@ func physics_process(delta: float) -> void:
 		_search_point_one_label.visible = true
 		_search_point_one_label.global_position = npc.broken_los_point
 		_search_point_two_label.visible = true
-		_search_point_two_label.global_position = npc.last_known_player_point
+		_search_point_two_label.global_position = npc.last_known_target_point
 
 	_sight_detection_check()
 	if npc.nav_agent.is_target_reached():
@@ -132,7 +132,7 @@ func _on_reached_target() -> void:
 
 
 func _search_next_point() -> void:
-	npc.nav_agent.target_position = npc.last_known_player_point
+	npc.nav_agent.target_position = npc.last_known_target_point
 
 
 func _turn_head(delta: float) -> void:

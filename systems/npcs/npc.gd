@@ -50,7 +50,7 @@ var last_reachable_path: Vector3
 var current_behaviour: BehaviourState
 
 var broken_los_point: Vector3
-var last_known_player_point: Vector3
+var last_known_target_point: Vector3
 
 var _health: HealthAttribute
 
@@ -230,6 +230,11 @@ func try_end_investigation() -> void:
 		state_chart.send_event("idle")
 
 
+func remember_lost_target() -> void:
+	last_known_target_point = last_reachable_path
+	sight_detection.current_suspicion -= sight_detection.aggro_threshold / 4
+
+
 func is_dead() -> bool:
 	return _health and _health.value <= 0
 
@@ -243,7 +248,7 @@ func save_state() -> Dictionary:
 	state[&"last_reachable_path"] = last_reachable_path
 	state[&"current_behaviour"] = current_behaviour
 	state[&"broken_los_point"] = broken_los_point
-	state[&"last_known_player_point"] = last_known_player_point
+	state[&"last_known_target_point"] = last_known_target_point
 
 	state[&"weapon_equiped"] = _weapon_third_person && _weapon_third_person.visible
 	if head_turner:
@@ -270,7 +275,7 @@ func load_state(state: Dictionary) -> void:
 	last_reachable_path = state.get(&"last_reachable_path", Vector3.ZERO)
 	current_behaviour = state.get(&"current_behaviour", BehaviourState.None)
 	broken_los_point = state.get(&"broken_los_point", Vector3.ZERO)
-	last_known_player_point = state.get(&"last_known_player_point", Vector3.ZERO)
+	last_known_target_point = state.get(&"last_known_target_point", Vector3.ZERO)
 
 	if _weapon_third_person:
 		_weapon_third_person.visible = state.get(&"weapon_equiped", false)
