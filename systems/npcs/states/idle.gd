@@ -4,7 +4,7 @@ extends NpcStateProcessor
 func _on_idle_state_entered() -> void:
 	_enter_state()
 	npc.set_upper_body_neutral()
-	if npc.patrol_path:
+	if npc.has_patrol_path():
 		state_chart.send_event("patrol")
 
 

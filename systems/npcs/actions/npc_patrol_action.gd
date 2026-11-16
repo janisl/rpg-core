@@ -33,6 +33,7 @@ func load_state(state: Dictionary) -> void:
 
 
 func start() -> void:
+	assert(npc.patrol_path, "Entered patrol state without patrol path")
 	npc.set_upper_body_neutral()
 	_resume_patrolling()
 

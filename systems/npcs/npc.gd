@@ -176,6 +176,16 @@ func do_weapon_attack() -> void:
 		_weapon.state_chart.send_event("onFiring")
 
 
+func set_walking_speed() -> void:
+	move_speed = walk_speed
+	state_chart.send_event("body_walk")
+
+
+func set_running_speed() -> void:
+	move_speed = sprint_speed
+	state_chart.send_event("body_run")
+
+
 func move_npc_to_next_position(_delta: float) -> void:
 	var next_position := nav_agent.get_next_path_position()
 	if nav_agent.is_target_reachable():
@@ -201,16 +211,6 @@ func stop_moving(delta: float) -> void:
 	move_and_slide()
 
 
-func set_walking_speed() -> void:
-	move_speed = walk_speed
-	state_chart.send_event("body_walk")
-
-
-func set_running_speed() -> void:
-	move_speed = sprint_speed
-	state_chart.send_event("body_run")
-
-
 func set_upper_body_neutral() -> void:
 	state_chart.send_event("ubody_neutral")
 
@@ -221,6 +221,10 @@ func set_upper_body_raised_weapon() -> void:
 
 func set_upper_body_attack() -> void:
 	state_chart.send_event("ubody_attack")
+
+
+func has_patrol_path() -> bool:
+	return patrol_path != null
 
 
 func try_end_investigation() -> void:

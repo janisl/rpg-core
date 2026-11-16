@@ -2,8 +2,6 @@ extends NpcStateProcessor
 
 
 func _on_patrolling_state_entered() -> void:
-	assert(npc.patrol_path, "Entered patrol state without patrol path")
-
 	_enter_state()
 	npc.patrol_action.start()
 
