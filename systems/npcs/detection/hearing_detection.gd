@@ -50,13 +50,12 @@ func _process(delta: float) -> void:
 		_decay_timer.start()
 	elif _is_decaying and current_suspicion > 0:
 		current_suspicion -= delta
-	if current_suspicion <= 0 and npc.current_behaviour == Npc.BehaviourState.Investigating:
-		npc.try_end_investigation()
 
 
 func reset() -> void:
 	current_suspicion = 0
 	noise_suspicion_indicator.update(current_suspicion, suspicion_threshold_before_investigating)
+	npc.hearing_attention_point.is_active = false
 
 
 func _on_hearing_radius_area_entered(area: Area3D) -> void:

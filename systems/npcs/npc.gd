@@ -227,13 +227,6 @@ func has_patrol_path() -> bool:
 	return patrol_path != null
 
 
-func try_end_investigation() -> void:
-	if sight_detection.current_suspicion <= 0 and hearing_detection.current_suspicion <= 0:
-		sight_attention_point.is_active = false
-		hearing_attention_point.is_active = false
-		state_chart.send_event("idle")
-
-
 func remember_lost_target() -> void:
 	last_known_target_point = last_reachable_path
 	sight_detection.current_suspicion -= sight_detection.aggro_threshold / 4

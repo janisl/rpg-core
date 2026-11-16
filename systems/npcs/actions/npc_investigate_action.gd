@@ -1,6 +1,8 @@
 class_name NpcInvestigateAction
 extends Node
 
+enum Result { RUNNING, FOUND, NOTHING }
+
 var _attention_spot: Vector3
 
 @onready var npc: Npc = $".."
@@ -27,5 +29,16 @@ func start() -> void:
 	npc.play_sound(npc.sounds.investigate_sound)
 
 
-func physics_process(delta: float) -> void:
+func physics_process(delta: float) -> Result:
 	npc.move_npc_to_next_position(delta)
+
+	if npc.sight_detection.is_aggro_to_target():
+		npc.sight_detection.current_suspicion = npc.sight_detection.investigation_threshold
+		npc.start_chasing(npc.sight_detection.detected_target)
+		return Result.FOUND
+	elif npc.sight_detection.current_suspicion <= 0 and npc.hearing_detection.current_suspicion <= 0:
+		npc.sight_attention_point.is_active = false
+		npc.hearing_attention_point.is_active = false
+		return Result.NOTHING
+	else:
+		return Result.RUNNING

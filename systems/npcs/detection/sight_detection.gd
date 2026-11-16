@@ -110,6 +110,7 @@ func is_suspicious_of_target() -> bool:
 func reset() -> void:
 	current_suspicion = 0
 	sight_suspicion_indicator.visible = false
+	npc.sight_attention_point.is_active = false
 
 
 static func _linear_curve() -> Curve:
@@ -211,15 +212,10 @@ func _decay_suspicion(delta: float) -> void:
 		_decay_timer.start()
 	elif _is_decaying and current_suspicion > 0:
 		current_suspicion -= (suspicion_decay_rate * delta)
-	if current_suspicion <= 0 and npc.in_state([Npc.BehaviourState.Investigating]):
-		npc.try_end_investigation()
 
 
 func _state_trigger_checks() -> void:
-	if is_aggro_to_target() and npc.in_state([Npc.BehaviourState.Investigating]):
-		current_suspicion = investigation_threshold
-		npc.start_chasing(detected_target)
-	elif is_suspicious_of_target() and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
+	if is_suspicious_of_target() and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
 		npc.set_sight_target(detected_target.global_position)
 		npc.state_chart.send_event("investigate")
 
