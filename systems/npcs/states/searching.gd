@@ -32,4 +32,5 @@ func _end_search() -> void:
 			npc.hearing_detection.reset()
 		if npc.sight_detection:
 			npc.sight_detection.reset()
-	npc.stop_chasing()
+	npc.chase_target = null
+	state_chart.send_event("idle")

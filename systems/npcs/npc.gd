@@ -117,13 +117,7 @@ func set_hearing_target(pos: Vector3) -> void:
 
 func start_chasing(target: Actor) -> void:
 	chase_target = target
-	state_chart.send_event("chase")
 	play_sound(sounds.start_chase_sound)
-
-
-func stop_chasing() -> void:
-	chase_target = null
-	state_chart.send_event("idle")
 
 
 func face_direction(target_position: Vector3) -> void:
