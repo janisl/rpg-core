@@ -52,6 +52,10 @@ var current_behaviour: BehaviourState
 var broken_los_point: Vector3
 var last_known_target_point: Vector3
 
+var _was_alerted := false
+
+var _alerted := false
+
 var _health: HealthAttribute
 
 var _weapon_data: WeaponData
@@ -93,6 +97,12 @@ func _physics_process(delta: float) -> void:
 	if footsteps_enabled:
 		_npc_footsteps(delta)
 
+	if _was_alerted:
+		_was_alerted = false
+		if not (in_state([BehaviourState.Investigating, BehaviourState.Chasing, BehaviourState.Attacking, BehaviourState.Searching]) or _alerted):
+			_alerted = true
+			state_chart.send_event("alerted")
+
 
 func _exit_tree() -> void:
 	if sight_attention_point:
@@ -118,6 +128,7 @@ func set_hearing_target(pos: Vector3) -> void:
 func start_chasing(target: Actor) -> void:
 	chase_target = target
 	play_sound(sounds.start_chase_sound)
+	_alerted = false
 
 
 func face_direction(target_position: Vector3) -> void:
@@ -221,6 +232,22 @@ func has_patrol_path() -> bool:
 	return patrol_path != null
 
 
+func is_idle() -> bool:
+	return not (in_state([BehaviourState.Investigating, BehaviourState.Chasing, BehaviourState.Attacking, BehaviourState.Searching]) or _alerted)
+
+
+func notify_alerted() -> void:
+	_was_alerted = true
+
+
+func is_alerted() -> bool:
+	return _alerted
+
+
+func end_alert() -> void:
+	_alerted = false
+
+
 func remember_lost_target() -> void:
 	last_known_target_point = last_reachable_path
 	sight_detection.current_suspicion -= sight_detection.aggro_threshold / 4
@@ -262,6 +289,8 @@ func save_state() -> Dictionary:
 	state[&"current_behaviour"] = current_behaviour
 	state[&"broken_los_point"] = broken_los_point
 	state[&"last_known_target_point"] = last_known_target_point
+	state[&"was_alerted"] = _was_alerted
+	state[&"alerted"] = _alerted
 
 	state[&"weapon_equiped"] = _weapon_third_person && _weapon_third_person.visible
 	if head_turner:
@@ -289,6 +318,8 @@ func load_state(state: Dictionary) -> void:
 	current_behaviour = state.get(&"current_behaviour", BehaviourState.None)
 	broken_los_point = state.get(&"broken_los_point", Vector3.ZERO)
 	last_known_target_point = state.get(&"last_known_target_point", Vector3.ZERO)
+	_was_alerted = state.get(&"was_alerted", false)
+	_alerted = state.get(&"alerted", false)
 
 	if _weapon_third_person:
 		_weapon_third_person.visible = state.get(&"weapon_equiped", false)
@@ -337,7 +368,7 @@ func _find_health_attribute() -> void:
 func _on_health_attribute_damage_taken(hit_info: HitInfo) -> void:
 	if not hit_info.direction.is_zero_approx():
 		set_sight_target(hit_info.source_position)
-		state_chart.send_event("alerted")
+		notify_alerted()
 
 
 func _npc_footsteps(delta: float) -> void:

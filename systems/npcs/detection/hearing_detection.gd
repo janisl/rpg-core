@@ -64,7 +64,7 @@ func _on_hearing_radius_area_entered(area: Area3D) -> void:
 	var noise := area as ObjectNoise
 	if noise.noise_type == ObjectNoise.NoiseType.Impact:
 		npc.set_hearing_target(noise.global_position)
-		npc.state_chart.send_event("alerted")
+		npc.notify_alerted()
 	elif noise.magnitude > ignore_sounds_under_x_magnitude and current_suspicion < suspicion_threshold_before_investigating + 0.5:
 		_decay_timer.stop()
 		current_suspicion += noise_suspicion_curve.sample(noise.magnitude)
