@@ -4,7 +4,7 @@ extends NpcStateProcessor
 func _on_chasing_state_entered() -> void:
 	_enter_state()
 
-	if not npc.is_hostile_towards(npc.chase_target):
+	if not npc.has_valid_chase_target():
 		state_chart.send_event("search")
 		return
 
@@ -12,7 +12,7 @@ func _on_chasing_state_entered() -> void:
 
 
 func _on_chasing_state_physics_processing(delta: float) -> void:
-	if not npc.is_hostile_towards(npc.chase_target):
+	if not npc.has_valid_chase_target():
 		npc.stop_chasing()
 		return
 

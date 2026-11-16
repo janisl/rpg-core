@@ -252,6 +252,15 @@ func is_hostile_towards(node: Node3D) -> bool:
 	return false
 
 
+func has_valid_chase_target() -> bool:
+	if not chase_target:
+		return false
+	if not is_hostile_towards(chase_target):
+		chase_target = null
+		return false
+	return true
+
+
 func is_dead() -> bool:
 	return _health and _health.value <= 0
 
