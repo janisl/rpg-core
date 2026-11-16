@@ -4,6 +4,8 @@ extends Node
 @export var initial_shock_time := 1.5
 @export var wait_time_once_reached := 5.0
 
+var has_given_up: bool
+
 var _shock_timer: Timer
 var _give_up_timer: Timer
 var _target: Vector3
@@ -13,6 +15,7 @@ var _target: Vector3
 
 func _enter_tree() -> void:
 	_shock_timer = _create_timer(initial_shock_time, _start_moving)
+	_give_up_timer = _create_timer(wait_time_once_reached, _give_up)
 
 
 func save_state() -> Dictionary:
@@ -20,6 +23,7 @@ func save_state() -> Dictionary:
 	SaveUtils.save_timer(state, &"shock_timer", _shock_timer)
 	SaveUtils.save_timer(state, &"give_up_timer", _give_up_timer)
 	state[&"target"] = _target
+	state[&"has_given_up"] = has_given_up
 	return state
 
 
@@ -27,9 +31,11 @@ func load_state(state: Dictionary) -> void:
 	SaveUtils.load_timer(state, &"shock_timer", _shock_timer)
 	SaveUtils.load_timer(state, &"give_up_timer", _give_up_timer)
 	_target = state.get(&"target", _target)
+	has_given_up = state.get(&"has_given_up", false)
 
 
 func start() -> void:
+	has_given_up = false
 	_shock_timer.start()
 	if npc.sight_attention_point.is_active:
 		_target = npc.sight_attention_point.global_position
@@ -53,6 +59,11 @@ func physics_process(delta: float) -> void:
 
 func _start_moving() -> void:
 	npc.nav_agent.target_position = _target
+
+
+func _give_up() -> void:
+	has_given_up = true
+	npc.play_sound(npc.sounds.must_have_been_the_wind_sound)
 
 
 func _create_timer(wait_time: float, call_on_timeout: Callable) -> Timer:
