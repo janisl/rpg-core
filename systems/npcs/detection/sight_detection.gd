@@ -32,7 +32,7 @@ extends Node3D
 
 @export_tool_button("Generate Sight Cone") var button := _generate_sight_range_collider
 
-var ref_to_player: Player
+var detected_target: Actor
 var player_sight_collision_point := Vector3.ZERO
 var current_suspicion := 0.0
 
@@ -75,7 +75,7 @@ func _physics_process(delta: float) -> void:
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
-	SaveUtils.save_ref(state, &"ref_to_player", ref_to_player)
+	SaveUtils.save_ref(state, &"detected_target", detected_target)
 	state[&"player_sight_collision_point"] = player_sight_collision_point
 	state[&"current_suspicion"] = current_suspicion
 	SaveUtils.save_timer(state, &"decay_timer", _decay_timer)
@@ -84,7 +84,7 @@ func save_state() -> Dictionary:
 
 
 func load_state(state: Dictionary) -> void:
-	ref_to_player = SaveUtils.load_ref(state, &"ref_to_player")
+	detected_target = SaveUtils.load_ref(state, &"detected_target")
 	player_sight_collision_point = state.get(&"player_sight_collision_point", Vector3.ZERO)
 	current_suspicion = state.get(&"current_suspicion", 0)
 	SaveUtils.load_timer(state, &"decay_timer", _decay_timer)
@@ -157,11 +157,11 @@ func _fire_raycast_at(node: Node3D) -> bool:
 
 func _fire_raycast_at_player_result(pos: Vector3, player: Player) -> bool:
 	player_sight_collision_point = pos
-	ref_to_player = player
+	detected_target = player
 	if show_detection_line:
 		DevTools.debug_line.draw_3d_line(npc.head.global_position, player.global_position, Color(1,0,0), 0.1)
-	if ref_to_player.visibility_attribute:
-		return ref_to_player.visibility_attribute.value >= minimum_visibility
+	if player.visibility_attribute:
+		return player.visibility_attribute.value >= minimum_visibility
 	else:
 		return true
 
@@ -208,11 +208,11 @@ func _decay_suspicion(delta: float) -> void:
 
 
 func _state_trigger_checks() -> void:
-	if current_suspicion >= aggro_threshold and ref_to_player and npc.in_state([Npc.BehaviourState.Investigating]):
+	if current_suspicion >= aggro_threshold and detected_target and npc.in_state([Npc.BehaviourState.Investigating]):
 		current_suspicion = investigation_threshold
-		npc.start_chasing(ref_to_player)
-	elif current_suspicion >= investigation_threshold and ref_to_player and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
-		npc.set_sight_target(ref_to_player.global_position)
+		npc.start_chasing(detected_target)
+	elif current_suspicion >= investigation_threshold and detected_target and npc.in_state([Npc.BehaviourState.Idle, Npc.BehaviourState.Patrolling, Npc.BehaviourState.Alerted]):
+		npc.set_sight_target(detected_target.global_position)
 		npc.state_chart.send_event("investigate")
 
 

@@ -337,10 +337,10 @@ func _spawn_weapon() -> void:
 func _can_attack_with_weapon() -> bool:
 	if _weapon_data.weapon_range <= 0.0:
 		return true
-	var ref_to_player := sight_detection.ref_to_player
-	if not ref_to_player:
+	var detected_target := sight_detection.detected_target
+	if not detected_target:
 		return false
-	return not _weapon._fire_rate_timer > 0 and global_position.distance_to(ref_to_player.global_position) <= _weapon_data.weapon_range
+	return not _weapon._fire_rate_timer > 0 and global_position.distance_to(detected_target.global_position) <= _weapon_data.weapon_range
 
 
 func _find_health_attribute() -> void:
