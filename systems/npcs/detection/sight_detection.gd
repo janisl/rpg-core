@@ -61,8 +61,6 @@ func _physics_process(delta: float) -> void:
 	_update_suspicion_indicator()
 
 	for node:Node in _nodes_inside_detection_area:
-		if node is Player and npc.response_to_player != "Hostile":
-			continue
 		if _fire_raycast_at(node):
 			_decay_timer.stop()
 			_is_decaying = false
@@ -131,6 +129,9 @@ func _on_body_exited(body: Node3D) -> void:
 
 
 func _fire_raycast_at(node: Node3D) -> bool:
+	if not npc.is_hostile_towards(node):
+		return false
+
 	var space_state := get_world_3d().direct_space_state
 	var end: Vector3 = node.head.global_position if node is Actor else node.global_position
 	var query := PhysicsRayQueryParameters3D.create(npc.head.global_position, end)

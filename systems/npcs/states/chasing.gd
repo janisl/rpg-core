@@ -4,7 +4,7 @@ extends NpcStateProcessor
 func _on_chasing_state_entered() -> void:
 	_enter_state()
 
-	if not npc.chase_target or npc.response_to_player == "Neutral":
+	if not npc.is_hostile_towards(npc.chase_target):
 		state_chart.send_event("search")
 		return
 

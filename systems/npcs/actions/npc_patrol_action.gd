@@ -48,9 +48,9 @@ func physics_process(delta: float) -> void:
 
 func check_for_bumping_into_hostile() -> Actor:
 	for i in npc.get_slide_collision_count():
-		var collision := npc.get_slide_collision(i)
-		if collision.get_collider() is Player and npc.response_to_player == "Hostile":
-			return collision.get_collider()
+		var collider := npc.get_slide_collision(i).get_collider()
+		if npc.is_hostile_towards(collider):
+			return collider
 	return null
 
 

@@ -239,6 +239,14 @@ func remember_lost_target() -> void:
 	sight_detection.current_suspicion -= sight_detection.aggro_threshold / 4
 
 
+func is_hostile_towards(node: Node3D) -> bool:
+	if not node:
+		return false
+	if node is Player:
+		return response_to_player == "Hostile"
+	return false
+
+
 func is_dead() -> bool:
 	return _health and _health.value <= 0
 
