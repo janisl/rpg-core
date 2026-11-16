@@ -70,7 +70,7 @@ func _on_hearing_radius_area_entered(area: Area3D) -> void:
 		current_suspicion += noise_suspicion_curve.sample(noise.magnitude)
 	if current_suspicion > suspicion_threshold_before_investigating:
 		npc.set_hearing_target(noise.global_position)
-		npc.state_chart.send_event("investigate")
+		npc.notify_suspicious_noise()
 
 
 func _linear_curve() -> Curve:

@@ -53,6 +53,7 @@ var broken_los_point: Vector3
 var last_known_target_point: Vector3
 
 var _was_alerted := false
+var _heard_suspicious_noise := false
 
 var _alerted := false
 
@@ -102,6 +103,11 @@ func _physics_process(delta: float) -> void:
 		if not (in_state([BehaviourState.Investigating, BehaviourState.Chasing, BehaviourState.Attacking, BehaviourState.Searching]) or _alerted):
 			_alerted = true
 			state_chart.send_event("alerted")
+
+	if _heard_suspicious_noise:
+		_heard_suspicious_noise = false
+		if not (in_state([BehaviourState.Investigating, BehaviourState.Chasing, BehaviourState.Attacking, BehaviourState.Searching])):
+			state_chart.send_event("investigate")
 
 
 func _exit_tree() -> void:
@@ -240,6 +246,10 @@ func notify_alerted() -> void:
 	_was_alerted = true
 
 
+func notify_suspicious_noise() -> void:
+	_heard_suspicious_noise = true
+
+
 func is_alerted() -> bool:
 	return _alerted
 
@@ -290,6 +300,7 @@ func save_state() -> Dictionary:
 	state[&"broken_los_point"] = broken_los_point
 	state[&"last_known_target_point"] = last_known_target_point
 	state[&"was_alerted"] = _was_alerted
+	state[&"heard_suspicious_noise"] = _heard_suspicious_noise
 	state[&"alerted"] = _alerted
 
 	state[&"weapon_equiped"] = _weapon_third_person && _weapon_third_person.visible
@@ -319,6 +330,7 @@ func load_state(state: Dictionary) -> void:
 	broken_los_point = state.get(&"broken_los_point", Vector3.ZERO)
 	last_known_target_point = state.get(&"last_known_target_point", Vector3.ZERO)
 	_was_alerted = state.get(&"was_alerted", false)
+	_heard_suspicious_noise = state.get(&"heard_suspicious_noise", false)
 	_alerted = state.get(&"alerted", false)
 
 	if _weapon_third_person:
