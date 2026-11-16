@@ -17,7 +17,7 @@ func load_state(state: Dictionary) -> void:
 
 
 func start() -> void:
-	npc.state_chart.send_event("ubody_raise_weapon")
+	npc.set_upper_body_raised_weapon()
 	if npc.sight_attention_point.is_active:
 		_attention_spot = npc.sight_attention_point.global_position
 		npc.nav_agent.target_position = _attention_spot

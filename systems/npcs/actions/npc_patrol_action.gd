@@ -33,7 +33,7 @@ func load_state(state: Dictionary) -> void:
 
 
 func start() -> void:
-	npc.state_chart.send_event("ubody_neutral")
+	npc.set_upper_body_neutral()
 	_resume_patrolling()
 
 

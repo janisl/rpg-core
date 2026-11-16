@@ -211,6 +211,18 @@ func set_running_speed() -> void:
 	state_chart.send_event("body_run")
 
 
+func set_upper_body_neutral() -> void:
+	state_chart.send_event("ubody_neutral")
+
+
+func set_upper_body_raised_weapon() -> void:
+	state_chart.send_event("ubody_raise_weapon")
+
+
+func set_upper_body_attack() -> void:
+	state_chart.send_event("ubody_attack")
+
+
 func try_end_investigation() -> void:
 	if sight_detection.current_suspicion <= 0 and hearing_detection.current_suspicion <= 0:
 		sight_attention_point.is_active = false

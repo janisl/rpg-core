@@ -61,7 +61,7 @@ func _can_attack_now() -> bool:
 func _attempt_attack() -> void:
 	if not npc.is_using_weapon():
 		_count_down = attack_duration
-		npc.state_chart.send_event("ubody_attack")
+		npc.set_upper_body_attack()
 		_punch_attack()
 	else:
 		_count_down = attack_duration

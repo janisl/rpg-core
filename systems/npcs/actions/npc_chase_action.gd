@@ -49,7 +49,7 @@ func load_state(state: Dictionary) -> void:
 
 func start() -> void:
 	npc.set_running_speed()
-	npc.state_chart.send_event("ubody_raise_weapon")
+	npc.set_upper_body_raised_weapon()
 	_current_chase_status = ChaseStatus.CHASING
 	npc.head_turner.target_node = npc.chase_target.get_path()
 
