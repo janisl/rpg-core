@@ -30,6 +30,7 @@
 [ext_resource type="Script" uid="uid://crvmh56qwb83k" path="res://systems/npcs/detection/sight_detection.gd" id="22_gbejp"]
 [ext_resource type="Script" uid="uid://ccwu2fc84l1rx" path="res://systems/footsteps/footstep_player.gd" id="31_gxn4h"]
 [ext_resource type="AudioStream" uid="uid://c5etqcpobd0u" path="res://systems/footsteps/generic_footstep_profile.tres" id="32_dqwjh"]
+[ext_resource type="Script" uid="uid://d1g30he8luybf" path="res://systems/npcs/actions/npc_idle_action.gd" id="33_dpv7w"]
 [ext_resource type="Script" uid="uid://4pdjmb8h2tpe" path="res://systems/npcs/actions/npc_patrol_action.gd" id="33_tgfp8"]
 [ext_resource type="Script" uid="uid://6g7k75yxry83" path="res://systems/npcs/actions/npc_investigate_action.gd" id="34_dpv7w"]
 [ext_resource type="PackedScene" uid="uid://essuiwcp63ni" path="res://systems/npcs/detection/hearing_indicator.tscn" id="34_ol0oh"]
@@ -1071,6 +1072,10 @@ hurt_sound = ExtResource("10_1cfep")
 free_on_death = Array[NodePath]([NodePath("..")])
 max_value = 50.0
 initial_value = 50.0
+
+[node name="IdleAction" type="Node" parent="." unique_id=176261296]
+script = ExtResource("33_dpv7w")
+metadata/_custom_type_script = "uid://d1g30he8luybf"
 
 [node name="PatrolAction" type="Node" parent="." unique_id=1356585135]
 script = ExtResource("33_tgfp8")

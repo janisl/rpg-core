@@ -105,6 +105,8 @@ func stop() -> void:
 
 
 func physics_process(delta: float) -> void:
+	npc.sight_detection.update_suspicion(delta, false)
+
 	if show_search_points:
 		_search_point_one_label.visible = true
 		_search_point_one_label.global_position = npc.broken_los_point

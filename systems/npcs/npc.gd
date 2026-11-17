@@ -76,6 +76,7 @@ var _wiggle_index := 0.0
 @onready var footstep_player: FootstepPlayer = $FootstepPlayer
 @onready var audio: AudioStreamPlayer3D = $Audio
 
+@onready var idle_action: NpcIdleAction = $IdleAction
 @onready var patrol_action: NpcPatrolAction = $PatrolAction
 @onready var investigate_action: NpcInvestigateAction = $InvestigateAction
 @onready var chase_action: NpcChaseAction = $ChaseAction
@@ -236,10 +237,6 @@ func set_upper_body_attack() -> void:
 
 func has_patrol_path() -> bool:
 	return patrol_path != null
-
-
-func is_idle() -> bool:
-	return not (in_state([BehaviourState.Investigating, BehaviourState.Chasing, BehaviourState.Attacking, BehaviourState.Searching]) or _alerted)
 
 
 func notify_alerted() -> void:

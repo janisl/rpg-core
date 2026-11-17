@@ -51,20 +51,14 @@ func _ready() -> void:
 	add_to_group("persist_component")
 
 
-func _physics_process(delta: float) -> void:
-	if Engine.is_editor_hint():
-		return
-
-	if npc.in_state([Npc.BehaviourState.Chasing, Npc.BehaviourState.Attacking]):
-		return
-
+func update_suspicion(delta: float, is_idle: bool) -> void:
 	_update_suspicion_indicator()
 
 	for node:Node in _nodes_inside_detection_area:
 		if _fire_raycast_at(node):
 			_decay_timer.stop()
 			_is_decaying = false
-			var initial_amount := buildup_to_investigation_rate if npc.is_idle() else buildup_to_aggro_rate
+			var initial_amount := buildup_to_investigation_rate if is_idle else buildup_to_aggro_rate
 			var amount := initial_amount * _get_distance_modifier_to(node) * _get_visibility_modifier(node) * delta
 			current_suspicion = clamp(current_suspicion + amount, 0, aggro_threshold + 0.5)
 

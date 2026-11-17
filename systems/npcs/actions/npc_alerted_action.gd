@@ -45,6 +45,8 @@ func start() -> void:
 
 
 func physics_process(delta: float) -> void:
+	npc.sight_detection.update_suspicion(delta, false)
+
 	if not _shock_timer.is_stopped() or not _give_up_timer.is_stopped():
 		npc.face_direction(_target)
 

@@ -39,6 +39,8 @@ func start() -> void:
 
 
 func physics_process(delta: float) -> void:
+	npc.sight_detection.update_suspicion(delta, true)
+
 	match _current_travel_status:
 		TravelStatus.WAITING:
 			npc.stop_moving(delta)

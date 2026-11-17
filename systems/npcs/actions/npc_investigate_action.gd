@@ -30,6 +30,8 @@ func start() -> void:
 
 
 func physics_process(delta: float) -> Result:
+	npc.sight_detection.update_suspicion(delta, false)
+
 	npc.move_npc_to_next_position(delta)
 
 	if npc.sight_detection.is_aggro_to_target():
