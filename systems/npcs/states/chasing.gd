@@ -3,11 +3,6 @@ extends NpcStateProcessor
 
 func _on_chasing_state_entered() -> void:
 	_enter_state()
-
-	if not npc.has_valid_chase_target():
-		state_chart.send_event("search")
-		return
-
 	npc.chase_action.start()
 
 

@@ -41,6 +41,16 @@ func start() -> void:
 func physics_process(delta: float) -> void:
 	npc.sight_detection.update_suspicion(delta, true)
 
+	var bumped_target := npc.patrol_action.check_for_bumping_into_hostile()
+	if bumped_target:
+		npc.start_chasing(bumped_target)
+		return
+
+	if npc.sight_detection.is_suspicious_of_target():
+		npc.set_sight_target(npc.sight_detection.detected_target.global_position)
+		npc.start_investigating()
+		return
+
 	match _current_travel_status:
 		TravelStatus.WAITING:
 			npc.stop_moving(delta)

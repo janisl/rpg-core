@@ -45,6 +45,11 @@ func start() -> void:
 
 
 func physics_process(delta: float) -> void:
+	if not npc.sight_attention_point.is_active and not npc.hearing_attention_point.is_active:
+		npc.end_alert()
+		has_given_up = true
+		return
+
 	npc.sight_detection.update_suspicion(delta, false)
 
 	if not _shock_timer.is_stopped() or not _give_up_timer.is_stopped():
@@ -58,6 +63,10 @@ func physics_process(delta: float) -> void:
 	if (npc.nav_agent.is_target_reached() or not npc.nav_agent.is_target_reachable()) and _give_up_timer.is_stopped():
 		_give_up_timer.start()
 
+	if npc.sight_detection.is_suspicious_of_target():
+		npc.set_sight_target(npc.sight_detection.detected_target.global_position)
+		npc.start_investigating()
+
 
 func _start_moving() -> void:
 	npc.nav_agent.target_position = _target
@@ -66,6 +75,7 @@ func _start_moving() -> void:
 func _give_up() -> void:
 	has_given_up = true
 	npc.play_sound(npc.sounds.must_have_been_the_wind_sound)
+	npc.end_alert()
 
 
 func _create_timer(wait_time: float, call_on_timeout: Callable) -> Timer:
