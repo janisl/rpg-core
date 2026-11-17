@@ -56,6 +56,7 @@ var _was_alerted := false
 var _heard_suspicious_noise := false
 
 var _alerted := false
+var _in_combat := false
 
 var _health: HealthAttribute
 
@@ -101,13 +102,13 @@ func _physics_process(delta: float) -> void:
 
 	if _was_alerted:
 		_was_alerted = false
-		if not (in_state([BehaviourState.Investigating, BehaviourState.Chasing, BehaviourState.Attacking, BehaviourState.Searching]) or _alerted):
+		if not (in_state([BehaviourState.Investigating]) or _alerted or _in_combat):
 			_alerted = true
 			state_chart.send_event("alerted")
 
 	if _heard_suspicious_noise:
 		_heard_suspicious_noise = false
-		if not (in_state([BehaviourState.Investigating, BehaviourState.Chasing, BehaviourState.Attacking, BehaviourState.Searching])):
+		if not (in_state([BehaviourState.Investigating]) or _in_combat):
 			state_chart.send_event("investigate")
 
 
@@ -130,12 +131,6 @@ func set_hearing_target(pos: Vector3) -> void:
 		return
 	hearing_attention_point.global_position = pos
 	hearing_attention_point.is_active = true
-
-
-func start_chasing(target: Actor) -> void:
-	chase_target = target
-	play_sound(sounds.start_chase_sound)
-	_alerted = false
 
 
 func face_direction(target_position: Vector3) -> void:
@@ -255,6 +250,22 @@ func end_alert() -> void:
 	_alerted = false
 
 
+func is_in_combat() -> bool:
+	return _in_combat
+
+
+func start_chasing(target: Actor) -> void:
+	chase_target = target
+	play_sound(sounds.start_chase_sound)
+	_in_combat = true
+	_alerted = false
+
+
+func end_combat() -> void:
+	chase_target = null
+	_in_combat = false
+
+
 func remember_lost_target() -> void:
 	last_known_target_point = last_reachable_path
 	sight_detection.current_suspicion -= sight_detection.aggro_threshold / 4
@@ -299,6 +310,7 @@ func save_state() -> Dictionary:
 	state[&"was_alerted"] = _was_alerted
 	state[&"heard_suspicious_noise"] = _heard_suspicious_noise
 	state[&"alerted"] = _alerted
+	state[&"_in_combat"] = _in_combat
 
 	state[&"weapon_equiped"] = _weapon_third_person && _weapon_third_person.visible
 	if head_turner:
@@ -329,6 +341,7 @@ func load_state(state: Dictionary) -> void:
 	_was_alerted = state.get(&"was_alerted", false)
 	_heard_suspicious_noise = state.get(&"heard_suspicious_noise", false)
 	_alerted = state.get(&"alerted", false)
+	_in_combat = state.get(&"in_combat", false)
 
 	if _weapon_third_person:
 		_weapon_third_person.visible = state.get(&"weapon_equiped", false)

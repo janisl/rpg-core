@@ -106,6 +106,7 @@ func stop() -> void:
 
 func physics_process(delta: float) -> void:
 	if not npc.has_valid_chase_target():
+		npc.end_combat()
 		given_up = true
 		return
 
@@ -176,7 +177,7 @@ func _end_search() -> void:
 			npc.hearing_detection.reset()
 		if npc.sight_detection:
 			npc.sight_detection.reset()
-	npc.chase_target = null
+	npc.end_combat()
 	given_up = true
 
 
