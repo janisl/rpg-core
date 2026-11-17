@@ -85,7 +85,7 @@ func _update_liquid_level() -> void:
 	for area in _touching_liquids:
 		surface_y = maxf(surface_y, _get_area_top_y(area))
 
-	if surface_y <= global_position.z:
+	if surface_y <= global_position.y:
 		liquid_level = LiquidLevel.NONE
 		return
 
