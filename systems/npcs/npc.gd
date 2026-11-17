@@ -56,6 +56,7 @@ var _was_alerted := false
 var _heard_suspicious_noise := false
 
 var _alerted := false
+var _investigating := false
 var _in_combat := false
 
 var _health: HealthAttribute
@@ -102,13 +103,14 @@ func _physics_process(delta: float) -> void:
 
 	if _was_alerted:
 		_was_alerted = false
-		if not (in_state([BehaviourState.Investigating]) or _alerted or _in_combat):
+		if not (_investigating or _alerted or _in_combat):
 			_alerted = true
 			state_chart.send_event("alerted")
 
 	if _heard_suspicious_noise:
 		_heard_suspicious_noise = false
-		if not (in_state([BehaviourState.Investigating]) or _in_combat):
+		if not (_investigating or _in_combat):
+			start_investigating()
 			state_chart.send_event("investigate")
 
 
@@ -250,6 +252,19 @@ func end_alert() -> void:
 	_alerted = false
 
 
+func is_investigating() -> bool:
+	return _investigating
+
+
+func start_investigating() -> void:
+	_investigating = true
+	_alerted = false
+
+
+func end_investigating() -> void:
+	_investigating = false
+
+
 func is_in_combat() -> bool:
 	return _in_combat
 
@@ -258,6 +273,7 @@ func start_chasing(target: Actor) -> void:
 	chase_target = target
 	play_sound(sounds.start_chase_sound)
 	_in_combat = true
+	_investigating = false
 	_alerted = false
 
 
@@ -310,7 +326,8 @@ func save_state() -> Dictionary:
 	state[&"was_alerted"] = _was_alerted
 	state[&"heard_suspicious_noise"] = _heard_suspicious_noise
 	state[&"alerted"] = _alerted
-	state[&"_in_combat"] = _in_combat
+	state[&"investigating"] = _investigating
+	state[&"in_combat"] = _in_combat
 
 	state[&"weapon_equiped"] = _weapon_third_person && _weapon_third_person.visible
 	if head_turner:
@@ -341,6 +358,7 @@ func load_state(state: Dictionary) -> void:
 	_was_alerted = state.get(&"was_alerted", false)
 	_heard_suspicious_noise = state.get(&"heard_suspicious_noise", false)
 	_alerted = state.get(&"alerted", false)
+	_investigating = state.get(&"investigating", false)
 	_in_combat = state.get(&"in_combat", false)
 
 	if _weapon_third_person:

@@ -41,6 +41,7 @@ func physics_process(delta: float) -> Result:
 	elif npc.sight_detection.current_suspicion <= 0 and npc.hearing_detection.current_suspicion <= 0:
 		npc.sight_attention_point.is_active = false
 		npc.hearing_attention_point.is_active = false
+		npc.end_investigating()
 		return Result.NOTHING
 	else:
 		return Result.RUNNING

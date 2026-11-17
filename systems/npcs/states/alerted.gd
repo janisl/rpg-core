@@ -15,8 +15,8 @@ func _on_alerted_state_physics_processing(delta: float) -> void:
 	npc.alerted_action.physics_process(delta)
 
 	if npc.sight_detection.is_suspicious_of_target():
-		npc.end_alert()
 		npc.set_sight_target(npc.sight_detection.detected_target.global_position)
+		npc.start_investigating()
 		npc.state_chart.send_event("investigate")
 	elif npc.alerted_action.has_given_up:
 		npc.end_alert()
