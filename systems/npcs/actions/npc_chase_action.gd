@@ -52,6 +52,9 @@ func start() -> void:
 
 
 func physics_process(delta: float) -> ChaseStatus:
+	if not npc.has_valid_chase_target():
+		return ChaseStatus.LOST
+
 	var can_see_target := npc.sight_detection.check_if_chase_target_in_los()
 	if can_see_target:
 		npc.head_turner.active = true

@@ -105,6 +105,10 @@ func stop() -> void:
 
 
 func physics_process(delta: float) -> void:
+	if not npc.has_valid_chase_target():
+		given_up = true
+		return
+
 	npc.sight_detection.update_suspicion(delta, false)
 
 	if show_search_points:

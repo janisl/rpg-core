@@ -386,12 +386,6 @@ to = NodePath("../../Searching")
 event = &"search"
 delay_in_seconds = "0.0"
 
-[node name="ToIdle" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=1746613028]
-script = ExtResource("5_a0x3i")
-to = NodePath("../../Idle")
-event = &"idle"
-delay_in_seconds = "0.0"
-
 [node name="Attacking" type="Node" parent="StateChart/Root/Behaviour" unique_id=399243639]
 script = ExtResource("4_4a0lb")
 
