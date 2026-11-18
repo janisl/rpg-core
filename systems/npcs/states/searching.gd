@@ -2,7 +2,6 @@ extends NpcStateProcessor
 
 
 func _on_searching_state_entered() -> void:
-	_enter_state()
 	npc.search_action.start()
 
 

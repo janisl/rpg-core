@@ -4,17 +4,6 @@ extends Actor
 const SIGHT_POINT = preload("uid://de4wqr4onwgie")
 const HEARING_POINT = preload("uid://b4r73momnv102")
 
-enum BehaviourState {
-	None,
-	Idle,
-	Patrolling,
-	Investigating,
-	Alerted,
-	Chasing,
-	Attacking,
-	Searching,
-}
-
 @export var display_name: String
 
 @export var patrol_path: PatrolPath
@@ -47,8 +36,6 @@ var chase_target: Actor
 
 var move_speed := 2.0
 var last_reachable_path: Vector3
-
-var current_behaviour: BehaviourState
 
 var broken_los_point: Vector3
 var last_known_target_point: Vector3
@@ -145,10 +132,6 @@ func face_direction(target_position: Vector3) -> void:
 
 	var target_basis := Basis.looking_at(direction, Vector3.UP, false)
 	basis = basis.slerp(target_basis, rotation_speed)
-
-
-func in_state(states: Array[BehaviourState]) -> bool:
-	return states.any(func(state: BehaviourState) -> bool: return current_behaviour == state)
 
 
 func play_sound(sound: AudioStream) -> void:
@@ -322,7 +305,6 @@ func save_state() -> Dictionary:
 
 	state[&"move_speed"] = move_speed
 	state[&"last_reachable_path"] = last_reachable_path
-	state[&"current_behaviour"] = current_behaviour
 	state[&"broken_los_point"] = broken_los_point
 	state[&"last_known_target_point"] = last_known_target_point
 	state[&"was_alerted"] = _was_alerted
@@ -354,7 +336,6 @@ func load_state(state: Dictionary) -> void:
 
 	move_speed = state.get(&"move_speed", move_speed)
 	last_reachable_path = state.get(&"last_reachable_path", Vector3.ZERO)
-	current_behaviour = state.get(&"current_behaviour", BehaviourState.None)
 	broken_los_point = state.get(&"broken_los_point", Vector3.ZERO)
 	last_known_target_point = state.get(&"last_known_target_point", Vector3.ZERO)
 	_was_alerted = state.get(&"was_alerted", false)

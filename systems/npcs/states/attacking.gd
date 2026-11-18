@@ -2,7 +2,6 @@ extends NpcStateProcessor
 
 
 func _on_attacking_state_entered() -> void:
-	_enter_state()
 	npc.attack_action.start()
 
 

@@ -2,7 +2,6 @@ extends NpcStateProcessor
 
 
 func _on_alerted_state_entered() -> void:
-	_enter_state()
 	npc.alerted_action.start()
 
 

@@ -2,7 +2,6 @@ extends NpcStateProcessor
 
 
 func _on_patrolling_state_entered() -> void:
-	_enter_state()
 	npc.patrol_action.start()
 
 

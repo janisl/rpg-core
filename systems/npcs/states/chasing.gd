@@ -2,7 +2,6 @@ extends NpcStateProcessor
 
 
 func _on_chasing_state_entered() -> void:
-	_enter_state()
 	npc.chase_action.start()
 
 

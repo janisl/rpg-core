@@ -2,7 +2,6 @@ extends NpcStateProcessor
 
 
 func _on_investigate_state_entered() -> void:
-	_enter_state()
 	npc.investigate_action.start()
 
 
