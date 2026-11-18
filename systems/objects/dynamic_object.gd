@@ -14,6 +14,12 @@ func _ready() -> void:
 
 	add_to_group("persist")
 
+	var rigid_body := self as Node3D as RigidBody3D
+	if rigid_body:
+		rigid_body.contact_monitor = true
+		if rigid_body.max_contacts_reported < 1:
+			rigid_body.max_contacts_reported = 1
+
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
