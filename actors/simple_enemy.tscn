@@ -21,7 +21,6 @@
 [ext_resource type="AudioStream" uid="uid://cba5cvqpa62l1" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_003.ogg" id="15_rpt3r"]
 [ext_resource type="AudioStream" uid="uid://l5srpaiywb2d" path="res://assets/sounds/kenney_impact-sounds/impact_punch_medium_004.ogg" id="16_gbejp"]
 [ext_resource type="PackedScene" uid="uid://ukmk3wjft8no" path="res://systems/npcs/detection/sight_indicator.tscn" id="17_dqk6m"]
-[ext_resource type="Script" uid="uid://51h2b8uanxuf" path="res://systems/npcs/states/alerted.gd" id="18_5sy0m"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://bbe1e835q82bc" path="res://systems/actors/humanoid_animation_tree.tres" id="19_thjgf"]
 [ext_resource type="Script" uid="uid://crvmh56qwb83k" path="res://systems/npcs/detection/sight_detection.gd" id="22_gbejp"]
 [ext_resource type="Script" uid="uid://ccwu2fc84l1rx" path="res://systems/footsteps/footstep_player.gd" id="31_gxn4h"]
@@ -297,7 +296,6 @@ delay_in_seconds = "0.0"
 
 [node name="ToAlerted" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=157579163]
 script = ExtResource("5_a0x3i")
-to = NodePath("../../Alerted")
 event = &"alerted"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
@@ -319,7 +317,6 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="ToAlerted" type="Node" parent="StateChart/Root/Behaviour/Patrolling" unique_id=1250195304]
 script = ExtResource("5_a0x3i")
-to = NodePath("../../Alerted")
 event = &"alerted"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
@@ -331,29 +328,6 @@ script = ExtResource("4_4a0lb")
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Idle")
 event = &"idle"
-delay_in_seconds = "0.0"
-metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
-
-[node name="Alerted" type="Node" parent="StateChart/Root/Behaviour" unique_id=114586948]
-script = ExtResource("4_4a0lb")
-metadata/_custom_type_script = "uid://cytafq8i1y8qm"
-
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=708287372 node_paths=PackedStringArray("npc", "state_chart")]
-script = ExtResource("18_5sy0m")
-npc = NodePath("../../../../..")
-state_chart = NodePath("../../../..")
-
-[node name="ToIdle" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=1215990218]
-script = ExtResource("5_a0x3i")
-to = NodePath("../../Idle")
-event = &"idle"
-delay_in_seconds = "0.0"
-metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
-
-[node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=950769532]
-script = ExtResource("5_a0x3i")
-to = NodePath("../../UsingTree")
-event = &"chase"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
@@ -1004,8 +978,6 @@ blackboard_plan = SubResource("BlackboardPlan_gdyrv")
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Patrolling" to="StateChart/Root/Behaviour/Patrolling/Processor" method="_on_patrolling_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Patrolling" to="StateChart/Root/Behaviour/Patrolling/Processor" method="_on_patrolling_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/Root/Behaviour/Alerted" to="StateChart/Root/Behaviour/Alerted/Processor" method="_on_alerted_state_entered"]
-[connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Alerted" to="StateChart/Root/Behaviour/Alerted/Processor" method="_on_alerted_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/Neutral" to="StateChart/Root/Posture/Processor" method="_on_neutral_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/RaisedWeapon" to="StateChart/Root/Posture/Processor" method="_on_raised_weapon_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/Attack" to="StateChart/Root/Posture/Processor" method="_on_attack_state_entered"]
