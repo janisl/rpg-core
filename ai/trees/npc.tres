@@ -90,9 +90,9 @@ children = [SubResource("BTCheckAgentProperty_sraln"), SubResource("BTAction_khe
 [sub_resource type="BTAction" id="BTAction_nsq48"]
 script = ExtResource("7_sraln")
 
-[sub_resource type="BTSelector" id="BTSelector_78wb1"]
+[sub_resource type="BTDynamicSelector" id="BTDynamicSelector_sraln"]
 children = [SubResource("BTSequence_387kw"), SubResource("BTSequence_sraln"), SubResource("BTSequence_ft6dg"), SubResource("BTSequence_khe27"), SubResource("BTSequence_nsq48"), SubResource("BTAction_nsq48")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_lpdai")
-root_task = SubResource("BTSelector_78wb1")
+root_task = SubResource("BTDynamicSelector_sraln")

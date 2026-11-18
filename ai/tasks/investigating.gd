@@ -10,5 +10,5 @@ func _tick(delta: float) -> Status:
 	if result == NpcInvestigateAction.Result.FOUND:
 		return SUCCESS
 	elif result == NpcInvestigateAction.Result.NOTHING:
-		return SUCCESS
+		return FAILURE
 	return RUNNING
