@@ -1,0 +1,27 @@
+[gd_resource type="BehaviorTree" format=3 uid="uid://cs475p3slskbh"]
+
+[ext_resource type="Script" uid="uid://443ic7ubkicy" path="res://ai/tasks/attacking.gd" id="1_2b0tu"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_lpdai"]
+
+[sub_resource type="BBVariant" id="BBVariant_2b0tu"]
+type = 1
+saved_value = true
+resource_name = "true"
+
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_so0uu"]
+property = &"in_attack"
+value = SubResource("BBVariant_2b0tu")
+
+[sub_resource type="BTAction" id="BTAction_so0uu"]
+script = ExtResource("1_2b0tu")
+
+[sub_resource type="BTSequence" id="BTSequence_387kw"]
+children = [SubResource("BTCheckAgentProperty_so0uu"), SubResource("BTAction_so0uu")]
+
+[sub_resource type="BTSelector" id="BTSelector_78wb1"]
+children = [SubResource("BTSequence_387kw")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_lpdai")
+root_task = SubResource("BTSelector_78wb1")

@@ -13,7 +13,6 @@
 [ext_resource type="AnimationLibrary" uid="uid://dm7sapnp2plx2" path="res://assets/animations/humanoid/universal_animation_library_standard.res" id="7_ngyoi"]
 [ext_resource type="Script" uid="uid://u3k7xpn2y14c" path="res://systems/npcs/states/chasing.gd" id="8_gvg5y"]
 [ext_resource type="Script" uid="uid://d1esyyr4q7tuf" path="res://systems/npcs/states/patrolling.gd" id="8_j0stw"]
-[ext_resource type="Script" uid="uid://djec4ecbh44mx" path="res://systems/npcs/states/attacking.gd" id="9_0qgqr"]
 [ext_resource type="Script" uid="uid://xdrs64ru4ias" path="res://systems/npcs/states/investigating.gd" id="9_1cfep"]
 [ext_resource type="AudioStream" uid="uid://bjtmd38r3mmyg" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre4.wav" id="10_1cfep"]
 [ext_resource type="Script" uid="uid://b5ekeqtjbhney" path="res://systems/npcs/states/posture.gd" id="11_rpt3r"]
@@ -39,6 +38,7 @@
 [ext_resource type="Script" uid="uid://bixwysc1m3btm" path="res://systems/npcs/actions/npc_attack_action.gd" id="36_gdyrv"]
 [ext_resource type="Script" uid="uid://c276vbb4cey4x" path="res://systems/npcs/actions/npc_search_action.gd" id="37_e2qw7"]
 [ext_resource type="Script" uid="uid://bqvbcpj5ekq7c" path="res://systems/npcs/actions/npc_alerted_action.gd" id="38_xiwia"]
+[ext_resource type="BehaviorTree" uid="uid://cs475p3slskbh" path="res://ai/trees/npc.tres" id="40_mfil8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -255,6 +255,8 @@ point_count = 3
 height = 3.0
 radius = 8.0
 
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_gdyrv"]
+
 [node name="SimpleEnemy" type="CharacterBody3D" unique_id=1330723701 node_paths=PackedStringArray("head_turner", "head")]
 collision_layer = 8
 collision_mask = 45
@@ -279,12 +281,10 @@ initial_state = NodePath("Idle")
 [node name="Idle" type="Node" parent="StateChart/Root/Behaviour" unique_id=1549374654]
 script = ExtResource("4_4a0lb")
 
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=1620400777 node_paths=PackedStringArray("npc", "state_chart", "audio")]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=1620400777 node_paths=PackedStringArray("npc", "state_chart")]
 script = ExtResource("6_evrkw")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
-audio = NodePath("../../../../../Audio")
-behaviour_state = 1
 
 [node name="ToPatrolling" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=1187028747]
 script = ExtResource("5_a0x3i")
@@ -314,12 +314,10 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="Patrolling" type="Node" parent="StateChart/Root/Behaviour" unique_id=632220434]
 script = ExtResource("4_4a0lb")
 
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Patrolling" unique_id=156281610 node_paths=PackedStringArray("npc", "state_chart", "audio")]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Patrolling" unique_id=156281610 node_paths=PackedStringArray("npc", "state_chart")]
 script = ExtResource("8_j0stw")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
-audio = NodePath("../../../../../Audio")
-behaviour_state = 2
 
 [node name="ToInvestigating" type="Node" parent="StateChart/Root/Behaviour/Patrolling" unique_id=1578602841]
 script = ExtResource("5_a0x3i")
@@ -344,12 +342,10 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="Investigating" type="Node" parent="StateChart/Root/Behaviour" unique_id=272624112]
 script = ExtResource("4_4a0lb")
 
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Investigating" unique_id=1887146408 node_paths=PackedStringArray("npc", "state_chart", "audio")]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Investigating" unique_id=1887146408 node_paths=PackedStringArray("npc", "state_chart")]
 script = ExtResource("9_1cfep")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
-audio = NodePath("../../../../../Audio")
-behaviour_state = 3
 
 [node name="ToIdle" type="Node" parent="StateChart/Root/Behaviour/Investigating" unique_id=1241240719]
 script = ExtResource("5_a0x3i")
@@ -368,12 +364,10 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="Chasing" type="Node" parent="StateChart/Root/Behaviour" unique_id=226969982]
 script = ExtResource("4_4a0lb")
 
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=735664981 node_paths=PackedStringArray("npc", "state_chart", "audio")]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=735664981 node_paths=PackedStringArray("npc", "state_chart")]
 script = ExtResource("8_gvg5y")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
-audio = NodePath("../../../../../Audio")
-behaviour_state = 5
 
 [node name="ToAttacking" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=1937042604]
 script = ExtResource("5_a0x3i")
@@ -390,13 +384,6 @@ delay_in_seconds = "0.0"
 [node name="Attacking" type="Node" parent="StateChart/Root/Behaviour" unique_id=399243639]
 script = ExtResource("4_4a0lb")
 
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Attacking" unique_id=1913314527 node_paths=PackedStringArray("npc", "state_chart", "audio")]
-script = ExtResource("9_0qgqr")
-npc = NodePath("../../../../..")
-state_chart = NodePath("../../../..")
-audio = NodePath("../../../../../Audio")
-behaviour_state = 6
-
 [node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Attacking" unique_id=1618527547]
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Chasing")
@@ -407,12 +394,10 @@ delay_in_seconds = "0.0"
 script = ExtResource("4_4a0lb")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Searching" unique_id=1973182074 node_paths=PackedStringArray("npc", "state_chart", "audio")]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Searching" unique_id=1973182074 node_paths=PackedStringArray("npc", "state_chart")]
 script = ExtResource("12_dqk6m")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
-audio = NodePath("../../../../../Audio")
-behaviour_state = 7
 
 [node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Searching" unique_id=1368245202]
 script = ExtResource("5_a0x3i")
@@ -432,12 +417,10 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 script = ExtResource("4_4a0lb")
 metadata/_custom_type_script = "uid://cytafq8i1y8qm"
 
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=708287372 node_paths=PackedStringArray("npc", "state_chart", "audio")]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=708287372 node_paths=PackedStringArray("npc", "state_chart")]
 script = ExtResource("18_5sy0m")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
-audio = NodePath("../../../../../Audio")
-behaviour_state = 4
 
 [node name="ToIdle" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=1215990218]
 script = ExtResource("5_a0x3i")
@@ -463,13 +446,12 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 [node name="Posture" type="Node" parent="StateChart/Root" unique_id=1113553867]
 script = ExtResource("3_ngyoi")
 
-[node name="Processor" type="Node" parent="StateChart/Root/Posture" unique_id=722321629 node_paths=PackedStringArray("animation_tree", "npc", "state_chart", "audio")]
+[node name="Processor" type="Node" parent="StateChart/Root/Posture" unique_id=722321629 node_paths=PackedStringArray("animation_tree", "npc", "state_chart")]
 script = ExtResource("11_rpt3r")
 animation_tree = NodePath("../../../../AnimationTree")
 idle_random_range = 2.5
 npc = NodePath("../../../..")
 state_chart = NodePath("../../..")
-audio = NodePath("../../../../Audio")
 
 [node name="UpperBody" type="Node" parent="StateChart/Root/Posture" unique_id=364074532]
 script = ExtResource("3_4s1oe")
@@ -1100,6 +1082,10 @@ metadata/_custom_type_script = "uid://c276vbb4cey4x"
 script = ExtResource("38_xiwia")
 metadata/_custom_type_script = "uid://bqvbcpj5ekq7c"
 
+[node name="BTPlayer" type="BTPlayer" parent="." unique_id=1156491719]
+behavior_tree = ExtResource("40_mfil8")
+blackboard_plan = SubResource("BlackboardPlan_gdyrv")
+
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Patrolling" to="StateChart/Root/Behaviour/Patrolling/Processor" method="_on_patrolling_state_entered"]
@@ -1108,9 +1094,6 @@ metadata/_custom_type_script = "uid://bqvbcpj5ekq7c"
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Investigating" to="StateChart/Root/Behaviour/Investigating/Processor" method="_on_investigate_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/Root/Behaviour/Attacking" to="StateChart/Root/Behaviour/Attacking/Processor" method="_on_attacking_state_entered"]
-[connection signal="state_exited" from="StateChart/Root/Behaviour/Attacking" to="StateChart/Root/Behaviour/Attacking/Processor" method="_on_attacking_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Attacking" to="StateChart/Root/Behaviour/Attacking/Processor" method="_on_attacking_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Searching" to="StateChart/Root/Behaviour/Searching/Processor" method="_on_searching_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Behaviour/Searching" to="StateChart/Root/Behaviour/Searching/Processor" method="_on_searching_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Searching" to="StateChart/Root/Behaviour/Searching/Processor" method="_on_searching_state_physics_processing"]

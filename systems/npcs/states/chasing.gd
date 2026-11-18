@@ -9,6 +9,7 @@ func _on_chasing_state_physics_processing(delta: float) -> void:
 	var result := npc.chase_action.physics_process(delta)
 	match result:
 		NpcChaseAction.ChaseStatus.CAUGHT:
+			npc.in_attack = true
 			state_chart.send_event("attack")
 
 		NpcChaseAction.ChaseStatus.LOST:
