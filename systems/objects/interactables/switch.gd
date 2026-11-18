@@ -46,9 +46,9 @@ func _ready() -> void:
 		audio_stream_player_3d.stream = switch_sound
 
 	if is_on:
-		_switch_on()
+		switch_on()
 	else:
-		_switch_off()
+		switch_off()
 
 
 func save_state() -> Dictionary:
@@ -87,14 +87,14 @@ func _switch(player: Player) -> void:
 		audio_stream_player_3d.play()
 
 	if is_on:
-		_switch_off()
+		switch_off()
 	else:
-		_switch_on()
+		switch_on()
 
 	_call_interact_on_objects(player)
 
 
-func _switch_on() -> void:
+func switch_on() -> void:
 	if animation_player:
 		animation_player.play(anim_when_switched_on, -1, animation_speed)
 
@@ -105,7 +105,7 @@ func _switch_on() -> void:
 	switched.emit(is_on)
 
 
-func _switch_off() -> void:
+func switch_off() -> void:
 	if animation_player:
 		animation_player.play(anim_when_switched_off, -1, animation_speed)
 
