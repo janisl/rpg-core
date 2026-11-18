@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://d4bi663oyngqe"]
+
+[ext_resource type="Script" uid="uid://bsaikupw14x0m" path="res://systems/objects/interactables/keypad.gd" id="1_jyikf"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://systems/interaction/components/basic_interaction.tscn" id="2_3gkao"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0.542318, 0.542318, 0.542318, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(0.1, 0.17, 0.01)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rdqwp"]
+size = Vector3(0.02, 0.02, 0.005)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rghg7"]
+albedo_color = Color(0, 0.6803615, 0.45391595, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jyikf"]
+material = SubResource("StandardMaterial3D_rghg7")
+size = Vector3(0.08, 0.02, 0.005)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jyikf"]
+size = Vector3(0.1, 0.17, 0.02)
+
+[node name="Keypad" type="StaticBody3D" unique_id=1166518451]
+script = ExtResource("1_jyikf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=99060570]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08460693, 0.005)
+mesh = SubResource("BoxMesh_bsiym")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=6700761]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, 0.03, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1247514054]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=102922248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, 0.03, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=537964345]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, 0.06, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=907799513]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="." unique_id=1969762793]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, 0.06, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="." unique_id=371769845]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, 0.09, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="." unique_id=1400789418]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="." unique_id=1375037576]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, 0.09, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="." unique_id=432369098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, 0.12, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="." unique_id=915880852]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="." unique_id=1149683045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, 0.12, 0.013)
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="MeshInstance3D14" type="MeshInstance3D" parent="." unique_id=420645485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0.013)
+mesh = SubResource("BoxMesh_jyikf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=506125030]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.085, 0.01)
+shape = SubResource("BoxShape3D_jyikf")
+
+[node name="BasicInteraction" parent="." unique_id=14951234 instance=ExtResource("2_3gkao")]
