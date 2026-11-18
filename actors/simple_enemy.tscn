@@ -300,7 +300,7 @@ delay_in_seconds = "0.0"
 
 [node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=132159885]
 script = ExtResource("5_a0x3i")
-to = NodePath("../../Chasing")
+to = NodePath("../../UsingTree")
 event = &"chase"
 delay_in_seconds = "0.0"
 
@@ -327,7 +327,7 @@ delay_in_seconds = "0.0"
 
 [node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Patrolling" unique_id=17159183]
 script = ExtResource("5_a0x3i")
-to = NodePath("../../Chasing")
+to = NodePath("../../UsingTree")
 event = &"chase"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
@@ -356,38 +356,23 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Investigating" unique_id=234732129]
 script = ExtResource("5_a0x3i")
-to = NodePath("../../Chasing")
+to = NodePath("../../UsingTree")
 event = &"chase"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
-[node name="Chasing" type="Node" parent="StateChart/Root/Behaviour" unique_id=226969982]
+[node name="UsingTree" type="Node" parent="StateChart/Root/Behaviour" unique_id=226969982]
 script = ExtResource("4_4a0lb")
 
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=735664981 node_paths=PackedStringArray("npc", "state_chart")]
+[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/UsingTree" unique_id=735664981 node_paths=PackedStringArray("npc", "state_chart")]
 script = ExtResource("8_gvg5y")
 npc = NodePath("../../../../..")
 state_chart = NodePath("../../../..")
 
-[node name="ToAttacking" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=1937042604]
-script = ExtResource("5_a0x3i")
-to = NodePath("../../Attacking")
-event = &"attack"
-delay_in_seconds = "0.0"
-
-[node name="ToSearching" type="Node" parent="StateChart/Root/Behaviour/Chasing" unique_id=1276673632]
+[node name="ToSearching" type="Node" parent="StateChart/Root/Behaviour/UsingTree" unique_id=1276673632]
 script = ExtResource("5_a0x3i")
 to = NodePath("../../Searching")
 event = &"search"
-delay_in_seconds = "0.0"
-
-[node name="Attacking" type="Node" parent="StateChart/Root/Behaviour" unique_id=399243639]
-script = ExtResource("4_4a0lb")
-
-[node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Attacking" unique_id=1618527547]
-script = ExtResource("5_a0x3i")
-to = NodePath("../../Chasing")
-event = &"chase"
 delay_in_seconds = "0.0"
 
 [node name="Searching" type="Node" parent="StateChart/Root/Behaviour" unique_id=2004814939]
@@ -401,7 +386,7 @@ state_chart = NodePath("../../../..")
 
 [node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Searching" unique_id=1368245202]
 script = ExtResource("5_a0x3i")
-to = NodePath("../../Chasing")
+to = NodePath("../../UsingTree")
 event = &"chase"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
@@ -431,7 +416,7 @@ metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Alerted" unique_id=950769532]
 script = ExtResource("5_a0x3i")
-to = NodePath("../../Chasing")
+to = NodePath("../../UsingTree")
 event = &"chase"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
@@ -1092,8 +1077,7 @@ blackboard_plan = SubResource("BlackboardPlan_gdyrv")
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Patrolling" to="StateChart/Root/Behaviour/Patrolling/Processor" method="_on_patrolling_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Investigating" to="StateChart/Root/Behaviour/Investigating/Processor" method="_on_investigate_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Investigating" to="StateChart/Root/Behaviour/Investigating/Processor" method="_on_investigate_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_entered"]
-[connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Chasing" to="StateChart/Root/Behaviour/Chasing/Processor" method="_on_chasing_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Behaviour/UsingTree" to="StateChart/Root/Behaviour/UsingTree/Processor" method="_on_chasing_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Behaviour/Searching" to="StateChart/Root/Behaviour/Searching/Processor" method="_on_searching_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Behaviour/Searching" to="StateChart/Root/Behaviour/Searching/Processor" method="_on_searching_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Searching" to="StateChart/Root/Behaviour/Searching/Processor" method="_on_searching_state_physics_processing"]
