@@ -23,7 +23,8 @@ enum BehaviourState {
 @export_group("Movement")
 @export var walk_speed := 2.0
 @export var sprint_speed := 4.0
-@export var acceleration := 10.0
+@export var acceleration := 15.0
+@export var deceleration := 30.0
 @export var rotation_speed := 0.2
 
 @export_group("NPC Behaviour")
@@ -92,6 +93,7 @@ func _ready() -> void:
 	_spawn_weapon()
 	_find_health_attribute()
 	_create_attention_points.call_deferred()
+	nav_agent.velocity_computed.connect(_on_velocity_computed)
 
 
 func _physics_process(delta: float) -> void:
@@ -204,19 +206,19 @@ func move_npc_to_next_position(_delta: float) -> void:
 	if direction:
 		var face_dir := global_position + velocity
 		face_direction(face_dir)
-		var new_velocity := direction * move_speed
-		velocity.x = velocity.move_toward(new_velocity, .25).x
-		velocity.z = velocity.move_toward(new_velocity, .25).z
+		nav_agent.velocity = direction * move_speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, move_speed)
-		velocity.z = move_toward(velocity.z, 0, move_speed)
+		nav_agent.velocity = Vector3.ZERO
+	if not nav_agent.avoidance_enabled:
+		_on_velocity_computed(nav_agent.velocity)
 
 	move_and_slide()
 
 
 func stop_moving(delta: float) -> void:
-	velocity.x = move_toward(velocity.x, 0, delta * move_speed)
-	velocity.z = move_toward(velocity.z, 0, delta * move_speed)
+	velocity.x = move_toward(velocity.x, 0, delta * deceleration)
+	velocity.z = move_toward(velocity.z, 0, delta * deceleration)
+	nav_agent.velocity = Vector3.ZERO
 	move_and_slide()
 
 
@@ -442,3 +444,10 @@ func _create_attention_points() -> void:
 
 	hearing_attention_point = HEARING_POINT.instantiate()
 	get_tree().current_scene.add_child(hearing_attention_point)
+
+
+func _on_velocity_computed(safe_velocity: Vector3) -> void:
+	var target_velocity := Vector3(safe_velocity.x, velocity.y, safe_velocity.z)
+	var accel := acceleration if not safe_velocity.is_zero_approx() else deceleration
+	velocity.x = move_toward(velocity.x, target_velocity.x, accel * get_physics_process_delta_time())
+	velocity.z = move_toward(velocity.z, target_velocity.z, accel * get_physics_process_delta_time())
