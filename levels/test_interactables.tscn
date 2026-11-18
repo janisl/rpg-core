@@ -37,6 +37,7 @@
 [ext_resource type="Resource" uid="uid://pdxuupchn4xf" path="res://items/keys/key2.tres" id="33_5meya"]
 [ext_resource type="PackedScene" uid="uid://o3sxwr62t25n" path="res://assets/interactables/indicator_lamp.tscn" id="33_e6nsv"]
 [ext_resource type="PackedScene" uid="uid://ykywtyn6wovp" path="res://assets/interactables/basic_button.tscn" id="34_agba6"]
+[ext_resource type="PackedScene" uid="uid://dj0gncqer2421" path="res://assets/interactables/data_cube.tscn" id="38_clt0e"]
 
 [sub_resource type="Environment" id="Environment_bsiym"]
 background_mode = 1
@@ -403,6 +404,9 @@ objects_call_interact = Array[NodePath]([NodePath("../IndicatorLamp6")])
 
 [node name="IndicatorLamp6" parent="SwitchesAndButtons" unique_id=582762778 instance=ExtResource("33_e6nsv")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.75, 2.5, -8.5)
+
+[node name="DataCube" parent="." unique_id=1208312538 instance=ExtResource("38_clt0e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1, 0)
 
 [connection signal="body_entered" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_entered"]
 [connection signal="body_exited" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_exited"]

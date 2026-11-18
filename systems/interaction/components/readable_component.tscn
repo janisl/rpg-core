@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cct0itdltyppg"]
+
+[ext_resource type="Script" uid="uid://dtfpkk0rmf4sn" path="res://systems/interaction/components/readable_component.gd" id="1_u5mco"]
+[ext_resource type="AudioStream" uid="uid://owafsofwufss" path="res://assets/sounds/kenney_interface_sounds/open_001.ogg" id="2_u5mco"]
+
+[node name="ReadableComponent" type="Node3D" unique_id=1605262965]
+script = ExtResource("1_u5mco")
+interact_sound = ExtResource("2_u5mco")
+readable_title = "Test Readable Example"
+readable_content = "This text is a placeholder."
+interaction_text = "INTERACT Read"

@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://n4j8kr8krxek"]
+
+[ext_resource type="Script" uid="uid://dyk4vd8hljehr" path="res://ui/readable/readable_ui.gd" id="1_1k6c3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b608c"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0.627451)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+expand_margin_left = 32.0
+expand_margin_top = 32.0
+expand_margin_right = 32.0
+expand_margin_bottom = 32.0
+
+[node name="ReadableUI" type="Control" unique_id=1852182049]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.0
+offset_top = -250.0
+offset_right = 273.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1k6c3")
+
+[node name="ScreenShade" type="ColorRect" parent="." unique_id=648306218]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.627451)
+
+[node name="ContentPanel" type="PanelContainer" parent="." unique_id=1788498028]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_b608c")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ContentPanel" unique_id=2059604723]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContentPanel/ScrollContainer" unique_id=1591076120]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="ReadableTitle" type="Label" parent="ContentPanel/ScrollContainer/VBoxContainer" unique_id=1216490619]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../ReadableContent")
+focus_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "This is a readable. Title can even be longer."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HSeparator" type="HSeparator" parent="ContentPanel/ScrollContainer/VBoxContainer" unique_id=986426396]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ReadableContent" type="RichTextLabel" parent="ContentPanel/ScrollContainer/VBoxContainer" unique_id=709669685]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_top = NodePath("../ReadableTitle")
+focus_mode = 2
+text = "This text is a placeholder, showing how a readable object would work."
+fit_content = true

@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dj0gncqer2421"]
+
+[ext_resource type="Script" uid="uid://dclv4hr3v4ipm" path="res://systems/objects/dynamic_object.gd" id="1_dru5g"]
+[ext_resource type="PackedScene" uid="uid://cct0itdltyppg" path="res://systems/interaction/components/readable_component.tscn" id="2_dtb7y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdqwp"]
+albedo_color = Color(0, 0.34997323, 0.80582887, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_rdqwp")
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wcch7"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="DataCube" type="StaticBody3D" unique_id=1208312538]
+script = ExtResource("1_dru5g")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=215405621]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("BoxMesh_bsiym")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=245624257]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+shape = SubResource("BoxShape3D_wcch7")
+
+[node name="ReadableComponent" parent="." unique_id=1605262965 instance=ExtResource("2_dtb7y")]
+readable_content = "This text is a placeholder. [b]Very important text.[/b]"
+rich_text = true
