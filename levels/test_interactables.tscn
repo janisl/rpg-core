@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://devphxuat7w8v" path="res://assets/interactables/stool.tscn" id="18_5o2v4"]
 [ext_resource type="PackedScene" uid="uid://qqcw2fhr4pnq" path="res://assets/interactables/heavy_box.tscn" id="18_emp2w"]
 [ext_resource type="PackedScene" uid="uid://h63prh2hngne" path="res://items/consumables/strength_potion.tscn" id="19_ogusv"]
+[ext_resource type="PackedScene" uid="uid://dgkquvkrrve5q" path="res://assets/interactables/pressure_plate.tscn" id="19_vbet7"]
 [ext_resource type="PackedScene" uid="uid://btrqhtpuldyn1" path="res://assets/interactables/chest.tscn" id="22_35h6x"]
 [ext_resource type="PackedScene" uid="uid://d7kuq0pgup2r" path="res://items/lockpick.tscn" id="22_grnd0"]
 [ext_resource type="Script" uid="uid://bw38ep6ean3wy" path="res://systems/loot/loot_table_entry.gd" id="24_grnd0"]
@@ -269,22 +270,29 @@ is_sat_on_start = true
 objects_call_interact = Array[NodePath]([NodePath("../../RotatingDoor4/AnimatableBody3D")])
 objects_call_delay = 5.0
 
-[node name="Sittables2AndCarryables" type="Node3D" parent="." unique_id=698549468]
+[node name="SittablesAndCarryables" type="Node3D" parent="." unique_id=698549468]
 
-[node name="Chair" parent="Sittables2AndCarryables" unique_id=1326040903 instance=ExtResource("12_4j5gu")]
+[node name="Chair" parent="SittablesAndCarryables" unique_id=1326040903 instance=ExtResource("12_4j5gu")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7, 0, 7)
 
-[node name="Beartrap" parent="Sittables2AndCarryables" unique_id=1660126680 instance=ExtResource("13_207p0")]
+[node name="Beartrap" parent="SittablesAndCarryables" unique_id=1660126680 instance=ExtResource("13_207p0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 9)
 
-[node name="CarryableBox" parent="Sittables2AndCarryables" unique_id=2028542117 instance=ExtResource("16_er7k5")]
+[node name="CarryableBox" parent="SittablesAndCarryables" unique_id=2028542117 instance=ExtResource("16_er7k5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.1, 11)
 
-[node name="Stool" parent="Sittables2AndCarryables" unique_id=1618642924 instance=ExtResource("18_5o2v4")]
+[node name="Stool" parent="SittablesAndCarryables" unique_id=1618642924 instance=ExtResource("18_5o2v4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 7)
+mass = 10.0
 
-[node name="HeavyBox" parent="Sittables2AndCarryables" unique_id=1756682221 instance=ExtResource("18_emp2w")]
+[node name="HeavyBox" parent="SittablesAndCarryables" unique_id=1756682221 instance=ExtResource("18_emp2w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.4, 13)
+
+[node name="PressurePlate" parent="SittablesAndCarryables" unique_id=1529069040 instance=ExtResource("19_vbet7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 7)
+
+[node name="IndicatorLamp" parent="SittablesAndCarryables" unique_id=1010763252 instance=ExtResource("33_e6nsv")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -5, 2.5, 6.2)
 
 [node name="Pickups" type="Node3D" parent="." unique_id=1422692148]
 
@@ -398,6 +406,8 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.75
 
 [connection signal="body_entered" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_entered"]
 [connection signal="body_exited" from="Sittables/Area3D" to="Sittables/AnimatableBody3D2/Chair2/StaticBody3D" method="_on_sit_area_body_exited"]
+[connection signal="plate_activated" from="SittablesAndCarryables/PressurePlate" to="SittablesAndCarryables/IndicatorLamp" method="switch_on"]
+[connection signal="plate_deactivated" from="SittablesAndCarryables/PressurePlate" to="SittablesAndCarryables/IndicatorLamp" method="switch_off"]
 [connection signal="switched" from="SwitchesAndButtons/Lever" to="SwitchesAndButtons/LightzoneComponent/LightzoneSwitchComponent" method="_on_switched"]
 [connection signal="switched" from="SwitchesAndButtons/Lever2" to="SwitchesAndButtons/LightzoneComponent/LightzoneSwitchComponent" method="_on_switched"]
 [connection signal="switched" from="SwitchesAndButtons/Lever3" to="SwitchesAndButtons/LightzoneComponent/LightzoneSwitchComponent" method="_on_switched"]

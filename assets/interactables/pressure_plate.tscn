@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://dgkquvkrrve5q"]
+
+[ext_resource type="Script" uid="uid://b1f2yq7ba3h6n" path="res://systems/objects/interactables/pressure_plate.gd" id="1_64qdo"]
+[ext_resource type="AudioStream" uid="uid://dljrk431ni5t2" path="res://assets/sounds/kenney_ui-audio/switch29.ogg" id="2_a61wn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a61wn"]
+albedo_color = Color(0.3943528, 0.39435276, 0.39435276, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bsiym"]
+material = SubResource("StandardMaterial3D_a61wn")
+size = Vector3(1, 0.1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_at4em"]
+size = Vector3(1, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tjsbm"]
+albedo_color = Color(0.38655704, 0.22972652, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rdqwp"]
+material = SubResource("StandardMaterial3D_tjsbm")
+size = Vector3(0.9, 0.1, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_64qdo"]
+size = Vector3(0.9, 0.1, 0.9)
+
+[node name="PressurePlate" type="Node3D" unique_id=1529069040 node_paths=PackedStringArray("audio_stream_player_3d", "plate_node")]
+script = ExtResource("1_64qdo")
+audio_stream_player_3d = NodePath("AudioStreamPlayer3D")
+activation_sound = ExtResource("2_a61wn")
+plate_node = NodePath("Plate")
+weighted_down_plate_position = Vector3(0, 0.06, 0)
+
+[node name="Base" type="StaticBody3D" parent="." unique_id=1613607328]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Base" unique_id=1563090474]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01, 0)
+mesh = SubResource("BoxMesh_bsiym")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Base" unique_id=473118994]
+shape = SubResource("BoxShape3D_at4em")
+
+[node name="Plate" type="RigidBody3D" parent="." unique_id=1248258972]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0)
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 5.0
+gravity_scale = -0.5
+can_sleep = false
+contact_monitor = true
+max_contacts_reported = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Plate" unique_id=232459405]
+mesh = SubResource("BoxMesh_rdqwp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plate" unique_id=753195215]
+shape = SubResource("BoxShape3D_64qdo")
+
+[node name="SliderJoint3D" type="SliderJoint3D" parent="." unique_id=727508077]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+node_a = NodePath("../Base")
+node_b = NodePath("../Plate")
+linear_limit/upper_distance = 0.9
+linear_limit/lower_distance = 0.0
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=867767984]
+bus = &"SFX"
+
+[connection signal="body_entered" from="Plate" to="." method="_on_plate_body_entered"]
+[connection signal="body_exited" from="Plate" to="." method="_on_plate_body_exited"]
