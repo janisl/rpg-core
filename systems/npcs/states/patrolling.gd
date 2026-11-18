@@ -10,4 +10,4 @@ func _on_patrolling_state_physics_processing(delta: float) -> void:
 	if npc.is_in_combat():
 		state_chart.send_event("chase")
 	if npc.is_investigating():
-		npc.state_chart.send_event("investigate")
+		npc.state_chart.send_event("chase")

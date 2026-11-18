@@ -8,6 +8,6 @@ func _on_alerted_state_entered() -> void:
 func _on_alerted_state_physics_processing(delta: float) -> void:
 	npc.alerted_action.physics_process(delta)
 	if npc.is_investigating():
-		npc.state_chart.send_event("investigate")
+		npc.state_chart.send_event("chase")
 	elif npc.alerted_action.has_given_up:
 		state_chart.send_event("idle")

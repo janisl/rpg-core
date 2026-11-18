@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://443ic7ubkicy" path="res://ai/tasks/attacking.gd" id="1_2b0tu"]
 [ext_resource type="Script" uid="uid://k0g6ys2088b1" path="res://ai/tasks/chasing.gd" id="1_so0uu"]
 [ext_resource type="Script" uid="uid://b1whddyu2qo0n" path="res://ai/tasks/searching.gd" id="3_387kw"]
+[ext_resource type="Script" uid="uid://djqk1qptepkbp" path="res://ai/tasks/investigating.gd" id="4_78wb1"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_lpdai"]
 
@@ -39,8 +40,23 @@ script = ExtResource("3_387kw")
 [sub_resource type="BTSequence" id="BTSequence_sraln"]
 children = [SubResource("BTCheckAgentProperty_ft6dg"), SubResource("BTAction_1l1bu")]
 
+[sub_resource type="BBVariant" id="BBVariant_387kw"]
+type = 1
+saved_value = true
+resource_name = "true"
+
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_78wb1"]
+property = &"_investigating"
+value = SubResource("BBVariant_387kw")
+
+[sub_resource type="BTAction" id="BTAction_ft6dg"]
+script = ExtResource("4_78wb1")
+
+[sub_resource type="BTSequence" id="BTSequence_ft6dg"]
+children = [SubResource("BTCheckAgentProperty_78wb1"), SubResource("BTAction_ft6dg")]
+
 [sub_resource type="BTSelector" id="BTSelector_78wb1"]
-children = [SubResource("BTSequence_387kw"), SubResource("BTSequence_sraln")]
+children = [SubResource("BTSequence_387kw"), SubResource("BTSequence_sraln"), SubResource("BTSequence_ft6dg")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_lpdai")
