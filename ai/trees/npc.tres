@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://djqk1qptepkbp" path="res://ai/tasks/investigating.gd" id="4_78wb1"]
 [ext_resource type="Script" uid="uid://p135klyo47rk" path="res://ai/tasks/alerted.gd" id="5_ft6dg"]
 [ext_resource type="Script" uid="uid://uwhem0oe84ai" path="res://ai/tasks/patrolling.gd" id="6_1l1bu"]
+[ext_resource type="Script" uid="uid://cp6sqd1c2wb3i" path="res://ai/tasks/idle.gd" id="7_sraln"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_lpdai"]
 
@@ -86,8 +87,11 @@ script = ExtResource("6_1l1bu")
 [sub_resource type="BTSequence" id="BTSequence_nsq48"]
 children = [SubResource("BTCheckAgentProperty_sraln"), SubResource("BTAction_khe27")]
 
+[sub_resource type="BTAction" id="BTAction_nsq48"]
+script = ExtResource("7_sraln")
+
 [sub_resource type="BTSelector" id="BTSelector_78wb1"]
-children = [SubResource("BTSequence_387kw"), SubResource("BTSequence_sraln"), SubResource("BTSequence_ft6dg"), SubResource("BTSequence_khe27"), SubResource("BTSequence_nsq48")]
+children = [SubResource("BTSequence_387kw"), SubResource("BTSequence_sraln"), SubResource("BTSequence_ft6dg"), SubResource("BTSequence_khe27"), SubResource("BTSequence_nsq48"), SubResource("BTAction_nsq48")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_lpdai")

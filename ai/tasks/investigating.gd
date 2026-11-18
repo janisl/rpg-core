@@ -10,6 +10,5 @@ func _tick(delta: float) -> Status:
 	if result == NpcInvestigateAction.Result.FOUND:
 		return SUCCESS
 	elif result == NpcInvestigateAction.Result.NOTHING:
-		agent.state_chart.send_event("idle")
 		return SUCCESS
 	return RUNNING

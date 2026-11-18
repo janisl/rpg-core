@@ -94,13 +94,11 @@ func _physics_process(delta: float) -> void:
 		_was_alerted = false
 		if not (_investigating or _alerted or _in_combat):
 			_alerted = true
-			state_chart.send_event("chase")
 
 	if _heard_suspicious_noise:
 		_heard_suspicious_noise = false
 		if not (_investigating or _in_combat):
 			start_investigating()
-			state_chart.send_event("chase")
 
 
 func _exit_tree() -> void:

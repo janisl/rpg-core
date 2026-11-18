@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="5_a0x3i"]
 [ext_resource type="PackedScene" uid="uid://brg2prx3b1ap8" path="res://systems/attributes/health_attribute.tscn" id="6_4s1oe"]
 [ext_resource type="ArrayMesh" uid="uid://caxjp2wqc7o7n" path="res://assets/models/mannequin.mesh" id="6_a0x3i"]
-[ext_resource type="Script" uid="uid://cwqlxrvrj657s" path="res://systems/npcs/states/idle.gd" id="6_evrkw"]
 [ext_resource type="AnimationLibrary" uid="uid://dm7sapnp2plx2" path="res://assets/animations/humanoid/universal_animation_library_standard.res" id="7_ngyoi"]
 [ext_resource type="AudioStream" uid="uid://bjtmd38r3mmyg" path="res://assets/sounds/rpg_sound_pack/npc/ogre/ogre4.wav" id="10_1cfep"]
 [ext_resource type="Script" uid="uid://b5ekeqtjbhney" path="res://systems/npcs/states/posture.gd" id="11_rpt3r"]
@@ -34,6 +33,8 @@
 [ext_resource type="Script" uid="uid://c276vbb4cey4x" path="res://systems/npcs/actions/npc_search_action.gd" id="37_e2qw7"]
 [ext_resource type="Script" uid="uid://bqvbcpj5ekq7c" path="res://systems/npcs/actions/npc_alerted_action.gd" id="38_xiwia"]
 [ext_resource type="BehaviorTree" uid="uid://cs475p3slskbh" path="res://ai/trees/npc.tres" id="40_mfil8"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_gdyrv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bsiym"]
 radius = 0.3
@@ -250,8 +251,6 @@ point_count = 3
 height = 3.0
 radius = 8.0
 
-[sub_resource type="BlackboardPlan" id="BlackboardPlan_gdyrv"]
-
 [node name="SimpleEnemy" type="CharacterBody3D" unique_id=1330723701 node_paths=PackedStringArray("head_turner", "head")]
 collision_layer = 8
 collision_mask = 45
@@ -262,40 +261,16 @@ response_to_player = "Hostile"
 head_turner = NodePath("Rig/GeneralSkeleton/HeadTurn")
 head = NodePath("Rig/GeneralSkeleton/HeadAttachment/Head")
 
+[node name="BTPlayer" type="BTPlayer" parent="." unique_id=1156491719]
+behavior_tree = ExtResource("40_mfil8")
+blackboard_plan = SubResource("BlackboardPlan_gdyrv")
+
 [node name="StateChart" type="Node" parent="." unique_id=1116907845]
 script = ExtResource("2_tmhjk")
 metadata/_custom_type_script = "uid://couw105c3bde4"
 
 [node name="Root" type="Node" parent="StateChart" unique_id=1315856345]
 script = ExtResource("3_ngyoi")
-
-[node name="Behaviour" type="Node" parent="StateChart/Root" unique_id=927054296]
-script = ExtResource("3_4s1oe")
-initial_state = NodePath("Idle")
-
-[node name="Idle" type="Node" parent="StateChart/Root/Behaviour" unique_id=1549374654]
-script = ExtResource("4_4a0lb")
-
-[node name="Processor" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=1620400777 node_paths=PackedStringArray("npc", "state_chart")]
-script = ExtResource("6_evrkw")
-npc = NodePath("../../../../..")
-state_chart = NodePath("../../../..")
-
-[node name="ToChasing" type="Node" parent="StateChart/Root/Behaviour/Idle" unique_id=132159885]
-script = ExtResource("5_a0x3i")
-to = NodePath("../../UsingTree")
-event = &"chase"
-delay_in_seconds = "0.0"
-
-[node name="UsingTree" type="Node" parent="StateChart/Root/Behaviour" unique_id=226969982]
-script = ExtResource("4_4a0lb")
-
-[node name="ToIdle" type="Node" parent="StateChart/Root/Behaviour/UsingTree" unique_id=8076200]
-script = ExtResource("5_a0x3i")
-to = NodePath("../../Idle")
-event = &"idle"
-delay_in_seconds = "0.0"
-metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="Posture" type="Node" parent="StateChart/Root" unique_id=1113553867]
 script = ExtResource("3_ngyoi")
@@ -365,6 +340,9 @@ script = ExtResource("5_a0x3i")
 to = NodePath("../../Walking")
 event = &"body_walk"
 delay_in_seconds = "0.0"
+
+[node name="Dummy" type="Node" parent="StateChart/Root" unique_id=1060296641]
+script = ExtResource("4_4a0lb")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="." unique_id=2117515800]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
@@ -936,12 +914,6 @@ metadata/_custom_type_script = "uid://c276vbb4cey4x"
 script = ExtResource("38_xiwia")
 metadata/_custom_type_script = "uid://bqvbcpj5ekq7c"
 
-[node name="BTPlayer" type="BTPlayer" parent="." unique_id=1156491719]
-behavior_tree = ExtResource("40_mfil8")
-blackboard_plan = SubResource("BlackboardPlan_gdyrv")
-
-[connection signal="state_entered" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_entered"]
-[connection signal="state_physics_processing" from="StateChart/Root/Behaviour/Idle" to="StateChart/Root/Behaviour/Idle/Processor" method="_on_idle_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/Neutral" to="StateChart/Root/Posture/Processor" method="_on_neutral_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/RaisedWeapon" to="StateChart/Root/Posture/Processor" method="_on_raised_weapon_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/Attack" to="StateChart/Root/Posture/Processor" method="_on_attack_state_entered"]

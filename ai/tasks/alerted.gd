@@ -10,6 +10,5 @@ func _tick(delta: float) -> Status:
 	if agent.is_investigating():
 		return SUCCESS
 	elif agent.alerted_action.has_given_up:
-		agent.state_chart.send_event("idle")
 		return SUCCESS
 	return RUNNING
