@@ -1,0 +1,337 @@
+[gd_scene format=3 uid="uid://barugt8oxroqa"]
+
+[ext_resource type="Script" uid="uid://cyypaydcm7tss" path="res://ui/keypad/keypad_ui.gd" id="2_0i5ko"]
+[ext_resource type="AudioStream" uid="uid://bgqtsyhmdo0fa" path="res://assets/sounds/kenney_interface_sounds/confirmation_001.ogg" id="3_dsopq"]
+[ext_resource type="AudioStream" uid="uid://ck55qpntoexdr" path="res://assets/sounds/kenney_interface_sounds/error_008.ogg" id="4_yswhb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2n2u5"]
+content_margin_left = 32.0
+content_margin_top = 32.0
+content_margin_right = 32.0
+content_margin_bottom = 32.0
+bg_color = Color(0.41725737, 0.41725743, 0.41725728, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n6vwe"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.0100903, 0.010090303, 0.0100902915, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="Gradient" id="Gradient_4rjm3"]
+offsets = PackedFloat32Array(0, 0.9381933, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bsiym"]
+gradient = SubResource("Gradient_4rjm3")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="InputEventKey" id="InputEventKey_a2wnc"]
+device = -1
+keycode = 49
+unicode = 49
+
+[sub_resource type="InputEventKey" id="InputEventKey_afy1x"]
+device = -1
+keycode = 4194439
+
+[sub_resource type="Shortcut" id="Shortcut_p4cpf"]
+events = [SubResource("InputEventKey_a2wnc"), SubResource("InputEventKey_afy1x")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_4rjm3"]
+device = -1
+keycode = 50
+unicode = 50
+
+[sub_resource type="InputEventKey" id="InputEventKey_t4wt2"]
+device = -1
+keycode = 4194440
+
+[sub_resource type="Shortcut" id="Shortcut_a2wnc"]
+events = [SubResource("InputEventKey_4rjm3"), SubResource("InputEventKey_t4wt2")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_p4cpf"]
+device = -1
+keycode = 51
+unicode = 51
+
+[sub_resource type="InputEventKey" id="InputEventKey_uii1h"]
+device = -1
+keycode = 4194441
+
+[sub_resource type="Shortcut" id="Shortcut_jhrpe"]
+events = [SubResource("InputEventKey_p4cpf"), SubResource("InputEventKey_uii1h")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_jhrpe"]
+device = -1
+keycode = 52
+unicode = 52
+
+[sub_resource type="InputEventKey" id="InputEventKey_ec8ff"]
+device = -1
+keycode = 4194442
+
+[sub_resource type="Shortcut" id="Shortcut_ltsto"]
+events = [SubResource("InputEventKey_jhrpe"), SubResource("InputEventKey_ec8ff")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_ltsto"]
+device = -1
+keycode = 53
+unicode = 53
+
+[sub_resource type="InputEventKey" id="InputEventKey_47mrq"]
+device = -1
+keycode = 4194443
+
+[sub_resource type="Shortcut" id="Shortcut_e3v7y"]
+events = [SubResource("InputEventKey_ltsto"), SubResource("InputEventKey_47mrq")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_e3v7y"]
+device = -1
+keycode = 54
+unicode = 54
+
+[sub_resource type="InputEventKey" id="InputEventKey_o3inb"]
+device = -1
+keycode = 4194444
+
+[sub_resource type="Shortcut" id="Shortcut_em6n6"]
+events = [SubResource("InputEventKey_e3v7y"), SubResource("InputEventKey_o3inb")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_em6n6"]
+device = -1
+keycode = 55
+unicode = 55
+
+[sub_resource type="InputEventKey" id="InputEventKey_sofsu"]
+device = -1
+keycode = 4194445
+
+[sub_resource type="Shortcut" id="Shortcut_4rej2"]
+events = [SubResource("InputEventKey_em6n6"), SubResource("InputEventKey_sofsu")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_4rej2"]
+device = -1
+keycode = 56
+unicode = 56
+
+[sub_resource type="InputEventKey" id="InputEventKey_t01ov"]
+device = -1
+keycode = 4194446
+
+[sub_resource type="Shortcut" id="Shortcut_llx2x"]
+events = [SubResource("InputEventKey_4rej2"), SubResource("InputEventKey_t01ov")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_llx2x"]
+device = -1
+keycode = 57
+unicode = 57
+
+[sub_resource type="InputEventKey" id="InputEventKey_gh2ia"]
+device = -1
+keycode = 4194447
+
+[sub_resource type="Shortcut" id="Shortcut_vs87u"]
+events = [SubResource("InputEventKey_llx2x"), SubResource("InputEventKey_gh2ia")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_44tuv"]
+device = -1
+keycode = 4194308
+
+[sub_resource type="InputEventKey" id="InputEventKey_j2q3q"]
+device = -1
+keycode = 4194436
+
+[sub_resource type="Shortcut" id="Shortcut_bsiym"]
+events = [SubResource("InputEventKey_44tuv"), SubResource("InputEventKey_j2q3q")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_vs87u"]
+device = -1
+keycode = 48
+unicode = 48
+
+[sub_resource type="InputEventKey" id="InputEventKey_lgo1p"]
+device = -1
+keycode = 4194438
+
+[sub_resource type="Shortcut" id="Shortcut_cho8m"]
+events = [SubResource("InputEventKey_vs87u"), SubResource("InputEventKey_lgo1p")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_cho8m"]
+device = -1
+keycode = 4194309
+
+[sub_resource type="InputEventKey" id="InputEventKey_32hn8"]
+device = -1
+keycode = 4194310
+
+[sub_resource type="Shortcut" id="Shortcut_44tuv"]
+events = [SubResource("InputEventKey_cho8m"), SubResource("InputEventKey_32hn8")]
+
+[node name="KeypadUi" type="Control" unique_id=2120432878]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_0i5ko")
+correct_code_entered_sound = ExtResource("3_dsopq")
+wrong_code_entered_sound = ExtResource("4_yswhb")
+
+[node name="ScreenShade" type="ColorRect" parent="." unique_id=1752300463]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.627451)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=372656876]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2n2u5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=538742757]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer" unique_id=1077996848]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_n6vwe")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/PanelContainer" unique_id=302328271]
+layout_mode = 2
+
+[node name="LockColor" type="TextureRect" parent="PanelContainer/VBoxContainer/PanelContainer/HBoxContainer" unique_id=1680000546]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_bsiym")
+
+[node name="CodeDisplay" type="Label" parent="PanelContainer/VBoxContainer/PanelContainer/HBoxContainer" unique_id=1891105682]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "0000"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer" unique_id=1248857910]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer" unique_id=647479396]
+layout_mode = 2
+columns = 3
+
+[node name="1" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=235842617]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_p4cpf")
+text = "1"
+
+[node name="2" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=76154442]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_a2wnc")
+text = "2"
+
+[node name="3" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1041682838]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_jhrpe")
+text = "3"
+
+[node name="4" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1586208555]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_ltsto")
+text = "4"
+
+[node name="5" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1099221423]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_e3v7y")
+text = "5"
+
+[node name="6" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=722750724]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_em6n6")
+text = "6"
+
+[node name="7" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1249328861]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_4rej2")
+text = "7"
+
+[node name="8" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1345972829]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_llx2x")
+text = "8"
+
+[node name="9" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1787035609]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_vs87u")
+text = "9"
+
+[node name="C" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=597057507]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_bsiym")
+text = "C"
+
+[node name="0" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=791295568]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_cho8m")
+text = "0"
+
+[node name="E" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=268193859]
+custom_minimum_size = Vector2(64, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+shortcut = SubResource("Shortcut_44tuv")
+text = "E"
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/1" to="." method="_append_to_entered_code" binds= ["1"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/2" to="." method="_append_to_entered_code" binds= ["2"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/3" to="." method="_append_to_entered_code" binds= ["3"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/4" to="." method="_append_to_entered_code" binds= ["4"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/5" to="." method="_append_to_entered_code" binds= ["5"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/6" to="." method="_append_to_entered_code" binds= ["6"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/7" to="." method="_append_to_entered_code" binds= ["7"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/8" to="." method="_append_to_entered_code" binds= ["8"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/9" to="." method="_append_to_entered_code" binds= ["9"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/C" to="." method="_clear_entered_code"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/0" to="." method="_append_to_entered_code" binds= ["0"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/GridContainer/E" to="." method="_check_entered_code"]
