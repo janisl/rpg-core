@@ -12,7 +12,5 @@ func _tick(delta: float) -> Status:
 			return SUCCESS
 
 		NpcChaseAction.ChaseStatus.LOST:
-			agent.in_chasing = false
-			agent.state_chart.send_event("search")
 			return FAILURE
 	return RUNNING

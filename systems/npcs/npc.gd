@@ -46,7 +46,6 @@ var _heard_suspicious_noise := false
 var _alerted := false
 var _investigating := false
 var _in_combat := false
-var in_chasing := false
 
 var _health: HealthAttribute
 
