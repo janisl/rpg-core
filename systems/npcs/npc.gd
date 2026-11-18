@@ -395,6 +395,7 @@ func _spawn_weapon() -> void:
 func _can_attack_with_weapon() -> bool:
 	if _weapon_data.weapon_range <= 0.0:
 		return true
+	sight_detection.check_if_chase_target_in_los()
 	var detected_target := sight_detection.detected_target
 	if not detected_target:
 		return false
