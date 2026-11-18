@@ -144,7 +144,7 @@ func _snap_up_stairs_check(delta: float) -> bool:
 		return false
 
 	var step_collider := down_check_result.get_collider()
-	if not (step_collider is StaticBody3D or step_collider is CSGShape3D or step_collider is GridMap):
+	if step_collider is CharacterBody3D:
 		return false
 
 	var top_of_step: Vector3 = step_pos_with_clearance.origin + down_check_result.get_travel()

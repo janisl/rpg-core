@@ -393,6 +393,7 @@ _data = {
 collision_layer = 772
 collision_mask = 45
 script = ExtResource("1_nvxhs")
+platform_floor_layers = 1
 camera_controller = NodePath("Neck")
 camera_effects = NodePath("Neck/Head/Camera")
 state_chart = NodePath("StateChart")
@@ -893,9 +894,11 @@ delay_in_seconds = "0.0"
 
 [node name="StairsAheadRayCast" type="RayCast3D" parent="." unique_id=2077641786]
 target_position = Vector3(0, -0.55, 0)
+collision_mask = 33
 
 [node name="StairsBelowRayCast" type="RayCast3D" parent="." unique_id=611059247]
 target_position = Vector3(0, -0.75, 0)
+collision_mask = 33
 
 [node name="Rig" type="Node3D" parent="." unique_id=852891228]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
