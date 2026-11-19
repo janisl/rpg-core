@@ -2,6 +2,7 @@ extends BTAction
 
 
 func _enter() -> void:
+	agent.idle_action.start()
 	agent.patrol_action.start()
 
 

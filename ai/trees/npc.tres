@@ -26,22 +26,17 @@ script = ExtResource("1_so0uu")
 script = ExtResource("1_2b0tu")
 
 [sub_resource type="BTSequence" id="BTSequence_387kw"]
-children = [SubResource("BTCheckAgentProperty_so0uu"), SubResource("BTAction_387kw"), SubResource("BTAction_so0uu")]
-
-[sub_resource type="BBVariant" id="BBVariant_78wb1"]
-type = 1
-saved_value = true
-resource_name = "true"
-
-[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_ft6dg"]
-property = &"_in_combat"
-value = SubResource("BBVariant_78wb1")
+children = [SubResource("BTAction_387kw"), SubResource("BTAction_so0uu")]
 
 [sub_resource type="BTAction" id="BTAction_1l1bu"]
 script = ExtResource("3_387kw")
 
-[sub_resource type="BTSequence" id="BTSequence_sraln"]
-children = [SubResource("BTCheckAgentProperty_ft6dg"), SubResource("BTAction_1l1bu")]
+[sub_resource type="BTSelector" id="BTSelector_sraln"]
+children = [SubResource("BTSequence_387kw"), SubResource("BTAction_1l1bu")]
+
+[sub_resource type="BTDynamicSequence" id="BTDynamicSequence_khe27"]
+custom_name = "InCombat"
+children = [SubResource("BTCheckAgentProperty_so0uu"), SubResource("BTSelector_sraln")]
 
 [sub_resource type="BBVariant" id="BBVariant_387kw"]
 type = 1
@@ -55,7 +50,8 @@ value = SubResource("BBVariant_387kw")
 [sub_resource type="BTAction" id="BTAction_ft6dg"]
 script = ExtResource("4_78wb1")
 
-[sub_resource type="BTSequence" id="BTSequence_ft6dg"]
+[sub_resource type="BTDynamicSequence" id="BTDynamicSequence_nsq48"]
+custom_name = "Investigating"
 children = [SubResource("BTCheckAgentProperty_78wb1"), SubResource("BTAction_ft6dg")]
 
 [sub_resource type="BBVariant" id="BBVariant_ft6dg"]
@@ -70,11 +66,13 @@ value = SubResource("BBVariant_ft6dg")
 [sub_resource type="BTAction" id="BTAction_sraln"]
 script = ExtResource("5_ft6dg")
 
-[sub_resource type="BTSequence" id="BTSequence_khe27"]
+[sub_resource type="BTDynamicSequence" id="BTDynamicSequence_u5yni"]
+custom_name = "Alerted"
 children = [SubResource("BTCheckAgentProperty_1l1bu"), SubResource("BTAction_sraln")]
 
 [sub_resource type="BBVariant" id="BBVariant_1l1bu"]
 saved_value = null
+resource_name = "<null>"
 
 [sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_sraln"]
 property = &"patrol_path"
@@ -91,7 +89,8 @@ children = [SubResource("BTCheckAgentProperty_sraln"), SubResource("BTAction_khe
 script = ExtResource("7_sraln")
 
 [sub_resource type="BTDynamicSelector" id="BTDynamicSelector_sraln"]
-children = [SubResource("BTSequence_387kw"), SubResource("BTSequence_sraln"), SubResource("BTSequence_ft6dg"), SubResource("BTSequence_khe27"), SubResource("BTSequence_nsq48"), SubResource("BTAction_nsq48")]
+custom_name = "Root"
+children = [SubResource("BTDynamicSequence_khe27"), SubResource("BTDynamicSequence_nsq48"), SubResource("BTDynamicSequence_u5yni"), SubResource("BTSequence_nsq48"), SubResource("BTAction_nsq48")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_lpdai")
