@@ -1,6 +1,10 @@
 class_name Npc
 extends Actor
 
+## How aware the NPC is of a threat, kept on the behaviour tree blackboard as
+## [code]awareness[/code]. Each level has its own branch in the tree.
+enum Awareness { CALM, ALERTED, INVESTIGATING, COMBAT }
+
 const SIGHT_POINT = preload("uid://de4wqr4onwgie")
 const HEARING_POINT = preload("uid://b4r73momnv102")
 
@@ -39,13 +43,6 @@ var move_speed := 2.0
 var last_reachable_path: Vector3
 
 
-var _was_alerted := false
-var _heard_suspicious_noise := false
-
-var _alerted := false
-var _investigating := false
-var _in_combat := false
-
 var _health: HealthAttribute
 
 var _weapon_data: WeaponData
@@ -82,16 +79,6 @@ func _physics_process(delta: float) -> void:
 
 	if footsteps_enabled:
 		_npc_footsteps(delta)
-
-	if _was_alerted:
-		_was_alerted = false
-		if not (_investigating or _alerted or _in_combat):
-			_alerted = true
-
-	if _heard_suspicious_noise:
-		_heard_suspicious_noise = false
-		if not (_investigating or _in_combat):
-			start_investigating()
 
 
 func _exit_tree() -> void:
@@ -212,52 +199,48 @@ func has_patrol_path() -> bool:
 	return patrol_path != null
 
 
+func get_awareness() -> Awareness:
+	return bt_player.blackboard.get_var(&"awareness", Awareness.CALM)
+
+
+## Something caught the NPC's attention (see the attention points). Only
+## raises a calm NPC to alerted.
 func notify_alerted() -> void:
-	_was_alerted = true
+	if get_awareness() == Awareness.CALM:
+		_set_awareness(Awareness.ALERTED)
 
 
 func notify_suspicious_noise() -> void:
-	_heard_suspicious_noise = true
-
-
-func is_alerted() -> bool:
-	return _alerted
+	if get_awareness() < Awareness.INVESTIGATING:
+		start_investigating()
 
 
 func end_alert() -> void:
-	_alerted = false
-
-
-func is_investigating() -> bool:
-	return _investigating
+	if get_awareness() == Awareness.ALERTED:
+		_set_awareness(Awareness.CALM)
 
 
 func start_investigating() -> void:
-	_investigating = true
-	_alerted = false
+	_set_awareness(Awareness.INVESTIGATING)
 
 
 func end_investigating() -> void:
-	_investigating = false
-
-
-func is_in_combat() -> bool:
-	return _in_combat
+	if get_awareness() == Awareness.INVESTIGATING:
+		_set_awareness(Awareness.CALM)
 
 
 func start_chasing(target: Actor) -> void:
 	chase_target = target
 	bt_player.blackboard.set_var(&"target_lost", false)
 	play_sound(sounds.start_chase_sound)
-	_in_combat = true
-	_investigating = false
-	_alerted = false
+	_set_awareness(Awareness.COMBAT)
 
 
 func end_combat() -> void:
 	chase_target = null
 	bt_player.blackboard.set_var(&"target_lost", false)
-	_in_combat = false
+	if get_awareness() == Awareness.COMBAT:
+		_set_awareness(Awareness.CALM)
 
 
 ## Gives up searching for the lost target and leaves combat.
@@ -303,11 +286,6 @@ func save_state() -> Dictionary:
 
 	state[&"move_speed"] = move_speed
 	state[&"last_reachable_path"] = last_reachable_path
-	state[&"was_alerted"] = _was_alerted
-	state[&"heard_suspicious_noise"] = _heard_suspicious_noise
-	state[&"alerted"] = _alerted
-	state[&"investigating"] = _investigating
-	state[&"in_combat"] = _in_combat
 
 	state[&"weapon_equiped"] = _weapon_third_person && _weapon_third_person.visible
 	if head_turner:
@@ -328,11 +306,6 @@ func load_state(state: Dictionary) -> void:
 
 	move_speed = state.get(&"move_speed", move_speed)
 	last_reachable_path = state.get(&"last_reachable_path", Vector3.ZERO)
-	_was_alerted = state.get(&"was_alerted", false)
-	_heard_suspicious_noise = state.get(&"heard_suspicious_noise", false)
-	_alerted = state.get(&"alerted", false)
-	_investigating = state.get(&"investigating", false)
-	_in_combat = state.get(&"in_combat", false)
 
 	if _weapon_third_person:
 		_weapon_third_person.visible = state.get(&"weapon_equiped", false)
@@ -416,3 +389,7 @@ func _on_velocity_computed(safe_velocity: Vector3) -> void:
 	var accel := acceleration if not safe_velocity.is_zero_approx() else deceleration
 	velocity.x = move_toward(velocity.x, target_velocity.x, accel * get_physics_process_delta_time())
 	velocity.z = move_toward(velocity.z, target_velocity.z, accel * get_physics_process_delta_time())
+
+
+func _set_awareness(awareness: Awareness) -> void:
+	bt_player.blackboard.set_var(&"awareness", awareness)

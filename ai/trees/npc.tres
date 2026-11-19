@@ -56,6 +56,11 @@ var/target_lost/type = 1
 var/target_lost/value = false
 var/target_lost/hint = 0
 var/target_lost/hint_string = ""
+var/awareness/name = &"awareness"
+var/awareness/type = 2
+var/awareness/value = 0
+var/awareness/hint = 2
+var/awareness/hint_string = "Calm,Alerted,Investigating,Combat"
 var/patrol_target/name = &"patrol_target"
 var/patrol_target/type = 9
 var/patrol_target/value = Vector3(0, 0, 0)
@@ -63,12 +68,11 @@ var/patrol_target/hint = 0
 var/patrol_target/hint_string = ""
 
 [sub_resource type="BBVariant" id="BBVariant_2b0tu"]
-type = 1
-saved_value = true
-resource_name = "true"
+type = 2
+saved_value = 3
 
-[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_so0uu"]
-property = &"_in_combat"
+[sub_resource type="BTCheckVar" id="BTCheckAgentProperty_so0uu"]
+variable = &"awareness"
 value = SubResource("BBVariant_2b0tu")
 
 [sub_resource type="BBVariant" id="Combat_lost_val"]
@@ -125,12 +129,11 @@ custom_name = "Combat"
 children = [SubResource("BTCheckAgentProperty_so0uu"), SubResource("Combat_not_lost"), SubResource("Combat_parallel")]
 
 [sub_resource type="BBVariant" id="BBVariant_78wb1"]
-type = 1
-saved_value = true
-resource_name = "true"
+type = 2
+saved_value = 3
 
-[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_ft6dg"]
-property = &"_in_combat"
+[sub_resource type="BTCheckVar" id="BTCheckAgentProperty_ft6dg"]
+variable = &"awareness"
 value = SubResource("BBVariant_78wb1")
 
 [sub_resource type="BBVariant" id="Srch_p1_stage_val"]
@@ -274,12 +277,11 @@ custom_name = "Searching"
 children = [SubResource("BTCheckAgentProperty_ft6dg"), SubResource("Srch_start"), SubResource("Srch_speed"), SubResource("Srch_sound"), SubResource("Srch_parallel")]
 
 [sub_resource type="BBVariant" id="BBVariant_387kw"]
-type = 1
-saved_value = true
-resource_name = "true"
+type = 2
+saved_value = 2
 
-[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_78wb1"]
-property = &"_investigating"
+[sub_resource type="BTCheckVar" id="BTCheckAgentProperty_78wb1"]
+variable = &"awareness"
 value = SubResource("BBVariant_387kw")
 
 [sub_resource type="BTAction" id="Inv_monitor"]
@@ -322,12 +324,11 @@ custom_name = "Investigating"
 children = [SubResource("BTCheckAgentProperty_78wb1"), SubResource("Inv_parallel")]
 
 [sub_resource type="BBVariant" id="BBVariant_ft6dg"]
-type = 1
-saved_value = true
-resource_name = "true"
+type = 2
+saved_value = 1
 
-[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_1l1bu"]
-property = &"_alerted"
+[sub_resource type="BTCheckVar" id="BTCheckAgentProperty_1l1bu"]
+variable = &"awareness"
 value = SubResource("BBVariant_ft6dg")
 
 [sub_resource type="BTAction" id="Alert_monitor"]
