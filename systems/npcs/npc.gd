@@ -210,7 +210,11 @@ func notify_alerted() -> void:
 		_set_awareness(Awareness.ALERTED)
 
 
+## A suspicious noise was heard at the hearing attention point. Hearing
+## suspicion is raised to the investigation threshold, so the investigation
+## lasts until it decays, whatever the caller did before.
 func notify_suspicious_noise() -> void:
+	hearing_detection.raise_suspicion_to(hearing_detection.suspicion_threshold_before_investigating)
 	if get_awareness() < Awareness.INVESTIGATING:
 		start_investigating()
 

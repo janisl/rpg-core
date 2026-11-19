@@ -203,7 +203,7 @@ func _decay_suspicion(delta: float) -> void:
 	if _decay_timer.is_stopped() and not _is_decaying:
 		_decay_timer.start()
 	elif _is_decaying and current_suspicion > 0:
-		current_suspicion -= (suspicion_decay_rate * delta)
+		current_suspicion = maxf(current_suspicion - suspicion_decay_rate * delta, 0.0)
 
 
 func _generate_sight_range_collider() -> void:
