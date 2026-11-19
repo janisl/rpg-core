@@ -38,8 +38,6 @@ var chase_target: Actor
 var move_speed := 2.0
 var last_reachable_path: Vector3
 
-var broken_los_point: Vector3
-var last_known_target_point: Vector3
 
 var _was_alerted := false
 var _heard_suspicious_noise := false
@@ -70,8 +68,6 @@ var _wiggle_index := 0.0
 
 @onready var idle_action: NpcIdleAction = $IdleAction
 @onready var patrol_action: NpcPatrolAction = $PatrolAction
-@onready var chase_action: NpcChaseAction = $ChaseAction
-@onready var attack_action: NpcAttackAction = $AttackAction
 
 
 func _ready() -> void:
@@ -275,11 +271,6 @@ func end_search() -> void:
 	end_combat()
 
 
-func remember_lost_target() -> void:
-	last_known_target_point = last_reachable_path
-	sight_detection.current_suspicion -= sight_detection.aggro_threshold / 4
-
-
 func is_hostile_towards(node: Node3D) -> bool:
 	if not node:
 		return false
@@ -314,8 +305,6 @@ func save_state() -> Dictionary:
 
 	state[&"move_speed"] = move_speed
 	state[&"last_reachable_path"] = last_reachable_path
-	state[&"broken_los_point"] = broken_los_point
-	state[&"last_known_target_point"] = last_known_target_point
 	state[&"was_alerted"] = _was_alerted
 	state[&"heard_suspicious_noise"] = _heard_suspicious_noise
 	state[&"alerted"] = _alerted
@@ -328,8 +317,6 @@ func save_state() -> Dictionary:
 		state[&"head_turner_target"] = head_turner.target_node
 
 	state[&"patrol_action"] = patrol_action.save_state()
-	state[&"chase_action"] = chase_action.save_state()
-	state[&"attack_action"] = attack_action.save_state()
 	state[&"sight_attention_point"] = sight_attention_point.save_state()
 	state[&"hearing_attention_point"] = hearing_attention_point.save_state()
 	return state
@@ -344,8 +331,6 @@ func load_state(state: Dictionary) -> void:
 
 	move_speed = state.get(&"move_speed", move_speed)
 	last_reachable_path = state.get(&"last_reachable_path", Vector3.ZERO)
-	broken_los_point = state.get(&"broken_los_point", Vector3.ZERO)
-	last_known_target_point = state.get(&"last_known_target_point", Vector3.ZERO)
 	_was_alerted = state.get(&"was_alerted", false)
 	_heard_suspicious_noise = state.get(&"heard_suspicious_noise", false)
 	_alerted = state.get(&"alerted", false)
@@ -359,8 +344,6 @@ func load_state(state: Dictionary) -> void:
 		head_turner.target_node = state.get(&"head_turner_target", head_turner.target_node)
 
 	patrol_action.load_state(state.get(&"patrol_action", Dictionary()))
-	chase_action.load_state(state.get(&"chase_action", Dictionary()))
-	attack_action.load_state(state.get(&"attack_action", Dictionary()))
 	sight_attention_point.load_state(state.get(&"sight_attention_point", Dictionary()))
 	hearing_attention_point.load_state(state.get(&"hearing_attention_point", Dictionary()))
 

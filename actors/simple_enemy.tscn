@@ -27,8 +27,6 @@
 [ext_resource type="Script" uid="uid://4pdjmb8h2tpe" path="res://systems/npcs/actions/npc_patrol_action.gd" id="33_tgfp8"]
 [ext_resource type="PackedScene" uid="uid://essuiwcp63ni" path="res://systems/npcs/detection/hearing_indicator.tscn" id="34_ol0oh"]
 [ext_resource type="Script" uid="uid://c0wkbigr3oabl" path="res://systems/npcs/detection/hearing_detection.gd" id="35_bqx5n"]
-[ext_resource type="Script" uid="uid://kcer2y7lixdg" path="res://systems/npcs/actions/npc_chase_action.gd" id="35_mfil8"]
-[ext_resource type="Script" uid="uid://bixwysc1m3btm" path="res://systems/npcs/actions/npc_attack_action.gd" id="36_gdyrv"]
 [ext_resource type="BehaviorTree" uid="uid://cs475p3slskbh" path="res://ai/trees/npc.tres" id="40_mfil8"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_gdyrv"]
@@ -894,15 +892,6 @@ metadata/_custom_type_script = "uid://d1g30he8luybf"
 [node name="PatrolAction" type="Node" parent="." unique_id=1356585135]
 script = ExtResource("33_tgfp8")
 metadata/_custom_type_script = "uid://4pdjmb8h2tpe"
-
-[node name="ChaseAction" type="Node" parent="." unique_id=1776116788]
-script = ExtResource("35_mfil8")
-metadata/_custom_type_script = "uid://kcer2y7lixdg"
-
-[node name="AttackAction" type="Node" parent="." unique_id=24342092 node_paths=PackedStringArray("attack_impact_zone")]
-script = ExtResource("36_gdyrv")
-attack_impact_zone = NodePath("../Rig/GeneralSkeleton/HandAttachment/ImpactZone")
-metadata/_custom_type_script = "uid://bixwysc1m3btm"
 
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/Neutral" to="StateChart/Root/Posture/Processor" method="_on_neutral_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/RaisedWeapon" to="StateChart/Root/Posture/Processor" method="_on_raised_weapon_state_entered"]

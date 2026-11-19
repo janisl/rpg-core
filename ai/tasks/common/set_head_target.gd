@@ -2,7 +2,7 @@
 extends NpcBTAction
 ## Points the head turner at something and activates it.
 
-enum Target { NONE, CHASE_TARGET_HEAD, NODE }
+enum Target { NONE, CHASE_TARGET_HEAD, NODE, CHASE_TARGET }
 
 @export var target := Target.NONE
 ## Path relative to the agent, used with [constant NODE].
@@ -26,6 +26,10 @@ func _update(_delta: float) -> Status:
 				return FAILURE
 			head.target_node = agent.chase_target.head.get_path()
 			head.active = true
+		Target.CHASE_TARGET:
+			if not agent.chase_target:
+				return FAILURE
+			head.target_node = agent.chase_target.get_path()
 		Target.NODE:
 			head.target_node = agent.get_node(node_path).get_path()
 			head.active = true

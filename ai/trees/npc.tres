@@ -1,8 +1,10 @@
 [gd_resource type="BehaviorTree" format=3 uid="uid://cs475p3slskbh"]
 
-[ext_resource type="Script" uid="uid://443ic7ubkicy" path="res://ai/tasks/attacking.gd" id="1_2b0tu"]
-[ext_resource type="Script" uid="uid://k0g6ys2088b1" path="res://ai/tasks/chasing.gd" id="1_so0uu"]
-[ext_resource type="Script" path="res://ai/tasks/search/start_search.gd" id="s_start"]
+[ext_resource type="Script" path="res://ai/tasks/combat/monitor_chase.gd" id="k_monitor"]
+[ext_resource type="Script" path="res://ai/tasks/combat/approach_chase_target.gd" id="k_approach"]
+[ext_resource type="Script" path="res://ai/tasks/combat/is_chase_target_unreachable.gd" id="k_unreach"]
+[ext_resource type="Script" path="res://ai/tasks/combat/hold_facing_chase_target.gd" id="k_hold"]
+[ext_resource type="Script" path="res://ai/tasks/combat/attack_chase_target.gd" id="k_attack"]
 [ext_resource type="Script" path="res://ai/tasks/search/monitor_search.gd" id="s_monitor"]
 [ext_resource type="Script" path="res://ai/tasks/search/end_search.gd" id="s_end"]
 [ext_resource type="Script" path="res://ai/tasks/search/sweep_head.gd" id="s_sweep"]
@@ -64,12 +66,6 @@ resource_name = "true"
 property = &"_in_combat"
 value = SubResource("BBVariant_2b0tu")
 
-[sub_resource type="BTAction" id="BTAction_387kw"]
-script = ExtResource("1_so0uu")
-
-[sub_resource type="BTAction" id="BTAction_so0uu"]
-script = ExtResource("1_2b0tu")
-
 [sub_resource type="BBVariant" id="Combat_lost_val"]
 type = 1
 saved_value = false
@@ -78,9 +74,50 @@ saved_value = false
 variable = &"target_lost"
 value = SubResource("Combat_lost_val")
 
+[sub_resource type="BTAction" id="Combat_monitor"]
+script = ExtResource("k_monitor")
+
+[sub_resource type="BTAction" id="Combat_speed"]
+script = ExtResource("c_speed")
+speed = 1
+
+[sub_resource type="BTAction" id="Combat_ubody"]
+script = ExtResource("c_ubody")
+pose = 1
+
+[sub_resource type="BTAction" id="Combat_head"]
+script = ExtResource("c_head")
+target = 3
+
+[sub_resource type="BTAction" id="Combat_unreachable"]
+script = ExtResource("k_unreach")
+
+[sub_resource type="BTAction" id="Combat_hold"]
+script = ExtResource("k_hold")
+
+[sub_resource type="BTSequence" id="Combat_wait_for_path"]
+custom_name = "WaitForPath"
+children = [SubResource("Combat_unreachable"), SubResource("Combat_hold")]
+
+[sub_resource type="BTAction" id="Combat_approach"]
+script = ExtResource("k_approach")
+
+[sub_resource type="BTDynamicSelector" id="Combat_chase"]
+custom_name = "Chase"
+children = [SubResource("Combat_wait_for_path"), SubResource("Combat_approach")]
+
+[sub_resource type="BTAction" id="Combat_attack"]
+script = ExtResource("k_attack")
+
+[sub_resource type="BTSequence" id="Combat_steps"]
+children = [SubResource("Combat_speed"), SubResource("Combat_ubody"), SubResource("Combat_head"), SubResource("Combat_chase"), SubResource("Combat_attack")]
+
+[sub_resource type="BTParallel" id="Combat_parallel"]
+children = [SubResource("Combat_monitor"), SubResource("Combat_steps")]
+
 [sub_resource type="BTSequence" id="BTSequence_387kw"]
 custom_name = "Combat"
-children = [SubResource("BTCheckAgentProperty_so0uu"), SubResource("Combat_not_lost"), SubResource("BTAction_387kw"), SubResource("BTAction_so0uu")]
+children = [SubResource("BTCheckAgentProperty_so0uu"), SubResource("Combat_not_lost"), SubResource("Combat_parallel")]
 
 [sub_resource type="BBVariant" id="BBVariant_78wb1"]
 type = 1
@@ -216,7 +253,9 @@ script = ExtResource("s_monitor")
 children = [SubResource("Srch_monitor"), SubResource("Srch_choice")]
 
 [sub_resource type="BTAction" id="Srch_start"]
-script = ExtResource("s_start")
+script = ExtResource("c_setint")
+variable = &"search_stage"
+value = 0
 
 [sub_resource type="BTAction" id="Srch_speed"]
 script = ExtResource("c_speed")
