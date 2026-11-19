@@ -203,6 +203,12 @@ bind/52/name = &"RightToes"
 bind/52/bone = -1
 bind/52/pose = Transform3D(1.0000001, 1.7463009e-10, 1.164153e-10, -1.746047e-10, -4.4703486e-07, 0.9999998, 2.9102765e-10, -0.99999964, -2.3841854e-07, 0.08900002, -0.11319995, 0.015200049)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0gdhd"]
+albedo_color = Color(0.64851815, 0, 0.11471402, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m0x41"]
+albedo_color = Color(0.5509108, 0.51963705, 0, 1)
+
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_rpt3r"]
 points = PackedVector3Array(0, 0, 0, -20, 10, 20, 20, 10, 20, 20, -10, 20, -20, -10, 20, -10, 0, 20)
 
@@ -730,6 +736,8 @@ bones/52/scale = Vector3(1, 1, 1)
 mesh = ExtResource("6_a0x3i")
 skin = SubResource("Skin_3bqo7")
 skeleton = NodePath("..")
+surface_material_override/0 = SubResource("StandardMaterial3D_0gdhd")
+surface_material_override/1 = SubResource("StandardMaterial3D_m0x41")
 
 [node name="HeadTurn" type="LookAtModifier3D" parent="Rig/GeneralSkeleton" unique_id=1364423769]
 transform = Transform3D(-1, 0, 2.3849772e-08, 0, 1, 0, -2.3849772e-08, 0, -1, 0, 0, 0)
