@@ -3,11 +3,11 @@ extends NpcBTAction
 ## Stores the position of the active attention point (sight first). FAILURE if
 ## neither is active.
 
-@export var output_var: StringName = &"alert_target"
+@export var output_var: StringName = &"attention_target"
 
 
 func _generate_name() -> String:
-	return "PickAlertTarget ➜ %s" % LimboUtility.decorate_var(output_var)
+	return "PickAttentionPoint ➜ %s" % LimboUtility.decorate_var(output_var)
 
 
 func _update(_delta: float) -> Status:

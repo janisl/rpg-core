@@ -69,7 +69,6 @@ var _wiggle_index := 0.0
 
 @onready var idle_action: NpcIdleAction = $IdleAction
 @onready var patrol_action: NpcPatrolAction = $PatrolAction
-@onready var investigate_action: NpcInvestigateAction = $InvestigateAction
 @onready var chase_action: NpcChaseAction = $ChaseAction
 @onready var attack_action: NpcAttackAction = $AttackAction
 @onready var search_action: NpcSearchAction = $SearchAction
@@ -318,7 +317,6 @@ func save_state() -> Dictionary:
 		state[&"head_turner_target"] = head_turner.target_node
 
 	state[&"patrol_action"] = patrol_action.save_state()
-	state[&"investigate_action"] = investigate_action.save_state()
 	state[&"chase_action"] = chase_action.save_state()
 	state[&"attack_action"] = attack_action.save_state()
 	state[&"search_action"] = search_action.save_state()
@@ -351,7 +349,6 @@ func load_state(state: Dictionary) -> void:
 		head_turner.target_node = state.get(&"head_turner_target", head_turner.target_node)
 
 	patrol_action.load_state(state.get(&"patrol_action", Dictionary()))
-	investigate_action.load_state(state.get(&"investigate_action", Dictionary()))
 	chase_action.load_state(state.get(&"chase_action", Dictionary()))
 	attack_action.load_state(state.get(&"attack_action", Dictionary()))
 	search_action.load_state(state.get(&"search_action", Dictionary()))

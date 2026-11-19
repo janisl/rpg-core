@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://443ic7ubkicy" path="res://ai/tasks/attacking.gd" id="1_2b0tu"]
 [ext_resource type="Script" uid="uid://k0g6ys2088b1" path="res://ai/tasks/chasing.gd" id="1_so0uu"]
 [ext_resource type="Script" uid="uid://b1whddyu2qo0n" path="res://ai/tasks/searching.gd" id="3_387kw"]
-[ext_resource type="Script" uid="uid://djqk1qptepkbp" path="res://ai/tasks/investigating.gd" id="4_78wb1"]
+[ext_resource type="Script" path="res://ai/tasks/investigate/monitor_investigation.gd" id="i_monitor"]
+[ext_resource type="Script" path="res://ai/tasks/common/stand.gd" id="c_stand"]
+[ext_resource type="Script" path="res://ai/tasks/common/set_upper_body.gd" id="c_ubody"]
 [ext_resource type="Script" path="res://ai/tasks/alert/monitor_alert.gd" id="a_monitor"]
-[ext_resource type="Script" path="res://ai/tasks/alert/pick_alert_target.gd" id="a_pick"]
+[ext_resource type="Script" path="res://ai/tasks/common/pick_attention_point.gd" id="c_pick"]
 [ext_resource type="Script" path="res://ai/tasks/alert/end_alert.gd" id="a_end"]
 [ext_resource type="Script" path="res://ai/tasks/common/play_sound.gd" id="c_sound"]
 [ext_resource type="Script" path="res://ai/tasks/common/wait.gd" id="c_wait"]
@@ -19,6 +21,11 @@ var/alert_target/type = 9
 var/alert_target/value = Vector3(0, 0, 0)
 var/alert_target/hint = 0
 var/alert_target/hint_string = ""
+var/investigate_target/name = &"investigate_target"
+var/investigate_target/type = 9
+var/investigate_target/value = Vector3(0, 0, 0)
+var/investigate_target/hint = 0
+var/investigate_target/hint_string = ""
 
 [sub_resource type="BBVariant" id="BBVariant_2b0tu"]
 type = 1
@@ -62,11 +69,44 @@ resource_name = "true"
 property = &"_investigating"
 value = SubResource("BBVariant_387kw")
 
-[sub_resource type="BTAction" id="BTAction_ft6dg"]
-script = ExtResource("4_78wb1")
+[sub_resource type="BTAction" id="Inv_monitor"]
+script = ExtResource("i_monitor")
+
+[sub_resource type="BTAction" id="Inv_ubody"]
+script = ExtResource("c_ubody")
+pose = 1
+
+[sub_resource type="BTAction" id="Inv_sound"]
+script = ExtResource("c_sound")
+sound = &"investigate_sound"
+
+[sub_resource type="BTAction" id="Inv_pick"]
+script = ExtResource("c_pick")
+output_var = &"investigate_target"
+
+[sub_resource type="BTAction" id="Inv_move"]
+script = ExtResource("c_move")
+target_var = &"investigate_target"
+
+[sub_resource type="BTSequence" id="Inv_goto"]
+custom_name = "GoToAttentionPoint"
+children = [SubResource("Inv_pick"), SubResource("Inv_move")]
+
+[sub_resource type="BTAlwaysSucceed" id="Inv_goto_always"]
+children = [SubResource("Inv_goto")]
+
+[sub_resource type="BTAction" id="Inv_stand"]
+script = ExtResource("c_stand")
+
+[sub_resource type="BTSequence" id="Inv_steps"]
+children = [SubResource("Inv_ubody"), SubResource("Inv_sound"), SubResource("Inv_goto_always"), SubResource("Inv_stand")]
+
+[sub_resource type="BTParallel" id="Inv_parallel"]
+children = [SubResource("Inv_monitor"), SubResource("Inv_steps")]
 
 [sub_resource type="BTSequence" id="BTSequence_ft6dg"]
-children = [SubResource("BTCheckAgentProperty_78wb1"), SubResource("BTAction_ft6dg")]
+custom_name = "Investigating"
+children = [SubResource("BTCheckAgentProperty_78wb1"), SubResource("Inv_parallel")]
 
 [sub_resource type="BBVariant" id="BBVariant_ft6dg"]
 type = 1
@@ -81,7 +121,8 @@ value = SubResource("BBVariant_ft6dg")
 script = ExtResource("a_monitor")
 
 [sub_resource type="BTAction" id="Alert_pick"]
-script = ExtResource("a_pick")
+script = ExtResource("c_pick")
+output_var = &"alert_target"
 
 [sub_resource type="BTAction" id="Alert_sound"]
 script = ExtResource("c_sound")
