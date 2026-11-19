@@ -4,11 +4,21 @@
 [ext_resource type="Script" uid="uid://k0g6ys2088b1" path="res://ai/tasks/chasing.gd" id="1_so0uu"]
 [ext_resource type="Script" uid="uid://b1whddyu2qo0n" path="res://ai/tasks/searching.gd" id="3_387kw"]
 [ext_resource type="Script" uid="uid://djqk1qptepkbp" path="res://ai/tasks/investigating.gd" id="4_78wb1"]
-[ext_resource type="Script" uid="uid://p135klyo47rk" path="res://ai/tasks/alerted.gd" id="5_ft6dg"]
+[ext_resource type="Script" path="res://ai/tasks/alert/monitor_alert.gd" id="a_monitor"]
+[ext_resource type="Script" path="res://ai/tasks/alert/pick_alert_target.gd" id="a_pick"]
+[ext_resource type="Script" path="res://ai/tasks/alert/end_alert.gd" id="a_end"]
+[ext_resource type="Script" path="res://ai/tasks/common/play_sound.gd" id="c_sound"]
+[ext_resource type="Script" path="res://ai/tasks/common/wait.gd" id="c_wait"]
+[ext_resource type="Script" path="res://ai/tasks/common/move_to.gd" id="c_move"]
 [ext_resource type="Script" uid="uid://uwhem0oe84ai" path="res://ai/tasks/patrolling.gd" id="6_1l1bu"]
 [ext_resource type="Script" uid="uid://cp6sqd1c2wb3i" path="res://ai/tasks/idle.gd" id="7_sraln"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_lpdai"]
+var/alert_target/name = &"alert_target"
+var/alert_target/type = 9
+var/alert_target/value = Vector3(0, 0, 0)
+var/alert_target/hint = 0
+var/alert_target/hint_string = ""
 
 [sub_resource type="BBVariant" id="BBVariant_2b0tu"]
 type = 1
@@ -67,11 +77,51 @@ resource_name = "true"
 property = &"_alerted"
 value = SubResource("BBVariant_ft6dg")
 
-[sub_resource type="BTAction" id="BTAction_sraln"]
-script = ExtResource("5_ft6dg")
+[sub_resource type="BTAction" id="Alert_monitor"]
+script = ExtResource("a_monitor")
+
+[sub_resource type="BTAction" id="Alert_pick"]
+script = ExtResource("a_pick")
+
+[sub_resource type="BTAction" id="Alert_sound"]
+script = ExtResource("c_sound")
+sound = &"alerted_sound"
+
+[sub_resource type="BTAction" id="Alert_shock"]
+custom_name = "Shock"
+script = ExtResource("c_wait")
+duration = 1.5
+face_var = &"alert_target"
+
+[sub_resource type="BTAction" id="Alert_move"]
+script = ExtResource("c_move")
+target_var = &"alert_target"
+
+[sub_resource type="BTAlwaysSucceed" id="Alert_move_always"]
+children = [SubResource("Alert_move")]
+
+[sub_resource type="BTAction" id="Alert_look"]
+custom_name = "LookAround"
+script = ExtResource("c_wait")
+duration = 5.0
+face_var = &"alert_target"
+
+[sub_resource type="BTAction" id="Alert_wind"]
+script = ExtResource("c_sound")
+sound = &"must_have_been_the_wind_sound"
+
+[sub_resource type="BTAction" id="Alert_end"]
+script = ExtResource("a_end")
+
+[sub_resource type="BTSequence" id="Alert_steps"]
+children = [SubResource("Alert_pick"), SubResource("Alert_sound"), SubResource("Alert_shock"), SubResource("Alert_move_always"), SubResource("Alert_look"), SubResource("Alert_wind"), SubResource("Alert_end")]
+
+[sub_resource type="BTParallel" id="Alert_parallel"]
+children = [SubResource("Alert_monitor"), SubResource("Alert_steps")]
 
 [sub_resource type="BTSequence" id="BTSequence_khe27"]
-children = [SubResource("BTCheckAgentProperty_1l1bu"), SubResource("BTAction_sraln")]
+custom_name = "Alerted"
+children = [SubResource("BTCheckAgentProperty_1l1bu"), SubResource("Alert_parallel")]
 
 [sub_resource type="BBVariant" id="BBVariant_1l1bu"]
 saved_value = null

@@ -73,7 +73,6 @@ var _wiggle_index := 0.0
 @onready var chase_action: NpcChaseAction = $ChaseAction
 @onready var attack_action: NpcAttackAction = $AttackAction
 @onready var search_action: NpcSearchAction = $SearchAction
-@onready var alerted_action: NpcAlertedAction = $AlertedAction
 
 
 func _ready() -> void:
@@ -323,7 +322,6 @@ func save_state() -> Dictionary:
 	state[&"chase_action"] = chase_action.save_state()
 	state[&"attack_action"] = attack_action.save_state()
 	state[&"search_action"] = search_action.save_state()
-	state[&"alerted_action"] = alerted_action.save_state()
 	state[&"sight_attention_point"] = sight_attention_point.save_state()
 	state[&"hearing_attention_point"] = hearing_attention_point.save_state()
 	return state
@@ -357,7 +355,6 @@ func load_state(state: Dictionary) -> void:
 	chase_action.load_state(state.get(&"chase_action", Dictionary()))
 	attack_action.load_state(state.get(&"attack_action", Dictionary()))
 	search_action.load_state(state.get(&"search_action", Dictionary()))
-	alerted_action.load_state(state.get(&"alerted_action", Dictionary()))
 	sight_attention_point.load_state(state.get(&"sight_attention_point", Dictionary()))
 	hearing_attention_point.load_state(state.get(&"hearing_attention_point", Dictionary()))
 

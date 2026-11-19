@@ -5,11 +5,11 @@ func _start() -> void:
 	agent.search_action.start()
 
 
-func _exit() -> void:
+func _end() -> void:
 	agent.search_action.stop()
 
 
-func _tick(delta: float) -> Status:
+func _update(delta: float) -> Status:
 	agent.search_action.physics_process(delta)
 	if agent.search_action.target_reacquired:
 		return SUCCESS
