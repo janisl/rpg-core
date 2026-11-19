@@ -38,6 +38,25 @@ func _ready() -> void:
 	_decay_timer.one_shot = true
 	add_child(_decay_timer)
 
+	if not Engine.is_editor_hint():
+		add_to_group("persist_component")
+
+
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	state[&"current_suspicion"] = current_suspicion
+	SaveUtils.save_timer(state, &"decay_timer", _decay_timer)
+	state[&"is_decaying"] = _is_decaying
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	current_suspicion = state.get(&"current_suspicion", 0.0)
+	SaveUtils.load_timer(state, &"decay_timer", _decay_timer)
+	_is_decaying = state.get(&"is_decaying", false)
+	if noise_suspicion_indicator:
+		noise_suspicion_indicator.update(current_suspicion, suspicion_threshold_before_investigating)
+
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
