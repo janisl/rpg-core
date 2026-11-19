@@ -25,7 +25,7 @@ func save_state() -> Dictionary:
 func load_state(state: Dictionary) -> void:
 	traversed = state.get(&"traversed", false)
 	previous_patrol_point = SaveUtils.load_ref(state, &"previous_patrol_point")
-	_current_point_index = state.get(&"_current_point_index", 0)
+	_current_point_index = state.get(&"current_point_index", 0)
 
 
 func get_next_point() -> PatrolPoint:
