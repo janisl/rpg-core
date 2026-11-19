@@ -39,7 +39,7 @@ func _ready() -> void:
 	add_to_group("persist_component")
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 
@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 	if _decay_timer.is_stopped() and not _is_decaying:
 		_decay_timer.start()
 	elif _is_decaying and current_suspicion > 0:
-		current_suspicion -= delta
+		current_suspicion = maxf(current_suspicion - suspicion_decay_rate * delta, 0.0)
 
 
 func save_state() -> Dictionary:
@@ -81,6 +81,7 @@ func _on_hearing_radius_area_entered(area: Area3D) -> void:
 		npc.notify_alerted()
 	elif noise.magnitude > ignore_sounds_under_x_magnitude and current_suspicion < suspicion_threshold_before_investigating + 0.5:
 		_decay_timer.stop()
+		_is_decaying = false
 		current_suspicion += noise_suspicion_curve.sample(noise.magnitude)
 	if current_suspicion > suspicion_threshold_before_investigating:
 		npc.set_hearing_target(noise.global_position)
