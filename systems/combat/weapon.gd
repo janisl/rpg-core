@@ -27,7 +27,7 @@ func save_state() -> Dictionary:
 
 func load_state(state: Dictionary) -> void:
 	super(state)
-	_fire_rate_timer = state.get(&"_fire_rate_timer", 0.0)
+	_fire_rate_timer = state.get(&"fire_rate_timer", 0.0)
 	_reload_timer = state.get(&"reload_timer", 0.0)
 
 

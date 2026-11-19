@@ -32,11 +32,11 @@ var _is_decaying := false
 
 
 func _ready() -> void:
-	_decay_timer = Timer.new()
-	_decay_timer.wait_time = delay_before_suspicion_decays
-	_decay_timer.timeout.connect(func() -> void: _is_decaying = true)
-	_decay_timer.one_shot = true
-	add_child(_decay_timer)
+	if Engine.is_editor_hint():
+		return
+
+	_create_decay_timer()
+	add_to_group("persist_component")
 
 
 func _process(delta: float) -> void:
@@ -50,6 +50,20 @@ func _process(delta: float) -> void:
 		_decay_timer.start()
 	elif _is_decaying and current_suspicion > 0:
 		current_suspicion -= delta
+
+
+func save_state() -> Dictionary:
+	var state := Dictionary()
+	state[&"current_suspicion"] = current_suspicion
+	SaveUtils.save_timer(state, &"decay_timer", _decay_timer)
+	state[&"is_decaying"] = _is_decaying
+	return state
+
+
+func load_state(state: Dictionary) -> void:
+	current_suspicion = state.get(&"current_suspicion", 0)
+	SaveUtils.load_timer(state, &"decay_timer", _decay_timer)
+	_is_decaying = state.get(&"is_decaying", false)
 
 
 func reset() -> void:
@@ -73,6 +87,14 @@ func _on_hearing_radius_area_entered(area: Area3D) -> void:
 		npc.notify_suspicious_noise()
 
 
+func _create_decay_timer() -> void:
+	_decay_timer = Timer.new()
+	_decay_timer.wait_time = delay_before_suspicion_decays
+	_decay_timer.timeout.connect(func() -> void: _is_decaying = true)
+	_decay_timer.one_shot = true
+	add_child(_decay_timer)
+
+
 func _linear_curve() -> Curve:
 	var curve := Curve.new()
 	curve.max_domain = 10
@@ -88,12 +110,12 @@ func _update_debug_state() -> void:
 	for mesh in find_children("", "MeshInstance3D", false):
 		mesh.free()
 	if show_hearing_radius:
-		generate_debug_mesh()
+		_generate_debug_mesh()
 	if collision_shape:
 		collision_shape.shape.radius = hearing_radius
 
 
-func generate_debug_mesh() -> void:
+func _generate_debug_mesh() -> void:
 	var mesh_instance := MeshInstance3D.new()
 	mesh_instance.name = "HearingRadiusMesh"
 	var sphere := SphereMesh.new()

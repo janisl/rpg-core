@@ -55,7 +55,7 @@ func save_state() -> Dictionary:
 		state[&"third_person_model"] = third_person_model.save_state()
 	if _item_to_auto_equip:
 		state[&"item_to_auto_equip"] = player.inventory.slots.find(_item_to_auto_equip)
-	state[&"_auto_equip_after_carrying"] = _auto_equip_after_carrying
+	state[&"auto_equip_after_carrying"] = _auto_equip_after_carrying
 	return state
 
 
@@ -74,7 +74,7 @@ func load_state(state: Dictionary) -> void:
 	var auto_index := state.get(&"item_to_auto_equip", -1) as int
 	if auto_index >= 0 and auto_index < player.inventory.slots.size():
 		_item_to_auto_equip = player.inventory.slots[auto_index]
-	_auto_equip_after_carrying = state.get(&"_auto_equip_after_carrying", false)
+	_auto_equip_after_carrying = state.get(&"auto_equip_after_carrying", false)
 
 
 func switch_wieldable(item_stack: ItemStack) -> void:

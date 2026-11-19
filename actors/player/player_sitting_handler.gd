@@ -30,7 +30,7 @@ func load_state(state: Dictionary) -> void:
 		_original_position = state.get(&"original_position", Transform3D())
 		_currently_tweening = state.get(&"currently_tweening", false)
 		_displacement_position = state.get(&"displacement_position", Vector3.ZERO)
-		_original_neck_basis = state.get(&"_original_neck_basis", Basis())
+		_original_neck_basis = state.get(&"original_neck_basis", Basis())
 		_is_ejected = state.get(&"is_ejected", false)
 
 
