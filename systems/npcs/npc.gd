@@ -66,6 +66,7 @@ var _wiggle_index := 0.0
 @onready var footstep_player: FootstepPlayer = $FootstepPlayer
 @onready var audio: AudioStreamPlayer3D = $Audio
 
+@onready var behavior: BTPlayer = $Behavior
 @onready var idle_action: NpcIdleAction = $IdleAction
 @onready var patrol_action: NpcPatrolAction = $PatrolAction
 @onready var investigate_action: NpcInvestigateAction = $InvestigateAction
@@ -79,7 +80,7 @@ func _ready() -> void:
 	add_to_group("persist")
 	_spawn_weapon()
 	_find_health_attribute()
-	_create_attention_points.call_deferred()
+	_create_attention_points()
 	nav_agent.velocity_computed.connect(_on_velocity_computed)
 
 
@@ -298,6 +299,7 @@ func is_dead() -> bool:
 
 func save_state() -> Dictionary:
 	var state := super()
+	SaveUtils.save_behavior_tree(state, &"behavior", behavior)
 	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
 	SaveUtils.save_ref(state, &"chase_target", chase_target)
 
@@ -329,6 +331,7 @@ func save_state() -> Dictionary:
 
 func load_state(state: Dictionary) -> void:
 	super(state)
+	SaveUtils.load_behavior_tree(state, &"behavior", behavior)
 	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
 	chase_target = SaveUtils.load_ref(state, &"chase_target")
 
@@ -419,10 +422,10 @@ func _npc_footsteps(delta: float) -> void:
 
 func _create_attention_points() -> void:
 	sight_attention_point = SIGHT_POINT.instantiate()
-	get_tree().current_scene.add_child(sight_attention_point)
+	get_tree().current_scene.add_child.call_deferred(sight_attention_point)
 
 	hearing_attention_point = HEARING_POINT.instantiate()
-	get_tree().current_scene.add_child(hearing_attention_point)
+	get_tree().current_scene.add_child.call_deferred(hearing_attention_point)
 
 
 func _on_velocity_computed(safe_velocity: Vector3) -> void:

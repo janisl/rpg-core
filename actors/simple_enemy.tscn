@@ -267,7 +267,7 @@ response_to_player = "Hostile"
 head_turner = NodePath("Rig/GeneralSkeleton/HeadTurn")
 head = NodePath("Rig/GeneralSkeleton/HeadAttachment/Head")
 
-[node name="BTPlayer" type="BTPlayer" parent="." unique_id=1156491719]
+[node name="Behavior" type="BTPlayer" parent="." unique_id=1156491719]
 behavior_tree = ExtResource("40_mfil8")
 blackboard_plan = SubResource("BlackboardPlan_gdyrv")
 
