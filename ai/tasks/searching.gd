@@ -1,7 +1,7 @@
-extends BTAction
+extends NpcBTAction
 
 
-func _enter() -> void:
+func _start() -> void:
 	agent.search_action.start()
 
 
@@ -16,3 +16,7 @@ func _tick(delta: float) -> Status:
 	elif agent.search_action.given_up:
 		return FAILURE
 	return RUNNING
+
+
+func _resume() -> void:
+	agent.search_action.resume()

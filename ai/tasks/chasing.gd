@@ -1,7 +1,7 @@
-extends BTAction
+extends NpcBTAction
 
 
-func _enter() -> void:
+func _start() -> void:
 	agent.chase_action.start()
 
 

@@ -88,8 +88,16 @@ func start() -> void:
 	_head.target_node = searching_look_ahead.get_path()
 
 
+## Re-attaches runtime connections after loading a save mid-search.
+func resume() -> void:
+	_head = npc.head_turner
+	if not npc.nav_agent.target_reached.is_connected(_on_reached_target):
+		npc.nav_agent.target_reached.connect(_on_reached_target)
+
+
 func stop() -> void:
-	npc.nav_agent.target_reached.disconnect(_on_reached_target)
+	if npc.nav_agent.target_reached.is_connected(_on_reached_target):
+		npc.nav_agent.target_reached.disconnect(_on_reached_target)
 
 	_first_wait_timer.stop()
 	_second_wait_timer.stop()

@@ -63,6 +63,7 @@ var _wiggle_index := 0.0
 @onready var hand_slot: Node3D = %HandSlot
 @onready var nav_agent: NavigationAgent3D = $NavAgent
 @onready var state_chart: StateChart = $StateChart
+@onready var bt_player: BTPlayer = $BTPlayer
 @onready var footstep_player: FootstepPlayer = $FootstepPlayer
 @onready var audio: AudioStreamPlayer3D = $Audio
 
@@ -299,6 +300,7 @@ func is_dead() -> bool:
 func save_state() -> Dictionary:
 	var state := super()
 	SaveUtils.save_state_chart(state, &"state_chart", state_chart)
+	SaveUtils.save_bt_player(state, &"bt_player", bt_player)
 	SaveUtils.save_ref(state, &"chase_target", chase_target)
 
 	state[&"move_speed"] = move_speed
@@ -329,6 +331,8 @@ func save_state() -> Dictionary:
 
 func load_state(state: Dictionary) -> void:
 	super(state)
+	# Before actions are restored: restarting the tree exits the running task.
+	SaveUtils.load_bt_player(state, &"bt_player", bt_player)
 	SaveUtils.load_state_chart(state, &"state_chart", state_chart)
 	chase_target = SaveUtils.load_ref(state, &"chase_target")
 
