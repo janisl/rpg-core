@@ -20,6 +20,7 @@ var given_up: bool
 var _search_point_one_label: Label3D
 var _search_point_two_label: Label3D
 
+var _started: bool
 var _los_point_reached := false
 var _last_known_point_reached := false
 
@@ -46,6 +47,7 @@ func _enter_tree() -> void:
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
+	state[&"started"] = _started
 	state[&"los_point_reached"] = _los_point_reached
 	state[&"last_known_point_reached"] = _last_known_point_reached
 	state[&"target_reacquired"] = target_reacquired
@@ -58,6 +60,7 @@ func save_state() -> Dictionary:
 
 
 func load_state(state: Dictionary) -> void:
+	_started = state.get(&"started", false)
 	_los_point_reached = state.get(&"los_point_reached", false)
 	_last_known_point_reached = state.get(&"last_known_point_reached", false)
 	target_reacquired = state.get(&"target_reacquired", false)
@@ -73,11 +76,15 @@ func start() -> void:
 			get_tree().current_scene.add_child(_search_point_one_label)
 			get_tree().current_scene.add_child(_search_point_two_label)
 
+	npc.nav_agent.target_reached.connect(_on_reached_target)
+
+	if _started:
+		return
+	_started = true
 	target_reacquired = false
 	given_up = false
 
 	npc.nav_agent.target_position = npc.broken_los_point
-	npc.nav_agent.target_reached.connect(_on_reached_target)
 
 	npc.play_sound(npc.sounds.searching_sound)
 	npc.set_walking_speed()
@@ -102,6 +109,7 @@ func stop() -> void:
 	if show_search_points:
 		_search_point_one_label.visible = false
 		_search_point_two_label.visible = false
+	_started = false
 
 
 func physics_process(delta: float) -> void:

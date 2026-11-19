@@ -9,6 +9,7 @@ enum ChaseStatus { CHASING, CAUGHT, WAITING, LOST }
 @export var wait_after_broken_los_time := 3.0
 @export var face_target_while_waiting := true
 
+var _started: bool
 var _chase_wait_timer: Timer
 var _los_broken_timer: Timer
 var _current_chase_status: ChaseStatus
@@ -32,6 +33,7 @@ func _enter_tree() -> void:
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
+	state[&"started"] = _started
 	SaveUtils.save_timer(state, &"chase_wait_timer", _chase_wait_timer)
 	SaveUtils.save_timer(state, &"los_broken_timer", _los_broken_timer)
 	state[&"current_chase_status"] = _current_chase_status
@@ -39,12 +41,16 @@ func save_state() -> Dictionary:
 
 
 func load_state(state: Dictionary) -> void:
+	_started = state.get(&"started", false)
 	SaveUtils.load_timer(state, &"chase_wait_timer", _chase_wait_timer)
 	SaveUtils.load_timer(state, &"los_broken_timer", _los_broken_timer)
 	_current_chase_status = state.get(&"current_chase_status", ChaseStatus.CHASING)
 
 
 func start() -> void:
+	if _started:
+		return
+	_started = true
 	if not npc.has_valid_chase_target():
 		return
 
@@ -52,6 +58,12 @@ func start() -> void:
 	npc.set_upper_body_raised_weapon()
 	_current_chase_status = ChaseStatus.CHASING
 	npc.head_turner.target_node = npc.chase_target.get_path()
+
+
+func stop() -> void:
+	_chase_wait_timer.stop()
+	_los_broken_timer.stop()
+	_started = false
 
 
 func physics_process(delta: float) -> ChaseStatus:

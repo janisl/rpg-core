@@ -5,6 +5,10 @@ func _enter() -> void:
 	agent.chase_action.start()
 
 
+func _exit() -> void:
+	agent.chase_action.stop()
+
+
 func _tick(delta: float) -> Status:
 	var result: NpcChaseAction.ChaseStatus = agent.chase_action.physics_process(delta)
 	match result:

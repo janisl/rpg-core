@@ -7,6 +7,7 @@ extends Node
 @export var attack_impact_zone: ImpactZone
 @export var attack_duration := 1.0
 
+var _started: bool
 var _count_down := 0.0
 var _did_attack: bool
 
@@ -15,6 +16,7 @@ var _did_attack: bool
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
+	state[&"started"] = _started
 	state[&"count_down"] = _count_down
 	state[&"did_attack"] = _did_attack
 	state[&"attack_impact_zone_enabled"] = attack_impact_zone.monitoring
@@ -22,18 +24,23 @@ func save_state() -> Dictionary:
 
 
 func load_state(state: Dictionary) -> void:
+	_started = state.get(&"started", false)
 	_count_down = state.get(&"count_down", 0.0)
 	_did_attack = state.get(&"did_attack", false)
 	attack_impact_zone.monitoring = state.get(&"attack_impact_zone_enabled", false)
 
 
 func start() -> void:
+	if _started:
+		return
+	_started = true
 	_count_down = attack_duration
 	_did_attack = false
 
 
 func stop() -> void:
 	attack_impact_zone.set_collision(false)
+	_started = false
 
 
 func physics_process(delta: float) -> bool:

@@ -314,6 +314,7 @@ func save_state() -> Dictionary:
 	state[&"in_combat"] = _in_combat
 
 	state[&"weapon_equiped"] = _weapon_third_person && _weapon_third_person.visible
+	state[&"nav_agent_target"] = nav_agent.target_position
 	if head_turner:
 		state[&"head_turner_active"] = head_turner.active
 		state[&"head_turner_target"] = head_turner.target_node
@@ -347,6 +348,7 @@ func load_state(state: Dictionary) -> void:
 
 	if _weapon_third_person:
 		_weapon_third_person.visible = state.get(&"weapon_equiped", false)
+	nav_agent.target_position = state.get(&"nav_agent_target", Vector3.ZERO)
 	if head_turner:
 		head_turner.active = state.get(&"head_turner_active", false)
 		head_turner.target_node = state.get(&"head_turner_target", head_turner.target_node)

@@ -6,6 +6,7 @@ extends Node
 
 var has_given_up: bool
 
+var _started: bool
 var _shock_timer: Timer
 var _give_up_timer: Timer
 var _target: Vector3
@@ -20,6 +21,7 @@ func _enter_tree() -> void:
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
+	state[&"started"] = _started
 	SaveUtils.save_timer(state, &"shock_timer", _shock_timer)
 	SaveUtils.save_timer(state, &"give_up_timer", _give_up_timer)
 	state[&"target"] = _target
@@ -28,6 +30,7 @@ func save_state() -> Dictionary:
 
 
 func load_state(state: Dictionary) -> void:
+	_started = state.get(&"started", false)
 	SaveUtils.load_timer(state, &"shock_timer", _shock_timer)
 	SaveUtils.load_timer(state, &"give_up_timer", _give_up_timer)
 	_target = state.get(&"target", _target)
@@ -35,6 +38,9 @@ func load_state(state: Dictionary) -> void:
 
 
 func start() -> void:
+	if _started:
+		return
+	_started = true
 	has_given_up = false
 	_shock_timer.start()
 	if npc.sight_attention_point.is_active:
@@ -42,6 +48,12 @@ func start() -> void:
 	elif npc.hearing_attention_point.is_active:
 		_target = npc.hearing_attention_point.global_position
 	npc.play_sound(npc.sounds.alerted_sound)
+
+
+func stop() -> void:
+	_shock_timer.stop()
+	_give_up_timer.stop()
+	_started = false
 
 
 func physics_process(delta: float) -> void:

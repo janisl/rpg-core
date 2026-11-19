@@ -5,6 +5,7 @@ enum TravelStatus { RUNNING, WAITING }
 
 @export var patrol_point_wait_time := 3.0
 
+var _started: bool
 var _current_travel_status: TravelStatus
 
 var _patrol_wait_timer: Timer
@@ -22,20 +23,30 @@ func _enter_tree() -> void:
 
 func save_state() -> Dictionary:
 	var state := Dictionary()
+	state[&"started"] = _started
 	state[&"current_travel_status"] = _current_travel_status
 	SaveUtils.save_timer(state, &"patrol_wait_timer", _patrol_wait_timer)
 	return state
 
 
 func load_state(state: Dictionary) -> void:
+	_started = state.get(&"started", false)
 	_current_travel_status = state.get(&"current_travel_status", TravelStatus.RUNNING)
 	SaveUtils.load_timer(state, &"patrol_wait_timer", _patrol_wait_timer)
 
 
 func start() -> void:
+	if _started:
+		return
+	_started = true
 	assert(npc.patrol_path, "Entered patrol state without patrol path")
 	npc.set_upper_body_neutral()
 	_resume_patrolling()
+
+
+func stop() -> void:
+	_patrol_wait_timer.stop()
+	_started = false
 
 
 func physics_process(delta: float) -> void:
