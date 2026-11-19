@@ -66,8 +66,6 @@ var _wiggle_index := 0.0
 @onready var footstep_player: FootstepPlayer = $FootstepPlayer
 @onready var audio: AudioStreamPlayer3D = $Audio
 
-@onready var idle_action: NpcIdleAction = $IdleAction
-@onready var patrol_action: NpcPatrolAction = $PatrolAction
 
 
 func _ready() -> void:
@@ -316,7 +314,6 @@ func save_state() -> Dictionary:
 		state[&"head_turner_active"] = head_turner.active
 		state[&"head_turner_target"] = head_turner.target_node
 
-	state[&"patrol_action"] = patrol_action.save_state()
 	state[&"sight_attention_point"] = sight_attention_point.save_state()
 	state[&"hearing_attention_point"] = hearing_attention_point.save_state()
 	return state
@@ -343,7 +340,6 @@ func load_state(state: Dictionary) -> void:
 		head_turner.active = state.get(&"head_turner_active", false)
 		head_turner.target_node = state.get(&"head_turner_target", head_turner.target_node)
 
-	patrol_action.load_state(state.get(&"patrol_action", Dictionary()))
 	sight_attention_point.load_state(state.get(&"sight_attention_point", Dictionary()))
 	hearing_attention_point.load_state(state.get(&"hearing_attention_point", Dictionary()))
 

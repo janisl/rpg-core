@@ -141,13 +141,24 @@ static func _get_task_at(root: BTTask, path: Array) -> BTTask:
 	return task
 
 
+## Marks the leaves that succeeded in a completed subtree. Only children that
+## succeeded are followed, and for selectors only the first one (later children
+## didn't run, their statuses are stale), so branches that weren't taken don't
+## end up skipped the next time they run.
 static func _mark_skipped(task: BTTask) -> void:
 	if not task:
 		return
 	if task is NpcBTAction:
 		(task as NpcBTAction).skip = true
+		return
+
+	var is_selector := task is BTSelector or task is BTDynamicSelector or task is BTRandomSelector
 	for i in task.get_child_count():
-		_mark_skipped(task.get_child(i))
+		var child := task.get_child(i)
+		if child.get_status() == BT.SUCCESS:
+			_mark_skipped(child)
+			if is_selector:
+				return
 
 
 ## Replaces Node values with prefixed path strings, since nodes can't be saved.

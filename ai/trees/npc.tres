@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://ai/tasks/common/set_move_speed.gd" id="c_speed"]
 [ext_resource type="Script" path="res://ai/tasks/common/set_int.gd" id="c_setint"]
 [ext_resource type="Script" path="res://ai/tasks/common/set_bool.gd" id="c_setbool"]
+[ext_resource type="Script" path="res://ai/tasks/calm/monitor_calm.gd" id="m_monitor"]
+[ext_resource type="Script" path="res://ai/tasks/calm/pick_patrol_point.gd" id="m_pick"]
 [ext_resource type="Script" path="res://ai/tasks/investigate/monitor_investigation.gd" id="i_monitor"]
 [ext_resource type="Script" path="res://ai/tasks/common/stand.gd" id="c_stand"]
 [ext_resource type="Script" path="res://ai/tasks/common/set_upper_body.gd" id="c_ubody"]
@@ -22,8 +24,6 @@
 [ext_resource type="Script" path="res://ai/tasks/common/play_sound.gd" id="c_sound"]
 [ext_resource type="Script" path="res://ai/tasks/common/wait.gd" id="c_wait"]
 [ext_resource type="Script" path="res://ai/tasks/common/move_to.gd" id="c_move"]
-[ext_resource type="Script" uid="uid://uwhem0oe84ai" path="res://ai/tasks/patrolling.gd" id="6_1l1bu"]
-[ext_resource type="Script" uid="uid://cp6sqd1c2wb3i" path="res://ai/tasks/idle.gd" id="7_sraln"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_lpdai"]
 var/alert_target/name = &"alert_target"
@@ -56,6 +56,11 @@ var/target_lost/type = 1
 var/target_lost/value = false
 var/target_lost/hint = 0
 var/target_lost/hint_string = ""
+var/patrol_target/name = &"patrol_target"
+var/patrol_target/type = 9
+var/patrol_target/value = Vector3(0, 0, 0)
+var/patrol_target/hint = 0
+var/patrol_target/hint_string = ""
 
 [sub_resource type="BBVariant" id="BBVariant_2b0tu"]
 type = 1
@@ -380,14 +385,74 @@ property = &"patrol_path"
 check_type = 5
 value = SubResource("BBVariant_1l1bu")
 
-[sub_resource type="BTAction" id="BTAction_khe27"]
-script = ExtResource("6_1l1bu")
+[sub_resource type="BTAction" id="Patrol_monitor"]
+script = ExtResource("m_monitor")
+chase_when_bumped = true
+
+[sub_resource type="BTAction" id="Patrol_ubody"]
+script = ExtResource("c_ubody")
+
+[sub_resource type="BTAction" id="Patrol_speed"]
+script = ExtResource("c_speed")
+
+[sub_resource type="BTAction" id="Patrol_next"]
+script = ExtResource("m_pick")
+
+[sub_resource type="BTAction" id="Patrol_move"]
+script = ExtResource("c_move")
+target_var = &"patrol_target"
+
+[sub_resource type="BTAction" id="Patrol_start"]
+script = ExtResource("m_pick")
+point = 1
+
+[sub_resource type="BTAction" id="Patrol_move_start"]
+script = ExtResource("c_move")
+target_var = &"patrol_target"
+
+[sub_resource type="BTSequence" id="Patrol_return"]
+custom_name = "ReturnToStart"
+children = [SubResource("Patrol_start"), SubResource("Patrol_move_start")]
+
+[sub_resource type="BTSelector" id="Patrol_go"]
+children = [SubResource("Patrol_move"), SubResource("Patrol_return")]
+
+[sub_resource type="BTAction" id="Patrol_wait"]
+script = ExtResource("c_wait")
+duration = 3.0
+
+[sub_resource type="BTSequence" id="Patrol_leg"]
+custom_name = "PatrolLeg"
+children = [SubResource("Patrol_next"), SubResource("Patrol_go"), SubResource("Patrol_wait")]
+
+[sub_resource type="BTRepeatUntilFailure" id="Patrol_repeat"]
+children = [SubResource("Patrol_leg")]
+
+[sub_resource type="BTSequence" id="Patrol_steps"]
+children = [SubResource("Patrol_ubody"), SubResource("Patrol_speed"), SubResource("Patrol_repeat")]
+
+[sub_resource type="BTParallel" id="Patrol_parallel"]
+children = [SubResource("Patrol_monitor"), SubResource("Patrol_steps")]
 
 [sub_resource type="BTSequence" id="BTSequence_nsq48"]
-children = [SubResource("BTCheckAgentProperty_sraln"), SubResource("BTAction_khe27")]
+custom_name = "Patrolling"
+children = [SubResource("BTCheckAgentProperty_sraln"), SubResource("Patrol_parallel")]
 
-[sub_resource type="BTAction" id="BTAction_nsq48"]
-script = ExtResource("7_sraln")
+[sub_resource type="BTAction" id="Idle_monitor"]
+script = ExtResource("m_monitor")
+
+[sub_resource type="BTAction" id="Idle_ubody"]
+script = ExtResource("c_ubody")
+
+[sub_resource type="BTAction" id="Idle_stand"]
+script = ExtResource("c_stand")
+
+[sub_resource type="BTParallel" id="Idle_parallel"]
+children = [SubResource("Idle_monitor"), SubResource("Idle_stand")]
+
+[sub_resource type="BTSequence" id="BTAction_nsq48"]
+custom_name = "Idle"
+children = [SubResource("Idle_ubody"), SubResource("Idle_parallel")]
 
 [sub_resource type="BTDynamicSelector" id="BTDynamicSelector_sraln"]
 children = [SubResource("BTSequence_387kw"), SubResource("BTSequence_sraln"), SubResource("BTSequence_ft6dg"), SubResource("BTSequence_khe27"), SubResource("BTSequence_nsq48"), SubResource("BTAction_nsq48")]
