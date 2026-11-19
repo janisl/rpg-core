@@ -19,6 +19,7 @@ const HEARING_POINT = preload("uid://b4r73momnv102")
 @export_group("NPC Behaviour")
 @export_enum("Friendly", "Neutral", "Hostile") var response_to_player := "Neutral"
 @export var weapon_stack: ItemStack
+@export var reset_suspicion_when_search_ends := true
 
 @export_group("Head LookAt")
 @export var head_turner: LookAtModifier3D
@@ -71,7 +72,6 @@ var _wiggle_index := 0.0
 @onready var patrol_action: NpcPatrolAction = $PatrolAction
 @onready var chase_action: NpcChaseAction = $ChaseAction
 @onready var attack_action: NpcAttackAction = $AttackAction
-@onready var search_action: NpcSearchAction = $SearchAction
 
 
 func _ready() -> void:
@@ -253,6 +253,7 @@ func is_in_combat() -> bool:
 
 func start_chasing(target: Actor) -> void:
 	chase_target = target
+	bt_player.blackboard.set_var(&"target_lost", false)
 	play_sound(sounds.start_chase_sound)
 	_in_combat = true
 	_investigating = false
@@ -261,7 +262,17 @@ func start_chasing(target: Actor) -> void:
 
 func end_combat() -> void:
 	chase_target = null
+	bt_player.blackboard.set_var(&"target_lost", false)
 	_in_combat = false
+
+
+## Gives up searching for the lost target and leaves combat.
+func end_search() -> void:
+	play_sound(sounds.end_search_sound)
+	if reset_suspicion_when_search_ends:
+		hearing_detection.reset()
+		sight_detection.reset()
+	end_combat()
 
 
 func remember_lost_target() -> void:
@@ -319,7 +330,6 @@ func save_state() -> Dictionary:
 	state[&"patrol_action"] = patrol_action.save_state()
 	state[&"chase_action"] = chase_action.save_state()
 	state[&"attack_action"] = attack_action.save_state()
-	state[&"search_action"] = search_action.save_state()
 	state[&"sight_attention_point"] = sight_attention_point.save_state()
 	state[&"hearing_attention_point"] = hearing_attention_point.save_state()
 	return state
@@ -351,7 +361,6 @@ func load_state(state: Dictionary) -> void:
 	patrol_action.load_state(state.get(&"patrol_action", Dictionary()))
 	chase_action.load_state(state.get(&"chase_action", Dictionary()))
 	attack_action.load_state(state.get(&"attack_action", Dictionary()))
-	search_action.load_state(state.get(&"search_action", Dictionary()))
 	sight_attention_point.load_state(state.get(&"sight_attention_point", Dictionary()))
 	hearing_attention_point.load_state(state.get(&"hearing_attention_point", Dictionary()))
 

@@ -12,5 +12,6 @@ func _update(delta: float) -> Status:
 			return SUCCESS
 
 		NpcChaseAction.ChaseStatus.LOST:
+			blackboard.set_var(&"target_lost", true)
 			return FAILURE
 	return RUNNING

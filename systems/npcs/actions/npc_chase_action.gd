@@ -48,6 +48,8 @@ func start() -> void:
 	if not npc.has_valid_chase_target():
 		return
 
+	_chase_wait_timer.stop()
+	_los_broken_timer.stop()
 	npc.set_running_speed()
 	npc.set_upper_body_raised_weapon()
 	_current_chase_status = ChaseStatus.CHASING

@@ -2,7 +2,15 @@
 
 [ext_resource type="Script" uid="uid://443ic7ubkicy" path="res://ai/tasks/attacking.gd" id="1_2b0tu"]
 [ext_resource type="Script" uid="uid://k0g6ys2088b1" path="res://ai/tasks/chasing.gd" id="1_so0uu"]
-[ext_resource type="Script" uid="uid://b1whddyu2qo0n" path="res://ai/tasks/searching.gd" id="3_387kw"]
+[ext_resource type="Script" path="res://ai/tasks/search/start_search.gd" id="s_start"]
+[ext_resource type="Script" path="res://ai/tasks/search/monitor_search.gd" id="s_monitor"]
+[ext_resource type="Script" path="res://ai/tasks/search/end_search.gd" id="s_end"]
+[ext_resource type="Script" path="res://ai/tasks/search/sweep_head.gd" id="s_sweep"]
+[ext_resource type="Script" path="res://ai/tasks/common/can_see_chase_target.gd" id="c_see"]
+[ext_resource type="Script" path="res://ai/tasks/common/set_head_target.gd" id="c_head"]
+[ext_resource type="Script" path="res://ai/tasks/common/set_move_speed.gd" id="c_speed"]
+[ext_resource type="Script" path="res://ai/tasks/common/set_int.gd" id="c_setint"]
+[ext_resource type="Script" path="res://ai/tasks/common/set_bool.gd" id="c_setbool"]
 [ext_resource type="Script" path="res://ai/tasks/investigate/monitor_investigation.gd" id="i_monitor"]
 [ext_resource type="Script" path="res://ai/tasks/common/stand.gd" id="c_stand"]
 [ext_resource type="Script" path="res://ai/tasks/common/set_upper_body.gd" id="c_ubody"]
@@ -26,6 +34,26 @@ var/investigate_target/type = 9
 var/investigate_target/value = Vector3(0, 0, 0)
 var/investigate_target/hint = 0
 var/investigate_target/hint_string = ""
+var/search_point_1/name = &"search_point_1"
+var/search_point_1/type = 9
+var/search_point_1/value = Vector3(0, 0, 0)
+var/search_point_1/hint = 0
+var/search_point_1/hint_string = ""
+var/search_point_2/name = &"search_point_2"
+var/search_point_2/type = 9
+var/search_point_2/value = Vector3(0, 0, 0)
+var/search_point_2/hint = 0
+var/search_point_2/hint_string = ""
+var/search_stage/name = &"search_stage"
+var/search_stage/type = 2
+var/search_stage/value = 0
+var/search_stage/hint = 0
+var/search_stage/hint_string = ""
+var/target_lost/name = &"target_lost"
+var/target_lost/type = 1
+var/target_lost/value = false
+var/target_lost/hint = 0
+var/target_lost/hint_string = ""
 
 [sub_resource type="BBVariant" id="BBVariant_2b0tu"]
 type = 1
@@ -42,8 +70,17 @@ script = ExtResource("1_so0uu")
 [sub_resource type="BTAction" id="BTAction_so0uu"]
 script = ExtResource("1_2b0tu")
 
+[sub_resource type="BBVariant" id="Combat_lost_val"]
+type = 1
+saved_value = false
+
+[sub_resource type="BTCheckVar" id="Combat_not_lost"]
+variable = &"target_lost"
+value = SubResource("Combat_lost_val")
+
 [sub_resource type="BTSequence" id="BTSequence_387kw"]
-children = [SubResource("BTCheckAgentProperty_so0uu"), SubResource("BTAction_387kw"), SubResource("BTAction_so0uu")]
+custom_name = "Combat"
+children = [SubResource("BTCheckAgentProperty_so0uu"), SubResource("Combat_not_lost"), SubResource("BTAction_387kw"), SubResource("BTAction_so0uu")]
 
 [sub_resource type="BBVariant" id="BBVariant_78wb1"]
 type = 1
@@ -54,11 +91,143 @@ resource_name = "true"
 property = &"_in_combat"
 value = SubResource("BBVariant_78wb1")
 
-[sub_resource type="BTAction" id="BTAction_1l1bu"]
-script = ExtResource("3_387kw")
+[sub_resource type="BBVariant" id="Srch_p1_stage_val"]
+type = 2
+saved_value = 1
+
+[sub_resource type="BTCheckVar" id="Srch_p1_done"]
+variable = &"search_stage"
+check_type = 4
+value = SubResource("Srch_p1_stage_val")
+
+[sub_resource type="BTAction" id="Srch_p1_move"]
+script = ExtResource("c_move")
+target_var = &"search_point_1"
+fail_when_unreachable = false
+
+[sub_resource type="BTAction" id="Srch_p1_sweep"]
+script = ExtResource("s_sweep")
+
+[sub_resource type="BTParallel" id="Srch_p1_go"]
+children = [SubResource("Srch_p1_move"), SubResource("Srch_p1_sweep")]
+
+[sub_resource type="BTAction" id="Srch_p1_wait"]
+script = ExtResource("c_wait")
+duration = 5.0
+
+[sub_resource type="BTAction" id="Srch_p1_mark"]
+script = ExtResource("c_setint")
+variable = &"search_stage"
+value = 1
+
+[sub_resource type="BTSequence" id="Srch_p1_visit"]
+children = [SubResource("Srch_p1_go"), SubResource("Srch_p1_wait"), SubResource("Srch_p1_mark")]
+
+[sub_resource type="BTSelector" id="Srch_p1"]
+custom_name = "SearchPoint1"
+children = [SubResource("Srch_p1_done"), SubResource("Srch_p1_visit")]
+
+[sub_resource type="BBVariant" id="Srch_p2_stage_val"]
+type = 2
+saved_value = 2
+
+[sub_resource type="BTCheckVar" id="Srch_p2_done"]
+variable = &"search_stage"
+check_type = 4
+value = SubResource("Srch_p2_stage_val")
+
+[sub_resource type="BTAction" id="Srch_p2_move"]
+script = ExtResource("c_move")
+target_var = &"search_point_2"
+fail_when_unreachable = false
+
+[sub_resource type="BTAction" id="Srch_p2_sweep"]
+script = ExtResource("s_sweep")
+
+[sub_resource type="BTParallel" id="Srch_p2_go"]
+children = [SubResource("Srch_p2_move"), SubResource("Srch_p2_sweep")]
+
+[sub_resource type="BTAction" id="Srch_p2_wait"]
+script = ExtResource("c_wait")
+duration = 3.0
+
+[sub_resource type="BTAction" id="Srch_p2_mark"]
+script = ExtResource("c_setint")
+variable = &"search_stage"
+value = 2
+
+[sub_resource type="BTSequence" id="Srch_p2_visit"]
+children = [SubResource("Srch_p2_go"), SubResource("Srch_p2_wait"), SubResource("Srch_p2_mark")]
+
+[sub_resource type="BTSelector" id="Srch_p2"]
+custom_name = "SearchPoint2"
+children = [SubResource("Srch_p2_done"), SubResource("Srch_p2_visit")]
+
+[sub_resource type="BTAction" id="Srch_look_ahead"]
+script = ExtResource("c_head")
+target = 2
+node_path = NodePath("Rig/GeneralSkeleton/LookingPivot/LookAtWhileSearching")
+
+[sub_resource type="BTAction" id="Srch_end"]
+script = ExtResource("s_end")
+
+[sub_resource type="BTSequence" id="Srch_points"]
+custom_name = "SearchPoints"
+children = [SubResource("Srch_look_ahead"), SubResource("Srch_p1"), SubResource("Srch_p2"), SubResource("Srch_end")]
+
+[sub_resource type="BTAction" id="Srch_see"]
+script = ExtResource("c_see")
+
+[sub_resource type="BTAction" id="Srch_look_target"]
+script = ExtResource("c_head")
+target = 1
+
+[sub_resource type="BTAction" id="Srch_i_see_you"]
+script = ExtResource("c_sound")
+sound = &"i_see_you_sound"
+
+[sub_resource type="BTAction" id="Srch_keep_seeing"]
+script = ExtResource("c_see")
+keep_running = true
+
+[sub_resource type="BTAction" id="Srch_reacquire_wait"]
+script = ExtResource("c_wait")
+duration = 0.5
+
+[sub_resource type="BTParallel" id="Srch_reacquire_hold"]
+children = [SubResource("Srch_keep_seeing"), SubResource("Srch_reacquire_wait")]
+
+[sub_resource type="BTAction" id="Srch_found"]
+script = ExtResource("c_setbool")
+variable = &"target_lost"
+value = false
+
+[sub_resource type="BTSequence" id="Srch_reacquire"]
+custom_name = "Reacquire"
+children = [SubResource("Srch_see"), SubResource("Srch_look_target"), SubResource("Srch_i_see_you"), SubResource("Srch_reacquire_hold"), SubResource("Srch_found")]
+
+[sub_resource type="BTDynamicSelector" id="Srch_choice"]
+children = [SubResource("Srch_reacquire"), SubResource("Srch_points")]
+
+[sub_resource type="BTAction" id="Srch_monitor"]
+script = ExtResource("s_monitor")
+
+[sub_resource type="BTParallel" id="Srch_parallel"]
+children = [SubResource("Srch_monitor"), SubResource("Srch_choice")]
+
+[sub_resource type="BTAction" id="Srch_start"]
+script = ExtResource("s_start")
+
+[sub_resource type="BTAction" id="Srch_speed"]
+script = ExtResource("c_speed")
+
+[sub_resource type="BTAction" id="Srch_sound"]
+script = ExtResource("c_sound")
+sound = &"searching_sound"
 
 [sub_resource type="BTSequence" id="BTSequence_sraln"]
-children = [SubResource("BTCheckAgentProperty_ft6dg"), SubResource("BTAction_1l1bu")]
+custom_name = "Searching"
+children = [SubResource("BTCheckAgentProperty_ft6dg"), SubResource("Srch_start"), SubResource("Srch_speed"), SubResource("Srch_sound"), SubResource("Srch_parallel")]
 
 [sub_resource type="BBVariant" id="BBVariant_387kw"]
 type = 1

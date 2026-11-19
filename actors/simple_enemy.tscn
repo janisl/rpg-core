@@ -29,7 +29,6 @@
 [ext_resource type="Script" uid="uid://c0wkbigr3oabl" path="res://systems/npcs/detection/hearing_detection.gd" id="35_bqx5n"]
 [ext_resource type="Script" uid="uid://kcer2y7lixdg" path="res://systems/npcs/actions/npc_chase_action.gd" id="35_mfil8"]
 [ext_resource type="Script" uid="uid://bixwysc1m3btm" path="res://systems/npcs/actions/npc_attack_action.gd" id="36_gdyrv"]
-[ext_resource type="Script" uid="uid://c276vbb4cey4x" path="res://systems/npcs/actions/npc_search_action.gd" id="37_e2qw7"]
 [ext_resource type="BehaviorTree" uid="uid://cs475p3slskbh" path="res://ai/trees/npc.tres" id="40_mfil8"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_gdyrv"]
@@ -904,13 +903,6 @@ metadata/_custom_type_script = "uid://kcer2y7lixdg"
 script = ExtResource("36_gdyrv")
 attack_impact_zone = NodePath("../Rig/GeneralSkeleton/HandAttachment/ImpactZone")
 metadata/_custom_type_script = "uid://bixwysc1m3btm"
-
-[node name="SearchAction" type="Node" parent="." unique_id=201327018 node_paths=PackedStringArray("sight_detection", "searching_look_ahead_pivot", "searching_look_ahead")]
-script = ExtResource("37_e2qw7")
-sight_detection = NodePath("../SightDetection")
-searching_look_ahead_pivot = NodePath("../Rig/GeneralSkeleton/LookingPivot")
-searching_look_ahead = NodePath("../Rig/GeneralSkeleton/LookingPivot/LookAtWhileSearching")
-metadata/_custom_type_script = "uid://c276vbb4cey4x"
 
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/Neutral" to="StateChart/Root/Posture/Processor" method="_on_neutral_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Posture/UpperBody/RaisedWeapon" to="StateChart/Root/Posture/Processor" method="_on_raised_weapon_state_entered"]
