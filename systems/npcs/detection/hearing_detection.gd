@@ -58,6 +58,11 @@ func load_state(state: Dictionary) -> void:
 		noise_suspicion_indicator.update(current_suspicion, suspicion_threshold_before_investigating)
 
 
+## Whether enough suspicious noise was heard to investigate it.
+func is_suspicious() -> bool:
+	return current_suspicion > suspicion_threshold_before_investigating
+
+
 ## Raises suspicion to at least [param value] and restarts the delay before it
 ## starts decaying.
 func raise_suspicion_to(value: float) -> void:
@@ -91,12 +96,10 @@ func _on_hearing_radius_area_entered(area: Area3D) -> void:
 	var noise := area as ObjectNoise
 	if noise.noise_type == ObjectNoise.NoiseType.Impact:
 		npc.set_hearing_target(noise.global_position)
-		npc.notify_alerted()
 	elif noise.magnitude > ignore_sounds_under_x_magnitude and current_suspicion < suspicion_threshold_before_investigating + 0.5:
 		raise_suspicion_to(current_suspicion + noise_suspicion_curve.sample(noise.magnitude))
-	if current_suspicion > suspicion_threshold_before_investigating:
+	if is_suspicious():
 		npc.set_hearing_target(noise.global_position)
-		npc.notify_suspicious_noise()
 
 
 func _linear_curve() -> Curve:

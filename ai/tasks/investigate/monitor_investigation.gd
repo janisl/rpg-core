@@ -14,8 +14,6 @@ func _update(delta: float) -> Status:
 		return SUCCESS
 
 	if sight.current_suspicion <= 0 and agent.hearing_detection.current_suspicion <= 0:
-		agent.sight_attention_point.is_active = false
-		agent.hearing_attention_point.is_active = false
 		agent.end_investigating()
 		return FAILURE
 	return RUNNING

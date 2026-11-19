@@ -1,8 +1,10 @@
 @tool
 extends NpcBTAction
-## Runs alongside idle and patrolling. Builds up suspicion and starts
-## investigating once suspicious; optionally starts chasing a hostile the NPC
-## bumps into. Never finishes, higher priority branches take over instead.
+## Runs alongside idle and patrolling and raises the NPC's awareness from what
+## its senses report: investigating when suspicious of something seen or heard,
+## alerted when something drew its attention (an active attention point), and
+## optionally chasing a hostile it bumps into. Never finishes, the branch for
+## the new awareness takes over instead.
 
 @export var chase_when_bumped := false
 
@@ -24,6 +26,10 @@ func _update(delta: float) -> Status:
 	if sight.is_suspicious_of_target():
 		agent.set_sight_target(sight.detected_target.global_position)
 		agent.start_investigating()
+	elif agent.hearing_detection.is_suspicious():
+		agent.start_investigating()
+	elif agent.has_attention():
+		agent.become_alerted()
 	return RUNNING
 
 

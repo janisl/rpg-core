@@ -88,6 +88,8 @@ func _exit_tree() -> void:
 		hearing_attention_point.queue_free()
 
 
+## Draws the NPC's attention to a position it saw something at. A calm NPC
+## becomes alerted (see the calm behaviour).
 func set_sight_target(pos: Vector3) -> void:
 	if chase_target:
 		return
@@ -95,6 +97,8 @@ func set_sight_target(pos: Vector3) -> void:
 	sight_attention_point.is_active = true
 
 
+## Draws the NPC's attention to a position it heard something at. A calm NPC
+## becomes alerted (see the calm behaviour).
 func set_hearing_target(pos: Vector3) -> void:
 	if chase_target:
 		return
@@ -203,20 +207,15 @@ func get_awareness() -> Awareness:
 	return bt_player.blackboard.get_var(&"awareness", Awareness.CALM)
 
 
-## Something caught the NPC's attention (see the attention points). Only
-## raises a calm NPC to alerted.
-func notify_alerted() -> void:
+## Whether something drew the NPC's attention: an active attention point.
+func has_attention() -> bool:
+	return (sight_attention_point and sight_attention_point.is_active) \
+			or (hearing_attention_point and hearing_attention_point.is_active)
+
+
+func become_alerted() -> void:
 	if get_awareness() == Awareness.CALM:
 		_set_awareness(Awareness.ALERTED)
-
-
-## A suspicious noise was heard at the hearing attention point. Hearing
-## suspicion is raised to the investigation threshold, so the investigation
-## lasts until it decays, whatever the caller did before.
-func notify_suspicious_noise() -> void:
-	hearing_detection.raise_suspicion_to(hearing_detection.suspicion_threshold_before_investigating)
-	if get_awareness() < Awareness.INVESTIGATING:
-		start_investigating()
 
 
 func end_alert() -> void:
@@ -353,7 +352,6 @@ func _find_health_attribute() -> void:
 func _on_health_attribute_damage_taken(hit_info: HitInfo) -> void:
 	if not hit_info.direction.is_zero_approx():
 		set_sight_target(hit_info.source_position)
-		notify_alerted()
 
 
 func _npc_footsteps(delta: float) -> void:
@@ -397,3 +395,8 @@ func _on_velocity_computed(safe_velocity: Vector3) -> void:
 
 func _set_awareness(awareness: Awareness) -> void:
 	bt_player.blackboard.set_var(&"awareness", awareness)
+	# Calm means nothing has the NPC's attention. Leftover points would alert
+	# it again right away.
+	if awareness == Awareness.CALM and sight_attention_point:
+		sight_attention_point.is_active = false
+		hearing_attention_point.is_active = false
